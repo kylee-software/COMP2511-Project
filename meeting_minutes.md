@@ -115,3 +115,26 @@ Leslie, Kylee, Sam, Jannet
 -   Undecided: Setup starting code for JavaFX    
 -   ALL: Familiarise with project starting code    
 -   Discuss & Prepare questions about milestone 2 for tutorial
+
+
+## Meeting #5: 5th July
+
+### Attendees [Leslie, Kylee, Sam, Jannet]
+
+### Completed from last meeting
+- Submitted milestone 1
+
+### Discussion Points
+- Possible patterns to apply to UML + how
+
+### Action Items before next meeting
+- Add patterns, methods, fields to UML (Allocated by user stories from milestone 1)
+	- Automatic Play, Cards/Buildings: Jan
+	- Purchase/Selling Item, Battle: Dan
+	- Obtaining items/gold/experience/cards: Leslie
+	- Item objects/using items: Sam
+	- Game State, Enemies: Kylee
+- Read starter code explanations and understand → there’s an explanation linked in the spec
+- Learn unit tests
+	- Try write one each first (User Story allocations)
+- Next meeting: Wednesday 10pm
