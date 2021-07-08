@@ -138,3 +138,48 @@ Leslie, Kylee, Sam, Jannet
 - Learn unit tests
 	- Try write one each first (User Story allocations)
 - Next meeting: Wednesday 10pm
+
+
+## Meeting #6: 7th July
+
+### Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
+
+### Completed from last meeting
+- Parts of UML
+
+### Discussion Points
+- Patterns to apply for UML and possibilities
+
+### Action Items before next meeting
+- Finish patterns, methods, fields to UML - allocated by user stories from milestone 1
+	- Automatic Play, Cards/Buildings: Jan
+	- Purchase/Selling Item, Battle: Dan
+	- Obtaining items/gold/experience/cards: Leslie
+	- Item objects/using items: Sam
+	- Game State, Enemies: Kylee
+- Read starter code explanations and understand → there’s an explanation linked in the spec
+- Learn how to write Junit tests
+- Try write one each first (User Story allocations)
+- Next meeting: Thursday 10am
+
+### Meeting #7: 8th July
+
+## Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
+
+## Completed from last meeting
+- Finished UML
+
+## Discussion Points
+- Discussed how UML implements our user stories
+
+## Action Items before next meeting
+- Tests:
+	- Unit Tests
+		- Jan’s parts (thanks guys :))
+			- Cards (leslie)
+			- Buildings (kylee)
+			- Automatic play (incl. battle?) (dan)
+		- And your own Epic parts too
+	- 1 integration test (sam)
+- Run the starter code
+- Next meeting: Sunday 10am
