@@ -1,5 +1,4 @@
 package unsw.loopmania;
-import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class BasicItems extends Item {
 

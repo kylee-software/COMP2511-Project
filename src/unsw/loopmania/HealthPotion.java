@@ -1,7 +1,5 @@
 package unsw.loopmania;
 
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class HealthPotion extends BasicItems {
 
     private String name;
