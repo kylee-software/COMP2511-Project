@@ -3,6 +3,8 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class HerosCastleBuilding extends Building {
 
     private String gameMode;

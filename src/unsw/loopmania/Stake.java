@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Stake extends BasicItems{
 
     private String name;

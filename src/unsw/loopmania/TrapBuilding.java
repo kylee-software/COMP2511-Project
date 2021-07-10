@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class TrapBuilding extends Building {
 
     public TrapBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {

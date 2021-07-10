@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Helmet extends BasicItems implements DefenceBehaviour {
 
     private String name;
