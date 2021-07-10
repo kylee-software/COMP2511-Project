@@ -11,14 +11,16 @@ public abstract class MovingEntity extends Entity {
      * object holding position in the path
      */
     private PathPosition position;
+    private int health;
 
     /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
-    public MovingEntity(PathPosition position) {
+    public MovingEntity(PathPosition position, int health) {
         super();
         this.position = position;
+        this.health = health;
     }
 
     /**
@@ -49,5 +51,18 @@ public abstract class MovingEntity extends Entity {
 
     public int getY() {
         return y().get();
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public boolean isDead() {
+        // TODO = need to implement this correctly and add javadoc
+        return false;
     }
 }
