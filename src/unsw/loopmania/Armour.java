@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Armour extends BasicItems implements DefenceBehaviour {
 

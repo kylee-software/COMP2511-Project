@@ -2,14 +2,16 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class HerosCastleBuilding extends Building {
 
     private String gameMode;
     private List<Item> boughtItems;
 
-    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, String gameMode) {
         super(x, y);
+        this.gameMode = gameMode;
     }
 
     // is this necessary?

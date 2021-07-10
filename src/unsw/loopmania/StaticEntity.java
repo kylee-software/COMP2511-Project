@@ -14,6 +14,7 @@ public abstract class StaticEntity extends Entity {
      */
     private IntegerProperty x, y;
 
+
     public StaticEntity(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super();
         this.x = x;

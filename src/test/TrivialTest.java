@@ -22,7 +22,7 @@ public class TrivialTest {
     
     @Test
     public void blahTest2(){
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>());
+        LoopManiaWorld d = new LoopManiaWorld( "Standard", 1, 2, new ArrayList<>());
         assertEquals(d.getWidth(), 1);
     }
 }

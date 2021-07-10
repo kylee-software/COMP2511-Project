@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class BarracksBuilding extends Building implements CreateEntityBehaviour {
 
