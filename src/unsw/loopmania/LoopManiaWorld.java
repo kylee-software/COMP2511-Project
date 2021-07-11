@@ -140,6 +140,10 @@ public class LoopManiaWorld {
         return new ArrayList<>();
     }
 
+    public List<BasicEnemy> getEnemies() {
+        return enemies;
+    }
+
     public void receiveInventoryFullRewards() {
         // TODO = need to implement this correctly and add javadoc
         return;
@@ -448,5 +452,9 @@ public class LoopManiaWorld {
      */
     public boolean completedGame() {
         return false;
+    }
+
+    public void gainBattleRewards(String enemyType) {
+        // TODO = need to implement this correctly and add javadoc
     }
 }
