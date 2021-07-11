@@ -162,17 +162,17 @@ Leslie, Kylee, Sam, Jannet
 - Try write one each first (User Story allocations)
 - Next meeting: Thursday 10am
 
-### Meeting #7: 8th July
+## Meeting #7: 8th July
 
-## Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
+### Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
 
-## Completed from last meeting
+### Completed from last meeting
 - Finished UML
 
-## Discussion Points
+### Discussion Points
 - Discussed how UML implements our user stories
 
-## Action Items before next meeting
+### Action Items before next meeting
 - Tests:
 	- Unit Tests
 		- Jan’s parts (thanks guys :))
@@ -183,3 +183,24 @@ Leslie, Kylee, Sam, Jannet
 	- 1 integration test (sam)
 - Run the starter code
 - Next meeting: Sunday 10am
+
+
+## Meeting #8
+11/7
+
+### Attendees: Sam, Kylee, Leslie
+
+###Completed from last meeting:
+- Some of the tests are completed
+### Discussion Points
+- Questions about tests and integration tests
+- Discussed Timeline for next week
+- Discuss MVP functions and delegate tasks
+### Action Items 
+- Battle - Sam and Dan
+- Game State - Kylie
+- Automatic Play - Leslie
+- Next meeting: Lab Tuesday 2pm
+
+### Questions for Harrison
+- What is the position array in PathPosition for?
