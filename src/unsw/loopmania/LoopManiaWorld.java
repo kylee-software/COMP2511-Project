@@ -140,6 +140,10 @@ public class LoopManiaWorld {
         return new ArrayList<>();
     }
 
+    public List<AlliedSoldier> getAlliedSoldiers() {
+        return alliedSoldiers;
+    }
+
     public void receiveInventoryFullRewards() {
         // TODO = need to implement this correctly and add javadoc
         return;
@@ -159,6 +163,19 @@ public class LoopManiaWorld {
     public void addCard(Card card) {
         // TODO = need to implement this correctly and add javadoc
         return;
+    }
+
+    public void addBuilding(Building building) {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public void addEnemy(BasicEnemy enemy) {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public List<BasicEnemy> getEnemies() {
+        // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<>();
     }
 
     /**
@@ -194,6 +211,27 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
         return spawningEnemies;
+    }
+
+    /**
+     * spawn new vampire(s) that vampire castles produced
+     */
+    public void spawnVampiresFromVampireCastles() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    /**
+     * spawn new zombies(s) that zombie pits produced
+     */
+    public void spawnZombiesFromZombiePits() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    /**
+     * produce new allied soldiers(s) when the Character passes through barracks
+     */
+    public void produceAlliesFromBarracks() {
+        // TODO = need to implement this correctly and add javadoc
     }
 
     /**
@@ -256,9 +294,8 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(x);
     }
 
-    public void destroyTrap() {
+    public void trap() {
         // TODO = need to implement this correctly and add javadoc
-        return;
     }
 
     /**
@@ -449,4 +486,5 @@ public class LoopManiaWorld {
     public boolean completedGame() {
         return false;
     }
+
 }

@@ -1,13 +1,21 @@
 package unsw.loopmania;
 
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class VillageBuilding extends Building {
 
     private int healthBonus;
+    private PathPosition pathPosition;
 
-    public VillageBuilding (SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public VillageBuilding (PathPosition pathPosition) {
+        super(pathPosition.getX(), pathPosition.getY());
+        this.pathPosition = pathPosition;
+    }
+
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
+    }
+
+    public PathPosition getPathPosition() {
+        return pathPosition;
     }
 
     public boolean checkForCharacter(Character character) {

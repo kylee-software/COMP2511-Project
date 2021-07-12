@@ -2,12 +2,21 @@ package unsw.loopmania;
 
 import java.util.List;
 
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class TrapBuilding extends Building {
 
-    public TrapBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    private PathPosition pathPosition;
+
+    public TrapBuilding(PathPosition pathPosition) {
+        super(pathPosition.getX(), pathPosition.getY());
+        this.pathPosition = pathPosition;
+    }
+
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
+    }
+
+    public PathPosition getPathPosition() {
+        return pathPosition;
     }
 
     // OBSERVER PATTERN

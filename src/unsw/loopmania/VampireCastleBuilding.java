@@ -2,6 +2,9 @@ package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * a basic form of building in the world
  */
@@ -14,7 +17,13 @@ public class VampireCastleBuilding extends Building implements CreateEntityBehav
         super(x, y);
     }
 
-    public void spawnEntity() {
+    /**
+     * Produces vampires every 5 cycles of the path completed by the Character
+     * @param cycle the cycle the LoopManiaWorld is in
+     * @return a list of newly produced vampires
+     */
+    public List<Entity> produceEntity(int cycle) {
         // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<>();
     }
 }
