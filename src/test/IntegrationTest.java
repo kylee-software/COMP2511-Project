@@ -16,7 +16,7 @@ import unsw.loopmania.LoopManiaWorld;
  */
 public class IntegrationTest {
     @Test
-    public void blahTest(){
+    public void integrationTest(){
         // Set gameMode
         
         // Create world
