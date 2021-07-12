@@ -6,7 +6,6 @@ public class CampfireBuilding extends Building {
 
     private int damageBonus;
     private int battleRadius;
-    private Character character;
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -32,6 +31,9 @@ public class CampfireBuilding extends Building {
         this.battleRadius = battleRadius;
     }
 
+    public void performDamage(Character character) {
+        // TODO = need to implement this correctly and add javadoc
+    }
 
     // OBSERVER PATTERN FOR ATTACKS
     public void addAttackObserver(AttackStrategy attackStrategy) {

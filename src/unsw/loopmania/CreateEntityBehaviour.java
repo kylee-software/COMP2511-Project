@@ -1,7 +1,9 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 public interface CreateEntityBehaviour {
 
-    void spawnEntity();
+    List<Entity> produceEntity(int cycle);
 
 }

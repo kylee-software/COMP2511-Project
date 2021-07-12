@@ -2,6 +2,9 @@ package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ZombiePitBuilding extends Building implements CreateEntityBehaviour {
 
     private int zombieCastleCycle;
@@ -10,7 +13,13 @@ public class ZombiePitBuilding extends Building implements CreateEntityBehaviour
         super(x, y);
     }
 
-    public void spawnEntity() {
+    /**
+     * Produces zombies every cycle of the path completed by the Character
+     * @param cycle the cycle the LoopManiaWorld is in
+     * @return a list of newly produced zombies
+     */
+    public List<Entity> produceEntity(int cycle) {
         // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<>();
     }
 }
