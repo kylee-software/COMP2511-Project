@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0c33de60-39d2-4997-95ad-f508f84cf43d" name="Default Changelist" comment="Added new methods to LoopManiaWorld as well as in Buildings" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="21T2-cs2511-project" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="21T2-cs2511-project" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadAnnotationsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+        <option name="jdkForImporter" value="15" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="15" />
+  </component>
+  <component name="ProjectId" id="1ux1so95To82dLRnDOfHq0iDeQv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/unsw/loopmania" />
+    <property name="last_opened_file_path" value="$PATH_TO_FX$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.20880914" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+  </component>
+  <component name="RunAnythingContextRecentDirectoryCache">
+    <option name="paths">
+      <recentPaths value="$PROJECT_DIR$/src/unsw/loopmania" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.LoopManiaApplication">
+    <configuration name="LoopManiaApplication" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../../../../Downloads/javafx-sdk-16" />
+      <option name="MAIN_CLASS_NAME" value="unsw.loopmania.LoopManiaApplication" />
+      <module name="21T2-cs2511-project" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\kylee\Desktop\Downloads\javafx-sdk-16\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="21T2-cs2511-project [dependencies]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.LoopManiaApplication" />
+      <item itemvalue="Gradle.21T2-cs2511-project [dependencies]" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0c33de60-39d2-4997-95ad-f508f84cf43d" name="Default Changelist" comment="" />
+      <created>1625592638585</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1625592638585</updated>
+      <workItem from="1625592643306" duration="1889000" />
+      <workItem from="1625610390194" duration="983000" />
+      <workItem from="1625612087838" duration="3280000" />
+      <workItem from="1625864878095" duration="631000" />
+      <workItem from="1625866259483" duration="46000" />
+      <workItem from="1625869664032" duration="4823000" />
+      <workItem from="1625875340949" duration="290000" />
+      <workItem from="1625875671677" duration="522000" />
+      <workItem from="1625876253417" duration="1398000" />
+      <workItem from="1625877739155" duration="4617000" />
+      <workItem from="1625893720495" duration="116000" />
+      <workItem from="1625893898373" duration="11559000" />
+      <workItem from="1625947519108" duration="674000" />
+      <workItem from="1625948772099" duration="4424000" />
+      <workItem from="1625960905474" duration="3442000" />
+      <workItem from="1626035722611" duration="18084000" />
+    </task>
+    <task id="LOCAL-00001" summary="Milestone2 UML Design Draft">
+      <created>1625905174691</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1625905174691</updated>
+    </task>
+    <task id="LOCAL-00002" summary="(Draft) Unit Test for Game State">
+      <created>1625954137750</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1625954137750</updated>
+    </task>
+    <task id="LOCAL-00003" summary="(Draft) Unit Test for Game State">
+      <created>1625954832910</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1625954832910</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Imported SimpleIntegerProperty; pushed my previous commits to the wrong branch">
+      <created>1625956951388</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1625956951388</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added new methods in LoopManiaWorld">
+      <created>1626036227613</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1626036227613</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added new methods to LoopManiaWorld; added unit tests for Buildings">
+      <created>1626061931417</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1626061931417</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added new methods to LoopManiaWorld as well as in Buildings">
+      <created>1626062535935</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1626062535935</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Milestone2 UML Design Draft" />
+    <MESSAGE value="(Draft) Unit Test for Game State" />
+    <MESSAGE value="Imported SimpleIntegerProperty; pushed my previous commits to the wrong branch" />
+    <MESSAGE value="Added new methods in LoopManiaWorld" />
+    <MESSAGE value="Added new methods to LoopManiaWorld; added unit tests for Buildings" />
+    <MESSAGE value="Added new methods to LoopManiaWorld as well as in Buildings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new methods to LoopManiaWorld as well as in Buildings" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

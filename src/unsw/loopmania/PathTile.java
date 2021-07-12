@@ -1,5 +1,6 @@
 package unsw.loopmania;
 
+import android.service.chooser.ChooserTarget;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -54,5 +55,13 @@ public class PathTile extends StaticEntity {
 
     public PathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+    }
+
+    public void spawnItems() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public void pickupItems(Character character) {
+        // TODO = need to implement this correctly and add javadoc
     }
 }
