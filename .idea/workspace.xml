@@ -46,8 +46,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -166,7 +166,7 @@
       <workItem from="1625947519108" duration="674000" />
       <workItem from="1625948772099" duration="4424000" />
       <workItem from="1625960905474" duration="3442000" />
-      <workItem from="1626035722611" duration="18084000" />
+      <workItem from="1626035722611" duration="19365000" />
     </task>
     <task id="LOCAL-00001" summary="Milestone2 UML Design Draft">
       <created>1625905174691</created>
