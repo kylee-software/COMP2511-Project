@@ -185,8 +185,7 @@ Leslie, Kylee, Sam, Jannet
 - Next meeting: Sunday 10am
 
 
-## Meeting #8
-11/7
+## Meeting #8: 11th July
 
 ### Attendees: Sam, Kylee, Leslie
 
@@ -204,3 +203,39 @@ Leslie, Kylee, Sam, Jannet
 
 ### Questions for Harrison
 - What is the position array in PathPosition for?
+
+
+## Meeting #9 13th July
+
+### Attendees: Sam, Kylee, Leslie, Dan, Jannet
+
+### Completed from last meeting:
+- All unit tests
+- some backend MVP
+
+### Discussion Points
+- Work to be done
+- Any questions we had
+
+### Action Items by Thursday 10pm
+- FInish backend MVP
+	- Battle - Sam and Dan
+	- Game State - Kylie
+	- Automatic Play - Leslie
+- Add goals - composition pattern to UML - Kylie
+- Integration test fix up - Sam
+- Finish frontend MVP - Jan
+	- Inventory unequipped
+	- Win/loss screen
+	- gold/exp/health stats
+- Backend other stuff
+	- Implement card/buildings - Jan
+	- Items - sam
+	- Enemies - Les
+
+### Questions for Harrison
+- What is the position array in PathPosition for?
+- Frontend in UML?
+- How detailed in integration testing?
+
+### Next meeting: Thursday 10pm
