@@ -21,7 +21,7 @@ public class Shield extends BasicItem {
     }
 
     /**
-     * Getter for flat damage reduction
+     * Getter for flat damage reduction in damage recieved
      * @return flatDamageReduction
      */
     public int getFlatDamageReduction() {

@@ -20,7 +20,7 @@ public class Armour extends BasicItem {
     }
 
     /**
-     * Getter for scalar damage reduction
+     * Getter for scalar damage reduction in damage recieved
      * @return scalarDamageReduction (%)
      */
     public int getScalarDamageReduction() {

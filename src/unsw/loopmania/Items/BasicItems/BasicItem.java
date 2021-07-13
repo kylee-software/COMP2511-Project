@@ -17,7 +17,6 @@ public abstract class BasicItem extends Item {
      * @param x - x-coordinate of item
      * @param y - y-coordinate of item
      * @param buyPrice - buyPrice of item
-     * @param sellPrice - sellPrice of item
      */
     public BasicItem(SimpleIntegerProperty x, SimpleIntegerProperty y, int buyPrice) {
         super(x, y, sellPrice);
