@@ -1,11 +1,12 @@
 package unsw.loopmania.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.DefenceBehaviour;
 
 /**
  * Equipped or unequipped Helmet in the backend world
  */
-public class Helmet extends BasicItem {
+public class Helmet extends BasicItem implements DefenceBehaviour {
     
     private static int buyPrice = 50;
     private int damageDealtReduction = 5;

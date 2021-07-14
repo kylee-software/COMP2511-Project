@@ -1,11 +1,12 @@
 package unsw.loopmania.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.DefenceBehaviour;
 
 /**
  * Equipped or unequipped Armour in the backend world
  */
-public class Armour extends BasicItem {
+public class Armour extends BasicItem implements DefenceBehaviour {
     
     private static int buyPrice = 150;
     private int scalarDamageReduction = 50;
