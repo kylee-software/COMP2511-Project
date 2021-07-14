@@ -1,14 +1,21 @@
 package unsw.loopmania;
 
+import de.schlichtherle.truezip.socket.IOCache;
+
 import java.util.Random;
 
 /**
  * a basic form of enemy in the world
  */
-public class BasicEnemy extends MovingEntity {
+public abstract class BasicEnemy extends MovingEntity {
+
+    private String type;
+    private AttackStrategy strategy = new BasicAttack();
+
     // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position) {
-        super(position);
+    public BasicEnemy(PathPosition position, int health, String type) {
+        super(position, health);
+        this.type = type;
     }
 
     /**
@@ -25,4 +32,19 @@ public class BasicEnemy extends MovingEntity {
             moveDownPath();
         }
     }
+
+    public String getType() {
+        return type;
+    }
+
+
+    public int getEXPReward;
+    public int getGoldReward;
+    public int getBattleDamage;
+    public int getSupportRadius;
+    public int getBattleRadius;
+    public int getHealth;
+    public  double getSpeed;
+
+
 }

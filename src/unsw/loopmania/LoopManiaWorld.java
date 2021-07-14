@@ -57,6 +57,20 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    private List<AlliedSoldier> alliedSoldiers;
+
+    private String gameMode;
+
+    private int experience;
+
+    private int gold;
+
+    private int cycles;
+
+    private Item equippedAttackItem;
+
+    private List<Item> equippedDefenceItems;
+
     /**
      * create the world (constructor)
      * 
@@ -64,7 +78,8 @@ public class LoopManiaWorld {
      * @param height height of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+    public LoopManiaWorld(String gameMode, int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+        this.gameMode = gameMode;
         this.width = width;
         this.height = height;
         nonSpecifiedEntities = new ArrayList<>();
@@ -82,6 +97,86 @@ public class LoopManiaWorld {
 
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * set the experience point(s) that the character currently has
+     * @param experience experience piont(s)
+     */
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public String getGameMode() {
+        return gameMode;
+    }
+
+    /**
+     * set the gold value that the charcater currently has
+     * @param gold gold value
+     */
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public int getCycles() {
+        return cycles;
+    }
+
+    public List<Item> getEquippedItems() {
+        // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<Item>();
+    }
+
+    public List<Card> getEquippedCards() {
+        // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<>();
+    }
+
+    public List<AlliedSoldier> getAlliedSoldiers() {
+        return alliedSoldiers;
+    }
+
+    public void receiveInventoryFullRewards() {
+        // TODO = need to implement this correctly and add javadoc
+        return;
+    }
+
+    // TODO: this might be unnecessary?
+    public void incrementCycles() {
+        cycles += 1;
+    }
+
+    public void addItem(Item item) {
+        // TODO = need to implement this correctly and add javadoc
+        return;
+    }
+
+
+    public void addCard(Card card) {
+        // TODO = need to implement this correctly and add javadoc
+        return;
+    }
+
+    public void addBuilding(Building building) {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public void addEnemy(BasicEnemy enemy) {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public List<BasicEnemy> getEnemies() {
+        // TODO = need to implement this correctly and add javadoc
+        return new ArrayList<>();
     }
 
     /**
@@ -117,6 +212,27 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
         return spawningEnemies;
+    }
+
+    /**
+     * spawn new vampire(s) that vampire castles produced
+     */
+    public void spawnVampiresFromVampireCastles() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    /**
+     * spawn new zombies(s) that zombie pits produced
+     */
+    public void spawnZombiesFromZombiePits() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    /**
+     * produce new allied soldiers(s) when the Character passes through barracks
+     */
+    public void produceAlliesFromBarracks() {
+        // TODO = need to implement this correctly and add javadoc
     }
 
     /**
@@ -177,6 +293,10 @@ public class LoopManiaWorld {
         c.destroy();
         cardEntities.remove(index);
         shiftCardsDownFromXCoordinate(x);
+    }
+
+    public void trap() {
+        // TODO = need to implement this correctly and add javadoc
     }
 
     /**
@@ -349,4 +469,23 @@ public class LoopManiaWorld {
 
         return newBuilding;
     }
+
+    public boolean isBattleEntered() {
+        // TODO = need to implement this correctly and add javadoc
+        return false;
+    }
+
+    // TODO: is this not the same as runBattle()?
+    public void enterBattle() {
+        return;
+    }
+
+    /**
+     * to check if the character completed all the goals or not to win
+     * @return true if all goals are completed else false
+     */
+    public boolean completedGame() {
+        return false;
+    }
+
 }
