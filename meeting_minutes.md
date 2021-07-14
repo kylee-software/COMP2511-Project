@@ -138,3 +138,104 @@ Leslie, Kylee, Sam, Jannet
 - Learn unit tests
 	- Try write one each first (User Story allocations)
 - Next meeting: Wednesday 10pm
+
+
+## Meeting #6: 7th July
+
+### Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
+
+### Completed from last meeting
+- Parts of UML
+
+### Discussion Points
+- Patterns to apply for UML and possibilities
+
+### Action Items before next meeting
+- Finish patterns, methods, fields to UML - allocated by user stories from milestone 1
+	- Automatic Play, Cards/Buildings: Jan
+	- Purchase/Selling Item, Battle: Dan
+	- Obtaining items/gold/experience/cards: Leslie
+	- Item objects/using items: Sam
+	- Game State, Enemies: Kylee
+- Read starter code explanations and understand → there’s an explanation linked in the spec
+- Learn how to write Junit tests
+- Try write one each first (User Story allocations)
+- Next meeting: Thursday 10am
+
+## Meeting #7: 8th July
+
+### Attendees [Daniel, Leslie, Kylee, Sam, Jannet]
+
+### Completed from last meeting
+- Finished UML
+
+### Discussion Points
+- Discussed how UML implements our user stories
+
+### Action Items before next meeting
+- Tests:
+	- Unit Tests
+		- Jan’s parts (thanks guys :))
+			- Cards (leslie)
+			- Buildings (kylee)
+			- Automatic play (incl. battle?) (dan)
+		- And your own Epic parts too
+	- 1 integration test (sam)
+- Run the starter code
+- Next meeting: Sunday 10am
+
+
+## Meeting #8: 11th July
+
+### Attendees: Sam, Kylee, Leslie
+
+###Completed from last meeting:
+- Some of the tests are completed
+### Discussion Points
+- Questions about tests and integration tests
+- Discussed Timeline for next week
+- Discuss MVP functions and delegate tasks
+### Action Items 
+- Battle - Sam and Dan
+- Game State - Kylie
+- Automatic Play - Leslie
+- Next meeting: Lab Tuesday 2pm
+
+### Questions for Harrison
+- What is the position array in PathPosition for?
+
+
+## Meeting #9 13th July
+
+### Attendees: Sam, Kylee, Leslie, Dan, Jannet
+
+### Completed from last meeting:
+- All unit tests
+- some backend MVP
+
+### Discussion Points
+- Work to be done
+- Any questions we had
+
+### Action Items by Thursday 10pm
+- FInish backend MVP
+	- Battle - Sam and Dan
+	- Game State - Kylie
+	- Automatic Play - Leslie
+- Add goals - composition pattern to UML - Kylie
+- Integration test fix up - Sam
+- Finish frontend MVP - Jan
+	- Inventory unequipped
+	- Win/loss screen
+	- gold/exp/health stats
+- Backend other stuff
+	- Implement card/buildings - Jan
+	- Items - sam
+	- Enemies - Les
+
+### Questions for Harrison
+- What is the position array in PathPosition for?
+- Frontend in UML?
+- How detailed in integration testing?
+
+### Next meeting: Thursday 10pm
