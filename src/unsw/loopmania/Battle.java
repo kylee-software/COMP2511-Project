@@ -50,13 +50,10 @@ public class Battle {
     }
 
     /**
-     * Checks if all enemies are dead
+     * Getter for list of killed enemies
      */
-    public boolean areEnemiesDead() {
-        if (liveEnemies.size() == 0) {
-            return true;
-        }
-        return false;
+    public List<BasicEnemy> getKilledEnemies() {
+        return this.killedEnemies;
     }
 
     public void sortListByCurrentHp() {
@@ -65,6 +62,27 @@ public class Battle {
 
     public void fight() {
         // TODO:
+    }
+
+    /**
+     * Checks if all enemies are dead
+     */
+    private boolean areEnemiesDead() {
+        if (liveEnemies.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if battle was lost
+     * @return loss status
+     */
+    public Boolean isLost() {
+        if (character.getHealth() == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
