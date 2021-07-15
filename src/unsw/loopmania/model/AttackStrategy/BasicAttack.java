@@ -1,5 +1,7 @@
 package unsw.loopmania.model.AttackStrategy;
 
+import unsw.loopmania.view.AttackObserver;
+
 public class BasicAttack implements AttackStrategy, AttackObserver {
 
     @Override

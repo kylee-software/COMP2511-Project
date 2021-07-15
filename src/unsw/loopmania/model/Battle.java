@@ -3,6 +3,7 @@ package unsw.loopmania.model;
 import java.util.List;
 
 import unsw.loopmania.model.Buildings.TowerBuilding;
+import unsw.loopmania.model.Enemies.BasicEnemy;
 
 public class Battle {
 

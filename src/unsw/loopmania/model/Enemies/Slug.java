@@ -1,7 +1,9 @@
-package unsw.loopmania;
+package unsw.loopmania.model.Enemies;
 
 import java.util.List;
 
+import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.Cards.Card;
 
 public class Slug extends BasicEnemy {

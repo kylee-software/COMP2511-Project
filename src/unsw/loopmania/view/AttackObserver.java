@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.view;
 
 public interface AttackObserver {
 

@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.Entity;
 
 import java.util.ArrayList;
 import java.util.List;

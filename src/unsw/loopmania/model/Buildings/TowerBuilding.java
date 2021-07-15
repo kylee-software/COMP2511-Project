@@ -1,8 +1,8 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 
-import unsw.loopmania.model.AttackStrategy;
 
 public class TowerBuilding extends Building {
 

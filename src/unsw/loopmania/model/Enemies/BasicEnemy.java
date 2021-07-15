@@ -2,7 +2,9 @@ package unsw.loopmania.model.Enemies;
 
 import de.schlichtherle.truezip.socket.IOCache;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
+import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
 import java.util.Random;
 

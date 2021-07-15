@@ -1,4 +1,6 @@
-package unsw.loopmania;
+package unsw.loopmania.model.AttackStrategy;
+
+import unsw.loopmania.view.AttackObserver;
 
 public class StakeAttack implements AttackStrategy, AttackObserver {
 

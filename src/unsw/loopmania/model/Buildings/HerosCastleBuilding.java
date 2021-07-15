@@ -1,9 +1,10 @@
-package unsw.loopmania;
+package unsw.loopmania.model.Buildings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.Items.Item;
 
 public class HerosCastleBuilding extends Building {
 

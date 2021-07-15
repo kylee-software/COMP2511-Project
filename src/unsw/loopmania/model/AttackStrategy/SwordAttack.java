@@ -1,4 +1,6 @@
-package unsw.loopmania;
+package unsw.loopmania.model.AttackStrategy;
+
+import unsw.loopmania.view.AttackObserver;
 
 public class SwordAttack implements AttackStrategy, AttackObserver {
     @Override

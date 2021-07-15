@@ -1,7 +1,10 @@
-package unsw.loopmania;
+package unsw.loopmania.model.Buildings;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.PathPosition;
 
 public class BarracksBuilding extends Building implements CreateEntityBehaviour {
 

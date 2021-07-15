@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.BasicItems.Sword;
+import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.LoopManiaWorld;
+import unsw.loopmania.model.Buildings.VampireCastleBuilding;
+import unsw.loopmania.model.Cards.VampireCastleCard;
+import unsw.loopmania.model.Enemies.BasicEnemy;
 
 import java.util.EnumMap;
 

@@ -7,9 +7,12 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
+import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 
 /**
