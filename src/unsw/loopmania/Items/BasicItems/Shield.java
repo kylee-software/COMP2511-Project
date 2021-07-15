@@ -11,6 +11,7 @@ public class Shield extends BasicItem implements DefenceBehaviour {
     private static int buyPrice = 50;
     private int flatDamageReduction = 5;
     private int vampireCritChanceReduction = 60;
+    private static String type = "Shield";
 
     /**
      * Constructor for Shield
@@ -18,7 +19,7 @@ public class Shield extends BasicItem implements DefenceBehaviour {
      * @param y - y-coordinate for Shield
      */
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

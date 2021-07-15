@@ -10,6 +10,7 @@ public class Stake extends BasicItem {
     private static int buyPrice = 100;
     private int damage = 5;
     private int vampireDamage = 25;
+    private static String type = "Weapon";
 
     /**
      * Constructor for Stake
@@ -17,7 +18,7 @@ public class Stake extends BasicItem {
      * @param y - y-coordinate for Stake
      */
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class HealthPotion extends BasicItem {
 
     private static int buyPrice = 20;
+    private static String type = "HealthPotion";
 
     /**
      * Constructor for Health Potion
@@ -15,7 +16,7 @@ public class HealthPotion extends BasicItem {
      * @param y - y-coordinate for Health Potion
      */
     public HealthPotion(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

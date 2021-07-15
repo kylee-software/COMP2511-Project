@@ -9,6 +9,7 @@ public abstract class Item extends StaticEntity {
     private int sellPrice;
     private int discardGold = this.getSellPrice()/2;
     private int discardExp = 100;
+    private String type;
 
     /**
      * Constructor for Item
@@ -16,9 +17,10 @@ public abstract class Item extends StaticEntity {
      * @param y - y-coordinate of item
      * @param sellPrice - sellPrice of item
      */
-    public Item(SimpleIntegerProperty x, SimpleIntegerProperty y, int sellPrice) {
+    public Item(SimpleIntegerProperty x, SimpleIntegerProperty y, int sellPrice, String type) {
         super(x, y, sellPrice);
         this.sellPrice = sellPrice;
+        this.type = type;
     }
 
     /**
@@ -27,6 +29,13 @@ public abstract class Item extends StaticEntity {
      */
     public int getSellPrice() {
         return this.sellPrice;
+    }
+
+    /**
+     * Getter for type corresponding to inventory slot (Weapon, Shield, Armour, etc.)
+     */
+    public String getType() {
+        return this.type;
     }
 
     /**

@@ -18,8 +18,8 @@ public abstract class BasicItem extends Item {
      * @param y - y-coordinate of item
      * @param buyPrice - buyPrice of item
      */
-    public BasicItem(SimpleIntegerProperty x, SimpleIntegerProperty y, int buyPrice) {
-        super(x, y, sellPrice);
+    public BasicItem(SimpleIntegerProperty x, SimpleIntegerProperty y, int buyPrice, String type) {
+        super(x, y, sellPrice, type);
         this.buyPrice = buyPrice;
     }
 

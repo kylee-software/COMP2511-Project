@@ -11,6 +11,7 @@ public class Helmet extends BasicItem implements DefenceBehaviour {
     private static int buyPrice = 50;
     private int damageDealtReduction = 5;
     private int scalarDamageReduction = 20;
+    private static String type = "Helmet";
 
     /**
      * Constructor for Helmet
@@ -18,7 +19,7 @@ public class Helmet extends BasicItem implements DefenceBehaviour {
      * @param y - y-coordinate for Helmet
      */
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

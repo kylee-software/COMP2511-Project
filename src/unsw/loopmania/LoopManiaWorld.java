@@ -7,7 +7,10 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Items.Item;
+import unsw.loopmania.Items.BasicItems.BasicItem;
 import unsw.loopmania.Items.BasicItems.Sword;
+import unsw.loopmania.Items.RareItems.RareItem;
 
 /**
  * A backend world.
@@ -71,6 +74,8 @@ public class LoopManiaWorld {
 
     private List<Item> equippedDefenceItems;
 
+    private Item equippedRareItem;
+
     /**
      * create the world (constructor)
      * 
@@ -89,6 +94,9 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        this.equippedAttackItem = null;
+        this.equippedDefenceItems = new ArrayList<>();
+        this.equippedRareItem = null;
     }
 
     public int getWidth() {
@@ -337,9 +345,29 @@ public class LoopManiaWorld {
         moveBasicEnemies();
     }
 
+
+    /**
+     * Given an item equips it in equippedInventory
+     * @param item - item to equip
+     * @return success
+     */
+    private Boolean equipItem(Item item) {
+        if (item.getType().equals("RareItem")) {
+            if (equippedRareItem == null) {
+                this.equippedRareItem = item;
+                removeUnequippedInventoryItem(item);
+                return true;
+            }
+        } else if (item.getType().equals("Weapon")) {
+            // TODO:
+        }
+        // Basic items
+        return false;
+    }
+
     /**
      * remove an item from the unequipped inventory
-     * @param item item to be removed
+     * @param item - item to be removed
      */
     private void removeUnequippedInventoryItem(Entity item){
         item.destroy();

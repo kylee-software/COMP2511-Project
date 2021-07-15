@@ -10,6 +10,7 @@ public class Staff extends BasicItem {
     private static int buyPrice = 50;
     private int damage = 3;
     private int tranceChance = 40;
+    private static String type = "Weapon";
 
     /**
      * Constructor for Staff
@@ -17,7 +18,7 @@ public class Staff extends BasicItem {
      * @param y - y-coordinate for Staff
      */
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

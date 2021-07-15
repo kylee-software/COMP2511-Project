@@ -9,6 +9,7 @@ public class Sword extends BasicItem {
     
     private static int buyPrice = 40;
     private int damage = 10;
+    private static String type = "Weapon";
 
     /**
      * Constructor for Sword
@@ -16,7 +17,7 @@ public class Sword extends BasicItem {
      * @param y - y-coordinate for Sword
      */
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**

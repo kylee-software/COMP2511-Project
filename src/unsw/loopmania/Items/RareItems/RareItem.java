@@ -10,6 +10,7 @@ import unsw.loopmania.Items.Item;
 public abstract class RareItem extends Item {
     
     private static int sellPrice = 150;
+    private static String type = "RareItem";
 
     /**
      * Constructor for RareItem
@@ -17,7 +18,7 @@ public abstract class RareItem extends Item {
      * @param y - y-coordinate of item
      */
     public RareItem(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, sellPrice);
+        super(x, y, sellPrice, type);
     }
 }
 

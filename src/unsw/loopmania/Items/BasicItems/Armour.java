@@ -10,6 +10,7 @@ public class Armour extends BasicItem implements DefenceBehaviour {
     
     private static int buyPrice = 150;
     private int scalarDamageReduction = 50;
+    private static String type = "Armour";
 
     /**
      * Constructor for Armour
@@ -17,7 +18,7 @@ public class Armour extends BasicItem implements DefenceBehaviour {
      * @param y - y-coordinate for Armour
      */
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, buyPrice);
+        super(x, y, buyPrice, type);
     }
 
     /**
