@@ -42,6 +42,18 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // TODO: load the win screen - not sure if this should go here
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("WinScreenView.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+
+        // TODO: load the game over screen - not sure if this should go here
+        GameOverScreenController gameOverController = new GameOverScreenController();
+        FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("GameOverScreenView.fxml"));
+        winScreenLoader.setController(gameOverController);
+        Parent gameOverScreenRoot = gameOverScreenLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
         
@@ -52,9 +64,10 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
-        
+
         // deploy the main onto the stage
         gameRoot.requestFocus();
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -71,6 +84,7 @@ public class LoopManiaApplication extends Application {
     private void switchToRoot(Scene scene, Parent root, Stage stage){
         scene.setRoot(root);
         root.requestFocus();
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();

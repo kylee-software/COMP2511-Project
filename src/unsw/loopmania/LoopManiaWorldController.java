@@ -156,6 +156,10 @@ public class LoopManiaWorldController {
      * object handling switching to the main menu
      */
     private MenuSwitcher mainMenuSwitcher;
+    
+    // TODO: handle win and lose
+    private MenuSwitcher winScreenSwitcher;
+    private MenuSwitcher gameOverScreenSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -254,6 +258,11 @@ public class LoopManiaWorldController {
     public void pause(){
         isPaused = true;
         System.out.println("pausing");
+        timeline.stop();
+    }
+
+    public void reset() {
+        System.out.println("starting new game");
         timeline.stop();
     }
 
@@ -616,6 +625,16 @@ public class LoopManiaWorldController {
     public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
+    }
+
+    public void setWinScreenSwitcher(MenuSwitcher winScreenSwitcher){
+        // TODO = possibly set other menu switchers
+        this.winScreenSwitcher = winScreenSwitcher;
+    }
+
+    public void setGameOverScreenSwitcher(MenuSwitcher gameOverScreenSwitcher){
+        // TODO = possibly set other menu switchers
+        this.gameOverScreenSwitcher = gameOverScreenSwitcher;
     }
 
     /**

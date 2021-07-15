@@ -56,6 +56,13 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    // TODO = front end for these
+    private int health;
+    
+    private int experience;
+
+    private int gold;
+
     /**
      * create the world (constructor)
      * 
