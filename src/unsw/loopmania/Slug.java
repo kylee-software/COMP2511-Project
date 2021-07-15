@@ -63,12 +63,5 @@ public class Slug extends BasicEnemy {
     public int getSupportRadius() {
         return supportRadius;
     }
-
-    /**
-     * Getter for speed of slug
-     * @return support radius (ticks per tile)
-     */
-    public double getSpeed() {
-        return speed;
-    }
+    
 }

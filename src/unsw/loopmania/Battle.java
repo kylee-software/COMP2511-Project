@@ -68,9 +68,9 @@ public class Battle {
     }
 
     /**
-     * Sets 
-     * @param dealer
-     * @param receiver
+     * Deals damage to given receiver based on dealer stats
+     * @param dealer - damage dealer moving entity
+     * @param receiver - damage receiver moving entity
      */
     private void dealDamage(MovingEntity dealer, MovingEntity receiver) {
         // TODO: account for defensive stats
