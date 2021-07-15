@@ -23,8 +23,8 @@ public class Slug extends BasicEnemy {
      * @param health
      * @param type
      */
-    public Slug(PathPosition position, int health, String type) {
-        super(position, health, type);
+    public Slug(PathPosition position, String type) {
+        super(position, health, damage, type);
     }
 
     @Override
@@ -70,13 +70,5 @@ public class Slug extends BasicEnemy {
      */
     public double getSpeed() {
         return speed;
-    }
-
-    /**
-     * Getter for slug damage
-     * @return damage
-     */
-    public int getDamage() {
-        return damage;
     }
 }

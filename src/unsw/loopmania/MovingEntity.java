@@ -53,13 +53,27 @@ public abstract class MovingEntity extends Entity {
         return y().get();
     }
 
+    /**
+     * Setter for health of moving entity
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /**
+     * Getter for health of moving entity
+     * @return health
+     */
     public int getHealth() {
         return health;
     }
+
+    /**
+     * Getter for damage of entity
+     * @return damage
+     */
+    public abstract int getDamage();
 
     public boolean isDead() {
         // TODO = need to implement this correctly and add javadoc

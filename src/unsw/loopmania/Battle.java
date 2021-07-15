@@ -60,11 +60,21 @@ public class Battle {
     }
 
     public void sortListByCurrentHp() {
-        // TODO = need to implement this correctly and add javadoc
+        // TODO:
     }
 
     public void fight() {
-        // TODO = need to implement this correctly and add javadoc
+        // TODO:
+    }
+
+    /**
+     * Sets 
+     * @param dealer
+     * @param receiver
+     */
+    private void dealDamage(MovingEntity dealer, MovingEntity receiver) {
+        // TODO: account for defensive stats
+        receiver.setHealth(receiver.getHealth() - dealer.getDamage());
     }
 
     /**

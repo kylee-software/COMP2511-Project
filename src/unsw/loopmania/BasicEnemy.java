@@ -11,18 +11,26 @@ public abstract class BasicEnemy extends MovingEntity {
 
     private String type;
     private AttackStrategy strategy = new BasicAttack();
+    private int damage;
 
-    // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position, int health, String type) {
+    /**
+     * Constructor for Basic Enemy
+     * @param position - position on map
+     * @param health
+     * @param damage
+     * @param type
+     */
+    public BasicEnemy(PathPosition position, int health, int damage, String type) {
         super(position, health);
         this.type = type;
+        this.damage = damage;
     }
 
     /**
      * move the enemy
      */
     public void move(){
-        // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
+        // TODO: = modify this, since this implementation doesn't provide the expected enemy behaviour
         // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
         int directionChoice = (new Random()).nextInt(2);
         if (directionChoice == 0){
@@ -37,14 +45,18 @@ public abstract class BasicEnemy extends MovingEntity {
         return type;
     }
 
+    /**
+     * Getter for damage
+     * @return damage
+     */
+    public int getDamage() {
+        return this.damage;
+    }
 
-    public int getEXPReward;
-    public int getGoldReward;
-    public int getBattleDamage;
-    public int getSupportRadius;
-    public int getBattleRadius;
-    public int getHealth;
-    public  double getSpeed;
-
+    public abstract int getEXPReward();
+    public abstract int getGoldReward();
+    public abstract int getSupportRadius();
+    public abstract int getBattleRadius();
+    public abstract double getSpeed();
 
 }
