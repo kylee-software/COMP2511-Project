@@ -559,7 +559,7 @@ public class LoopManiaWorld {
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
-    public boolean completedGame() {
+    public boolean isGoalCompleted() {
         return false;
     }
 

@@ -63,5 +63,4 @@ public class Slug extends BasicEnemy {
     public int getSupportRadius() {
         return supportRadius;
     }
-    
 }
