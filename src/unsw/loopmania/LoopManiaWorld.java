@@ -7,6 +7,7 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Items.Item;
 import unsw.loopmania.Items.BasicItems.Sword;
 
 /**
@@ -324,7 +325,7 @@ public class LoopManiaWorld {
      * @param x x coordinate from 0 to width-1
      * @param y y coordinate from 0 to height-1
      */
-    public void removeUnequippedInventoryItemByCoordinates(int x, int y){
+    public void removeUnequippedInventoryItemByCoordinates(int x, int y) {
         Entity item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
     }
@@ -332,16 +333,57 @@ public class LoopManiaWorld {
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
-    public void runTickMoves(){
+    public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
+        // Check enemies in range for battle
+        BasicEnemy enemy = enemiesInRangeBattle();
+        if (enemy != null) {
+            List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
+            battleEnemies.add(enemy);
+            // TODO: Add all enemies in support range
+            List<TowerBuilding> battleTowers = new ArrayList<TowerBuilding>();
+            // TODO: Add all towers in range
+            enterBattle(battleEnemies, alliedSoldiers, battleTowers);
+        }
+    }
+
+    /**
+     * Checks if any enemies ars in range at a given time
+     * @return enemy in range
+     */
+    private BasicEnemy enemiesInRangeBattle() {
+        // TODO:
+        // // Loop enemies
+        // for (BasicEnemy enemy : enemies) {
+        //     if (character.getPosition)
+        // }
+        // // if character in enemy radius (list of positions in range)
+        // // return true/enemy
+        // return false;
+        return null;
+    }
+
+    /**
+     * Given a path position and a radius, calculates every position in range
+     * @param radius
+     * @param position - initial position
+     * @return list of path positions in range
+     */
+    private List<PathPosition> positionsInRange(int radius, PathPosition position) {
+        // TODO:
+        // List<PathPosition> inRangePositions = new ArrayList<PathPosition>();
+        // inRangePositions.add(position);
+        // for (int i = radius; i > 0; i--) {
+        //     position.cu
+        // }
     }
 
     /**
      * remove an item from the unequipped inventory
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item){
+    private void removeUnequippedInventoryItem(Entity item) {
         item.destroy();
         unequippedInventoryItems.remove(item);
     }
@@ -475,9 +517,42 @@ public class LoopManiaWorld {
         return false;
     }
 
-    // TODO: is this not the same as runBattle()?
-    public void enterBattle() {
-        return;
+    /**
+     * Starts a battle.
+     * Dead enemies removed.
+     * Battle rewards distributed.
+     * @param enemies - list of enemies in battle
+     * @param allies - list of allies in battle (if any)
+     * @param towers - list of towers in battle (if any)
+     */
+    public void enterBattle(List<BasicEnemy> enemies, List<AlliedSoldier> allies, List<TowerBuilding> towers) {
+        Battle battle = new Battle(character, towers, allies, enemies);
+        battle.fight();
+        for (BasicEnemy enemy : battle.getKilledEnemies()) {
+            killEnemy(enemy);
+        }
+        // TODO: Kill allied soldiers
+        if (battle.isLost()) {
+            // Check has The One Ring
+            // else endGame
+        } else {
+            gainBattleRewards(battle);
+        }
+    }
+
+    /**
+     * Adds rewards from battle to character
+     * @param battle
+     */
+    private void gainBattleRewards(Battle battle) {
+        setGold(getGold() + battle.getBattleGold());
+        setExperience(getExperience() + battle.getBattleExp());
+        for (Card card : battle.getBattleCards()) {
+            addCard(card);
+        }
+        for (Item item : battle.getBattleItems()) {
+            addItem(item);
+        }
     }
 
     /**

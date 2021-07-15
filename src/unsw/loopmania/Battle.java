@@ -2,34 +2,138 @@ package unsw.loopmania;
 
 import java.util.List;
 
+import unsw.loopmania.Items.Item;
+
+/**
+ * Class for a single battle in the backend world
+ */
 public class Battle {
 
     private Character character;
-    private TowerBuilding tower;
+    private List<TowerBuilding> towers;
     private List<AlliedSoldier> allies;
-    private List<BasicEnemy> enemies;
+    private List<BasicEnemy> liveEnemies;
+    private List<BasicEnemy> killedEnemies;
 
-    public Battle(Character character, TowerBuilding tower, List<AlliedSoldier> allies, List<BasicEnemy> enemies) {
+    /**
+     * Constructor for a battle
+     * @param character
+     * @param towers - list of towers to join battle
+     * @param allies - list of allied soldiers to join battle
+     * @param enemies - list of enemies to join battle
+     */
+    public Battle(Character character, List<TowerBuilding> towers, List<AlliedSoldier> allies, List<BasicEnemy> enemies) {
         this.character = character;
-        this.tower = tower;
+        this.towers = towers;
         this.allies = allies;
-        this.enemies = enemies;
+        this.liveEnemies = enemies;
     }
 
-    public void addEnemiesToTower() {
-        // TODO = need to implement this correctly and add javadoc
+    /**
+     * Given an enemy adds to the list of enemies for the battle
+     * @param enemy - enemy to add
+     */
+    public void addEnemyToBattle(BasicEnemy enemy) {
+        if (enemy.getHealth() > 0) {
+            this.liveEnemies.add(enemy);
+        }
     }
 
-    public boolean areEnemiesDead() {
-        // TODO = need to implement this correctly and add javadoc
-        return false;
+    /**
+     * Removes given enemy from list of alive enemies.
+     * Adds enemy to list of killed enemies
+     * @param enemy - enemy to kill
+     */
+    public void killEnemy(BasicEnemy enemy) {
+        this.liveEnemies.remove(enemy);
+        this.killedEnemies.add(enemy);
+    }
+
+    /**
+     * Getter for list of killed enemies
+     */
+    public List<BasicEnemy> getKilledEnemies() {
+        return this.killedEnemies;
     }
 
     public void sortListByCurrentHp() {
-        // TODO = need to implement this correctly and add javadoc
+        // TODO:
     }
 
     public void fight() {
-        // TODO = need to implement this correctly and add javadoc
+        // TODO:
+    }
+
+    /**
+     * Checks if all enemies are dead
+     */
+    private boolean areEnemiesDead() {
+        if (liveEnemies.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if battle was lost
+     * @return loss status
+     */
+    public Boolean isLost() {
+        if (character.getHealth() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Deals damage to given receiver based on dealer stats
+     * @param dealer - damage dealer moving entity
+     * @param receiver - damage receiver moving entity
+     */
+    private void dealDamage(MovingEntity dealer, MovingEntity receiver) {
+        // TODO: account for defensive stats
+        receiver.setHealth(receiver.getHealth() - dealer.getDamage());
+    }
+
+    /**
+     * Gets total EXP reward for the battle
+     * @return total experience gained
+     */
+    public int getBattleExp() {
+        int xp = 0;
+        for (BasicEnemy enemy : killedEnemies) {
+            xp += enemy.getEXPReward();
+        }
+        return xp;
+    }
+
+    /**
+     * Gets total gold reward for the battle
+     * @return total gold gained
+     */
+    public int getBattleGold() {
+        int gold = 0;
+        for (BasicEnemy enemy : killedEnemies) {
+            gold += enemy.getGoldReward();
+        }
+        return gold;
+    }
+
+    /**
+     * Gets card rewards for battle
+     * @return list of cards gained
+     */
+    public List<Card> getBattleCards() {
+        TODO:
+        return null;
+    }
+
+    /**
+     * Gets item rewards for battle
+     * @return list of items gained
+     */
+    public List<Item> getBattleItems() {
+        TODO:
+        return null;
     }
 }
