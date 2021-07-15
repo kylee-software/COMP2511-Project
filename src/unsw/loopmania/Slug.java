@@ -24,7 +24,7 @@ public class Slug extends BasicEnemy {
      * @param type
      */
     public Slug(PathPosition position, String type) {
-        super(position, health, damage, type);
+        super(position, health, damage, type, speed);
     }
 
     @Override

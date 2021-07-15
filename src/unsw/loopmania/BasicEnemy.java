@@ -5,7 +5,7 @@ import de.schlichtherle.truezip.socket.IOCache;
 import java.util.Random;
 
 /**
- * a basic form of enemy in the world
+ * a basic form of enemy in the backend world
  */
 public abstract class BasicEnemy extends MovingEntity {
 
@@ -20,8 +20,8 @@ public abstract class BasicEnemy extends MovingEntity {
      * @param damage
      * @param type
      */
-    public BasicEnemy(PathPosition position, int health, int damage, String type) {
-        super(position, health);
+    public BasicEnemy(PathPosition position, int health, int damage, String type, double speed) {
+        super(position, health, speed);
         this.type = type;
         this.damage = damage;
     }
@@ -57,6 +57,5 @@ public abstract class BasicEnemy extends MovingEntity {
     public abstract int getGoldReward();
     public abstract int getSupportRadius();
     public abstract int getBattleRadius();
-    public abstract double getSpeed();
 
 }
