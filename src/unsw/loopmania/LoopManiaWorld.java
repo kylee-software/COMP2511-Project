@@ -359,7 +359,12 @@ public class LoopManiaWorld {
                 return true;
             }
         } else if (item.getType().equals("Weapon")) {
-            // TODO:
+            // TODO: use strategy?
+            if (equippedAttackItem == null) {
+                this.equippedAttackItem = item;
+                removeUnequippedInventoryItem(item);
+                return true;
+            }
         }
         // Basic items
         return false;
