@@ -15,7 +15,7 @@ public class Slug extends BasicEnemy {
     private static double speed = 3; // Ticks per tile
     private AttackStrategy strategy; // TODO:
     private static int damage = 7;
-    private static int health = 100;
+    private static int health = 10;
 
     /**
      * Constructor for slug
