@@ -1,12 +1,10 @@
 package unsw.loopmania.model.Buildings;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import unsw.loopmania.model.Entity;
+import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.PathPosition;
 
-public class BarracksBuilding extends Building implements CreateEntityBehaviour {
+public class BarracksBuilding extends Building {
 
     private PathPosition pathPosition;
 
@@ -24,12 +22,14 @@ public class BarracksBuilding extends Building implements CreateEntityBehaviour 
     }
 
     /**
-     * Produces allied soldier to join Character when passes through
-     * @param cycle the cycle the LoopManiaWorld is in
-     * @return a list of newly produced allied soldiers
+     * Creates an allied soldier when Character passes over barracks
+     * @param x x coordinate of allied soldier
+     * @param y y coordinate of allied soldier
+     * @return allied soldier
      */
-    public List<Entity> produceEntity(int cycle) {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<>();
+    public AlliedSoldier spawnAlliedSoldier(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        int health = 100;
+        return new AlliedSoldier(x, y, health);
     }
+    
 }

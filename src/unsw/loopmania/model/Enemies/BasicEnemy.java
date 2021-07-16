@@ -12,6 +12,7 @@ import java.util.Random;
  */
 public abstract class BasicEnemy extends MovingEntity {
 
+    int health;
     private String type;
     private AttackStrategy strategy = new BasicAttack();
 
@@ -49,5 +50,7 @@ public abstract class BasicEnemy extends MovingEntity {
     public int getHealth;
     public  double getSpeed;
 
-
+    public void reduceHealth(int damage) {
+        this.health = Math.max(getHealth() - damage, 0);
+    }
 }

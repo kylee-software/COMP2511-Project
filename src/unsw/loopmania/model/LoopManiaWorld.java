@@ -170,6 +170,10 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
+    public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
+        getAlliedSoldiers().add(alliedSoldier);
+    }
+
     public void receiveInventoryFullRewards() {
         // TODO = need to implement this correctly and add javadoc
         return;
