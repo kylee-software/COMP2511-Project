@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
@@ -44,8 +45,10 @@ public abstract class LoopManiaWorldLoader {
 
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
-
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        
+        // TODO: change this to the game mode the player picks
+        String gameMode = "Standard"; 
+        LoopManiaWorld world = new LoopManiaWorld(gameMode, width, height, orderedPath);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

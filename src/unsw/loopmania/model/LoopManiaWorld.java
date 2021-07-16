@@ -11,7 +11,7 @@ import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
-import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 
@@ -219,7 +219,9 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            int health = 100;
+            String type = "Slug";
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), health, type);
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
