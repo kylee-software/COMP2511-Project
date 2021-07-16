@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Buildings;
 
 import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.Character;
 
 public class VillageBuilding extends Building {
 

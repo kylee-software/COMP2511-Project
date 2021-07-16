@@ -3,6 +3,7 @@ package unsw.loopmania.model.Buildings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.Character;
 
 public class CampfireBuilding extends Building {
 

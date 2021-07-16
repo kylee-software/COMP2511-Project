@@ -11,18 +11,23 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.*;
-import unsw.loopmania.Character;
+import unsw.loopmania.controller.LoopManiaWorldLoader;
+import unsw.loopmania.model.*;
+import unsw.loopmania.model.Character;
+import unsw.loopmania.model.AttackStrategy.TowerAttack;
+import unsw.loopmania.model.Buildings.*;
+import unsw.loopmania.model.Enemies.*;
+import unsw.loopmania.model.Items.BasicItems.Shield;
 
 public class BuildingsTests {
 
-    private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
+    private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/world_with_twists_and_turns.json")));
 
     int width = json.getInt("width");
     int height = json.getInt("height");
 
     // path variable is collection of coordinates with directions of path taken...
-    List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width,
-                                                                                  height);
+    List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width, height);
 
     @Test
     void VampireCastleTest() {
@@ -135,7 +140,7 @@ public class BuildingsTests {
     @Test
     void CampfireTest() {
 
-        PathPosition characterPathPosition = new PathPosition(5, orderedPath);
+        PathPosition vampirePathPosition = new PathPosition(5, orderedPath);
 
         SimpleIntegerProperty campfireX = vampirePathPosition.getX() + new SimpleIntegerProperty(1);
         SimpleIntegerProperty campfireY = vampirePathPosition.getY() + new SimpleIntegerProperty(1);
@@ -152,11 +157,9 @@ public class BuildingsTests {
     @Test
     void HerosCastleBuilding() {
 
-        HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(),
-                                                                          new SimpleIntegerProperty());
+        HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(), new SimpleIntegerProperty());
 
-        Shield shield = new Shield(new SimpleIntegerProperty(),
-                                   new SimpleIntegerProperty());
+        Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
 
         // Buy item
         herosCastleBuilding.buyItem(shield);

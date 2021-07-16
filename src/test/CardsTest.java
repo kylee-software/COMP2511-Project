@@ -6,9 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import unsw.loopmania.Character;
-import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.PathPosition;
+import unsw.loopmania.model.*;
 
 public class CardsTest {
     
@@ -17,8 +15,8 @@ public class CardsTest {
      */
     @Test
     public void getDiscardRewardsTest() {
-    LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-    getDiscardRewards(10,10,'HealthPotion');
-    ArrayList<Item> unequipped = d.getUnequippedItems();
-    assertEquals('HealthPotion');
+        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+        getDiscardRewards(10,10,"HealthPotion");
+        ArrayList<Item> unequipped = d.getUnequippedItems();
+        assertEquals("HealthPotion");
 }
