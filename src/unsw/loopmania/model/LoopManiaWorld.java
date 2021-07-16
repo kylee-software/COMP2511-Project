@@ -7,6 +7,7 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Cards.Card;
@@ -573,7 +574,10 @@ public class LoopManiaWorld {
      * @return true if all goals are completed else false
      */
     public boolean isGoalCompleted() {
-        return false;
+        AndGoal isCompleted = new AndGoal(new CycleGoal(cycles), new OrGoal(new ExperienceGoal(experience),
+                                                                        new GoldGoal(gold)));
+
+        return isCompleted.evaluateGoal();
     }
 
 }
