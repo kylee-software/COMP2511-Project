@@ -57,7 +57,7 @@ public abstract class BasicEnemy extends MovingEntity {
         return this.damage;
     }
 
-    public abstract int getEXPReward();
+    public abstract int getExpReward();
     public abstract int getGoldReward();
     public abstract int getSupportRadius();
     public abstract int getBattleRadius();
