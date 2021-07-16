@@ -379,11 +379,10 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Spawn an item in the world and return the item entity
-     * @param type - item type to add
-     * @return a sword to be spawned in the controller as a JavaFX node
+     * Adds an item to unequipped inventory
+     * @param item - item to add
      */
-    public Item addUnequippedItem(String type){
+    public void addUnequippedItem(Item item){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // Eject the oldest unequipped item and replace it
@@ -392,19 +391,16 @@ public class LoopManiaWorld {
             firstAvailableSlot = getFirstAvailableSlotForItem();
             setExperience(getExperience() + 100);
         }
-        // Now we insert the new item, as we know we have at least made a slot available...
-        Item item = instantiateItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
-        return item;
     }
 
     /**
-     * Instantiates a given item class
+     * Spawns given item in the world
      * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
      * @param firstAvailableSlot - unequipped inventory slot
      * @return item (returns null if invalid type provided)
      */
-    private Item instantiateItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+    public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
         Item item = null;
         if (type.equals("Armour")) {
             item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
@@ -708,4 +704,28 @@ public class LoopManiaWorld {
             character.setHealth(100);
         }
     }
+
+    // private Item generateRandomBasicItem() {
+    //     Random random = new Random();
+    //     int randomInt = random.nextInt(6);
+    //     if (randomInt == 0) {
+            
+    //     }
+    // }
+
+    // /**
+    //  * Generates a list with every item subclass name
+    //  * @return list of item names
+    //  */
+    // private List<String> allItemTypes() {
+    //     List<String> items = new ArrayList<String>();
+    //     items.add("Armour");
+    //     items.add("HealthPotion");
+    //     items.add("Helmet");
+    //     items.add("Shield");
+    //     items.add("Staff");
+    //     items.add("Stake");
+    //     items.add("Sword");
+    //     return items;
+    // }
 }

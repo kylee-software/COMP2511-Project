@@ -1,5 +1,6 @@
 package unsw.loopmania.model;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,7 +158,12 @@ public class Battle {
      * @return list of items gained
      */
     public List<Item> getBattleItems() {
-        TODO:
-        return null;
+        List<Item> items = new ArrayList<Item>();
+        // for (BasicEnemy enemy : killedEnemies) {
+        //     items.add(generateRandomItem());
+        // }
+        return items;
     }
+
+    
 }
