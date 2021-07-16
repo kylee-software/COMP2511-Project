@@ -15,7 +15,6 @@ import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.PathTile;
-import unsw.loopmania.model.PathTile.Direction;
 
 import java.util.List;
 
