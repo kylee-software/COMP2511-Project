@@ -1,8 +1,9 @@
 package unsw.loopmania.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import unsw.loopmania.model.Buildings.TowerBuilding;
+import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Items.Item;
@@ -10,8 +11,9 @@ import unsw.loopmania.model.Items.Item;
 public class Battle {
 
     private Character character;
-    private List<TowerBuilding> towers;
+    private List<Building> towers;
     private List<AlliedSoldier> allies;
+    private List<Building> campfires;
     private List<BasicEnemy> liveEnemies;
     private List<BasicEnemy> killedEnemies;
 
@@ -21,12 +23,20 @@ public class Battle {
      * @param towers - list of towers to join battle
      * @param allies - list of allied soldiers to join battle
      * @param enemies - list of enemies to join battle
+     * @param campfires - list of campfires in battle range
      */
-    public Battle(Character character, List<TowerBuilding> towers, List<AlliedSoldier> allies, List<BasicEnemy> enemies) {
+    public Battle (
+        Character character,
+        List<Building> towers,
+        List<AlliedSoldier> allies,
+        List<BasicEnemy> enemies,
+        List <Building> campfires
+    ) {
         this.character = character;
         this.towers = towers;
         this.allies = allies;
         this.liveEnemies = enemies;
+        this.campfires = campfires;
     }
 
     /**
@@ -54,6 +64,20 @@ public class Battle {
      */
     public List<BasicEnemy> getKilledEnemies() {
         return this.killedEnemies;
+    }
+
+    /**
+     * Getter for list of killed allies
+     * @return list of dead allies
+     */
+    public List<AlliedSoldier> getKilledAllies() {
+        List<AlliedSoldier> deadAllies = new ArrayList<AlliedSoldier>();
+        for (AlliedSoldier ally : allies) {
+            if (ally.isDead()) {
+                deadAllies.add(ally);
+            }
+        }
+        return deadAllies;
     }
 
     public void sortListByCurrentHp() {
@@ -102,7 +126,7 @@ public class Battle {
     public int getBattleExp() {
         int xp = 0;
         for (BasicEnemy enemy : killedEnemies) {
-            xp += enemy.getEXPReward();
+            xp += enemy.getExpReward();
         }
         return xp;
     }

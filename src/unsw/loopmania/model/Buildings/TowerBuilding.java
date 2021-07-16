@@ -17,6 +17,7 @@ public class TowerBuilding extends Building {
         return damage;
     }
 
+    @Override
     public int getBattleRadius() {
         return battleRadius;
     }

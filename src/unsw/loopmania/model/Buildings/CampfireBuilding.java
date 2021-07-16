@@ -22,6 +22,7 @@ public class CampfireBuilding extends Building {
         return damageBonus;
     }
 
+    @Override
     public int getBattleRadius() {
         return battleRadius;
     }
