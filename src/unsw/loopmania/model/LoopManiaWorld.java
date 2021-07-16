@@ -62,6 +62,7 @@ public class LoopManiaWorld {
     private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
+    private  List<Building> buildingEntities;
     private List<VampireCastleBuilding> vampireCastleBuildings;
     private List<ZombiePitBuilding> zombiePitBuildings;
 
@@ -90,10 +91,8 @@ public class LoopManiaWorld {
 
     private static Item equippedRareItem = null;
 
+    private static List<Item> spanningItems;
 
-    private int slugCount;
-    private int zombieCount;
-    private int vampireCount;
     /**
      * create the world (constructor)
      * 
@@ -112,6 +111,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        spanningItems = new ArrayList<Item>();
     }
 
     public int getWidth() {
@@ -220,7 +220,7 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
-        Pair<Integer, Integer> pos = possiblyGetSlugSpawnPosition();
+        Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
@@ -249,6 +249,32 @@ public class LoopManiaWorld {
         }
 
         return spawningEnemies;
+    }
+
+    /**
+     * spawns items if the conditions warrant it, adds to world
+     * @return list of the items to be displayed on screen
+     */
+    public List<Item> possiblySpawnItems(){
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
+
+        List<Item> spawningItems = new ArrayList<>();
+        if (goldPos != null){
+            int goldIndexInPath = orderedPath.indexOf(goldPos);
+            PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
+            Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
+            spawningItems.add(gold);
+        }
+
+        if (healthPotionPos != null){
+            int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
+            PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
+            HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
+            spawningItems.add(healthPotion);
+        }
+
+        return spawningItems;
     }
 
     /**
@@ -566,21 +592,53 @@ public class LoopManiaWorld {
 //    }
 
 
-    /**
-     * get a randomly generated position which could be used to spawn an enemy
-     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
-     */
-    private Pair<Integer, Integer> possiblyGetSlugSpawnPosition(){
+//    /**
+//     * get a randomly generated position which could be used to spawn an enemy
+//     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
+//     */
+//    private Pair<Integer, Integer> possiblyGetSlugSpawnPosition(){
+//
+//        // TODO: need to change based on spec
+//        int slugMax = 2;
+//
+//        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+//        Random rand = new Random();
+//        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+//
+//        // TODO = change based on spec
+//        if ((choice == 0) && (slugCount < slugMax)){
+//            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+//            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+//            // inclusive start and exclusive end of range of positions not allowed
+//            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+//            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+//            // note terminating condition has to be != rather than < since wrap around...
+//            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+//
+//                orderedPathSpawnCandidates.add(orderedPath.get(i));
+//            }
+//
+//            // choose random choice
+//            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+//
+//            return spawnPosition;
+//        }
+//        return null;
+//    }
 
-        // TODO: need to change based on spec
-        int slugMax = 2;
+    /**
+     * get a randomly generated position which could be used to spawn an entity
+     * @return null if random choice is that wont be spawning an entity or it isn't possible, or random coordinate pair
+     * if should go ahead
+     */
+    private Pair<Integer, Integer> possiblyGetSpawnPosition(int chance){
 
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
-        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+        int choice = rand.nextInt(chance);
 
         // TODO = change based on spec
-        if ((choice == 0) && (slugCount < slugMax)){
+        if ((choice == 0)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -599,6 +657,7 @@ public class LoopManiaWorld {
         }
         return null;
     }
+
 
 
 
