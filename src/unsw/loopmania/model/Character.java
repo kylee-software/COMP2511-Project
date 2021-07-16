@@ -1,4 +1,6 @@
-package unsw.loopmania;
+package unsw.loopmania.model;
+
+import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 
 /**
  * represents the main character in the backend of the game world

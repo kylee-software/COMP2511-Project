@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Items;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.StaticEntity;
 
 public abstract class Item extends StaticEntity {
@@ -17,7 +18,7 @@ public abstract class Item extends StaticEntity {
      * @param sellPrice - sellPrice of item
      */
     public Item(SimpleIntegerProperty x, SimpleIntegerProperty y, int sellPrice, String type) {
-        super(x, y, sellPrice);
+        super(x, y);
         this.sellPrice = sellPrice;
         this.type = type;
     }
@@ -42,5 +43,11 @@ public abstract class Item extends StaticEntity {
      */
     public void addDiscardReward() {
         // TODO: use setGold in loopMania?
+    }
+
+    /**
+     * Does nothing unless item is health potion
+     */
+    public void usePotion(MovingEntity character) {
     }
 }

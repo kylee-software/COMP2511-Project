@@ -387,7 +387,7 @@ public class LoopManiaWorld {
                 return false;
             }
         } else if (item.getType().equals("HealthPotion")) {
-            // Use Health Potion
+            item.usePotion(this.character);
         }
         removeUnequippedInventoryItem(item);
         return true;
