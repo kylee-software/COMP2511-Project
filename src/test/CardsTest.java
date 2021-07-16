@@ -24,8 +24,8 @@ public class CardsTest {
         orderedPath.add(new Pair<>(1,1));
         Card barracks = new BarracksCard(new SimpleIntegerProperty(), new SimpleIntegerProperty());
         assert(barracks.getPositionStrategy() instanceof OnPathBehaviour);
-        assertEquals(barracks.validPostion(0, 0, orderedPath), false); 
-        assertEquals(barracks.validPostion(1, 1, orderedPath), true); 
+        assertEquals(barracks.validPosition(0, 0, orderedPath), false); 
+        assertEquals(barracks.validPosition(1, 1, orderedPath), true); 
     }
 
     /**
@@ -37,8 +37,8 @@ public class CardsTest {
         orderedPath.add(new Pair<>(1,1));
         Card campfire = new CampfireCard(new SimpleIntegerProperty(), new SimpleIntegerProperty());
         assert(campfire.getPositionStrategy() instanceof OffPathBehaviour);
-        assertEquals(campfire.validPostion(1, 1, orderedPath), false); 
-        assertEquals(campfire.validPostion(5, 5, orderedPath), true); 
+        assertEquals(campfire.validPosition(1, 1, orderedPath), false); 
+        assertEquals(campfire.validPosition(5, 5, orderedPath), true); 
     }
 
     /**
@@ -50,9 +50,9 @@ public class CardsTest {
         orderedPath.add(new Pair<>(1,1));
         Card vampireCastle = new VampireCastleCard(new SimpleIntegerProperty(), new SimpleIntegerProperty());
         assert(vampireCastle.getPositionStrategy() instanceof AdjacentPathBehaviour);
-        assertEquals(vampireCastle.validPostion(1, 1, orderedPath), false);
-        assertEquals(vampireCastle.validPostion(5, 5, orderedPath), false);
-        assertEquals(vampireCastle.validPostion(0, 0, orderedPath), true); 
+        assertEquals(vampireCastle.validPosition(1, 1, orderedPath), false);
+        assertEquals(vampireCastle.validPosition(5, 5, orderedPath), false);
+        assertEquals(vampireCastle.validPosition(0, 0, orderedPath), true); 
     }
 
     /**

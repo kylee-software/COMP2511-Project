@@ -65,7 +65,7 @@ public abstract class Card extends StaticEntity {
      * @param orderedPath list of path tiles
      * @return true if the card can be placed, otherwise false
      */
-    public boolean validPostion(int buildingNodeX, int buildingNodeY, List<Pair<Integer, Integer>> orderedPath) {
+    public boolean validPosition(int buildingNodeX, int buildingNodeY, List<Pair<Integer, Integer>> orderedPath) {
         return getPositionStrategy().validPosition(buildingNodeX, buildingNodeY, orderedPath);
     }
 

@@ -405,7 +405,7 @@ public class LoopManiaWorldController {
                             case CARD:
                                 // TODO = spawn a building here of different types
                                 // DONE = check if position is valid first
-                                if(card.validPostion(nodeX, nodeY, world.getOrderedPath())) {
+                                if(card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
                                     removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                     VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                     onLoad(newBuilding);
