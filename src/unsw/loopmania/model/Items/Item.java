@@ -39,10 +39,17 @@ public abstract class Item extends StaticEntity {
     }
 
     /**
-     * Increases gold and XP for character when an item is discarded
+     * Getter for discard item Gold
      */
-    public void addDiscardReward() {
-        // TODO: use setGold in loopMania?
+    public int getDiscardGold() {
+        return this.discardGold;
+    }
+
+    /**
+     * Getter for discard item Exp
+     */
+    public int getDiscardExp() {
+        return discardExp;
     }
 
     /**
