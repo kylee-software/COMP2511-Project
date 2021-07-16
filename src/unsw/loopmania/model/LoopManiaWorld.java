@@ -1,6 +1,7 @@
 package unsw.loopmania.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -10,9 +11,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
+import unsw.loopmania.model.Buildings.ZombiePitBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
 import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.Slug;
+import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.Enemies.Zombie;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 
@@ -57,7 +62,8 @@ public class LoopManiaWorld {
     private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
+    private List<VampireCastleBuilding> vampireCastleBuildings;
+    private List<ZombiePitBuilding> zombiePitBuildings;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -84,6 +90,10 @@ public class LoopManiaWorld {
 
     private static Item equippedRareItem = null;
 
+
+    private int slugCount;
+    private int zombieCount;
+    private int vampireCount;
     /**
      * create the world (constructor)
      * 
@@ -210,14 +220,34 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
-        Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
+        Pair<Integer, Integer> pos = possiblyGetSlugSpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
-            enemies.add(enemy);
-            spawningEnemies.add(enemy);
+            Slug slug = new Slug(new PathPosition(indexInPath, orderedPath), 100, "Slug");
+            enemies.add(slug);
+            slugCount += 1;
+            spawningEnemies.add(slug);
         }
+
+        if (cycles % 5 == 0 && cycles >= 1 ) {
+            for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
+                Vampire vampire = vampireCastleBuilding.spawnVampire(orderedPath);
+                enemies.add(vampire);
+                vampireCount += 1;
+                spawningEnemies.add(vampire);
+            }
+        }
+
+        if (cycles >= 1) {
+            for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
+                Zombie zombie = zombiePitBuilding.spawnZombie(orderedPath);
+                enemies.add(zombie);
+                zombieCount += 1;
+                spawningEnemies.add(zombie);
+            }
+        }
+
         return spawningEnemies;
     }
 
@@ -500,18 +530,57 @@ public class LoopManiaWorld {
         }
     }
 
+//    /**
+//     * get a randomly generated position which could be used to spawn an enemy
+//     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
+//     */
+//    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
+//
+//        // TODO: need to change based on spec
+//        int slugMax = 2;
+//        int zombieMax = 2;
+//        int vampireMax = 2;
+//
+//        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+//        Random rand = new Random();
+//        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+//
+//        // TODO = change based on spec
+//        if ((choice == 0) && (enemies.size() < 2)){
+//            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+//            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+//            // inclusive start and exclusive end of range of positions not allowed
+//            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+//            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+//            // note terminating condition has to be != rather than < since wrap around...
+//            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+//                orderedPathSpawnCandidates.add(orderedPath.get(i));
+//            }
+//
+//            // choose random choice
+//            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+//
+//            return spawnPosition;
+//        }
+//        return null;
+//    }
+
+
     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
-        // TODO = modify this
-        
+    private Pair<Integer, Integer> possiblyGetSlugSpawnPosition(){
+
+        // TODO: need to change based on spec
+        int slugMax = 2;
+
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
+        if ((choice == 0) && (slugCount < slugMax)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -519,6 +588,7 @@ public class LoopManiaWorld {
             int endNotAllowed = (indexPosition + 3)%orderedPath.size();
             // note terminating condition has to be != rather than < since wrap around...
             for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+
                 orderedPathSpawnCandidates.add(orderedPath.get(i));
             }
 
@@ -529,6 +599,8 @@ public class LoopManiaWorld {
         }
         return null;
     }
+
+
 
     /**
      * remove a card by its x, y coordinates
