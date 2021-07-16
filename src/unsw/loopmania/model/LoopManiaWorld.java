@@ -73,11 +73,15 @@ public class LoopManiaWorld {
 
     private int cycles;
 
-    private Item equippedAttackItem;
+    private static Item equippedAttackItem = null;
 
-    private List<Item> equippedDefenceItems;
+    private static Item equippedHelmet = null;
 
-    private Item equippedRareItem;
+    private static Item equippedShield = null;
+
+    private static Item equippedArmour = null;
+
+    private static Item equippedRareItem = null;
 
     /**
      * create the world (constructor)
@@ -97,9 +101,6 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
-        this.equippedAttackItem = null;
-        this.equippedDefenceItems = new ArrayList<>();
-        this.equippedRareItem = null;
     }
 
     public int getWidth() {
@@ -350,27 +351,46 @@ public class LoopManiaWorld {
 
 
     /**
-     * Given an item equips it in equippedInventory
+     * Given an item equips it in equippedInventory into appropriate slot
      * @param item - item to equip
-     * @return success
+     * @return success status
      */
     private Boolean equipItem(Item item) {
         if (item.getType().equals("RareItem")) {
             if (equippedRareItem == null) {
-                this.equippedRareItem = item;
-                removeUnequippedInventoryItem(item);
-                return true;
+                equippedRareItem = item;
+            } else {
+                return false;
             }
         } else if (item.getType().equals("Weapon")) {
-            // TODO: use strategy?
             if (equippedAttackItem == null) {
-                this.equippedAttackItem = item;
-                removeUnequippedInventoryItem(item);
-                return true;
+                equippedAttackItem = item;
+            } else {
+                return false;
             }
+        } else if (item.getType().equals("Helmet")) {
+            if (equippedHelmet == null) {
+                equippedHelmet = item;
+            } else {
+                return false;
+            }
+        } else if (item.getType().equals("Shield")) {
+            if (equippedShield == null) {
+                equippedShield = item;
+            } else {
+                return false;
+            }
+        } else if (item.getType().equals("Armour")) {
+            if (equippedArmour == null) {
+                equippedArmour = item;
+            } else {
+                return false;
+            }
+        } else if (item.getType().equals("HealthPotion")) {
+            // Use Health Potion
         }
-        // Basic items
-        return false;
+        removeUnequippedInventoryItem(item);
+        return true;
     }
 
     /**
