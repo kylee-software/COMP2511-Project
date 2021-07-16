@@ -13,7 +13,7 @@ import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Items.Item;
-import unsw.loopmania.model.Items.BasicItems.Sword;
+import unsw.loopmania.model.Items.BasicItems.*;
 
 /**
  * A backend world.
@@ -53,7 +53,7 @@ public class LoopManiaWorld {
     private List<Card> cardEntities;
 
     // TODO = expand the range of items
-    private List<Entity> unequippedInventoryItems;
+    private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
     private List<VampireCastleBuilding> buildingEntities;
@@ -166,12 +166,6 @@ public class LoopManiaWorld {
     public void incrementCycles() {
         cycles += 1;
     }
-
-    public void addItem(Item item) {
-        // TODO = need to implement this correctly and add javadoc
-        return;
-    }
-
 
     public void addCard(Card card) {
         // TODO = need to implement this correctly and add javadoc
@@ -312,23 +306,49 @@ public class LoopManiaWorld {
     }
 
     /**
-     * spawn a sword in the world and return the sword entity
+     * Spawn an item in the world and return the item entity
+     * @param type - item type to add
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
-        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+    public Item addUnequippedItem(String type){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            // Eject the oldest unequipped item and replace it
+            // Oldest item is that at beginning of items
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
+            setExperience(getExperience() + 100);
         }
-        
-        // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(sword);
-        return sword;
+        // Now we insert the new item, as we know we have at least made a slot available...
+        Item item = instantiateItem(type, firstAvailableSlot);
+        unequippedInventoryItems.add(item);
+        return item;
+    }
+
+    /**
+     * Instantiates a given item class
+     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+     * @param firstAvailableSlot - unequipped inventory slot
+     * @return item (returns null if invalid type provided)
+     */
+    private Item instantiateItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+        Item item = null;
+        if (type.equals("Armour")) {
+            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("HealthPotion")) {
+            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Helmet")) {
+            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Shield")) {
+            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Staff")) {
+            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Stake")) {
+            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Sword")) {
+            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        }
+        return item;
     }
 
     /**
@@ -419,13 +439,25 @@ public class LoopManiaWorld {
     }
 
     /**
-     * remove item at a particular index in the unequipped inventory items list (this is ordered based on age in the starter code)
+     * Remove item at a particular index in the unequipped inventory items list
+     * (this is ordered based on age in the starter code)
+     * Calls add discardRewards method
      * @param index index from 0 to length-1
      */
     private void removeItemByPositionInUnequippedInventoryItems(int index){
-        Entity item = unequippedInventoryItems.get(index);
+        Item item = unequippedInventoryItems.get(index);
+        addDiscardRewards(item);
         item.destroy();
         unequippedInventoryItems.remove(index);
+    }
+
+    /**
+     * Given an item being discarded adds rewards
+     * @param item - item to be discarded
+     */
+    private void addDiscardRewards(Item item) {
+        setExperience(getExperience() + item.getDiscardExp());
+        setGold(getGold() + item.getDiscardGold());
     }
 
     /**
