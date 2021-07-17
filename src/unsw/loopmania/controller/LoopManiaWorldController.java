@@ -28,12 +28,14 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
+import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
 import unsw.loopmania.model.Enemies.BasicEnemy;
 
@@ -330,7 +332,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares, vampireCastleCard, null);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -344,7 +346,7 @@ public class LoopManiaWorldController {
      */
     private void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, sword);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
@@ -376,7 +378,7 @@ public class LoopManiaWorldController {
      * @param sourceGridPane the gridpane being dragged from
      * @param targetGridPane the gridpane the human player should be dragging to (but we of course cannot guarantee they will do so)
      */
-    private void buildNonEntityDragHandlers(DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane){
+    private void buildNonEntityDragHandlers(DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane, Card card, Item item){
         // TODO = be more selective about where something can be dropped
         // for example, in the specification, villages can only be dropped on path, whilst vampire castles cannot go on the path
 
@@ -409,10 +411,13 @@ public class LoopManiaWorldController {
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
                         switch (draggableType){
                             case CARD:
-                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                onLoad(newBuilding);
+                                // DONE = check if position is valid first
+                                if(card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
+                                    removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                    VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                    onLoad(newBuilding);
+                                }
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -512,7 +517,7 @@ public class LoopManiaWorldController {
      * @param sourceGridPane the relevant gridpane from which the entity would be dragged
      * @param targetGridPane the relevant gridpane to which the entity would be dragged to
      */
-    private void addDragEventHandlers(ImageView view, DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane){
+    private void addDragEventHandlers(ImageView view, DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane, Card card, Item item){
         view.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 currentlyDraggedImage = view; // set image currently being dragged, so squares setOnDragEntered can detect it...
@@ -527,7 +532,7 @@ public class LoopManiaWorldController {
                 db.setContent(cbContent);
                 view.setVisible(false);
 
-                buildNonEntityDragHandlers(draggableType, sourceGridPane, targetGridPane);
+                buildNonEntityDragHandlers(draggableType, sourceGridPane, targetGridPane, card, item);
 
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){

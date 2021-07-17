@@ -5,7 +5,6 @@ import unsw.loopmania.model.Character;
 
 public class VillageBuilding extends Building {
 
-    private int healthBonus;
     private PathPosition pathPosition;
 
     public VillageBuilding (PathPosition pathPosition) {
@@ -29,8 +28,13 @@ public class VillageBuilding extends Building {
 
     // OBSERVER PATTERN
 
-    public void addHealth(Character character) {
-        // TODO = need to implement this correctly and add javadoc
+    /**
+     * Refill the Character's health when the Character passes over the village
+     * @param character Character
+     */
+    public void refillHealth(Character character) {
+        int health = 100;
+        character.setHealth(health);
     }
 
 }

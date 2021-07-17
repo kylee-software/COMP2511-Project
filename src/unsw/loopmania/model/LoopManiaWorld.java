@@ -14,10 +14,14 @@ import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Buildings.ZombiePitBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
+<<<<<<< HEAD
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Slug;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
+=======
+import unsw.loopmania.model.Enemies.*;
+>>>>>>> Milestone2/StarterCode
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 
@@ -122,6 +126,11 @@ public class LoopManiaWorld {
         return height;
     }
 
+
+    public int getExperience() {
+        return experience;
+    }
+
     /**
      * set the experience point(s) that the character currently has
      * @param experience experience piont(s)
@@ -130,8 +139,8 @@ public class LoopManiaWorld {
         this.experience = experience;
     }
 
-    public int getExperience() {
-        return experience;
+    public void addExperience(int experience) {
+        this.experience = getExperience() + experience;
     }
 
     public int getGold() {
@@ -150,6 +159,10 @@ public class LoopManiaWorld {
         this.gold = gold;
     }
 
+    public void addGold(int gold) {
+        this.gold = getGold() + gold;
+    }
+
     public int getCycles() {
         return cycles;
     }
@@ -164,8 +177,16 @@ public class LoopManiaWorld {
         return new ArrayList<>();
     }
 
+    public List<Pair<Integer, Integer>> getOrderedPath() {
+		return this.orderedPath;
+    }
+    
     public List<AlliedSoldier> getAlliedSoldiers() {
         return alliedSoldiers;
+    }
+
+    public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
+        getAlliedSoldiers().add(alliedSoldier);
     }
 
     public void receiveInventoryFullRewards() {
@@ -663,6 +684,18 @@ public class LoopManiaWorld {
     // TODO: is this not the same as runBattle()?
     public void enterBattle() {
         return;
+    }
+
+    /**
+     * Gives the player rewards when a card is discarded due to having too many
+     * @param goldReward gold reward
+     * @param expReward experience reward
+     * @param itemReward item reward/s
+     */
+    public void gainDiscardCardRewards(int goldReward, int expReward, List<Item> itemReward) {
+        addGold(goldReward);
+        addExperience(expReward);
+        for (Item item : itemReward) addItem(item);
     }
 
     /**

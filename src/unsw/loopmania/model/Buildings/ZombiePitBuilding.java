@@ -5,12 +5,7 @@ import unsw.loopmania.model.Enemies.Zombie;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.PathPosition;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ZombiePitBuilding extends Building implements CreateEntityBehaviour {
-
-    private int zombieCastleCycle;
+public class ZombiePitBuilding extends Building {
 
     public ZombiePitBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -26,7 +21,6 @@ public class ZombiePitBuilding extends Building implements CreateEntityBehaviour
         Zombie zombie = new Zombie(new PathPosition(orderedPath.indexOf(position), orderedPath), 100, "Zombie");
 
         return zombie;
-
     }
 
     private Pair<Integer, Integer> spawnPosition(List<Pair<Integer, Integer>> orderedPath) {
