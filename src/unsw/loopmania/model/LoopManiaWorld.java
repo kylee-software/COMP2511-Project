@@ -22,7 +22,6 @@ import unsw.loopmania.model.Items.BasicItems.*;
  * entity can occupy the same square.
  */
 public class LoopManiaWorld {
-    // TODO = add additional backend functionality
 
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
@@ -44,15 +43,12 @@ public class LoopManiaWorld {
 
     private Character character;
 
-    // TODO = add more lists for other entities, for equipped inventory items, etc...
-
-    // TODO = expand the range of enemies
+    // DONE = expand the range of enemies
     private List<BasicEnemy> enemies;
 
     // TODO = expand the range of cards
     private List<Card> cardEntities;
 
-    // TODO = expand the range of items
     private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
