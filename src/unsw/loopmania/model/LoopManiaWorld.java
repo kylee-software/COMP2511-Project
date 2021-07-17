@@ -34,52 +34,26 @@ import unsw.loopmania.model.Items.RareItems.TheOneRing;
  */
 public class LoopManiaWorld {
 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                  Initializers for the Loop Mania World                                     │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
-
-    /**
-     * width of the world in GridPane cells
-     */
-    private int width;
-
-    /**
-     * height of the world in GridPane cells
-     */
-    private int height;
-
-    /**
-     * generic entitites - i.e. those which don't have dedicated fields
-     */
-    private List<Entity> nonSpecifiedEntities;
-
-    private Character character;
-
-    // DONE = expand the range of enemies
-    private List<BasicEnemy> enemies;
-
-    // TODO = expand the range of cards
-    private List<Card> cardEntities;
-
-    private List<Item> unequippedInventoryItems;
-
-    // TODO = expand the range of buildings
-    private  List<Building> buildingEntities;
-    private List<VampireCastleBuilding> vampireCastleBuildings;
-    private List<ZombiePitBuilding> zombiePitBuildings;
-
-    private HerosCastleBuilding herosCastleBuilding;
-
-    /**
-     * list of x,y coordinate pairs in the order by which moving entities traverse them
-     */
-    private List<Pair<Integer, Integer>> orderedPath;
-
-    private List<AlliedSoldier> alliedSoldiers;
-
+    private int worldWidth;
+    private int worldHeight;
     private String gameMode;
 
-    private static Boolean isLost = false;
+    // list of x,y coordinate pairs in the order by which moving entities traverse them
+    private List<Pair<Integer, Integer>> orderedPath;
 
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                     Attributes Related to Character                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    private Character character;
+    private List<AlliedSoldier> alliedSoldiers new ArrayList<>();;
     @FXML
     private Label worldExperience;
     private int experience;
@@ -94,7 +68,34 @@ public class LoopManiaWorld {
 
     private int cycles;
 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                       Attributes Related to Enemies                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    // DONE = expand the range of enemies
+    private List<BasicEnemy> enemies = new ArrayList<>();;
+    private static Boolean isLost = false;
+
+
+   /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+   /* │                                    Attributes Related to Buildings                                          │ */
+   /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    // TODO = expand the range of buildings
+    private  List<Building> buildingEntities = new ArrayList<>();;
+    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<>();;
+    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<>();;
+    private HerosCastleBuilding herosCastleBuilding;
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                         Attributes Related to Items                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    private List<Item> unequippedInventoryItems new ArrayList<>();;
+
     private Item equippedAttackItem = null;
+
+    private static List<Item> spanningItems = new ArrayList<>();;
 
     private Item equippedHelmet = null;
 
@@ -104,16 +105,29 @@ public class LoopManiaWorld {
 
     private Item equippedRareItem = null;
 
-    private static List<Item> spanningItems;
+    // TODO = expand the range of cards
+    private List<Card> cardEntities = new ArrayList<>();;
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                                  Unsure                                                    │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    // generic entitites - i.e. those which don't have dedicated fields
+    private List<Entity> nonSpecifiedEntities = new ArrayList<>();
+
+
+    /*────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/
+    /*────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/
 
     /**
      * create the world (constructor)
      * 
-     * @param width width of world in number of cells
-     * @param height height of world in number of cells
+     * @param worldWidth worldWidth of world in number of cells
+     * @param worldHeight worldHeight of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+    public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath) {
         this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
@@ -122,68 +136,59 @@ public class LoopManiaWorld {
             updateGold();
         }
 
-        this.width = width;
-        this.height = height;
-        nonSpecifiedEntities = new ArrayList<>();
-        character = null;
-        enemies = new ArrayList<>();
-        cardEntities = new ArrayList<>();
-        unequippedInventoryItems = new ArrayList<>();
+        this.worldWidth = worldWidth;
+        this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
-        buildingEntities = new ArrayList<>();
-        spanningItems = new ArrayList<Item>();
+    }
+
+    /**
+     * run moves which occur with every tick without needing to spawn anything immediately
+     */
+    public void runTickMoves() {
+        character.moveDownPath();
+        moveBasicEnemies();
+        runBattles();
+    }
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                Getters and Setters Related to the World                                    │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    public int getWidth() {
+        return worldWidth;
+    }
+
+    public int getHeight() {
+        return worldHeight;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath() {
+        return this.orderedPath;
+    }
+
+    public String getGameMode() {
+        return gameMode;
+    }
+
+    public int getCycles() {
+        return cycles;
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                               Getters and Setters Related to the Character                                 │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    /**
+     * set the character. This is necessary because it is loaded as a special entity out of the file
+     * @param character the character
+     */
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public void setExperienceLabel(Label worldExperience) {
         this.worldExperience = worldExperience;
-    }
-
-    public void updateExperience() {
-        worldExperience.setText("Experience: " + this.experience);
-    }
-    
-    public void setGoldLabel(Label worldGold) {
-        this.worldGold = worldGold;
-    }
-
-    public void updateGold() {
-        worldGold.setText("Gold: " + this.gold);
-    }
-
-    public void setHealthLabel(Label worldHealth) {
-        this.worldHealth = worldHealth;
-    }
-
-    public void updateHealth() {
-        worldHealth.setText("Health: " + this.health);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public List<Item> getUnequippedItems() {
-        return unequippedInventoryItems;
-    }
-
-    /**
-     * set the health that the character currently has
-     * @param health health
-     */
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     /**
@@ -193,17 +198,9 @@ public class LoopManiaWorld {
     public void setExperience(int experience) {
         this.experience = experience;
     }
-
-    public void addExperience(int experience) {
-        this.experience = getExperience() + experience;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public String getGameMode() {
-        return gameMode;
+    
+    public void setGoldLabel(Label worldGold) {
+        this.worldGold = worldGold;
     }
 
     /**
@@ -214,12 +211,95 @@ public class LoopManiaWorld {
         this.gold = gold;
     }
 
-    public void addGold(int gold) {
-        this.gold = getGold() + gold;
+    public int getGold() {
+        return gold;
     }
 
-    public int getCycles() {
-        return cycles;
+    public void setHealthLabel(Label worldHealth) {
+        this.worldHealth = worldHealth;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public List<AlliedSoldier> getAlliedSoldiers() {
+        return alliedSoldiers;
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                  Getters and Setters Related to Enemies                                    │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    public List<BasicEnemy> getEnemies() {
+        return enemies;
+    }
+
+    /**
+     * Returns list of all enemies in support range
+     * @return support enemies list
+     */
+    private List<BasicEnemy> getSupportEnemies() {
+        List<BasicEnemy> supportEnemies = new ArrayList<BasicEnemy>();
+        for (BasicEnemy e: enemies){
+            double supportRadiusSquared = Math.pow(e.getSupportRadius(), 2);
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < supportRadiusSquared){
+                supportEnemies.add(e);
+            }
+        }
+        return supportEnemies;
+    }
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                   Getters and Setters Related to Buildings                                 │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+
+    public void addBuilding(Building building) {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+    public void setHerosCastleBuilding(HerosCastleBuilding herosCastleBuilding) {
+        this.herosCastleBuilding = herosCastleBuilding;
+    }
+
+    /**
+     * Returns list of all towers/campfires in support range
+     * @param type - 'Campfire' or 'Tower'
+     * @return buildings list
+     */
+    private List<Building> getSupportBuildings(String type) {
+        List<Building> buildings = new ArrayList<Building>();
+        for (Building b : buildingEntities){
+            if (
+                    (type.equals("Tower") && b.getClass().equals(TowerBuilding.class)) ||
+                    (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
+            ) {
+                double battleRadiusSquared = Math.pow(b.getBattleRadius(), 2);
+                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) < battleRadiusSquared){
+                    buildings.add(b);
+                }
+            }
+        }
+        return buildings;
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                    Getters and Setters Related to Items                                    │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+
+    public List<Item> getUnequippedItems() {
+        return unequippedInventoryItems;
     }
 
     public Item getEquippedAttackItem() {
@@ -247,16 +327,21 @@ public class LoopManiaWorld {
         return cardEntities;
     }
 
-    public List<Pair<Integer, Integer>> getOrderedPath() {
-		return this.orderedPath;
+    public List<Item> getUnequippedInventoryItems() {
+        return unequippedInventoryItems;
     }
 
-    public List<AlliedSoldier> getAlliedSoldiers() {
-        return alliedSoldiers;
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                      Mehtods Related to the Character                                      │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    // TODO: not sure if these
+    public void updateExperience() {
+        worldExperience.setText("Experience: " + this.experience);
     }
 
-    public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
-        getAlliedSoldiers().add(alliedSoldier);
+    public void updateGold() {
+        worldGold.setText("Gold: " + this.gold);
     }
 
     public void receiveInventoryFullRewards() {
@@ -264,9 +349,17 @@ public class LoopManiaWorld {
         return;
     }
 
-    // TODO: this might be unnecessary?
-    public void incrementCycles() {
-        cycles += 1;
+    public void updateHealth() {
+        worldHealth.setText("Health: " + this.health);
+    }
+
+    public void addGold(int gold) {
+        this.gold = getGold() + gold;
+    }
+
+
+    public void addExperience(int experience) {
+        this.experience = getExperience() + experience;
     }
 
     public void addCard(Card card) {
@@ -274,50 +367,71 @@ public class LoopManiaWorld {
         return;
     }
 
-    public void addBuilding(Building building) {
-        // TODO = need to implement this correctly and add javadoc
+    public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
+        getAlliedSoldiers().add(alliedSoldier);
     }
+
+    /**
+     * to check if the character completed all the goals or not to win
+     * @return true if all goals are completed else false
+     */
+    public boolean isGoalCompleted() {
+        AndGoal isCompleted = new AndGoal(new CycleGoal(cycles), new OrGoal(new ExperienceGoal(experience),
+                                                                            new GoldGoal(gold)));
+
+        return isCompleted.evaluateGoal();
+    }
+
+
+    /**
+     * check is the character completed the current cycle or not
+     * @return true if the character complected a cycle else false
+     */
+    public boolean completedACycle() {
+        if (isOnSameTile(character, herosCastleBuilding)) {
+            cycles += 1;
+            return true;
+        }
+
+        return false;
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                          Methods Realated to Enemies                                       │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     public void addEnemy(BasicEnemy enemy) {
         // TODO = need to implement this correctly and add javadoc
     }
 
-    public List<BasicEnemy> getEnemies() {
-        return enemies;
+    /**
+     * kill an enemy
+     * @param enemy enemy to be killed
+     */
+    private void killEnemy(BasicEnemy enemy){
+        enemy.destroy();
+        enemies.remove(enemy);
     }
 
     /**
-     * set the character. This is necessary because it is loaded as a special entity out of the file
-     * @param character the character
+     * move all enemies
      */
-    public void setCharacter(Character character) {
-        this.character = character;
+    private void moveBasicEnemies() {
+        // TODO = expand to more types of enemy
+        for (BasicEnemy e: enemies){
+            e.move();
+        }
     }
 
-    public void setHerosCastleBuilding(HerosCastleBuilding herosCastleBuilding) {
-        this.herosCastleBuilding = herosCastleBuilding;
-    }
-
-    public List<Item> getUnequippedInventoryItems() {
-        return unequippedInventoryItems;
-    }
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                               Spawn Entities                                               │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
-     * add a generic entity (without it's own dedicated method for adding to the world)
-     * @param entity
+     * spawns slugs if the conditions warrant it, adds to world
+     * @return list of the slugs to be displayed on screen
      */
-    public void addEntity(Entity entity) {
-        // for adding non-specific entities (ones without another dedicated list)
-        // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
-        nonSpecifiedEntities.add(entity);
-    }
-
-    /**
-     * spawns enemies if the conditions warrant it, adds to world
-     * @return list of the enemies to be displayed on screen
-     */
-    public List<BasicEnemy> possiblySpawnEnemies(){
-        // TODO = expand this very basic version
+    public List<BasicEnemy> SpawnSlugs() {
         Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
@@ -327,6 +441,13 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
 
+        return spawningEnemies
+    }
+
+    /**
+     * spawn new vampire(s) that vampire castles produced
+     */
+    public List<BasicEnemy> spawnVampiresFromVampireCastles() {
         if (cycles % 5 == 0 && cycles >= 1 ) {
             for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
                 Vampire vampire = vampireCastleBuilding.spawnVampire(orderedPath);
@@ -334,6 +455,13 @@ public class LoopManiaWorld {
                 spawningEnemies.add(vampire);
             }
         }
+    }
+
+    /**
+     * spawn new zombies(s) that zombie pits produced
+     */
+    public List<BasicEnemy> spawnZombiesFromZombiePits() {
+        // TODO: work with frontend
 
         if (cycles >= 1) {
             for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
@@ -344,8 +472,9 @@ public class LoopManiaWorld {
         }
 
         return spawningEnemies;
+
     }
-    
+
     /**
      * spawns items if the conditions warrant it, adds to world
      * @return list of the items to be displayed on screen
@@ -374,52 +503,6 @@ public class LoopManiaWorld {
         return items;
     }
 
-    /**
-     * pickup spawn items on the path tile when the character passes by
-     */
-    public void pickupItems() {
-
-        // pick up gold if any
-        for (Item item : spanningItems) {
-            if (isOnSameTile(character, item)) {
-                if (item instanceof Gold) {
-                    gold += ((Gold) item).getGoldFromGround();
-                } else {
-                    addUnequippedItem("Health Potion");
-                }
-            }
-        }
-    }
-
-    /**
-     * check if two entities are on the same path tile
-     * @param entityA the entity that is comparing to the second one
-     * @param entityB the entity that is comparing to the first one
-     * @return true if two entities are on the same path tile else false
-     */
-    public boolean isOnSameTile(Entity entityA, Entity entityB) {
-        int entityAX = entityA.getX();
-        int entityAY = entityA.getY();
-
-        int entityBX = entityB.getX();
-        int entityBY = entityB.getY();
-
-        return entityAX == entityBX && entityAY == entityBY;
-    }
-
-    /**
-     * spawn new vampire(s) that vampire castles produced
-     */
-    public void spawnVampiresFromVampireCastles() {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
-    /**
-     * spawn new zombies(s) that zombie pits produced
-     */
-    public void spawnZombiesFromZombiePits() {
-        // TODO = need to implement this correctly and add javadoc
-    }
 
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
@@ -428,14 +511,10 @@ public class LoopManiaWorld {
         // TODO = need to implement this correctly and add javadoc
     }
 
-    /**
-     * kill an enemy
-     * @param enemy enemy to be killed
-     */
-    private void killEnemy(BasicEnemy enemy){
-        enemy.destroy();
-        enemies.remove(enemy);
-    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                       Methods Related to the Battle                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
      * Run the expected battles in the world, based on current world state.
@@ -518,8 +597,8 @@ public class LoopManiaWorld {
     //     if (battle.isLost()) {
     //         // Check has The One Ring
     //         if (equippedRareItem.getClass().equals(TheOneRing.class)) {
-                // Item theOneRing = getEquippedRareItem();
-                // theOneRing.usePotion(character);
+    // Item theOneRing = getEquippedRareItem();
+    // theOneRing.usePotion(character);
     //             equippedRareItem = null;
     //         } else {
     //             // Game Lost
@@ -531,140 +610,77 @@ public class LoopManiaWorld {
     //     return defeatedEnemies;
     // }
 
-    /**
-     * Returns list of all enemies in support range
-     * @return support enemies list
-     */
-    private List<BasicEnemy> getSupportEnemies() {
-        List<BasicEnemy> supportEnemies = new ArrayList<BasicEnemy>();
-        for (BasicEnemy e: enemies){
-            double supportRadiusSquared = Math.pow(e.getSupportRadius(), 2);
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < supportRadiusSquared){
-                supportEnemies.add(e);
-            }
-        }
-        return supportEnemies;
-    }
 
     /**
-     * Returns list of all towers/campfires in support range
-     * @param type - 'Campfire' or 'Tower'
-     * @return buildings list
+     * Adds rewards from battle to character
+     * @param battle
      */
-    private List<Building> getSupportBuildings(String type) {
-        List<Building> buildings = new ArrayList<Building>();
-        for (Building b : buildingEntities){
-            if (
-                (type.equals("Tower") && b.getClass().equals(TowerBuilding.class)) ||
-                (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
-            ) {
-                double battleRadiusSquared = Math.pow(b.getBattleRadius(), 2);
-                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) < battleRadiusSquared){
-                    buildings.add(b);
+    private void gainBattleRewards(Battle battle) {
+        setGold(getGold() + battle.getBattleGold());
+        setExperience(getExperience() + battle.getBattleExp());
+        for (Card card : battle.getBattleCards()) {
+            addCard(card);
+        }
+        for (Item item : battle.getBattleItems()) {
+            //addUnequippedItem(item);
+            addUnequippedSword();
+        }
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                          Methods Related to Items                                          │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    /**
+     * pickup spawn items on the path tile when the character passes by
+     */
+    public void pickupItems() {
+
+        // pick up gold if any
+        for (Item item : spanningItems) {
+            if (isOnSameTile(character, item)) {
+                if (item instanceof Gold) {
+                    gold += ((Gold) item).getGoldFromGround();
+                } else {
+                    addUnequippedItem("Health Potion");
                 }
             }
         }
-        return buildings;
     }
 
     /**
-     * spawn a card in the world and return the card entity
-     * @return a card to be spawned in the controller as a JavaFX node
+     * Given an item being discarded adds rewards
+     * @param item - item to be discarded
      */
-    public VampireCastleCard loadVampireCard(){
-        // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
-        }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        cardEntities.add(vampireCastleCard);
-        return vampireCastleCard;
+    private void addDiscardRewards(Item item) {
+        setExperience(getExperience() + item.getDiscardExp());
+        setGold(getGold() + item.getDiscardGold());
     }
 
     /**
-     * remove card at a particular index of cards (position in gridpane of unplayed cards)
-     * @param index the index of the card, from 0 to length-1
+     * purchase an item from the Hero Castle Menu
+     * @param item
      */
-    private void removeCard(int index){
-        Card c = cardEntities.get(index);
-        int x = c.getX();
-        c.destroy();
-        cardEntities.remove(index);
-        shiftCardsDownFromXCoordinate(x);
-    }
-
-    public void trap() {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
-
-    /**
-     * Adds a new item of given type to unequipped inventory
-     * @param type - item type to create
-     */
-    public void addUnequippedItem(String type){
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // Eject the oldest unequipped item and replace it
-            // Oldest item is that at beginning of items
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-            setExperience(getExperience() + 100);
-        }
-        Item item = createItem(type, firstAvailableSlot);
-        unequippedInventoryItems.add(item);
-    }
-
-
-    /**
-     * Spawns given item in the world
-     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
-     * @param firstAvailableSlot - unequipped inventory slot
-     * @return item (returns null if invalid type provided)
-     */
-    private Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-        Item item = null;
-        if (type.equals("Armour")) {
-            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("HealthPotion")) {
-            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Helmet")) {
-            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Shield")) {
-            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Staff")) {
-            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Stake")) {
-            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Sword")) {
-            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("TheOneRing")) {
-            item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        }
-        return item;
-    }
-
-    /**
-     * remove an item by x,y coordinates
-     * @param x x coordinate from 0 to width-1
-     * @param y y coordinate from 0 to height-1
-     */
-    public void removeUnequippedInventoryItemByCoordinates(int x, int y) {
-        Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
-        if (item != null) {
-            removeUnequippedInventoryItem(item);
+    public void purchaseItem(Item item) {
+        if (getFirstAvailableSlotForItem() != null && herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
+            gold -= ((BasicItem) item).getBuyPrice();
+            addUnequippedItem(item.getType());
         }
     }
 
     /**
-     * run moves which occur with every tick without needing to spawn anything immediately
+     * sell an item from the Hero Castle Menu
+     * @param item the item to be selled
      */
-    public void runTickMoves() {
-        character.moveDownPath();
-        moveBasicEnemies();
-        runBattles();
+    public void sellItem(Item item) {
+        gold += item.getSellPrice();
+        removeUnequippedInventoryItem(item);
     }
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                  Methods Related to Equipped Inventory                                     │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
      * Given an unequippedItem equips it in equippedInventory into appropriate slot
@@ -710,6 +726,40 @@ public class LoopManiaWorld {
     }
 
     /**
+     * Adds a new item of given type to unequipped inventory
+     * @param type - item type to create
+     */
+    public void addUnequippedItem(String type){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // Eject the oldest unequipped item and replace it
+            // Oldest item is that at beginning of items
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+            setExperience(getExperience() + 100);
+        }
+        Item item = createItem(type, firstAvailableSlot);
+        unequippedInventoryItems.add(item);
+    }
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                               Methods Related to Uneqipped Inventory Items                                 │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    /**
+     * remove an item by x,y coordinates
+     * @param x x coordinate from 0 to worldWidth-1
+     * @param y y coordinate from 0 to worldHeight-1
+     */
+    public void removeUnequippedInventoryItemByCoordinates(int x, int y) {
+        Item item = getUnequippedInventoryItemEntityByCoordinates(x, y);
+        if (item != null) {
+            removeUnequippedInventoryItem(item);
+        }
+    }
+
+    /**
      * remove an item from the unequipped inventory
      * @param item - item to be removed
      */
@@ -721,8 +771,8 @@ public class LoopManiaWorld {
     /**
      * return an unequipped inventory item by x and y coordinates
      * assumes that no 2 unequipped inventory items share x and y coordinates
-     * @param x x index from 0 to width-1
-     * @param y y index from 0 to height-1
+     * @param x x index from 0 to worldWidth-1
+     * @param y y index from 0 to worldHeight-1
      * @return unequipped inventory item at the input position
      */
     public Item getUnequippedInventoryItemEntityByCoordinates(int x, int y){
@@ -747,35 +797,75 @@ public class LoopManiaWorld {
         unequippedInventoryItems.remove(index);
     }
 
+}
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                        Methods Related to Buildings                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
     /**
-     * Given an item being discarded adds rewards
-     * @param item - item to be discarded
+     * remove a card by its x, y coordinates
+     * @param cardNodeX x index from 0 to worldWidth-1 of card to be removed
+     * @param cardNodeY y index from 0 to worldHeight-1 of card to be removed
+     * @param buildingNodeX x index from 0 to worldWidth-1 of building to be added
+     * @param buildingNodeY y index from 0 to worldHeight-1 of building to be added
      */
-    private void addDiscardRewards(Item item) {
-        setExperience(getExperience() + item.getDiscardExp());
-        setGold(getGold() + item.getDiscardGold());
+    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+        // start by getting card
+        Card card = null;
+        for (Card c: cardEntities){
+            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
+                card = c;
+                break;
+            }
+        }
+
+        // now spawn building
+        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+        buildingEntities.add(newBuilding);
+
+        // destroy the card
+        card.destroy();
+        cardEntities.remove(card);
+        shiftCardsDownFromXCoordinate(cardNodeX);
+
+        return newBuilding;
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                            Mehods Related to Cards                                         │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+    /**
+     * spawn a card in the world and return the card entity
+     * @return a card to be spawned in the controller as a JavaFX node
+     */
+    public VampireCastleCard loadVampireCard(){
+        // if adding more cards than have, remove the first card...
+        if (cardEntities.size() >= getWidth()){
+            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+            removeCard(0);
+        }
+        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(vampireCastleCard);
+        return vampireCastleCard;
     }
 
     /**
-     * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
-     * @return x,y coordinate pair
+     * remove card at a particular index of cards (position in gridpane of unplayed cards)
+     * @param index the index of the card, from 0 to length-1
      */
-    private Pair<Integer, Integer> getFirstAvailableSlotForItem(){
-        // first available slot for an item...
-        // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
-        for (int y=0; y<unequippedInventoryHeight; y++){
-            for (int x=0; x<unequippedInventoryWidth; x++){
-                if (getUnequippedInventoryItemEntityByCoordinates(x, y) == null){
-                    return new Pair<Integer, Integer>(x, y);
-                }
-            }
-        }
-        return null;
+    private void removeCard(int index){
+        Card c = cardEntities.get(index);
+        int x = c.getX();
+        c.destroy();
+        cardEntities.remove(index);
+        shiftCardsDownFromXCoordinate(x);
     }
 
     /**
      * shift card coordinates down starting from x coordinate
-     * @param x x coordinate which can range from 0 to width-1
+     * @param x x coordinate which can range from 0 to worldWidth-1
      */
     private void shiftCardsDownFromXCoordinate(int x){
         for (Card c: cardEntities){
@@ -786,14 +876,21 @@ public class LoopManiaWorld {
     }
 
     /**
-     * move all enemies
+     * Gives the player rewards when a card is discarded due to having too many
+     * @param goldReward gold reward
+     * @param expReward experience reward
+     * @param itemReward item reward/s
      */
-    private void moveBasicEnemies() {
-        // TODO = expand to more types of enemy
-        for (BasicEnemy e: enemies){
-            e.move();
-        }
+    public void gainDiscardCardRewards(int goldReward, int expReward, List<Item> itemReward) {
+        addGold(goldReward);
+        addExperience(expReward);
+        // for (Item item : itemReward) addUnequippedItem(item);
     }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                                Helper Methods                                              │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
 
     /**
      * get a randomly generated position which could be used to spawn an entity
@@ -827,111 +924,66 @@ public class LoopManiaWorld {
         return null;
     }
 
+    /**
+     * check if two entities are on the same path tile
+     * @param entityA the entity that is comparing to the second one
+     * @param entityB the entity that is comparing to the first one
+     * @return true if two entities are on the same path tile else false
+     */
+    public boolean isOnSameTile(Entity entityA, Entity entityB) {
+        int entityAX = entityA.getX();
+        int entityAY = entityA.getY();
 
+        int entityBX = entityB.getX();
+        int entityBY = entityB.getY();
+
+        return entityAX == entityBX && entityAY == entityBY;
+    }
 
     /**
-     * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to width-1 of card to be removed
-     * @param cardNodeY y index from 0 to height-1 of card to be removed
-     * @param buildingNodeX x index from 0 to width-1 of building to be added
-     * @param buildingNodeY y index from 0 to height-1 of building to be added
+     * Spawns given item in the world
+     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+     * @param firstAvailableSlot - unequipped inventory slot
+     * @return item (returns null if invalid type provided)
      */
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
-        // start by getting card
-        Card card = null;
-        for (Card c: cardEntities){
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
-                card = c;
-                break;
+    private Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+        Item item = null;
+        if (type.equals("Armour")) {
+            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("HealthPotion")) {
+            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Helmet")) {
+            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Shield")) {
+            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Staff")) {
+            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Stake")) {
+            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Sword")) {
+            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("TheOneRing")) {
+            item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        }
+        return item;
+    }
+
+    /**
+     * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
+     * @return x,y coordinate pair
+     */
+    private Pair<Integer, Integer> getFirstAvailableSlotForItem(){
+        // first available slot for an item...
+        // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
+        for (int y=0; y<unequippedInventoryHeight; y++){
+            for (int x=0; x<unequippedInventoryWidth; x++){
+                if (getUnequippedInventoryItemEntityByCoordinates(x, y) == null){
+                    return new Pair<Integer, Integer>(x, y);
+                }
             }
         }
-
-        // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        buildingEntities.add(newBuilding);
-
-        // destroy the card
-        card.destroy();
-        cardEntities.remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
-
-        return newBuilding;
+        return null;
     }
-
-    /**
-     * Adds rewards from battle to character
-     * @param battle
-     */
-    private void gainBattleRewards(Battle battle) {
-        setGold(getGold() + battle.getBattleGold());
-        setExperience(getExperience() + battle.getBattleExp());
-        for (Card card : battle.getBattleCards()) {
-            addCard(card);
-        }
-        for (Item item : battle.getBattleItems()) {
-            //addUnequippedItem(item);
-            addUnequippedSword();
-        }
-    }
-
-    /**
-     * Gives the player rewards when a card is discarded due to having too many
-     * @param goldReward gold reward
-     * @param expReward experience reward
-     * @param itemReward item reward/s
-     */
-    public void gainDiscardCardRewards(int goldReward, int expReward, List<Item> itemReward) {
-        addGold(goldReward);
-        addExperience(expReward);
-        // for (Item item : itemReward) addUnequippedItem(item);
-    }
-
-    /**
-     * to check if the character completed all the goals or not to win
-     * @return true if all goals are completed else false
-     */
-    public boolean isGoalCompleted() {
-        AndGoal isCompleted = new AndGoal(new CycleGoal(cycles), new OrGoal(new ExperienceGoal(experience),
-                                                                        new GoldGoal(gold)));
-
-        return isCompleted.evaluateGoal();
-    }
-
-
-    /**
-     * check is the character completed the current cycle or not
-     * @return true if the character complected a cycle else false
-     */
-    public boolean completedACycle() {
-        if (isOnSameTile(character, herosCastleBuilding)) {
-            cycles += 1;
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * purchase an item from the Hero Castle Menu
-     * @param item
-     */
-    public void purchaseItem(Item item) {
-        if (getFirstAvailableSlotForItem() != null && herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
-            gold -= ((BasicItem) item).getBuyPrice();
-            addUnequippedItem(item.getType());
-        }
-    }
-
-    /**
-     * sell an item from the Hero Castle Menu
-     * @param item the item to be selled
-     */
-    public void sellItem(Item item) {
-        gold += item.getSellPrice();
-        removeUnequippedInventoryItem(item);
-    }
-
-}
 
     // private Item generateRandomBasicItem() {
     //     Random random = new Random();
@@ -956,4 +1008,49 @@ public class LoopManiaWorld {
     //     items.add("Sword");
     //     return items;
     // }
+
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                                   Unsure                                                   │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+
+    /**
+     * add a generic entity (without it's own dedicated method for adding to the world)
+     * @param entity
+     */
+    public void addEntity(Entity entity) {
+        // for adding non-specific entities (ones without another dedicated list)
+        // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
+        nonSpecifiedEntities.add(entity);
+    }
+
+    public void trap() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
+
+    private Pair<Integer, Integer> spawnPositionFromBuilding(Building building) {
+
+        int x = ;
+        int y = getY();
+
+        Pair<Integer, Integer> upPostion  = new Pair<Integer, Integer>(x - 1, y);
+        Pair<Integer, Integer> downPostion  = new Pair<Integer, Integer>(x + 1, y);
+        Pair<Integer, Integer> leftPostion  = new Pair<Integer, Integer>(x, y - 1);
+        Pair<Integer, Integer> rightPostion  = new Pair<Integer, Integer>(x, y + 1);
+
+        if (orderedPath.indexOf(upPostion) != -1) {
+            return upPostion;
+        } else if (orderedPath.indexOf(downPostion != -1)) {
+            return downPostion;
+        } else if (orderedPath.indexOf(leftPostion != -1)) {
+            return leftPostion;
+        } else if (orderedPath.indexOf(rightPostion != -1)) {
+            return rightPostion;
+        } else {
+            return null;
+        }
+
+    };
 }
