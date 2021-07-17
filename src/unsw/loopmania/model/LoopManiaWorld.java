@@ -153,10 +153,6 @@ public class LoopManiaWorld {
         this.gold = getGold() + gold;
     }
 
-    public void addItem(Item item) {
-        getUnequippedItems().add(item);
-    }
-
     public int getCycles() {
         return cycles;
     }
@@ -417,10 +413,10 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Adds an item to unequipped inventory
-     * @param item - item to add
+     * Adds a new item of given type to unequipped inventory
+     * @param type - item type to create
      */
-    public void addUnequippedItem(Item item){
+    public void addUnequippedItem(String type){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // Eject the oldest unequipped item and replace it
@@ -429,6 +425,7 @@ public class LoopManiaWorld {
             firstAvailableSlot = getFirstAvailableSlotForItem();
             setExperience(getExperience() + 100);
         }
+        Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
     }
 
@@ -438,7 +435,7 @@ public class LoopManiaWorld {
      * @param firstAvailableSlot - unequipped inventory slot
      * @return item (returns null if invalid type provided)
      */
-    public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+    private Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
         Item item = null;
         if (type.equals("Armour")) {
             item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
@@ -681,7 +678,7 @@ public class LoopManiaWorld {
             addCard(card);
         }
         for (Item item : battle.getBattleItems()) {
-            addUnequippedItem(item);
+            // addUnequippedItem(item);
         }
     }
 
@@ -694,7 +691,7 @@ public class LoopManiaWorld {
     public void gainDiscardCardRewards(int goldReward, int expReward, List<Item> itemReward) {
         addGold(goldReward);
         addExperience(expReward);
-        for (Item item : itemReward) addItem(item);
+        // for (Item item : itemReward) addUnequippedItem(item);
     }
 
     /**
