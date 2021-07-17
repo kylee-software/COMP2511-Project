@@ -55,9 +55,6 @@ public class LoopManiaWorldTest {
     public void trapTest() {
     }
 
-    /**
-     * Test: addUnequippedItem() replaces oldest item when full
-     */
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -176,8 +173,20 @@ public class LoopManiaWorldTest {
         assertEquals(success, false);
     }
 
+    /**
+     * Test depends on addUnequippedItem()
+     */
     @Test
     public void removeUnequippedInventoryItemTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        assertEquals(world.getUnequippedItems().size(), 0);
+        world.removeUnequippedInventoryItemByCoordinates(0, 0);
+        assertEquals(world.getUnequippedItems().size(), 0);
+        world.addUnequippedItem("Stake");
+        assertEquals(world.getUnequippedItems().size(), 1);
+        world.removeUnequippedInventoryItemByCoordinates(0, 0);
+        assertEquals(world.getUnequippedItems().size(), 0);
     }
 
     @Test
