@@ -56,6 +56,7 @@ public class LoopManiaApplication extends Application {
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -72,6 +73,7 @@ public class LoopManiaApplication extends Application {
     private void switchToRoot(Scene scene, Parent root, Stage stage){
         scene.setRoot(root);
         root.requestFocus();
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();

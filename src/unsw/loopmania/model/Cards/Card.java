@@ -3,9 +3,9 @@ package unsw.loopmania.model.Cards;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.StaticEntity;
 import unsw.loopmania.model.Cards.PositionStrategy.PositionStrategy;
-import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.RewardStrategy.ItemRewardBehaviour;
+import unsw.loopmania.model.RewardStrategy.RewardStrategy;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,7 +36,8 @@ public abstract class Card extends StaticEntity {
 
     private int goldReward = 20;
     private int expReward = 100;
-    private List<Item> itemReward = new ArrayList<>();
+    private List<String> itemReward = new ArrayList<>();
+    private RewardStrategy rewardStrategy = new ItemRewardBehaviour();
 
     // DONE = implement other varieties of card than VampireCastleCard
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -53,8 +54,48 @@ public abstract class Card extends StaticEntity {
         return this.expReward;
     }
 
-    public List<Item> getItemReward() {
+    public RewardStrategy getRewardStrategy() {
+        return this.rewardStrategy;
+    }
+
+    public List<String> getItemRewardList() {
         return this.itemReward;
+    }
+
+    public String getRandomItemReward() {
+        return getRewardStrategy().randomReward();
+    }
+    // public List<Item> getItemReward() {
+    //     return this.itemReward;
+    // }
+    
+    
+    /**
+     * Add a random number of random items to item rewards list
+     */
+    public void setItemReward() {
+        int itemCount = new Random().nextInt(3) + 1;
+
+        for (int i = 0; i < itemCount; i++) {
+            getItemRewardList().add(getRandomItemReward());
+        }
+
+        // Class<?> itemClass;
+        // Class<?>[] parameterType;
+        // Item item;
+        // for (int i = 0; i < itemCount; i++) {        
+        //     try {
+        //         itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + ITEM.getRandomItem().name());
+        //         parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+        //         item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(),
+        //                 new SimpleIntegerProperty());
+        //         getItemReward().add(item);
+        //     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+        //             | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        //         // DONE Auto-generated catch block
+        //         e.printStackTrace();
+        //     }
+        // }
     }
     
     /**
@@ -67,31 +108,6 @@ public abstract class Card extends StaticEntity {
      */
     public boolean validPosition(int buildingNodeX, int buildingNodeY, List<Pair<Integer, Integer>> orderedPath) {
         return getPositionStrategy().validPosition(buildingNodeX, buildingNodeY, orderedPath);
-    }
-
-    /**
-     * Add a random number of random items to item rewards list
-     */
-    public void setItemReward() {
-        
-        int itemCount = new Random().nextInt(3) + 1;
-
-        Class<?> itemClass;
-        Class<?>[] parameterType;
-        Item item;
-        for (int i = 0; i < itemCount; i++) {        
-            try {
-                itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + ITEM.getRandomItem().name());
-                parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-                item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(),
-                        new SimpleIntegerProperty());
-                getItemReward().add(item);
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                // DONE Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
     }
 
 }
