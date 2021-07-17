@@ -19,8 +19,8 @@ public class Vampire extends BasicEnemy {
     private int damage;
 
 
-    public Vampire(PathPosition position, int health, String type) {
-        super(position, health, type);
+    public Vampire(PathPosition position) {
+        super(position);
     }
 
     @Override

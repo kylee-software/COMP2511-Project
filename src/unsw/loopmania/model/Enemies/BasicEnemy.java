@@ -17,9 +17,8 @@ public abstract class BasicEnemy extends MovingEntity {
     private AttackStrategy strategy = new BasicAttack();
 
     // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position, int health, String type) {
-        super(position, health);
-        this.type = type;
+    public BasicEnemy(PathPosition position) {
+        super(position);
     }
 
     /**
