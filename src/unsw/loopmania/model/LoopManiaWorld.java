@@ -662,11 +662,6 @@ public class LoopManiaWorld {
         return newBuilding;
     }
 
-    public boolean isBattleEntered() {
-        // TODO = need to implement this correctly and add javadoc
-        return false;
-    }
-
     /**
      * Adds rewards from battle to character
      * @param battle
