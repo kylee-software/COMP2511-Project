@@ -90,7 +90,7 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         Character character = new Character(position);
         character.takeDamage(50);
-        
+
         VillageBuilding villageBuilding = new VillageBuilding(position);
         villageBuilding.refillHealth(character);
 
@@ -118,14 +118,11 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         TrapBuilding trapBuilding = new TrapBuilding(position);
         
-        int health = 10;
-        String type = "Slug";
-        BasicEnemy slug = new Slug(position, health, type);
+        // TODO: fix up when enemies classes are pushed
+        BasicEnemy slug = new Slug(position);
         assertEquals(trapBuilding.damageEnemy(slug), 0);
 
-        health = 50;
-        type = "Vampire";
-        BasicEnemy vampire = new Vampire(position, health, type);
+        BasicEnemy vampire = new Vampire(position);
         assertEquals(trapBuilding.damageEnemy(vampire), 40);
         // TODO: need to check whether the trap is destroyed or not
     }
