@@ -88,9 +88,9 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
-        int health = 50;
-        Character character = new Character(position, health);
-
+        Character character = new Character(position);
+        character.takeDamage(50);
+        
         VillageBuilding villageBuilding = new VillageBuilding(position);
         villageBuilding.refillHealth(character);
 

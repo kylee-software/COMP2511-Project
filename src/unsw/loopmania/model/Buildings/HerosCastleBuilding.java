@@ -29,15 +29,15 @@ public class HerosCastleBuilding extends Building {
         this.boughtItems = new ArrayList<>();
     }
 
-    public void buyItem(Item item, List<Item> unequippedInventory) {
-        if (canBuyInMode(item)) {
-            unequippedInventory.add(item);
-            getBoughtItems().add(item);
-        }  
+    public int buyItem(BasicItem item, List<Item> unequippedInventory) {
+        unequippedInventory.add(item);
+        getBoughtItems().add(item);
+        return item.getBuyPrice();
     }
 
-    public void sellItem(Item item, List<Item> unequippedInventory) {
+    public int sellItem(Item item, List<Item> unequippedInventory) {
         unequippedInventory.remove(item);
+        return item.getSellPrice();
     }
 
     /**
