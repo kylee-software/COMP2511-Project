@@ -2,6 +2,7 @@ package unsw.loopmania.model.Items.BasicItems;
 
 public class Gold extends BasicItem {
 
+    private int goldFromGround = 20;
     private static int buyPrice = 0;
     private static String type = "Gold";
 
@@ -13,5 +14,9 @@ public class Gold extends BasicItem {
      */
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, buyPrice, type);
+    }
+
+    public int getGoldFromGround() {
+        return goldFromGround;
     }
 }
