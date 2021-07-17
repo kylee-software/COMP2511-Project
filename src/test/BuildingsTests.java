@@ -99,26 +99,34 @@ public class BuildingsTests {
 
     @Test
     void BarrackTest() {
-        BarracksBuilding barracksBuilding = new BarracksBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        BarracksBuilding barracksBuilding = new BarracksBuilding(position);
+       
         assertNotNull(barracksBuilding.spawnAlliedSoldier(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1)));
     }
 
     @Test
     void TrapTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        TrapBuilding trapBuilding = new TrapBuilding(position);
+        
+        int health = 10;
+        String type = "Slug";
+        BasicEnemy slug = new Slug(position, health, type);
+        assertEquals(trapBuilding.damageEnemy(slug), 0);
 
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
-
-        TrapBuilding trapBuilding = new TrapBuilding(pathPosition);
-        world.addBuilding(trapBuilding);
-
-        Vampire vampire = new Vampire(pathPosition, 100, "Vampire");
-        world.addEnemy(vampire);
-
-        world.trap();
-
-        assert(vampire.getHealth() < 100);
-
+        health = 50;
+        type = "Vampire";
+        BasicEnemy vampire = new Vampire(position, health, type);
+        assertEquals(trapBuilding.damageEnemy(vampire), 40);
         // TODO: need to check whether the trap is destroyed or not
     }
 

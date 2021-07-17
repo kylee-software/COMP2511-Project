@@ -33,8 +33,9 @@ public class TrapBuilding extends Building {
      * Damage an enemy's health when the enemy passes over the trap
      * @param enemy Enemy
      */
-    public void damageEnemy(BasicEnemy enemy) {
+    public int damageEnemy(BasicEnemy enemy) {
         int damage = 10;
         enemy.reduceHealth(damage);
+        return enemy.getHealth();
     }
 }
