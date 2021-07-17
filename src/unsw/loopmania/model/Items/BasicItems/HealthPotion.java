@@ -1,7 +1,7 @@
 package unsw.loopmania.model.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Character;
 
 /**
  * Equipped or unequipped Health Potion in the backend world
@@ -25,8 +25,7 @@ public class HealthPotion extends BasicItem {
      * Restores character to full health.
      * @param character - Character to apply health potion to
      */
-    @Override
-    public void usePotion(MovingEntity character) {
+    public void usePotion(Character character) {
         character.setHealth(100);
     }
 }

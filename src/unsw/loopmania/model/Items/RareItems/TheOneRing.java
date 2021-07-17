@@ -3,6 +3,8 @@ package unsw.loopmania.model.Items.RareItems;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.MovingEntity;
 
+import unsw.loopmania.model.Character;
+
 /**
  * Equipped or unequipped The One Ring in the backend world
  */

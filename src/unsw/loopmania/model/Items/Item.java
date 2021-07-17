@@ -1,7 +1,7 @@
 package unsw.loopmania.model.Items;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.StaticEntity;
 
 public abstract class Item extends StaticEntity {
@@ -55,6 +55,6 @@ public abstract class Item extends StaticEntity {
     /**
      * Does nothing unless item is health potion
      */
-    public void usePotion(MovingEntity character) {
+    public void usePotion(Character character) {
     }
 }

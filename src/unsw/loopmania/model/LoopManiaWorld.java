@@ -117,6 +117,10 @@ public class LoopManiaWorld {
         return experience;
     }
 
+    public List<Item> getUnequippedItems() {
+        return unequippedInventoryItems;
+    }
+
     /**
      * set the experience point(s) that the character currently has
      * @param experience experience piont(s)
@@ -147,6 +151,10 @@ public class LoopManiaWorld {
 
     public void addGold(int gold) {
         this.gold = getGold() + gold;
+    }
+
+    public void addItem(Item item) {
+        getUnequippedItems().add(item);
     }
 
     public int getCycles() {
@@ -231,9 +239,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            int health = 100;
-            String type = "Slug";
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), health, type);
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), "Slug");
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }

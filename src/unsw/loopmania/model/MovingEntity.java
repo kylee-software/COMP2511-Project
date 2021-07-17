@@ -71,6 +71,10 @@ public abstract class MovingEntity extends Entity {
         return health;
     }
 
+    public void reduceHealth(int damage) {
+        this.health = Math.max(getHealth() - damage, 0);
+    }
+
     /**
      * Getter for speed of moving entity
      * @return speed

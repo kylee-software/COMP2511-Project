@@ -22,9 +22,7 @@ public class VampireCastleBuilding extends Building {
      */
     public Vampire spawnVampire(int cycle, PathPosition position) {
         if (cycle % 5 == 0) {
-            int health = 100;
-            String type = "Vampire";
-            return new Vampire(position, health, type);
+            return new Vampire(position, "Vampire");
         }
         return null;
     }
