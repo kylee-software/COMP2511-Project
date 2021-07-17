@@ -1,4 +1,4 @@
-﻿# Meeting Minutes
+# Meeting Minutes
 
   
 
@@ -239,3 +239,61 @@ Leslie, Kylee, Sam, Jannet
 - How detailed in integration testing?
 
 ### Next meeting: Thursday 10pm
+
+## Meeting #10 15th July
+
+### Attendees:Sam, Leslie, Dan, Jannet
+
+### Completed from last meeting:
+- Sam: Added getting into battle and other functions
+- Leslie: Added stats for enemies and getters
+- Dan: Still working on battle order 
+	-  Can be multiple towers in battle
+- Jannet: 
+	- Frontend 
+		- Updates Added win/lose screen
+		- Need a reset game function in backend
+		- Missing equipped inventory
+	- Backend: Worked on buildings
+- @Kylee What are the Maven stuff and the other imported packages 
+
+### Action Items by Saturday 10am
+- Merge test branches first
+- File organisation with folders
+- Check board for allocated issues
+- AIM TO HAVE BACKEND COMPLETE - FRONTEND ATTEMPTED
+
+### Next meeting: Saturday 10am
+
+## Meeting #11 17th July
+
+### Attendees:Sam, Leslie, Kylee, Jannet
+
+### Completed from last meeting:
+- Finished most of backend
+
+### Discussion Points
+- Went through frontend code together
+- Asked clarifying questions for integration of our individual parts
+- Housekeeping: 
+	- Tick off issue board tasks as you go
+	- Once you complete a section (unit tests have all passed) - merge branch into Milestone2/StartCode
+	- Keep UML updated 
+
+### Action Items by Saturday 10am
+- Fix units tests - make sure methods in classes work
+- Backend: finish backend code and pass unit tests
+- Frontend
+	- Understand front end 
+	- Implement/modify events to occur each tick in LoopManiaWorldController - StartTimer method 
+		- Jannet/Kylee - Win/lose Condition
+		- Kylee - spawn potion, gold on path tile; obtain gold, items
+		- Jannet - Spawn enemies, card, discard
+		- Leslie - modify runTickMoves() for enemies
+		- Sam - modify methods that are already called here
+	- Add your images to code
+- Try to do before next meeting
+	- Link frontend and backend for the code you wrote
+
+### Next meeting: Sunday 10am
+
