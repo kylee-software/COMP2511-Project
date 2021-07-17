@@ -1,5 +1,7 @@
 package unsw.loopmania.model.Items.BasicItems;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Gold extends BasicItem {
 
     private int goldFromGround = 20;

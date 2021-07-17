@@ -11,7 +11,7 @@ public class OnPathBehaviour implements PositionStrategy {
         
         Integer x = Integer.valueOf(buildingNodeX);
         Integer y = Integer.valueOf(buildingNodeY);
-        Pair<Integer, Integer> tile = new Pair<>(x, y);
+        Pair<Integer, Integer> tile = new Pair<Integer, Integer>(x, y);
         for (Pair<Integer, Integer> coordinate : orderedPath) {
             if (tile.equals(coordinate)) return true;
             System.out.println(coordinate.toString());

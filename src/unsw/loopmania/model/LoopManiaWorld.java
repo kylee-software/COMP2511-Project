@@ -10,13 +10,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import unsw.loopmania.model.Buildings.Building;
- import unsw.loopmania.model.Buildings.CampfireBuilding;
- import unsw.loopmania.model.Buildings.TowerBuilding;
- import unsw.loopmania.model.Buildings.VampireCastleBuilding;
- import unsw.loopmania.model.Buildings.ZombiePitBuilding;
+import unsw.loopmania.model.Buildings.*;
 
- import unsw.loopmania.model.Cards.Card;
+import unsw.loopmania.model.Cards.Card;
  import unsw.loopmania.model.Cards.VampireCastleCard;
 
  import unsw.loopmania.model.Enemies.BasicEnemy;
@@ -24,8 +20,9 @@ import unsw.loopmania.model.Buildings.Building;
  import unsw.loopmania.model.Enemies.Vampire;
  import unsw.loopmania.model.Enemies.Zombie;
 
- import unsw.loopmania.model.Items.BasicItems.Item;
- import unsw.loopmania.model.Items.RareItems.theOneRing;
+import unsw.loopmania.model.Items.BasicItems.*;
+import unsw.loopmania.model.Items.Item;
+ import unsw.loopmania.model.Items.RareItems.TheOneRing;
 
 /**
  * A backend world.
@@ -492,7 +489,7 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
         Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
 
-        List<Item> items = new ArrayList<>();
+        List<Item> items = new ArrayList<Item>();
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
             PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
