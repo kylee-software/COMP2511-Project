@@ -1,7 +1,6 @@
 package unsw.loopmania.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -10,18 +9,17 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.Building;
+import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Buildings.ZombiePitBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
-<<<<<<< HEAD
+
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Slug;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
-=======
-import unsw.loopmania.model.Enemies.*;
->>>>>>> Milestone2/StarterCode
+
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 
@@ -69,6 +67,8 @@ public class LoopManiaWorld {
     private  List<Building> buildingEntities;
     private List<VampireCastleBuilding> vampireCastleBuildings;
     private List<ZombiePitBuilding> zombiePitBuildings;
+
+    private HerosCastleBuilding herosCastleBuilding;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -223,6 +223,10 @@ public class LoopManiaWorld {
      */
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public void setHerosCastleBuilding(HerosCastleBuilding herosCastleBuilding) {
+        this.herosCastleBuilding = herosCastleBuilding;
     }
 
     public List<Item> getUnequippedInventoryItems() {
@@ -707,6 +711,40 @@ public class LoopManiaWorld {
                                                                         new GoldGoal(gold)));
 
         return isCompleted.evaluateGoal();
+    }
+
+
+    /**
+     * check is the character completed the current cycle or not
+     * @return true if the character complected a cycle else false
+     */
+    public boolean completedACycle() {
+        if (isOnSameTile(character, herosCastleBuilding)) {
+            cycles += 1;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * purchase an item from the Hero Castle Menu
+     * @param item
+     */
+    public void purchaseItem(Item item) {
+        if (getFirstAvailableSlotForItem() != null && herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
+            gold -= ((BasicItem) item).getBuyPrice();
+            addUnequippedItem(item.getType());
+        }
+    }
+
+    /**
+     * sell an item from the Hero Castle Menu
+     * @param item the item to be selled
+     */
+    public void sellItem(Item item) {
+        gold += item.getSellPrice();
+        removeUnequippedInventoryItem(item);
     }
 
 }

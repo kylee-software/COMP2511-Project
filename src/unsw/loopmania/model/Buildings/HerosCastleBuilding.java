@@ -9,55 +9,39 @@ import unsw.loopmania.model.Items.BasicItems.*;
 
 public class HerosCastleBuilding extends Building {
 
-    private String gameMode;
-    private List<Item> boughtItems;
+    private int lastPuchasedHP = 0;
+    private int lastPurchasedPG = 0;
 
-    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, String gameMode) {
+
+    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.gameMode = gameMode;
     }
 
-    public String getGameMode() {
-        return this.gameMode;
-    }
-
-    public List<Item> getBoughtItems() {
-        return this.boughtItems;
-    }
-
-    public void resetBoughtItems() {
-        this.boughtItems = new ArrayList<>();
-    }
-
-    public void buyItem(Item item, List<Item> unequippedInventory) {
-        if (isValidInMode(item)) {
-            unequippedInventory.add(item);
-            getBoughtItems().add(item);
-        }  
-    }
-
-    public void sellItem(Item item, List<Item> unequippedInventory) {
-        unequippedInventory.remove(item);
-    }
 
     /**
      * Check if mode allows for given item to be bought
      * @param item item player wants to purchase
      * @return true if purchase is valid, otherwise false
      */
-    public boolean isValidInMode(Item item) {
-        if (gameMode == "Survival") {
+    public boolean isValidPurchase(String gameMode, Item item, int cycles) {
+        if (gameMode.equals("Survival")) {
             if (item instanceof HealthPotion) {
-                for (Item boughtItem : getBoughtItems()) {
-                    if (boughtItem instanceof HealthPotion) 
-                        return false;
+                // check when is the last time the character purchased a health potion
+                if (cycles < lastPuchasedHP) {
+                    lastPuchasedHP = cycles;
+                    return true;
+                } else {
+                    return false;
                 }
             }
-        } else if (gameMode == "Berserker") {
+        } else if (gameMode.equals("Berserker")) {
             if (item instanceof Armour || item instanceof Helmet || item instanceof Shield) {
-                for (Item boughtItem : getBoughtItems()) {
-                    if (boughtItem instanceof Armour || boughtItem instanceof Helmet || boughtItem instanceof Shield)
-                        return false;
+                // check when is the last time the character purchased a protective gear
+                if (cycles < lastPurchasedPG) {
+                    lastPurchasedPG = cycles;
+                    return true;
+                } else {
+                    return false;
                 }
             }
         }
