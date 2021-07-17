@@ -8,6 +8,7 @@ import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,6 +56,9 @@ public class LoopManiaWorldTest {
     public void trapTest() {
     }
 
+    /**
+     * Test depends on getUnequippedInventoryItemEntityByCoordinates()
+     */
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -116,6 +120,9 @@ public class LoopManiaWorldTest {
     public void runTickMovesTest() {
     }
 
+    /**
+     * Test depends on getUnequippedInventoryItemEntityByCoordinates()
+     */
     @Test
     public void equipItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -189,8 +196,21 @@ public class LoopManiaWorldTest {
         assertEquals(world.getUnequippedItems().size(), 0);
     }
 
+    /**
+     * Test depends on addUnequippedItem()
+     */
     @Test
     public void getUnequippedInventoryItemEntityByCoordinatesTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        Item item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        assertEquals(item, null);
+        world.addUnequippedItem("Stake");
+        item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        assertEquals(item.getClass(), Stake.class);
+        world.addUnequippedItem("Sword");
+        item = world.getUnequippedInventoryItemEntityByCoordinates(1,0);
+        assertEquals(item.getClass(), Sword.class);
     }
 
     @Test
@@ -199,13 +219,10 @@ public class LoopManiaWorldTest {
 
     @Test
     public void gainDiscardCardRewardsTest() {
+
     }
 
     @Test
     public void isGoalCompletedTest() {
-    }
-
-    @Test
-    public void reviveCharacterTest() {
     }
 }

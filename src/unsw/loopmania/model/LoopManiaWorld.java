@@ -377,7 +377,8 @@ public class LoopManiaWorld {
     //     if (battle.isLost()) {
     //         // Check has The One Ring
     //         if (equippedRareItem.getClass().equals(TheOneRing.class)) {
-    //             reviveCharacter();
+                // Item theOneRing = getEquippedRareItem();
+                // theOneRing.usePotion(character);
     //             equippedRareItem = null;
     //         } else {
     //             // Game Lost
@@ -764,16 +765,8 @@ public class LoopManiaWorld {
      * @return true if all goals are completed else false
      */
     public boolean isGoalCompleted() {
+        // TODO:
         return false;
-    }
-
-    /**
-     * Revives character on death
-     */
-    public void reviveCharacter() {
-        if (character.isDead()) {
-            character.setHealth(100);
-        }
     }
 
     // private Item generateRandomBasicItem() {
