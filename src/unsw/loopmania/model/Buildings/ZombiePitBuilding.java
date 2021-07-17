@@ -17,8 +17,6 @@ public class ZombiePitBuilding extends Building {
      * @return zombie
      */
     public Zombie spawnZombie(PathPosition position) {
-        int health = 100;
-        String type = "Zombie";
-        return new Zombie(position, health, type);
+        return new Zombie(position);
     }
 }

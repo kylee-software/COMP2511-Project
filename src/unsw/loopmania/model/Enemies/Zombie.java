@@ -17,10 +17,12 @@ public class Zombie extends BasicEnemy {
 
     private AttackStrategy strategy;
     private int damage;
+    private int health;
 
 
-    public Zombie(PathPosition position, int health, String type) {
-        super(position, health, type);
+    public Zombie(PathPosition position) {
+        super(position);
+        this.health = 20;
     }
 
     @Override
@@ -50,5 +52,13 @@ public class Zombie extends BasicEnemy {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void reduceHealth(int damage) {
+        this.health = Math.max(getHealth() - damage, 0);
     }
 }

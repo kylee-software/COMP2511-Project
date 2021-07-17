@@ -17,10 +17,12 @@ public class Vampire extends BasicEnemy {
 
     private AttackStrategy strategy;
     private int damage;
+    private int health;
 
 
-    public Vampire(PathPosition position, int health, String type) {
-        super(position, health, type);
+    public Vampire(PathPosition position) {
+        super(position);
+        this.health = 50;
     }
 
     @Override
@@ -50,5 +52,13 @@ public class Vampire extends BasicEnemy {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void reduceHealth(int damage) {
+        this.health = Math.max(getHealth() - damage, 0);
     }
 }

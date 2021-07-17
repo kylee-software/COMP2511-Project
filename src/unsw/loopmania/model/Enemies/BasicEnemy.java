@@ -12,14 +12,12 @@ import java.util.Random;
  */
 public abstract class BasicEnemy extends MovingEntity {
 
-    int health;
     private String type;
     private AttackStrategy strategy = new BasicAttack();
 
     // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position, int health, String type) {
-        super(position, health);
-        this.type = type;
+    public BasicEnemy(PathPosition position) {
+        super(position);
     }
 
     /**
@@ -47,10 +45,11 @@ public abstract class BasicEnemy extends MovingEntity {
     public int getBattleDamage;
     public int getSupportRadius;
     public int getBattleRadius;
-    public int getHealth;
+
+    public abstract int getHealth();
+
     public  double getSpeed;
 
-    public void reduceHealth(int damage) {
-        this.health = Math.max(getHealth() - damage, 0);
-    }
+    public abstract void reduceHealth(int damage); 
+    
 }

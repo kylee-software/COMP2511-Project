@@ -2,12 +2,12 @@ package unsw.loopmania;
 
 public class AndGoal extends Goal {
 
-    private boolean conditionA;
-    private boolean conditionB;
+    private Goal goalA;
+    private Goal goalB;
 
-    public AndGoal(boolean conditionA, boolean conditionB) {
-        this.conditionA = conditionA;
-        this.conditionB = conditionB;
+    public AndGoal(Goal goalA, Goal goalB) {
+        this.goalA = goalA;
+        this.goalB = goalB;
     }
 
     /**
@@ -16,6 +16,9 @@ public class AndGoal extends Goal {
      */
     @Override
     public boolean evaluateGoal() {
-        return conditionA == conditionB;
+        boolean resultA = goalA.evaluateGoal();
+        boolean resultB = goalB.evaluateGoal();
+
+        return resultA && resultB;
     }
 }
