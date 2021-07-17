@@ -2,6 +2,7 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
+import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.*;
 
@@ -14,6 +15,13 @@ import org.javatuples.Pair;
 
 
 public class LoopManiaWorldTest {
+
+    private static int width = 5;
+    private static int height = 5;
+
+    private List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+    private LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+
     @Test
     public void receiveInventoryFullRewardsTest() {
     }
@@ -35,31 +43,11 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void killEnemyTest() {
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        orderedPath.add(new Pair<>(1,1));
-        PathPosition position = new PathPosition(0, orderedPath);
-        BasicEnemy enemy = new Slug(position);
-    }
-
-    @Test
     public void runBattlesTest() {
     }
 
     @Test
-    public void getSupportEnemiesTest() {
-    }
-
-    @Test
-    public void getSupportBuildingsTest() {
-    }
-
-    @Test
     public void loadVampireCardTest(){
-    }
-
-    @Test
-    public void removeCardTest() {
     }
 
     @Test
@@ -68,10 +56,6 @@ public class LoopManiaWorldTest {
 
     @Test
     public void addUnequippedItemTest() {
-    }
-
-    @Test
-    public void createItemTest() {
     }
 
     @Test
@@ -91,39 +75,7 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void getUnequippedInventoryItemEntityByCoordinatesTest() {
-    }
-
-    @Test
-    public void removeItemByPositionInUnequippedInventoryItemsTest() {
-    }
-
-    @Test
-    public void addDiscardRewardsTest() {
-    }
-
-    @Test
-    public void getFirstAvailableSlotForItemTest() {
-    }
-
-    @Test
-    public void shiftCardsDownFromXCoordinateTest() {
-    }
-
-    @Test
-    public void moveBasicEnemiesTest() {
-    }
-
-    @Test
-    public void possiblyGetBasicEnemySpawnPositionTest() {
-    }
-
-    @Test
     public void convertCardToBuildingByCoordinatesTest() {
-    }
-
-    @Test
-    public void gainBattleRewardsTest() {
     }
 
     @Test

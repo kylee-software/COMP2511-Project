@@ -249,7 +249,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), "Slug");
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -479,7 +479,7 @@ public class LoopManiaWorld {
      * @param item - item to equip
      * @return success status
      */
-    private Boolean equipItem(Item item) {
+    public Boolean equipItem(Item item) {
         if (item.getType().equals("RareItem")) {
             if (equippedRareItem == null) {
                 equippedRareItem = item;
@@ -513,7 +513,7 @@ public class LoopManiaWorld {
         } else if (item.getType().equals("HealthPotion")) {
             item.usePotion(this.character);
         }
-        removeUnequippedInventoryItem(item);
+        unequippedInventoryItems.remove(item);
         return true;
     }
 
