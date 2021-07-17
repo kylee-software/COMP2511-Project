@@ -70,6 +70,8 @@ public class LoopManiaWorld {
 
     private String gameMode;
 
+    private static Boolean isLost = false;
+
     private int experience;
 
     private int gold;
@@ -303,7 +305,8 @@ public class LoopManiaWorld {
                 reviveCharacter();
                 equippedRareItem = null;
             } else {
-                // TODO: End game
+                // Game Lost
+                isLost = true;
             }
         } else {
             gainBattleRewards(battle);
@@ -436,49 +439,8 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
-        // Check enemies in range for battle
-        BasicEnemy enemy = enemiesInRangeBattle();
-        if (enemy != null) {
-            List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
-            battleEnemies.add(enemy);
-            // TODO: Add all enemies in support range
-            List<TowerBuilding> battleTowers = new ArrayList<TowerBuilding>();
-            // TODO: Add all towers in range
-            enterBattle(battleEnemies, alliedSoldiers, battleTowers);
-        }
+        runBattles();
     }
-
-    /**
-     * Checks if any enemies ars in range at a given time
-     * @return enemy in range
-     */
-    private BasicEnemy enemiesInRangeBattle() {
-        // TODO:
-        // // Loop enemies
-        // for (BasicEnemy enemy : enemies) {
-        //     if (character.getPosition)
-        // }
-        // // if character in enemy radius (list of positions in range)
-        // // return true/enemy
-        // return false;
-        return null;
-    }
-
-    /**
-     * Given a path position and a radius, calculates every position in range
-     * @param radius
-     * @param position - initial position
-     * @return list of path positions in range
-     */
-    private List<PathPosition> positionsInRange(int radius, PathPosition position) {
-        // TODO:
-        // List<PathPosition> inRangePositions = new ArrayList<PathPosition>();
-        // inRangePositions.add(position);
-        // for (int i = radius; i > 0; i--) {
-        //     position.cu
-        // }
-    }
-
 
     /**
      * Given an item equips it in equippedInventory into appropriate slot
