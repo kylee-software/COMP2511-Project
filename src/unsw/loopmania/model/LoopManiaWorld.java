@@ -10,6 +10,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+import unsw.loopmania.AndGoal;
+import unsw.loopmania.OrGoal;
+import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.*;
 
 import unsw.loopmania.model.Cards.Card;
@@ -431,7 +434,7 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> SpawnSlugs() {
         Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
-        List<BasicEnemy> spawningEnemies = new ArrayList<>();
+        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
@@ -447,7 +450,7 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> spawnVampiresFromVampireCastles() {
 
-        List<BasicEnemy> spawningEnemies = new ArrayList<>();
+        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
 
         for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(vampireCastleBuilding);
@@ -466,7 +469,7 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> spawnZombiesFromZombiePits() {
         // TODO: work with frontend
-        List<BasicEnemy> spawningEnemies = new ArrayList<>();
+        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
 
         for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(zombiePitBuilding);
@@ -803,8 +806,6 @@ public class LoopManiaWorld {
         unequippedInventoryItems.remove(index);
     }
 
-}
-
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                        Methods Related to Buildings                                        │ */
@@ -911,7 +912,7 @@ public class LoopManiaWorld {
 
         // TODO = change based on spec
         if ((choice == 0)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
             int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
@@ -1016,7 +1017,7 @@ public class LoopManiaWorld {
     // }
 
 
-    private Pair<Integer, Integer> spawnPositionFromBuilding(Building building) {
+    private PathPosition spawnPositionFromBuilding(Building building) {
 
         int x = building.getX();
         int y = building.getY();
@@ -1026,14 +1027,14 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> leftPostion  = new Pair<Integer, Integer>(x, y - 1);
         Pair<Integer, Integer> rightPostion  = new Pair<Integer, Integer>(x, y + 1);
 
-        if (orderedPath.indexOf(upPostion) != -1) {
+        if (orderedPath.contains(upPostion)) {
             return new PathPosition(orderedPath.indexOf(upPostion), orderedPath);
-        } else if (orderedPath.indexOf(downPostion != -1)) {
+        } else if (orderedPath.contains(downPostion)) {
             return new PathPosition(orderedPath.indexOf(downPostion), orderedPath);
-        } else if (orderedPath.indexOf(leftPostion != -1)) {
+        } else if (orderedPath.contains(leftPostion)) {
             return new PathPosition(orderedPath.indexOf(leftPostion), orderedPath);
-        } else if (orderedPath.indexOf(rightPostion != -1)) {
-            return new PathPosition(orderedPath.indexOf(downPostion), rightPostion);
+        } else if (orderedPath.contains(rightPostion)) {
+            return new PathPosition(orderedPath.indexOf(rightPostion), orderedPath);
         } else {
             return null;
         }
