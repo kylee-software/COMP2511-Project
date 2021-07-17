@@ -161,14 +161,29 @@ public class LoopManiaWorld {
         return cycles;
     }
 
-    public List<Item> getEquippedItems() {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<Item>();
+    public Item getEquippedAttackItem() {
+        return equippedAttackItem;
+    }
+
+    public Item getEquippedArmour() {
+        return equippedArmour;
+    }
+
+    public Item getEquippedShield() {
+        return equippedShield;
+    }
+
+    public Item getEquippedHelmet() {
+        return equippedHelmet;
+    }
+
+    public Item getEquippedRareItem() {
+        return equippedRareItem;
     }
 
     public List<Card> getEquippedCards() {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<>();
+        // DONE = need to implement this correctly and add javadoc
+        return cardEntities;
     }
 
     public List<Pair<Integer, Integer>> getOrderedPath() {
