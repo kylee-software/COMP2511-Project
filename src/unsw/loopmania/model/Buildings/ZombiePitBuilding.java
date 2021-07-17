@@ -18,7 +18,7 @@ public class ZombiePitBuilding extends Building {
     public Zombie spawnZombie(List<Pair<Integer, Integer>> orderedPath) {
         Pair<Integer, Integer> position = spawnPosition(orderedPath);
 
-        Zombie zombie = new Zombie(new PathPosition(orderedPath.indexOf(position), orderedPath), 100, "Zombie");
+        Zombie zombie = new Zombie(new PathPosition(orderedPath.indexOf(position));
 
         return zombie;
     }

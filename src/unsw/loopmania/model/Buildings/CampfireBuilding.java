@@ -17,6 +17,7 @@ public class CampfireBuilding extends Building {
         // TODO = need to implement this correctly and add javadoc
     }
 
+    @Override
     public int getBattleRadius() {
         return battleRadius;
     }

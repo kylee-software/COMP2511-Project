@@ -1,6 +1,9 @@
 package unsw.loopmania.model.Items.RareItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.MovingEntity;
+
+import unsw.loopmania.model.Character;
 
 /**
  * Equipped or unequipped The One Ring in the backend world
@@ -16,13 +19,14 @@ public class TheOneRing extends RareItem {
         super(x, y);
     }
 
+    @Override
     /**
-     * Revives given character on death
-     * @param c - character to revive
+     * Does nothing unless item is health potion
      */
-    public void reviveCharacter(Character c) {
-        if (c.getHealth == 0) {
-            c.setHealth(100);
+    public void usePotion(Character character) {
+        if (character.isDead()) {
+            character.setHealth(100);
         }
     }
+
 }

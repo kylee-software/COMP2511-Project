@@ -26,7 +26,7 @@ public class VampireCastleBuilding extends Building {
     public Vampire spawnVampire(List<Pair<Integer, Integer>> orderedPath) {
         Pair<Integer, Integer> position = spawnPosition(orderedPath);
 
-        Vampire vampire = new Vampire(new PathPosition(orderedPath.indexOf(position), orderedPath), 100, "Vampire");
+        Vampire vampire = new Vampire(new PathPosition(orderedPath.indexOf(position), orderedPath));
 
         return vampire;
     }

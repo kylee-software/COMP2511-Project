@@ -32,9 +32,9 @@ public class VillageBuilding extends Building {
      * Refill the Character's health when the Character passes over the village
      * @param character Character
      */
-    public void refillHealth(Character character) {
-        int health = 100;
-        character.setHealth(health);
+    public void gainHealth(Character character) {
+        int healthBonus = 50;
+        character.gainHealth(healthBonus);
     }
 
 }

@@ -17,7 +17,6 @@ public class HerosCastleBuilding extends Building {
         super(x, y);
     }
 
-
     /**
      * Check if mode allows for given item to be bought
      * @param item item player wants to purchase

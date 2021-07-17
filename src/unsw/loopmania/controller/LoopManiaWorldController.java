@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -32,6 +33,7 @@ import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.model.Battle;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
@@ -43,7 +45,6 @@ import java.util.EnumMap;
 
 import java.io.File;
 import java.io.IOException;
-
 
 /**
  * the draggable types.
@@ -136,7 +137,7 @@ public class LoopManiaWorldController {
      */
     // TODO = it would be a good idea for you to instead replace this with the building/item which should be dropped
     private ImageView currentlyDraggedImage;
-    
+
     /**
      * null if nothing being dragged, or the type of item being dragged
      */
@@ -168,6 +169,15 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 
+    @FXML
+    private Label worldExperience;
+
+    @FXML
+    private Label worldGold;
+
+    @FXML 
+    private Label worldHealth;
+    
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -198,6 +208,13 @@ public class LoopManiaWorldController {
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 
+        world.setExperienceLabel(worldExperience);
+        world.updateExperience();
+        world.setGoldLabel(worldGold);
+        world.updateGold();
+        world.setHealthLabel(worldHealth);
+        world.updateHealth();
+
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
             for (int y = 0; y < world.getHeight(); y++) {
@@ -211,7 +228,7 @@ public class LoopManiaWorldController {
         for (ImageView entity : entityImages){
             squares.getChildren().add(entity);
         }
-        
+
         // add the ground underneath the cards
         for (int x=0; x<world.getWidth(); x++){
             ImageView groundView = new ImageView(pathTilesImage);
@@ -313,6 +330,7 @@ public class LoopManiaWorldController {
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
+    //private void reactToEnemyDefeat(Battle battle){
     private void reactToEnemyDefeat(BasicEnemy enemy){
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
@@ -413,11 +431,11 @@ public class LoopManiaWorldController {
                             case CARD:
                                 // TODO = spawn a building here of different types
                                 // DONE = check if position is valid first
-                                if(card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
+                                //if(card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
                                     removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                     VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                     onLoad(newBuilding);
-                                }
+                                //}
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -428,7 +446,7 @@ public class LoopManiaWorldController {
                             default:
                                 break;
                         }
-                        
+
                         draggedEntity.setVisible(false);
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
@@ -477,7 +495,7 @@ public class LoopManiaWorldController {
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
                         removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                        
+
                         currentlyDraggedImage = null;
                         currentlyDraggedType = null;
                     }
@@ -525,7 +543,7 @@ public class LoopManiaWorldController {
                 //Drag was detected, start drap-and-drop gesture
                 //Allow any transfer node
                 Dragboard db = view.startDragAndDrop(TransferMode.MOVE);
-    
+
                 //Put ImageView on dragboard
                 ClipboardContent cbContent = new ClipboardContent();
                 cbContent.putImage(view.getImage());
@@ -545,7 +563,7 @@ public class LoopManiaWorldController {
                     default:
                         break;
                 }
-                
+
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);
                 draggedEntity.toFront();
@@ -580,7 +598,7 @@ public class LoopManiaWorldController {
                             if (currentlyDraggedType == draggableType){
                                 n.setOpacity(1);
                             }
-                
+
                             event.consume();
                         }
                     });
@@ -589,7 +607,7 @@ public class LoopManiaWorldController {
                 }
                 event.consume();
             }
-            
+
         });
     }
 
