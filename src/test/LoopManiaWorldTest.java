@@ -61,7 +61,7 @@ public class LoopManiaWorldTest {
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
         // Test item creation
         world.addUnequippedItem("Stake");
         Item stake = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
@@ -122,7 +122,7 @@ public class LoopManiaWorldTest {
     @Test
     public void equipItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
         // Test weapon slot
         world.addUnequippedItem("Sword");
         Item sword = world.getUnequippedInventoryItemEntityByCoordinates(0,0);

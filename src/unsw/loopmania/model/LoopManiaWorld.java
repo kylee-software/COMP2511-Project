@@ -476,21 +476,23 @@ public class LoopManiaWorld {
         return sword;
     }
 
-    // /**
-    //  * Adds an item to unequipped inventory
-    //  * @param item - item to add
-    //  */
-    // public void addUnequippedItem(Item item){
-    //     Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-    //     if (firstAvailableSlot == null){
-    //         // Eject the oldest unequipped item and replace it
-    //         // Oldest item is that at beginning of items
-    //         removeItemByPositionInUnequippedInventoryItems(0);
-    //         firstAvailableSlot = getFirstAvailableSlotForItem();
-    //         setExperience(getExperience() + 100);
-    //     }
-    //     unequippedInventoryItems.add(item);
-    // }
+    /**
+     * Adds a new item of given type to unequipped inventory
+     * @param type - item type to create
+     */
+    public void addUnequippedItem(String type){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // Eject the oldest unequipped item and replace it
+            // Oldest item is that at beginning of items
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+            setExperience(getExperience() + 100);
+        }
+        Item item = createItem(type, firstAvailableSlot);
+        unequippedInventoryItems.add(item);
+    }
+
 
     /**
      * Spawns given item in the world
