@@ -1,26 +1,24 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.Enemies.Zombie;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ZombiePitBuilding extends Building implements CreateEntityBehaviour {
-
-    private int zombieCastleCycle;
+public class ZombiePitBuilding extends Building {
 
     public ZombiePitBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
 
     /**
-     * Produces zombies every cycle of the path completed by the Character
-     * @param cycle the cycle the LoopManiaWorld is in
-     * @return a list of newly produced zombies
+     * Spawn zombie every cycle of the path completed by the Character
+     * @param cycle number of path cycles the Character had completed
+     * @param position position where zombie is spawned
+     * @return zombie
      */
-    public List<Entity> produceEntity(int cycle) {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<>();
+    public Zombie spawnZombie(PathPosition position) {
+        int health = 100;
+        String type = "Zombie";
+        return new Zombie(position, health, type);
     }
 }

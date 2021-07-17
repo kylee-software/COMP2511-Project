@@ -5,48 +5,62 @@ import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.Items.BasicItems.*;
 
 public class HerosCastleBuilding extends Building {
 
     private String gameMode;
     private List<Item> boughtItems;
 
-    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, String gameMode) {
         super(x, y);
-    }
-
-    // is this necessary?
-    public String getGameMode() {
-        return gameMode;
-    }
-
-    public List<Item> getBoughtItems() {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<>();
-    }
-
-    public void setGameMode(String gameMode) {
         this.gameMode = gameMode;
     }
 
-    public void addBoughtItem(Item item) {
-        // TODO = need to implement this correctly and add javadoc
+    public String getGameMode() {
+        return this.gameMode;
+    }
+
+    public List<Item> getBoughtItems() {
+        return this.boughtItems;
     }
 
     public void resetBoughtItems() {
-        // TODO = need to implement this correctly and add javadoc
+        this.boughtItems = new ArrayList<>();
     }
 
-    public void buyItem(Item item) {
-        // TODO = need to implement this correctly and add javadoc
+    public void buyItem(Item item, List<Item> unequippedInventory) {
+        if (isValidInMode(item)) {
+            unequippedInventory.add(item);
+            getBoughtItems().add(item);
+        }  
     }
 
-    public void sellItem(Item item) {
-        // TODO = need to implement this correctly and add javadoc
+    public void sellItem(Item item, List<Item> unequippedInventory) {
+        unequippedInventory.remove(item);
     }
 
-    public boolean isValidInMode() {
-        // TODO = need to implement this correctly and add javadoc
-        return false;
+    /**
+     * Check if mode allows for given item to be bought
+     * @param item item player wants to purchase
+     * @return true if purchase is valid, otherwise false
+     */
+    public boolean isValidInMode(Item item) {
+        if (gameMode == "Survival") {
+            if (item instanceof HealthPotion) {
+                for (Item boughtItem : getBoughtItems()) {
+                    if (boughtItem instanceof HealthPotion) 
+                        return false;
+                }
+            }
+        } else if (gameMode == "Berserker") {
+            if (item instanceof Armour || item instanceof Helmet || item instanceof Shield) {
+                for (Item boughtItem : getBoughtItems()) {
+                    if (boughtItem instanceof Armour || boughtItem instanceof Helmet || boughtItem instanceof Shield)
+                        return false;
+                }
+            }
+        }
+        return true;
     }
 }
