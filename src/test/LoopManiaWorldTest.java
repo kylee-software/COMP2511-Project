@@ -2,9 +2,15 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
-import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.Enemies.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.javatuples.Pair;
 
 
 public class LoopManiaWorldTest {
@@ -30,7 +36,10 @@ public class LoopManiaWorldTest {
 
     @Test
     public void killEnemyTest() {
-        // BasicEnemy enemy = new Slug()
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        PathPosition position = new PathPosition(0, orderedPath);
+        BasicEnemy enemy = new Slug(position);
     }
 
     @Test
