@@ -454,6 +454,8 @@ public class LoopManiaWorld {
             item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         } else if (type.equals("Sword")) {
             item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("TheOneRing")) {
+            item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         }
         return item;
     }
@@ -478,7 +480,7 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Given an item equips it in equippedInventory into appropriate slot
+     * Given an unequippedItem equips it in equippedInventory into appropriate slot
      * @param item - item to equip
      * @return success status
      */
