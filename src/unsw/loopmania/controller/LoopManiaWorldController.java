@@ -32,6 +32,7 @@ import javafx.util.Duration;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.Goal;
 import unsw.loopmania.model.Battle;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -258,6 +259,10 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            
+            // if (goal.isGoalComplete()) {
+            //     System.out.println("We WON");
+            // }
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);

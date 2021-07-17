@@ -1,12 +1,14 @@
 package unsw.loopmania;
 
+import unsw.loopmania.model.LoopManiaWorld;
+
 public class CycleGoal extends Goal {
 
-    private final int cycleGoal = 30;
-    private int cycle;
+    private int cycleGoal;
+    private LoopManiaWorld world;
 
-    public CycleGoal(int cycle) {
-        this.cycle = cycle;
+    public CycleGoal(int cycleGoal, LoopManiaWorld world) {
+        this.cycleGoal = cycleGoal;
     }
 
     /**
@@ -14,7 +16,7 @@ public class CycleGoal extends Goal {
      * @return true if the player reached the cycle goal else false
      */
     @Override
-    public boolean evaluateGoal() {
-        return cycle == cycleGoal;
+    public boolean isGoalComplete() {
+        return world.getCycle() == cycleGoal;
     }
 }

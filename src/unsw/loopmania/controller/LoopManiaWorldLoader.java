@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.*;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -42,6 +43,7 @@ public abstract class LoopManiaWorldLoader {
         int width = json.getInt("width");
         int height = json.getInt("height");
 
+        
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
         
@@ -57,6 +59,33 @@ public abstract class LoopManiaWorldLoader {
         }
 
         return world;
+    }
+
+    /**
+     * Get goal from JSON file
+     * @return goal
+     */
+    public Goal getGoal(LoopManiaWorld world) {
+        
+        JSONObject goalCondition = json.getJSONObject("goal-condition");
+        String goalType = goalCondition.getString("goal"); 
+        int quantity = goalCondition.getInt("quantity");
+        Goal goal;
+        switch (goalType) {
+            case "experience":
+                goal = new ExperienceGoal(quantity, world);
+                break;
+            case "gold":
+                goal = new GoldGoal(quantity, world);
+                break;
+            case "cycle":
+                goal = new CycleGoal(quantity, world);
+                break;
+            default:
+                throw new RuntimeException("no goal is set, please set one");
+        }
+
+        return goal;
     }
 
     /**

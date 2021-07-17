@@ -1,5 +1,6 @@
 package unsw.loopmania.model;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,6 +10,7 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import unsw.loopmania.Goal;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.CampfireBuilding;
 import unsw.loopmania.model.Buildings.TowerBuilding;
@@ -76,7 +78,7 @@ public class LoopManiaWorld {
 
     private int gold;
 
-    private int cycles;
+    private int cycle;
 
     private Item equippedAttackItem = null;
 
@@ -96,7 +98,7 @@ public class LoopManiaWorld {
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        this.gameMode = gameMode;
+        //this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
         }
@@ -129,6 +131,10 @@ public class LoopManiaWorld {
 
     public int getExperience() {
         return experience;
+    }
+
+    public int getCycle() {
+        return cycle;
     }
 
     public List<Item> getUnequippedItems() {
@@ -171,10 +177,6 @@ public class LoopManiaWorld {
         getUnequippedItems().add(item);
     }
 
-    public int getCycles() {
-        return cycles;
-    }
-
     public List<Item> getEquippedItems() {
         // TODO = need to implement this correctly and add javadoc
         return new ArrayList<Item>();
@@ -203,8 +205,8 @@ public class LoopManiaWorld {
     }
 
     // TODO: this might be unnecessary?
-    public void incrementCycles() {
-        cycles += 1;
+    public void incrementCycle() {
+        cycle += 1;
     }
 
     public void addCard(Card card) {
@@ -302,7 +304,7 @@ public class LoopManiaWorld {
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
                 // fight...
-                defeatedEnemies.add(e);
+                defeatedEnemies.add(e);      
             }
         }
         for (BasicEnemy e: defeatedEnemies){
@@ -463,21 +465,21 @@ public class LoopManiaWorld {
         return sword;
     }
 
-    // /**
-    //  * Adds an item to unequipped inventory
-    //  * @param item - item to add
-    //  */
-    // public void addUnequippedItem(Item item){
-    //     Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-    //     if (firstAvailableSlot == null){
-    //         // Eject the oldest unequipped item and replace it
-    //         // Oldest item is that at beginning of items
-    //         removeItemByPositionInUnequippedInventoryItems(0);
-    //         firstAvailableSlot = getFirstAvailableSlotForItem();
-    //         setExperience(getExperience() + 100);
-    //     }
-    //     unequippedInventoryItems.add(item);
-    // }
+    /**
+     * Adds an item to unequipped inventory
+     * @param item - item to add
+     */
+    public void addUnequippedItem(Item item){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // Eject the oldest unequipped item and replace it
+            // Oldest item is that at beginning of items
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+            setExperience(getExperience() + 100);
+        }
+        unequippedInventoryItems.add(item);
+    }
 
     /**
      * Spawns given item in the world
@@ -724,10 +726,23 @@ public class LoopManiaWorld {
     private void gainBattleRewards(Battle battle) {
         setGold(getGold() + battle.getBattleGold());
         setExperience(getExperience() + battle.getBattleExp());
-        for (Card card : battle.getBattleCards()) {
-            addCard(card);
+        for (String cardName : battle.getBattleCards()) {
+            Class<?> cardClass;
+            Class<?>[] parameterType;
+            Card card;       
+            try {
+                cardClass = Class.forName(cardName);
+                parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+                card = (Card) cardClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(),
+                        new SimpleIntegerProperty());
+                addCard(card);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                // DONE Auto-generated catch block
+                e.printStackTrace();
+            }
         }
-        for (Item item : battle.getBattleItems()) {
+        for (String itemName : battle.getBattleItems()) {
             //addUnequippedItem(item);
             addUnequippedSword();
         }
@@ -739,18 +754,10 @@ public class LoopManiaWorld {
      * @param expReward experience reward
      * @param itemReward item reward/s
      */
-    public void gainDiscardCardRewards(int goldReward, int expReward, List<Item> itemReward) {
+    public void gainDiscardCardRewards(int goldReward, int expReward, List<String> itemReward) {
         addGold(goldReward);
         addExperience(expReward);
-        for (Item item : itemReward) addItem(item);
-    }
-
-    /**
-     * to check if the character completed all the goals or not to win
-     * @return true if all goals are completed else false
-     */
-    public boolean isGoalCompleted() {
-        return false;
+        for (String itemName : itemReward) addUnequippedSword();
     }
 
     /**

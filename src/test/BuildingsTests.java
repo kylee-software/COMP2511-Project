@@ -89,7 +89,7 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
         Character character = new Character(position);
-        character.takeDamage(50);
+        character.reduceHealth(50);
 
         VillageBuilding villageBuilding = new VillageBuilding(position);
         villageBuilding.gainHealth(character);
@@ -129,16 +129,17 @@ public class BuildingsTests {
 
     @Test
     void CampfireTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
 
-        PathPosition vampirePathPosition = new PathPosition(5, orderedPath);
+        Character character = new Character(position);
 
-        SimpleIntegerProperty campfireX = vampirePathPosition.getX() + new SimpleIntegerProperty(1);
-        SimpleIntegerProperty campfireY = vampirePathPosition.getY() + new SimpleIntegerProperty(1);
+        CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
 
-        Character character = new Character(characterPathPosition, 100);
-        CampfireBuilding campfireBuilding = new CampfireBuilding(campfireX, campfireY);
-
-       campfireBuilding.performDamage(character);
+        campfireBuilding.performDamage(character);
 
         assert(character.getHealth() == 100 - campfireBuilding.getDamageBonus());
 
@@ -146,17 +147,20 @@ public class BuildingsTests {
 
     @Test
     void HerosCastleBuilding() {
-
-        HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(), new SimpleIntegerProperty());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0), "Standard");
 
         Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
 
         // Buy item
-        herosCastleBuilding.buyItem(shield);
+        herosCastleBuilding.buyItem(shield, null);
         assert(herosCastleBuilding.getBoughtItems() != null);
 
         // sell item
-        herosCastleBuilding.sellItem(shield);
+        herosCastleBuilding.sellItem(shield, null);
         assert(herosCastleBuilding.getBoughtItems().isEmpty());
     }
 }
