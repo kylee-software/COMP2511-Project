@@ -1,7 +1,6 @@
 package unsw.loopmania.model.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.Items.Item;
 
 /**
