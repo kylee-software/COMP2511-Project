@@ -222,8 +222,7 @@ public class LoopManiaWorld {
     }
 
     public List<BasicEnemy> getEnemies() {
-        // TODO = need to implement this correctly and add javadoc
-        return new ArrayList<>();
+        return enemies;
     }
 
     /**
