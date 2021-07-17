@@ -44,6 +44,7 @@ public class LoopManiaWorldTest {
 
     @Test
     public void runBattlesTest() {
+    
     }
 
     @Test

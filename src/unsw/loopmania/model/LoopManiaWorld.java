@@ -288,6 +288,9 @@ public class LoopManiaWorld {
 
     /**
      * Run the expected battles in the world, based on current world state.
+     * Adds entities in range to battle if an enemy in battle range.
+     * Signals game lost if battle lost without TheOneRing.
+     * Adds rewards, kills dead entities.
      * @return list of enemies which have been killed
      */
     public List<BasicEnemy> runBattles() {
