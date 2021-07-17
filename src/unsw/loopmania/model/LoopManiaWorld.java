@@ -9,22 +9,23 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
 import unsw.loopmania.model.Buildings.Building;
-import unsw.loopmania.model.Buildings.CampfireBuilding;
-import unsw.loopmania.model.Buildings.TowerBuilding;
-import unsw.loopmania.model.Buildings.VampireCastleBuilding;
-import unsw.loopmania.model.Buildings.ZombiePitBuilding;
-import unsw.loopmania.model.Cards.Card;
-import unsw.loopmania.model.Cards.VampireCastleCard;
+ import unsw.loopmania.model.Buildings.CampfireBuilding;
+ import unsw.loopmania.model.Buildings.TowerBuilding;
+ import unsw.loopmania.model.Buildings.VampireCastleBuilding;
+ import unsw.loopmania.model.Buildings.ZombiePitBuilding;
 
-import unsw.loopmania.model.Enemies.BasicEnemy;
-import unsw.loopmania.model.Enemies.Slug;
-import unsw.loopmania.model.Enemies.Vampire;
-import unsw.loopmania.model.Enemies.Zombie;
+ import unsw.loopmania.model.Cards.Card;
+ import unsw.loopmania.model.Cards.VampireCastleCard;
 
-import unsw.loopmania.model.Items.Item;
-import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.TheOneRing;
+ import unsw.loopmania.model.Enemies.BasicEnemy;
+ import unsw.loopmania.model.Enemies.Slug;
+ import unsw.loopmania.model.Enemies.Vampire;
+ import unsw.loopmania.model.Enemies.Zombie;
+
+ import unsw.loopmania.model.Items.BasicItems.Item;
+ import unsw.loopmania.model.Items.RareItems.theOneRing;
 
 /**
  * A backend world.
@@ -53,7 +54,7 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private Character character;
-    private List<AlliedSoldier> alliedSoldiers new ArrayList<>();;
+    private List<AlliedSoldier> alliedSoldiers = new ArrayList<AlliedSoldier>();
     @FXML
     private Label worldExperience;
     private int experience;
@@ -73,7 +74,7 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     // DONE = expand the range of enemies
-    private List<BasicEnemy> enemies = new ArrayList<>();;
+    private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
     private static Boolean isLost = false;
 
 
@@ -82,20 +83,20 @@ public class LoopManiaWorld {
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     // TODO = expand the range of buildings
-    private  List<Building> buildingEntities = new ArrayList<>();;
-    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<>();;
-    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<>();;
+    private  List<Building> buildingEntities = new ArrayList<Building>();;
+    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();;
+    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();;
     private HerosCastleBuilding herosCastleBuilding;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                         Attributes Related to Items                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private List<Item> unequippedInventoryItems new ArrayList<>();;
+    private List<Item> unequippedInventoryItems = new ArrayList<Item>();
 
     private Item equippedAttackItem = null;
 
-    private static List<Item> spanningItems = new ArrayList<>();;
+    private static List<Item> spanningItems = new ArrayList<Item>();;
 
     private Item equippedHelmet = null;
 
@@ -106,7 +107,7 @@ public class LoopManiaWorld {
     private Item equippedRareItem = null;
 
     // TODO = expand the range of cards
-    private List<Card> cardEntities = new ArrayList<>();;
+    private List<Card> cardEntities = new ArrayList<Card>();;
 
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -114,7 +115,7 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     // generic entitites - i.e. those which don't have dedicated fields
-    private List<Entity> nonSpecifiedEntities = new ArrayList<>();
+    private List<Entity> nonSpecifiedEntities = new ArrayList<Entity>();
 
 
     /*────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/
@@ -332,7 +333,7 @@ public class LoopManiaWorld {
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                      Mehtods Related to the Character                                      │ */
+    /* │                                      Methods Related to the Character                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     // TODO: not sure if these
@@ -397,7 +398,7 @@ public class LoopManiaWorld {
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                          Methods Realated to Enemies                                       │ */
+    /* │                                          Methods Related  to Enemies                                       │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     public void addEnemy(BasicEnemy enemy) {
@@ -441,20 +442,26 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
 
-        return spawningEnemies
+        return spawningEnemies;
     }
 
     /**
      * spawn new vampire(s) that vampire castles produced
      */
     public List<BasicEnemy> spawnVampiresFromVampireCastles() {
-        if (cycles % 5 == 0 && cycles >= 1 ) {
-            for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
-                Vampire vampire = vampireCastleBuilding.spawnVampire(orderedPath);
+
+        List<BasicEnemy> spawningEnemies = new ArrayList<>();
+
+        for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
+            PathPosition pathPosition = spawnPositionFromBuilding(vampireCastleBuilding);
+            Vampire vampire = vampireCastleBuilding.spawnVampire(cycles, pathPosition);
+            if (vampire != null) {
                 enemies.add(vampire);
                 spawningEnemies.add(vampire);
             }
         }
+
+        return spawningEnemies;
     }
 
     /**
@@ -462,10 +469,12 @@ public class LoopManiaWorld {
      */
     public List<BasicEnemy> spawnZombiesFromZombiePits() {
         // TODO: work with frontend
+        List<BasicEnemy> spawningEnemies = new ArrayList<>();
 
-        if (cycles >= 1) {
-            for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
-                Zombie zombie = zombiePitBuilding.spawnZombie(orderedPath);
+        for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
+            PathPosition pathPosition = spawnPositionFromBuilding(zombiePitBuilding);
+            Zombie zombie = zombiePitBuilding.spawnZombie(cycles, pathPosition);
+            if (zombie != null) {
                 enemies.add(zombie);
                 spawningEnemies.add(zombie);
             }
@@ -744,7 +753,7 @@ public class LoopManiaWorld {
 
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                               Methods Related to Uneqipped Inventory Items                                 │ */
+    /* │                              Methods Related to Unequipped Inventory Items                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
@@ -1010,6 +1019,29 @@ public class LoopManiaWorld {
     // }
 
 
+    private Pair<Integer, Integer> spawnPositionFromBuilding(Building building) {
+
+        int x = building.getX();
+        int y = building.getY();
+
+        Pair<Integer, Integer> upPostion  = new Pair<Integer, Integer>(x - 1, y);
+        Pair<Integer, Integer> downPostion  = new Pair<Integer, Integer>(x + 1, y);
+        Pair<Integer, Integer> leftPostion  = new Pair<Integer, Integer>(x, y - 1);
+        Pair<Integer, Integer> rightPostion  = new Pair<Integer, Integer>(x, y + 1);
+
+        if (orderedPath.indexOf(upPostion) != -1) {
+            return new PathPosition(orderedPath.indexOf(upPostion), orderedPath);
+        } else if (orderedPath.indexOf(downPostion != -1)) {
+            return new PathPosition(orderedPath.indexOf(downPostion), orderedPath);
+        } else if (orderedPath.indexOf(leftPostion != -1)) {
+            return new PathPosition(orderedPath.indexOf(leftPostion), orderedPath);
+        } else if (orderedPath.indexOf(rightPostion != -1)) {
+            return new PathPosition(orderedPath.indexOf(downPostion), rightPostion);
+        } else {
+            return null;
+        }
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                   Unsure                                                   │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -1029,28 +1061,4 @@ public class LoopManiaWorld {
         // TODO = need to implement this correctly and add javadoc
     }
 
-
-    private Pair<Integer, Integer> spawnPositionFromBuilding(Building building) {
-
-        int x = ;
-        int y = getY();
-
-        Pair<Integer, Integer> upPostion  = new Pair<Integer, Integer>(x - 1, y);
-        Pair<Integer, Integer> downPostion  = new Pair<Integer, Integer>(x + 1, y);
-        Pair<Integer, Integer> leftPostion  = new Pair<Integer, Integer>(x, y - 1);
-        Pair<Integer, Integer> rightPostion  = new Pair<Integer, Integer>(x, y + 1);
-
-        if (orderedPath.indexOf(upPostion) != -1) {
-            return upPostion;
-        } else if (orderedPath.indexOf(downPostion != -1)) {
-            return downPostion;
-        } else if (orderedPath.indexOf(leftPostion != -1)) {
-            return leftPostion;
-        } else if (orderedPath.indexOf(rightPostion != -1)) {
-            return rightPostion;
-        } else {
-            return null;
-        }
-
-    };
 }
