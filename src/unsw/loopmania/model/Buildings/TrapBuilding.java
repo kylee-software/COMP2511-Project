@@ -29,8 +29,12 @@ public class TrapBuilding extends Building {
         return false;
     }
 
-
+    /**
+     * Damage an enemy's health when the enemy passes over the trap
+     * @param enemy Enemy
+     */
     public void damageEnemy(BasicEnemy enemy) {
-        // TODO = need to implement this correctly and add javadoc
+        int damage = 10;
+        enemy.reduceHealth(damage);
     }
 }

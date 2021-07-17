@@ -1,7 +1,5 @@
 package unsw.loopmania.model.Buildings;
 
-import android.os.Build;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.StaticEntity;
 

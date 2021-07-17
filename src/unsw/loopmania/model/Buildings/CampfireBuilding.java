@@ -7,8 +7,7 @@ import unsw.loopmania.model.Character;
 
 public class CampfireBuilding extends Building {
 
-    private int damageBonus;
-    private int battleRadius;
+    private int battleRadius = 2;
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -18,22 +17,11 @@ public class CampfireBuilding extends Building {
         // TODO = need to implement this correctly and add javadoc
     }
 
-    public int getDamageBonus() {
-        return damageBonus;
-    }
-
     public int getBattleRadius() {
         return battleRadius;
     }
 
-    public void setDamageBonus(Character character) {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
-    public void setBattleRadius(int battleRadius) {
-        this.battleRadius = battleRadius;
-    }
-
+    // BUFFER INTERFACE
     public void performDamage(Character character) {
         // TODO = need to implement this correctly and add javadoc
     }
