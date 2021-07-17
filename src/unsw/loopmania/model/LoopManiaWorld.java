@@ -670,10 +670,12 @@ public class LoopManiaWorld {
      * purchase an item from the Hero Castle Menu
      * @param item
      */
-    public void purchaseItem(Item item) {
-        if (getFirstAvailableSlotForItem() != null && herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
-            gold -= ((BasicItem) item).getBuyPrice();
-            addUnequippedItem(item.getType());
+    public void purchaseItem(BasicItem item) {
+        if (getFirstAvailableSlotForItem() != null) {
+            if (herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
+                int price = herosCastleBuilding.buyItem(item, unequippedInventoryItems);
+                gold -= price;
+            }
         }
     }
 
@@ -681,9 +683,9 @@ public class LoopManiaWorld {
      * sell an item from the Hero Castle Menu
      * @param item the item to be selled
      */
-    public void sellItem(Item item) {
-        gold += item.getSellPrice();
-        removeUnequippedInventoryItem(item);
+    public void sellItem(BasicItem item) {
+        int sellPrice = herosCastleBuilding.sellItem(item, unequippedInventoryItems);
+        gold += sellPrice;
     }
 
 
