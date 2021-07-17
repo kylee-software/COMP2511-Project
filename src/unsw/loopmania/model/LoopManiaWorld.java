@@ -204,6 +204,10 @@ public class LoopManiaWorld {
         this.character = character;
     }
 
+    public List<Item> getUnequippedInventoryItems() {
+        return unequippedInventoryItems;
+    }
+
     /**
      * add a generic entity (without it's own dedicated method for adding to the world)
      * @param entity
@@ -394,12 +398,13 @@ public class LoopManiaWorld {
         // TODO = need to implement this correctly and add javadoc
     }
 
+
     /**
      * Spawn an item in the world and return the item entity
      * @param type - item type to add
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Item addUnequippedItem(String type){
+    public void addUnequippedItem(String type){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // Eject the oldest unequipped item and replace it
@@ -411,7 +416,6 @@ public class LoopManiaWorld {
         // Now we insert the new item, as we know we have at least made a slot available...
         Item item = instantiateItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
-        return item;
     }
 
     /**

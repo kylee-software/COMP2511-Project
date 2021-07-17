@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.BasicItems.Sword;
+import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -289,6 +290,13 @@ public class LoopManiaWorldController {
         onLoad(vampireCastleCard);
     }
 
+    /**
+     * load unequipped inventory items from the world, and pair them with an image in GUI
+     */
+    private void loadUnequippedInventoryItems() {
+        List<Item> unequippedInventoryItems = world.getUnequippedInventoryItems();
+        // onLoad() for every items
+    }
     /**
      * load a sword from the world, and pair it with an image in the GUI
      */
