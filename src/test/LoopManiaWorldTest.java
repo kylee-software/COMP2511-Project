@@ -8,6 +8,7 @@ import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,12 +57,12 @@ public class LoopManiaWorldTest {
     }
 
     /**
-     * Test: addUnequippedItem() replaces oldest item when full
+     * Test depends on getUnequippedInventoryItemEntityByCoordinates()
      */
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
         // Test item creation
         world.addUnequippedItem("Stake");
         Item stake = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
@@ -119,10 +120,13 @@ public class LoopManiaWorldTest {
     public void runTickMovesTest() {
     }
 
+    /**
+     * Test depends on getUnequippedInventoryItemEntityByCoordinates()
+     */
     @Test
     public void equipItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
         // Test weapon slot
         world.addUnequippedItem("Sword");
         Item sword = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
@@ -134,54 +138,79 @@ public class LoopManiaWorldTest {
         success = world.equipItem(stake);
         assertEquals(success, false);
         world.addUnequippedItem("Staff");
-        Item staff = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item staff = world.getUnequippedInventoryItemEntityByCoordinates(1,0);
         assertEquals(staff.getClass(), Staff.class);
         success = world.equipItem(staff);
         assertEquals(success, false);
         // Test armour slot
         world.addUnequippedItem("Armour");
-        Item armour1 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item armour1 = world.getUnequippedInventoryItemEntityByCoordinates(2,0);
         success = world.equipItem(armour1);
         assertEquals(success, true);
         world.addUnequippedItem("Armour");
-        Item armour2 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item armour2 = world.getUnequippedInventoryItemEntityByCoordinates(2,0);
         success = world.equipItem(armour2);
         assertEquals(success, false);
         // Test shield slot
         world.addUnequippedItem("Shield");
-        Item shield1 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item shield1 = world.getUnequippedInventoryItemEntityByCoordinates(3,0);
         success = world.equipItem(shield1);
         assertEquals(success, true);
         world.addUnequippedItem("Shield");
-        Item shield2 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item shield2 = world.getUnequippedInventoryItemEntityByCoordinates(3,0);
         success = world.equipItem(shield2);
         assertEquals(success, false);
         // Test helmet slot
         world.addUnequippedItem("Helmet");
-        Item helmet1 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item helmet1 = world.getUnequippedInventoryItemEntityByCoordinates(0,1);
         success = world.equipItem(helmet1);
         assertEquals(success, true);
         world.addUnequippedItem("Helmet");
-        Item helmet2 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item helmet2 = world.getUnequippedInventoryItemEntityByCoordinates(0,1);
         success = world.equipItem(helmet2);
         assertEquals(success, false);
         // Test rare item slot
         world.addUnequippedItem("TheOneRing");
-        Item theOneRing1 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item theOneRing1 = world.getUnequippedInventoryItemEntityByCoordinates(1,1);
         success = world.equipItem(theOneRing1);
         assertEquals(success, true);
         world.addUnequippedItem("TheOneRing");
-        Item theOneRing2 = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        Item theOneRing2 = world.getUnequippedInventoryItemEntityByCoordinates(1,1);
         success = world.equipItem(theOneRing2);
         assertEquals(success, false);
     }
 
+    /**
+     * Test depends on addUnequippedItem()
+     */
     @Test
     public void removeUnequippedInventoryItemTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        assertEquals(world.getUnequippedItems().size(), 0);
+        world.removeUnequippedInventoryItemByCoordinates(0, 0);
+        assertEquals(world.getUnequippedItems().size(), 0);
+        world.addUnequippedItem("Stake");
+        assertEquals(world.getUnequippedItems().size(), 1);
+        world.removeUnequippedInventoryItemByCoordinates(0, 0);
+        assertEquals(world.getUnequippedItems().size(), 0);
     }
 
+    /**
+     * Test depends on addUnequippedItem()
+     */
     @Test
     public void getUnequippedInventoryItemEntityByCoordinatesTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        Item item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        assertEquals(item, null);
+        world.addUnequippedItem("Stake");
+        item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
+        assertEquals(item.getClass(), Stake.class);
+        world.addUnequippedItem("Sword");
+        item = world.getUnequippedInventoryItemEntityByCoordinates(1,0);
+        assertEquals(item.getClass(), Sword.class);
     }
 
     @Test
@@ -190,13 +219,10 @@ public class LoopManiaWorldTest {
 
     @Test
     public void gainDiscardCardRewardsTest() {
+
     }
 
     @Test
     public void isGoalCompletedTest() {
-    }
-
-    @Test
-    public void reviveCharacterTest() {
     }
 }
