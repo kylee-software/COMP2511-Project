@@ -46,8 +46,8 @@ public abstract class LoopManiaWorldLoader {
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
         
         // TODO: change this to the game mode the player picks
-        String gameMode = "Standard"; 
-        LoopManiaWorld world = new LoopManiaWorld(gameMode, width, height, orderedPath);
+        //String gameMode = "Standard"; 
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

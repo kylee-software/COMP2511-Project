@@ -7,6 +7,8 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.CampfireBuilding;
 import unsw.loopmania.model.Buildings.TowerBuilding;
@@ -68,21 +70,23 @@ public class LoopManiaWorld {
 
     private static Boolean isLost = false;
 
+    @FXML
+    private Label worldExperience;
     private int experience;
 
     private int gold;
 
     private int cycles;
 
-    private static Item equippedAttackItem = null;
+    private Item equippedAttackItem = null;
 
-    private static Item equippedHelmet = null;
+    private Item equippedHelmet = null;
 
-    private static Item equippedShield = null;
+    private Item equippedShield = null;
 
-    private static Item equippedArmour = null;
+    private Item equippedArmour = null;
 
-    private static Item equippedRareItem = null;
+    private Item equippedRareItem = null;
 
     /**
      * create the world (constructor)
@@ -91,8 +95,11 @@ public class LoopManiaWorld {
      * @param height height of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(String gameMode, int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+    public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
         this.gameMode = gameMode;
+        if (worldExperience != null) {
+            updateExperience();
+        }
         this.width = width;
         this.height = height;
         nonSpecifiedEntities = new ArrayList<>();
@@ -104,6 +111,14 @@ public class LoopManiaWorld {
         buildingEntities = new ArrayList<>();
     }
 
+    public void setExperienceLabel(Label worldExperience) {
+        this.worldExperience = worldExperience;
+    }
+
+    public void updateExperience() {
+        worldExperience.setText("Experience: " + this.experience);
+    }
+    
     public int getWidth() {
         return width;
     }
@@ -111,7 +126,6 @@ public class LoopManiaWorld {
     public int getHeight() {
         return height;
     }
-
 
     public int getExperience() {
         return experience;
@@ -174,7 +188,7 @@ public class LoopManiaWorld {
     public List<Pair<Integer, Integer>> getOrderedPath() {
 		return this.orderedPath;
     }
-    
+
     public List<AlliedSoldier> getAlliedSoldiers() {
         return alliedSoldiers;
     }
@@ -277,63 +291,90 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Run the expected battles in the world, based on current world state.
+     * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
      */
     public List<BasicEnemy> runBattles() {
+        // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-        List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
-        List<Building> battleTowers = new ArrayList<Building>();
-        List<Building> battleCampfires = new ArrayList<Building>();
-        Boolean enemyInBattleRange = false;
-        
-        // Check if enemies within battle range
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-            double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < battleRadiusSquared){
-                battleEnemies.add(e);
-                enemyInBattleRange = true;
-                break;
+            // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+                // fight...
+                defeatedEnemies.add(e);
             }
         }
-        // No battle if no enemies in battle range
-        if (!enemyInBattleRange) {
-            return defeatedEnemies;
-        }
-        // Add all support enemies if an enemy in battle range
-        battleEnemies.addAll(getSupportEnemies());
-        // Add all towers
-        battleTowers.addAll(getSupportBuildings("Tower"));
-        // Add all campfires
-        battleCampfires.addAll(getSupportBuildings("Campfire"));
-
-        // Battle
-        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
-        battle.fight();
-        
-        // Kill dead enemies
-        for (BasicEnemy enemy : battle.getKilledEnemies()) {
-            killEnemy(enemy);
-        }
-        // Kill dead allies
-        for (AlliedSoldier ally : battle.getKilledAllies()) {
-            alliedSoldiers.remove(ally);
-        }
-        if (battle.isLost()) {
-            // Check has The One Ring
-            if (equippedRareItem.getClass().equals(TheOneRing.class)) {
-                reviveCharacter();
-                equippedRareItem = null;
-            } else {
-                // Game Lost
-                isLost = true;
-            }
-        } else {
-            gainBattleRewards(battle);
+        for (BasicEnemy e: defeatedEnemies){
+            // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
+            // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
+            // due to mutating list we're iterating over
+            killEnemy(e);
+            setExperience(10);
+            updateExperience();
         }
         return defeatedEnemies;
     }
+
+
+    // /**
+    //  * Run the expected battles in the world, based on current world state.
+    //  * @return list of enemies which have been killed
+    //  */
+    // public List<BasicEnemy> runBattles() {
+    //     List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+    //     List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
+    //     List<Building> battleTowers = new ArrayList<Building>();
+    //     List<Building> battleCampfires = new ArrayList<Building>();
+    //     Boolean enemyInBattleRange = false;
+
+    //     // Check if enemies within battle range
+    //     for (BasicEnemy e: enemies){
+    //         // Pythagoras: a^2+b^2 < radius^2 to see if within radius
+    //         double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
+    //         if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < battleRadiusSquared){
+    //             battleEnemies.add(e);
+    //             enemyInBattleRange = true;
+    //             break;
+    //         }
+    //     }
+    //     // No battle if no enemies in battle range
+    //     if (!enemyInBattleRange) {
+    //         return defeatedEnemies;
+    //     }
+    //     // Add all support enemies if an enemy in battle range
+    //     battleEnemies.addAll(getSupportEnemies());
+    //     // Add all towers
+    //     battleTowers.addAll(getSupportBuildings("Tower"));
+    //     // Add all campfires
+    //     battleCampfires.addAll(getSupportBuildings("Campfire"));
+
+    //     // Battle
+    //     Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
+    //     battle.fight();
+
+    //     // Kill dead enemies
+    //     for (BasicEnemy enemy : battle.getKilledEnemies()) {
+    //         killEnemy(enemy);
+    //     }
+    //     // Kill dead allies
+    //     for (AlliedSoldier ally : battle.getKilledAllies()) {
+    //         alliedSoldiers.remove(ally);
+    //     }
+    //     if (battle.isLost()) {
+    //         // Check has The One Ring
+    //         if (equippedRareItem.getClass().equals(TheOneRing.class)) {
+    //             reviveCharacter();
+    //             equippedRareItem = null;
+    //         } else {
+    //             // Game Lost
+    //             isLost = true;
+    //         }
+    //     } else {
+    //         gainBattleRewards(battle);
+    //     }
+    //     return defeatedEnemies;
+    // }
 
     /**
      * Returns list of all enemies in support range
@@ -403,20 +444,40 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Adds an item to unequipped inventory
-     * @param item - item to add
+     * spawn a sword in the world and return the sword entity
+     * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public void addUnequippedItem(Item item){
+    public Sword addUnequippedSword(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
-            // Eject the oldest unequipped item and replace it
-            // Oldest item is that at beginning of items
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
-            setExperience(getExperience() + 100);
         }
-        unequippedInventoryItems.add(item);
+
+        // now we insert the new sword, as we know we have at least made a slot available...
+        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(sword);
+        return sword;
     }
+
+    // /**
+    //  * Adds an item to unequipped inventory
+    //  * @param item - item to add
+    //  */
+    // public void addUnequippedItem(Item item){
+    //     Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+    //     if (firstAvailableSlot == null){
+    //         // Eject the oldest unequipped item and replace it
+    //         // Oldest item is that at beginning of items
+    //         removeItemByPositionInUnequippedInventoryItems(0);
+    //         firstAvailableSlot = getFirstAvailableSlotForItem();
+    //         setExperience(getExperience() + 100);
+    //     }
+    //     unequippedInventoryItems.add(item);
+    // }
 
     /**
      * Spawns given item in the world
@@ -598,7 +659,7 @@ public class LoopManiaWorld {
      */
     private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
         // TODO = modify this
-        
+
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
@@ -638,7 +699,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        
+
         // now spawn building
         VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         buildingEntities.add(newBuilding);
@@ -667,7 +728,8 @@ public class LoopManiaWorld {
             addCard(card);
         }
         for (Item item : battle.getBattleItems()) {
-            addUnequippedItem(item);
+            //addUnequippedItem(item);
+            addUnequippedSword();
         }
     }
 
@@ -704,7 +766,7 @@ public class LoopManiaWorld {
     //     Random random = new Random();
     //     int randomInt = random.nextInt(6);
     //     if (randomInt == 0) {
-            
+
     //     }
     // }
 
