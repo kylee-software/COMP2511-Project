@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.*;
+import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.Items.BasicItems.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,7 +46,7 @@ public class LoopManiaWorldTest {
 
     @Test
     public void runBattlesTest() {
-    
+        
     }
 
     @Test
@@ -55,8 +57,39 @@ public class LoopManiaWorldTest {
     public void trapTest() {
     }
 
+    /**
+     * Test: addUnequippedItem() replaces oldest item when full
+     */
     @Test
     public void addUnequippedItemTest() {
+        world.addUnequippedItem("Stake");
+        world.addUnequippedItem("Sword");
+        world.addUnequippedItem("Shield");
+        world.addUnequippedItem("Armour");
+        assertEquals(world.getUnequippedItems().size(), 4);
+        world.addUnequippedItem("Stake");
+        world.addUnequippedItem("Sword");
+        world.addUnequippedItem("Shield");
+        world.addUnequippedItem("Armour");
+        world.addUnequippedItem("Staff");
+        world.addUnequippedItem("Helmet");
+        world.addUnequippedItem("Armour");
+        world.addUnequippedItem("Armour");
+        world.addUnequippedItem("Sword");
+        world.addUnequippedItem("Sword");
+        world.addUnequippedItem("Armour");
+        world.addUnequippedItem("Armour");
+        assertEquals(world.getUnequippedItems().size(), 16);
+        // First item should now set to type Sword
+        world.addUnequippedItem("Sword");
+        assertEquals(world.getUnequippedItems().size(), 16);
+        Item item1 = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
+        assertEquals(item1.getClass(), Sword.class);
+        // Second item should now set to type Health Potion
+        world.addUnequippedItem("HealthPotion");
+        assertEquals(world.getUnequippedItems().size(), 16);
+        Item item2 = world.getUnequippedInventoryItemEntityByCoordinates(1, 0);
+        assertEquals(item2.getClass(), HealthPotion.class);
     }
 
     @Test
@@ -73,6 +106,10 @@ public class LoopManiaWorldTest {
 
     @Test
     public void removeUnequippedInventoryItemTest() {
+    }
+
+    @Test
+    public void getUnequippedInventoryItemEntityByCoordinatesTest() {
     }
 
     @Test
