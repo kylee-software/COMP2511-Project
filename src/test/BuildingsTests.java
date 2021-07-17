@@ -5,6 +5,10 @@ import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 import unsw.loopmania.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.CharConversionException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,50 +25,46 @@ import unsw.loopmania.model.Items.BasicItems.Shield;
 
 public class BuildingsTests {
 
-    private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/world_with_twists_and_turns.json")));
+    // private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/world_with_twists_and_turns.json")));
 
-    int width = json.getInt("width");
-    int height = json.getInt("height");
+    // int width = json.getInt("width");
+    // int height = json.getInt("height");
 
-    // path variable is collection of coordinates with directions of path taken...
-    List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width, height);
-
+    // // path variable is collection of coordinates with directions of path taken...
+    // List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width, height);
+    // LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
+    
     @Test
     void VampireCastleTest() {
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-        VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(),
-                                                                                new SimpleIntegerProperty());
+        VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
 
-        world.addBuilding(vampireCastleBuilding);
+        int cycle = 1;
+        assertNull(vampireCastleBuilding.spawnVampire(cycle, position));
 
-        List<BasicEnemy> enemiesBefore = world.getEnemies();
-
-        vampireCastleBuilding.produceEntity(5);
-        world.spawnVampiresFromVampireCastles();
-
-        List<BasicEnemy> enemiesAfter = world.getEnemies();
-
-        assert(enemiesBefore != enemiesAfter);
+        cycle = 5;
+        assertNotNull(vampireCastleBuilding.spawnVampire(cycle, position));
     }
 
     @Test
     void ZombiePitTest() {
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-        ZombiePitBuilding zombiePitBuilding = new ZombiePitBuilding(new SimpleIntegerProperty(),
-                                                                            new SimpleIntegerProperty());
+        ZombiePitBuilding zombiePitBuilding = new ZombiePitBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+       
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
 
-        world.addBuilding(zombiePitBuilding);
-
-        List<BasicEnemy> enemiesBefore = world.getEnemies();
-
-        zombiePitBuilding.produceEntity(1);
-        world.spawnZombiesFromZombiePits();
-
-        List<BasicEnemy> enemiesAfter = world.getEnemies();
-
-        assert(enemiesBefore != enemiesAfter);
+        assertNotNull(zombiePitBuilding.spawnZombie(position));
     }
 
+    // TODO = fix this and figure out attack strategy
     @Test
     void TowerTest() {
 
@@ -83,39 +83,24 @@ public class BuildingsTests {
 
     @Test
     void VillageTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        int health = 50;
+        Character character = new Character(position, health);
 
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
+        VillageBuilding villageBuilding = new VillageBuilding(position);
+        villageBuilding.refillHealth(character);
 
-        VillageBuilding villageBuilding = new VillageBuilding(pathPosition);
-
-        // set a low health point for the Charcater
-        Character character = new Character(pathPosition, 10);
-
-        villageBuilding.addHealth(character);
-
-        assert(character.getHealth() == 100);
+        assertEquals(character.getHealth(), 100);
     }
 
     @Test
     void BarrackTest() {
-
-        LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
-
-        BarracksBuilding barracksBuilding = new BarracksBuilding(pathPosition);
-        world.addBuilding(barracksBuilding);
-
-        Character character = new Character(pathPosition, 100);
-        world.setCharacter(character);
-
-        List<AlliedSoldier> alliedSoldiersBefore = world.getAlliedSoldiers();
-
-        world.produceAlliesFromBarracks();
-
-        List<AlliedSoldier> alliedSoldiersAfter = world.getAlliedSoldiers();
-
-        assert(alliedSoldiersBefore != alliedSoldiersAfter);
+        BarracksBuilding barracksBuilding = new BarracksBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        assertNotNull(barracksBuilding.spawnAlliedSoldier(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1)));
     }
 
     @Test

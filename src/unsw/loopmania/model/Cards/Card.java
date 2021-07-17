@@ -13,8 +13,8 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 /**
- * the items that can be obtained as reward If more item types are added, add an
- * enum value here.
+ * the items that can be obtained as reward 
+ * If more item types are added, add an enum value here.
  */
 enum ITEM {
     Sword, Stake, Staff, Armour, Shield, Helmet, HealthPotion;

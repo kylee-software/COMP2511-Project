@@ -30,7 +30,7 @@ public class HerosCastleBuilding extends Building {
     }
 
     public void buyItem(Item item, List<Item> unequippedInventory) {
-        if (isValidInMode(item)) {
+        if (canBuyInMode(item)) {
             unequippedInventory.add(item);
             getBoughtItems().add(item);
         }  
@@ -45,7 +45,7 @@ public class HerosCastleBuilding extends Building {
      * @param item item player wants to purchase
      * @return true if purchase is valid, otherwise false
      */
-    public boolean isValidInMode(Item item) {
+    public boolean canBuyInMode(Item item) {
         if (gameMode == "Survival") {
             if (item instanceof HealthPotion) {
                 for (Item boughtItem : getBoughtItems()) {
