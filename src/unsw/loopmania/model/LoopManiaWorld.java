@@ -74,7 +74,13 @@ public class LoopManiaWorld {
     private Label worldExperience;
     private int experience;
 
+    @FXML
+    private Label worldGold;
     private int gold;
+
+    @FXML
+    private Label worldHealth;
+    private int health = 100;
 
     private int cycles;
 
@@ -100,6 +106,10 @@ public class LoopManiaWorld {
         if (worldExperience != null) {
             updateExperience();
         }
+        if (worldGold != null) {
+            updateGold();
+        }
+
         this.width = width;
         this.height = height;
         nonSpecifiedEntities = new ArrayList<>();
@@ -119,6 +129,22 @@ public class LoopManiaWorld {
         worldExperience.setText("Experience: " + this.experience);
     }
     
+    public void setGoldLabel(Label worldGold) {
+        this.worldGold = worldGold;
+    }
+
+    public void updateGold() {
+        worldGold.setText("Gold: " + this.gold);
+    }
+
+    public void setHealthLabel(Label worldHealth) {
+        this.worldHealth = worldHealth;
+    }
+
+    public void updateHealth() {
+        worldHealth.setText("Health: " + this.health);
+    }
+
     public int getWidth() {
         return width;
     }
@@ -136,8 +162,20 @@ public class LoopManiaWorld {
     }
 
     /**
+     * set the health that the character currently has
+     * @param health health
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    /**
      * set the experience point(s) that the character currently has
-     * @param experience experience piont(s)
+     * @param experience experience point(s)
      */
     public void setExperience(int experience) {
         this.experience = experience;
@@ -269,7 +307,7 @@ public class LoopManiaWorld {
         }
         return spawningEnemies;
     }
-
+    
     /**
      * spawn new vampire(s) that vampire castles produced
      */
@@ -323,8 +361,12 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             killEnemy(e);
-            setExperience(10);
+            setExperience(getExperience()+10);
             updateExperience();
+            setGold(getGold()+2);
+            updateGold();
+            setHealth(getHealth() - 5);
+            updateHealth();
         }
         return defeatedEnemies;
     }
