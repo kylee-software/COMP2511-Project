@@ -62,7 +62,7 @@ public class CardsTest {
     public void setItemRewardTest() {
         Card barracks = new BarracksCard(new SimpleIntegerProperty(), new SimpleIntegerProperty());
         barracks.setItemReward();
-        assertNotNull(barracks.getItemReward());
-        //System.out.println(barracks.getItemReward());
+        assertNotNull(barracks.getItemRewardList());
+        System.out.println(barracks.getItemRewardList());
     }
 }
