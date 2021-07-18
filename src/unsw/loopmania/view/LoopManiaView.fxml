@@ -109,7 +109,30 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
-            <Label fx:id="worldExperience" prefHeight="52.0" prefWidth="112.0" text="Experience: " />
+            <Label fx:id="worldHealth" prefHeight="60.0" prefWidth="94.0" text=" Health: ">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/heart.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Label>
+            <Label fx:id="worldExperience" prefHeight="52.0" prefWidth="115.0" text=" Experience: ">
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/exp.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Label>
+            <Label fx:id="worldGold" prefHeight="52.0" prefWidth="83.0" text=" Gold: ">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/gold_pile.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Label>
          </children>
       </VBox>
    </HBox>

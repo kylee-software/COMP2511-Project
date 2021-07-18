@@ -17,6 +17,6 @@ public class CycleGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete() {
-        return world.getCycle() == cycleGoal;
+        return world.getCycles() == cycleGoal;
     }
 }

@@ -1,8 +1,11 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.Zombie;
+import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.PathPosition;
+
+import java.util.List;
 
 public class ZombiePitBuilding extends Building {
 
@@ -16,7 +19,11 @@ public class ZombiePitBuilding extends Building {
      * @param position position where zombie is spawned
      * @return zombie
      */
-    public Zombie spawnZombie(PathPosition position) {
-        return new Zombie(position);
+    public Zombie spawnZombie(int cycle, PathPosition pathPosition) {
+        if (cycle >= 1) {
+            return new Zombie(pathPosition);
+        }
+        return null;
     }
+
 }

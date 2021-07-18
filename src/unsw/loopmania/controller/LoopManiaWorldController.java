@@ -31,6 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
+import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.Goal;
 import unsw.loopmania.model.Battle;
@@ -171,6 +172,12 @@ public class LoopManiaWorldController {
 
     @FXML
     private Label worldExperience;
+
+    @FXML
+    private Label worldGold;
+
+    @FXML 
+    private Label worldHealth;
     
     /**
      * @param world world object loaded from file
@@ -204,6 +211,10 @@ public class LoopManiaWorldController {
 
         world.setExperienceLabel(worldExperience);
         world.updateExperience();
+        world.setGoldLabel(worldGold);
+        world.updateGold();
+        world.setHealthLabel(worldHealth);
+        world.updateHealth();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -255,7 +266,7 @@ public class LoopManiaWorldController {
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
+            List<BasicEnemy> newEnemies = world.SpawnSlugs();
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
@@ -304,11 +315,19 @@ public class LoopManiaWorldController {
     }
 
     /**
+     * load unequipped inventory items from the world, and pair them with an image in GUI
+     */
+    private void loadUnequippedInventoryItems() {
+        List<Item> unequippedInventoryItems = world.getUnequippedInventoryItems();
+        // onLoad() for every items
+    }
+    /**
      * load a sword from the world, and pair it with an image in the GUI
      */
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
+        //addUnequippedItem("Sword");
         Sword sword = world.addUnequippedSword();
         onLoad(sword);
     }

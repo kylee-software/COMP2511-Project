@@ -53,7 +53,7 @@ public abstract class Item extends StaticEntity {
     }
 
     /**
-     * Does nothing unless item is health potion
+     * Does nothing unless item is HealthPotion/TheOneRing
      */
     public void usePotion(Character character) {
     }

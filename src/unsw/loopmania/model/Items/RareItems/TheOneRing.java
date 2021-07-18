@@ -19,4 +19,14 @@ public class TheOneRing extends RareItem {
         super(x, y);
     }
 
+    @Override
+    /**
+     * Does nothing unless item is health potion
+     */
+    public void usePotion(Character character) {
+        if (character.isDead()) {
+            character.setHealth(100);
+        }
+    }
+
 }

@@ -20,7 +20,6 @@ enum CARD {
 }
 
 public class CardRewardBehaviour implements RewardStrategy {
-
     /**
      * Add a random number of random items to item rewards list
      */

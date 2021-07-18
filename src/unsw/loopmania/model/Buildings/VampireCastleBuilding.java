@@ -1,8 +1,11 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.PathPosition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * a basic form of building in the world
@@ -17,13 +20,15 @@ public class VampireCastleBuilding extends Building {
     /**
      * Spawn vampires every 5 cycles of the path completed by the Character
      * @param cycle number of path cycles the Character had completed
-     * @param position position where vampire is spawned
+     * @param pathPosition position where vampire is spawned
      * @return vampire
      */
-    public Vampire spawnVampire(int cycle, PathPosition position) {
-        if (cycle % 5 == 0) {
-            return new Vampire(position);
+    public Vampire spawnVampire(int cycle, PathPosition pathPosition) {
+
+        if (cycle % 5 == 0 && cycle >= 1 ) {
+            return new Vampire(pathPosition);
         }
         return null;
     }
+
 }
