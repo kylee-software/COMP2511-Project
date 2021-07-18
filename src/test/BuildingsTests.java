@@ -9,19 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.CharConversionException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.*;
-import unsw.loopmania.controller.LoopManiaWorldLoader;
 import unsw.loopmania.model.*;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.AttackStrategy.TowerAttack;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Enemies.*;
-import unsw.loopmania.model.Items.BasicItems.Shield;
 
 public class BuildingsTests {
 

@@ -2,10 +2,8 @@ package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Enemies.Zombie;
-import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.PathPosition;
 
-import java.util.List;
 
 public class ZombiePitBuilding extends Building {
 

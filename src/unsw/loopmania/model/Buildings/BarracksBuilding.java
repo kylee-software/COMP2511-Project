@@ -28,8 +28,7 @@ public class BarracksBuilding extends Building {
      * @return allied soldier
      */
     public AlliedSoldier spawnAlliedSoldier(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        int health = 100;
-        return new AlliedSoldier(x, y, health);
+        return new AlliedSoldier(x, y);
     }
     
 }
