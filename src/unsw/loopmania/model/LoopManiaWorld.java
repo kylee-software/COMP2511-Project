@@ -7,12 +7,9 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.javatuples.Pair;
-import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
@@ -458,7 +455,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+            BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
