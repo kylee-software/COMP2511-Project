@@ -153,11 +153,14 @@ public class Battle {
             allyTurn += 1;
             allyTurn %= allies.size();
             // check next ally is alive
+            // deal trance
             Boolean infect = enemyAttack(liveEnemies.get(enemyTurn), scalarDef, flatDef);
             enemyTurn += 1;
             enemyTurn %= liveEnemies.size();
             // check next enemy is alive
+            // deal infect
         }
+        // check dead enemies
     }
 
     /**
