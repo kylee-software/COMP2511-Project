@@ -20,7 +20,7 @@ public class BasicAttack extends AttackObserver implements AttackStrategy {
     @Override
     public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         int damage = attacker.getDamage();
-        if (campfire && !attacker.getClass().equals(AlliedSoldier.class)) {
+        if (campfire && attacker.getClass().equals(Character.class)) {
             damage *= super.campfireBuff();
         }
         target.setHealth(target.getHealth() - damage);
