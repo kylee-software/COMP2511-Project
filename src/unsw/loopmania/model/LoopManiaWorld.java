@@ -55,7 +55,11 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private Character character;
+    
+    @FXML
+    private Label numAlliedSoldiers;    
     private List<AlliedSoldier> alliedSoldiers = new ArrayList<AlliedSoldier>();
+
     @FXML
     private Label worldExperience;
     private int experience;
@@ -246,6 +250,10 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
+    public void setNumAlliedSoldiers(Label numAlliedSoldiers){
+        this.numAlliedSoldiers = numAlliedSoldiers;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Getters and Setters Related to Enemies                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -357,6 +365,10 @@ public class LoopManiaWorld {
 
     public void updateHealth() {
         worldHealth.setText("Health: " + this.health);
+    }
+
+    public void updateNumAlliedSoldiers(){
+        numAlliedSoldiers.setText("Allied Soldiers: " + this.getAlliedSoldiers().size());
     }
 
     public void addGold(int gold) {

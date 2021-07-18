@@ -210,6 +210,9 @@ public class LoopManiaWorldController {
 
     @FXML 
     private Label worldHealth;
+
+    @FXML
+    private Label numAlliedSoldiers;
     
     /**
      * @param world world object loaded from file
@@ -280,6 +283,7 @@ public class LoopManiaWorldController {
         world.updateGold();
         world.setHealthLabel(worldHealth);
         world.updateHealth();
+        world.setNumAlliedSoldiers(numAlliedSoldiers);
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
