@@ -8,6 +8,10 @@ public class BarracksBuilding extends Building {
 
     private PathPosition pathPosition;
 
+    public BarracksBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y);
+    }
+
     public BarracksBuilding (PathPosition pathPosition) {
         super(pathPosition.getX(), pathPosition.getY());
         this.pathPosition = pathPosition;

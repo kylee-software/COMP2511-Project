@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import unsw.loopmania.model.*;
 import unsw.loopmania.model.Character;
+import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 import javafx.geometry.Rectangle2D;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
 
     //Images
     private Image characterImage;
+    private Image herosCastleBuildingImage;
     private Image pathTilesImage;
 
     public LoopManiaWorldControllerLoader(String filename)
@@ -37,6 +39,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         super(filename);
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
+        herosCastleBuildingImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         
     }
@@ -46,6 +49,12 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     public void onLoad(Character character) {
         ImageView view = new ImageView(characterImage);
         addEntity(character, view);
+    }
+
+    @Override
+    public void onLoad(HerosCastleBuilding herosCastleBuilding) {
+        ImageView view = new ImageView(herosCastleBuildingImage);
+        addEntity(herosCastleBuilding, view);
     }
 
     /**
