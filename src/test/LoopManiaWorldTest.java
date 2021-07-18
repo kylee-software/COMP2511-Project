@@ -59,7 +59,7 @@ public class LoopManiaWorldTest {
         List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
         assert(alliedSoldiers.isEmpty());
 
-        character.move();
+        character.moveDownPath();
         alliedSoldiers = world.spawnAlliesFromBarracks();
         assertNotNull(alliedSoldiers);
     }

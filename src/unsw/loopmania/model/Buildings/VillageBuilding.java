@@ -26,7 +26,6 @@ public class VillageBuilding extends Building {
     }
 
     public boolean checkForCharacter(Character character) {
-        // TODO = need to implement this correctly and add javadoc
         return false;
     }
 

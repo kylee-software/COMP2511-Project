@@ -84,7 +84,6 @@ public class LoopManiaWorld {
    /* │                                    Attributes Related to Buildings                                          │ */
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    // TODO = expand the range of buildings
     private  List<Building> buildingEntities = new ArrayList<Building>();
     private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();
     private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();
@@ -132,7 +131,6 @@ public class LoopManiaWorld {
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath, List<String> rareItems) {
-        // TODO: this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
         }
@@ -516,7 +514,6 @@ public class LoopManiaWorld {
      * spawn new zombies(s) that zombie pits produced
      */
     public List<BasicEnemy> spawnZombiesFromZombiePits() {
-        // TODO: work with frontend
         List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
 
         for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
@@ -568,8 +565,6 @@ public class LoopManiaWorld {
      * produce new allied soldiers(s) when the Character passes through barracks
      */
     public List<AlliedSoldier> spawnAlliesFromBarracks() {
-        // TODO = need to implement this correctly and add javadoc
-
         for (BarracksBuilding barracksBuilding : barracksBuildings) {
             if (isOnSameTile(character, barracksBuilding)) {
                 AlliedSoldier alliedSoldier = barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath));
@@ -584,41 +579,6 @@ public class LoopManiaWorld {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                       Methods Related to the Battle                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
-    // /**
-    //  * Run the expected battles in the world, based on current world state.
-    //  * Adds entities in range to battle if an enemy in battle range.
-    //  * Signals game lost if battle lost without TheOneRing.
-    //  * Adds rewards, kills dead entities.
-    //  * @return list of enemies which have been killed
-    //  */
-    // public List<BasicEnemy> runBattles() {
-    //     // TODO = modify this - currently the character automatically wins all battles without any damage!
-    //     List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-    //     for (BasicEnemy e: enemies){
-    //         // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-    //         // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-    //         if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-    //             // fight...
-    //             defeatedEnemies.add(e);      
-    //         }
-    //     }
-    //     for (BasicEnemy e: defeatedEnemies){
-    //         // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
-    //         // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
-    //         // due to mutating list we're iterating over
-    //         killEnemy(e);
-    //         setExperience(getExperience()+10);
-    //         updateExperience();
-    //         setGold(getGold()+2);
-    //         updateGold();
-    //         setHealth(getHealth() - 5);
-    //         updateHealth();
-    //     }
-    //     System.out.println(defeatedEnemies);
-    //     return defeatedEnemies;
-    // }
-
 
     /**
      * Run the expected battles in the world, based on current world state.
@@ -950,7 +910,6 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     public void trap() {
-        // TODO = need to implement this correctly and add javadoc
     }
 
     /**
@@ -1076,7 +1035,6 @@ public class LoopManiaWorld {
         Random rand = new Random();
         int choice = rand.nextInt(chance);
 
-        // TODO = change based on spec
         if ((choice == 0)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
@@ -1238,7 +1196,6 @@ public class LoopManiaWorld {
      */
     public void addEntity(Entity entity) {
         // for adding non-specific entities (ones without another dedicated list)
-        // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
     }
 
