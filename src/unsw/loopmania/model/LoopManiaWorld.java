@@ -761,7 +761,7 @@ public class LoopManiaWorld {
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
      */
-    public void addUnequippedItem(String type){
+    public Item addUnequippedItem(String type){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // Eject the oldest unequipped item and replace it
@@ -772,6 +772,7 @@ public class LoopManiaWorld {
         }
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
+        return item;
     }
 
 
