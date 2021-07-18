@@ -7,12 +7,18 @@ public class AlliedSoldier extends MovingEntity {
 
     private static int health = 100;
     private int max;
+    private int remainingLifeCycles;
+    private static int trancedZombieLifeCycle = 3;
+    private int trancedZombieIndex;
     private static int damage = 6;
     private static double speed = 0;
     private static AttackStrategy strategy = new BasicAttack();
 
     public AlliedSoldier(PathPosition position) {
         super(position, health, speed);
+        // Default -1 indicates not a tranced zombie
+        this.remainingLifeCycles = -1;
+        this.trancedZombieIndex = -1;
     }
 
     /**
@@ -46,6 +52,48 @@ public class AlliedSoldier extends MovingEntity {
     @Override
     public int getDamage() {
         return damage;
+    }
+
+    /**
+     * Setter for damage. Used when zombie is tranced.
+     * @param newDamage
+     */
+    public void setDamage(int newDamage) {
+        damage = newDamage;
+    }
+
+    /**
+     * Sets life cycle of a tranced zombie.
+     */
+    public void setTrancedLifeCycle() {
+        this.remainingLifeCycles = trancedZombieLifeCycle;
+    }
+
+    public void reduceTrancedLifeCycle() {
+        this.remainingLifeCycles -= 1;
+    }
+
+    /**
+     * Getter for tranced zombie life cycle
+     * @return
+     */
+    public int getTrancedLifeCycle() {
+        return trancedZombieLifeCycle;
+    }
+
+    /**
+     * Sets index of original zombie in enemies array of battle
+     * @param index - index of original zombie
+     */
+    public void setTrancedZombieIndex(int index) {
+        this.trancedZombieIndex = index;
+    }
+
+    /**
+     * Returns index of tranced zombie in battle enemies array
+     */
+    public int getTrancedZombieIndex() {
+        return trancedZombieIndex;
     }
 
     /**
