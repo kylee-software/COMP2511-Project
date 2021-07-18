@@ -1,10 +1,6 @@
 package unsw.loopmania.model;
 
-import java.util.Random;
-
 import org.javatuples.Pair;
-
-import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +25,6 @@ public class Battle {
     private Item armour = null;
     private Item shield = null;
     private Item helmet = null;
-    private int characterDamage = character.getDamage();
 
     /**
      * Constructor for a battle

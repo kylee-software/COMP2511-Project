@@ -78,7 +78,7 @@ public class AlliedSoldier extends MovingEntity {
      * @return
      */
     public int getTrancedLifeCycle() {
-        return trancedZombieLifeCycle;
+        return remainingLifeCycles;
     }
 
     /**
