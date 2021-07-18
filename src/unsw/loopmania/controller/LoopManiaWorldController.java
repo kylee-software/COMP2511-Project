@@ -370,39 +370,17 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load a vampire card from the world, and pair it with an image in the GUI
+     * load a card from the world, and pair it with an image in the GUI
      */
-    private void loadVampireCard() {
-        // TODO = load more types of card
-        VampireCastleCard vampireCastleCard = world.loadVampireCard();
-        onLoad(vampireCastleCard);
-    }
-
     private void loadCard(String type) {
         // TODO = load more types of card
         Card card = world.loadCard(type);
         onLoadCard(card);
     }
 
-
     /**
-     * load unequipped inventory items from the world, and pair them with an image in GUI
+     * load an item from the world, and pair it with an image in the GUI
      */
-    // private void loadUnequippedInventoryItems() {
-    //     List<Item> unequippedInventoryItems = world.getUnequippedInventoryItems();
-    //     // onLoad() for every items
-    // }
-    /**
-     * load a sword from the world, and pair it with an image in the GUI
-     */
-    private void loadSword(){
-        // TODO = load more types of weapon
-        // start by getting first available coordinates
-        // addUnequippedItem("Sword");
-        Sword sword = world.addUnequippedSword();
-        onLoad(sword);
-    }
-
     private void loadItem(String type){
         // TODO = load more types of weapon
         // start by getting first available coordinates
@@ -411,12 +389,18 @@ public class LoopManiaWorldController {
         onLoadItem(item);
     }
 
+    /**
+     * load spawned gold from the world, and pair it with an image in the GUI
+     */
     private void loadGoldPile(){
         Item gold = world.possiblySpawnGold();
         onLoadGold(gold);
         
     }
 
+    /**
+     * load spawned health potion from the world, and pair it with an image in the GUI
+     */
     private void loadHealthPotion(){
         Item healthPotion = world.possiblySpawnHealthPotions();
         onLoadHealthPotion(healthPotion);
@@ -432,7 +416,7 @@ public class LoopManiaWorldController {
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadItem("Staff");
-        loadCard("VillageCard");
+        loadCard("CampfireCard");
         loadGoldPile();
         loadHealthPotion();
     }
@@ -460,22 +444,11 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load a vampire castle card into the GUI.
+     * load a given card into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the cards GridPane.
-     * @param vampireCastleCard
+     * @param card
      */
-    private void onLoad(VampireCastleCard vampireCastleCard) {
-        ImageView view = new ImageView(vampireCastleCardImage);
-
-        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
-        // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares, vampireCastleCard, null);
-
-        addEntity(vampireCastleCard, view);
-        cards.getChildren().add(view);
-    }
-
     private void onLoadCard(Card card) {
         ImageView view = onLoadCardView(card);
 
@@ -489,18 +462,11 @@ public class LoopManiaWorldController {
 
 
     /**
-     * load a sword into the GUI.
+     * load an item into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param item
      */
-    private void onLoad(Sword sword) {
-        ImageView view = new ImageView(swordImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, sword);
-        addEntity(sword, view);
-        unequippedInventory.getChildren().add(view);
-    }
-    
     private void onLoadItem(Item item) {
         ImageView view = onLoadItemView(item);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, item);
@@ -512,12 +478,6 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
-        addEntity(enemy, view);
-        squares.getChildren().add(view);
-    }
-
     private void onLoadEnemy(BasicEnemy enemy) {
         ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
@@ -528,12 +488,6 @@ public class LoopManiaWorldController {
      * load a building into the GUI
      * @param building
      */
-    // private void onLoad(VampireCastleBuilding building){
-    //     ImageView view = new ImageView(basicBuildingImage);
-    //     addEntity(building, view);
-    //     squares.getChildren().add(view);
-    // }
-
     private void onloadBuilding(Building building) {
         ImageView view = onLoadBuildingView(building);
         addEntity(building, view);
@@ -580,12 +534,11 @@ public class LoopManiaWorldController {
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
                         switch (draggableType){
                             case CARD:
-                                // TODO = spawn a building here of different types
-                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                //VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
-                                onloadBuilding(newBuilding);
-                                //onLoad(newBuilding);
+                                if (card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
+                                    removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                    Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
+                                    onloadBuilding(newBuilding);
+                                }
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);

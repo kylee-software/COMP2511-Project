@@ -921,36 +921,6 @@ public class LoopManiaWorld {
 
     /**
      * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to width-1 of card to be removed
-     * @param cardNodeY y index from 0 to height-1 of card to be removed
-     * @param buildingNodeX x index from 0 to width-1 of building to be added
-     * @param buildingNodeY y index from 0 to height-1 of building to be added
-     */
-    // TODO: replace this with the one below after fixing front end
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
-        // start by getting card
-        Card card = null;
-        for (Card c: cardEntities){
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
-                card = c;
-                break;
-            }
-        }
-        
-        // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        buildingEntities.add(newBuilding);
-
-        // destroy the card
-        card.destroy();
-        cardEntities.remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
-
-        return newBuilding;
-    }
-
-    /**
-     * remove a card by its x, y coordinates
      * @param cardNodeX x index from 0 to worldWidth-1 of card to be removed
      * @param cardNodeY y index from 0 to worldHeight-1 of card to be removed
      * @param buildingNodeX x index from 0 to worldWidth-1 of building to be added
@@ -973,7 +943,7 @@ public class LoopManiaWorld {
             String buildingType = cardType.substring(0, cardType.lastIndexOf("Card")) + "Building";
             Building newBuilding = createBuilding(buildingType, buildingNodeX, buildingNodeY);
             buildingEntities.add(newBuilding);
-            System.out.println("New" + buildingType + "placed on map");
+            System.out.println("New " + buildingType + " placed on map");
             // destroy the card
             card.destroy();
             cardEntities.remove(card);
@@ -986,22 +956,6 @@ public class LoopManiaWorld {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                            Mehods Related to Cards                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-    /**
-     * spawn a card in the world and return the card entity
-     * @return a card to be spawned in the controller as a JavaFX node
-     */
-    // TODO: fix front end so i can get rid of this method and replace with the generalised one below
-    public VampireCastleCard loadVampireCard(){
-        // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
-            
-        }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        cardEntities.add(vampireCastleCard);
-        return vampireCastleCard;
-    }
 
     /**
      * spawn a card in the world and return the card entity
