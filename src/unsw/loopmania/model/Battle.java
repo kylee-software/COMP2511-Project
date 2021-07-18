@@ -40,7 +40,7 @@ public class Battle {
         List<Building> towers,
         List<AlliedSoldier> allies,
         List<BasicEnemy> enemies,
-        List <Building> campfires
+        List<Building> campfires
     ) {
         this.character = character;
         this.towers = towers;
@@ -53,7 +53,7 @@ public class Battle {
      * Given an enemy adds to the list of enemies for the battle
      * @param enemy - enemy to add
      */
-    public void addEnemyToBattle(BasicEnemy enemy) {
+    private void addEnemyToBattle(BasicEnemy enemy) {
         if (enemy.getHealth() > 0) {
             this.liveEnemies.add(enemy);
         }
@@ -96,7 +96,7 @@ public class Battle {
      * Adds enemy to list of killed enemies
      * @param enemy - enemy to kill
      */
-    public void killEnemy(BasicEnemy enemy) {
+    private void killEnemy(BasicEnemy enemy) {
         this.liveEnemies.remove(enemy);
         this.killedEnemies.add(enemy);
     }
