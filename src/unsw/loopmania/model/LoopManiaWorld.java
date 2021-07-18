@@ -513,7 +513,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(5);
         Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
@@ -529,7 +529,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(1);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(5);
         Item item = createItem("HealthPotion",healthPotionPos);
         if (healthPotionPos != null){
             int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
@@ -705,14 +705,10 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
-                    despawnItems(item);
-                    break;
                 }
             } else if (isOnSameTile(character, item)) {
                     if (item.getType() == "HealthPotion") {
                         addUnequippedItem("Health Potion");
-                        despawnItems(item);
-                        break;
                     }
             }
         }

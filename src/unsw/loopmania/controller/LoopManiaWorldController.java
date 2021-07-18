@@ -335,6 +335,8 @@ public class LoopManiaWorldController {
                 reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.SpawnSlugs();
+            // ADD OTHER SPAWNING THINGS HERE
+
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
