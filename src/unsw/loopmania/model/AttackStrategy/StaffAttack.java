@@ -22,7 +22,7 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
         int damage = attacker.getDamage() + staffDamage;
         if (campfire) {
             damage *= super.campfireBuff();

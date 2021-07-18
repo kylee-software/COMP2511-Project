@@ -30,23 +30,23 @@ public class ZombieAttackTest {
         Zombie attacker = new Zombie(dummyPosition);
         AttackStrategy zombieAttack = new ZombieAttack();
         // Test attack with no defences
-        zombieAttack.execute(attacker, character, 0, 0, false);
+        zombieAttack.execute(attacker, character, 0, 0, false, 0);
         assertEquals(character.getHealth(), 86);
         // Check campfire does not affect damage
         character.setHealth(100);
-        zombieAttack.execute(attacker, character, 0, 0, true);
+        zombieAttack.execute(attacker, character, 0, 0, true, 0);
         assertEquals(character.getHealth(), 86);
         // Test attack with fixedDefences
         character.setHealth(100);
-        zombieAttack.execute(attacker, character, 0, 5, false);
+        zombieAttack.execute(attacker, character, 0, 5, false, 0);
         assertEquals(character.getHealth(), 91);
         // Test attack with scalarDefences
         character.setHealth(100);
-        zombieAttack.execute(attacker, character, 30, 0, false);
+        zombieAttack.execute(attacker, character, 30, 0, false, 0);
         assertEquals(character.getHealth(), 90);
         // Test attack with both fixed and scalarDefences
         character.setHealth(100);
-        zombieAttack.execute(attacker, character, 50, 2, false);
+        zombieAttack.execute(attacker, character, 50, 2, false, 0);
         assertEquals(character.getHealth(), 95);
     }
 
@@ -62,15 +62,15 @@ public class ZombieAttackTest {
         Zombie attacker = new Zombie(dummyPosition);
         AttackStrategy zombieAttack = new ZombieAttack();
         // Test attack with no defences
-        zombieAttack.execute(attacker, ally, 0, 0, false);
+        zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(ally.getHealth(), 36);
         // Check campfire does not affect damage
         ally.setHealth(50);
-        zombieAttack.execute(attacker, ally, 0, 0, true);
+        zombieAttack.execute(attacker, ally, 0, 0, true, 0);
         assertEquals(ally.getHealth(), 36);
         // Test attack with defences does not affect damage
         ally.setHealth(50);
-        zombieAttack.execute(attacker, ally, 20, 2, false);
+        zombieAttack.execute(attacker, ally, 20, 2, false, 0);
         assertEquals(ally.getHealth(), 36);
     }
 
@@ -87,16 +87,16 @@ public class ZombieAttackTest {
         AttackStrategy zombieAttack = new ZombieAttack();
         Random random = new Random(4);
         Boolean expectedInfect = random.nextInt(99) < 15;
-        Boolean infect = zombieAttack.execute(attacker, ally, 0, 0, false);
+        Boolean infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
-        infect = zombieAttack.execute(attacker, ally, 0, 0, false);
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
-        infect = zombieAttack.execute(attacker, ally, 0, 0, false);
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
-        infect = zombieAttack.execute(attacker, ally, 0, 0, false);
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
     }
 }

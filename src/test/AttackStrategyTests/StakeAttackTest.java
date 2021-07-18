@@ -29,15 +29,15 @@ public class StakeAttackTest {
         Zombie zombie = new Zombie(dummyPosition);
         AttackStrategy stakeAttack = new StakeAttack();
         // Test simple stake attack
-        stakeAttack.execute(attacker, slug, 0, 0, false);
-        stakeAttack.execute(attacker, zombie, 0, 0, false);
+        stakeAttack.execute(attacker, slug, 0, 0, false, 0);
+        stakeAttack.execute(attacker, zombie, 0, 0, false, 0);
         assertEquals(slug.getHealth(), -1);
         assertEquals(zombie.getHealth(), 9);
         // Check campfire doubles character damage
         slug.setHealth(10);
         zombie.setHealth(20);
-        stakeAttack.execute(attacker, slug, 0, 0, true);
-        stakeAttack.execute(attacker, zombie, 0, 0, true);
+        stakeAttack.execute(attacker, slug, 0, 0, true, 0);
+        stakeAttack.execute(attacker, zombie, 0, 0, true, 0);
         assertEquals(slug.getHealth(), -12);
         assertEquals(zombie.getHealth(), -2);
     }
@@ -54,11 +54,11 @@ public class StakeAttackTest {
         Vampire vampire = new Vampire(dummyPosition);
         AttackStrategy stakeAttack = new StakeAttack();
         // Test simple stake attack
-        stakeAttack.execute(attacker, vampire, 0, 0, false);
+        stakeAttack.execute(attacker, vampire, 0, 0, false, 0);
         assertEquals(vampire.getHealth(), 19);
         // Check campfire doubles character damage
         vampire.setHealth(50);
-        stakeAttack.execute(attacker, vampire, 0, 0, true);
+        stakeAttack.execute(attacker, vampire, 0, 0, true, 0);
         assertEquals(vampire.getHealth(), -12);
     }
 }

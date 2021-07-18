@@ -21,7 +21,7 @@ public class StakeAttack extends AttackObserver implements AttackStrategy  {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReductions) {
         int damage = attacker.getDamage();
         if (target.getClass().equals(Vampire.class)) {
             damage += critDamage;

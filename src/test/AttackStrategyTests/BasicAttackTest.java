@@ -30,11 +30,11 @@ public class BasicAttackTest {
         Character attacker = new Character(dummyPosition);
         Slug enemy = new Slug(dummyPosition);
         AttackStrategy basicAttack = new BasicAttack();
-        basicAttack.execute(attacker, enemy, 0, 0, false);
+        basicAttack.execute(attacker, enemy, 0, 0, false, 0);
         assertEquals(enemy.getHealth(), 4);
         // Check campfire doubles character damage
         enemy.setHealth(10);
-        basicAttack.execute(attacker, enemy, 0, 0, true);
+        basicAttack.execute(attacker, enemy, 0, 0, true, 0);
         assertEquals(enemy.getHealth(), -2);
     }
 
@@ -49,11 +49,11 @@ public class BasicAttackTest {
         AlliedSoldier attacker = new AlliedSoldier(dummyPosition);
         Slug enemy = new Slug(dummyPosition);
         AttackStrategy basicAttack = new BasicAttack();
-        basicAttack.execute(attacker, enemy, 0, 0, false);
+        basicAttack.execute(attacker, enemy, 0, 0, false, 0);
         assertEquals(enemy.getHealth(), 4);
         enemy.setHealth(10);
         // Check does not affect allied soldier damage
-        basicAttack.execute(attacker, enemy, 0, 0, true);
+        basicAttack.execute(attacker, enemy, 0, 0, true, 0);
         assertEquals(enemy.getHealth(), 4);
     }
 
@@ -68,11 +68,11 @@ public class BasicAttackTest {
         TowerBuilding attacker = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         Slug enemy = new Slug(dummyPosition);
         AttackStrategy basicAttack = new BasicAttack();
-        basicAttack.execute(attacker, enemy, 0, 0, false);
+        basicAttack.execute(attacker, enemy, 0, 0, false, 0);
         assertEquals(enemy.getHealth(), 7);
         enemy.setHealth(10);
         // Check campfire does not affect tower damage
-        basicAttack.execute(attacker, enemy, 0, 0, true);
+        basicAttack.execute(attacker, enemy, 0, 0, true, 0);
         assertEquals(enemy.getHealth(), 7);
     }    
 }

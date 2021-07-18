@@ -80,4 +80,11 @@ public abstract class Item extends StaticEntity {
     public int getScalarDamageReduction() {
         return 0;
     }
+
+    /**
+     * Getter for reduction in chance of a vampire critical strike. Set to 0 by default
+     */
+    public int getVampireCritChanceReduction() {
+        return 0;
+    }
 }

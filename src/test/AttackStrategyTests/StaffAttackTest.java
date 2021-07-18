@@ -31,9 +31,9 @@ public class StaffAttackTest {
         Zombie zombie = new Zombie(dummyPosition);
         AttackStrategy staffAttack = new StaffAttack();
         // Test simple staff attack
-        staffAttack.execute(attacker, slug, 0, 0, false);
-        staffAttack.execute(attacker, vampire, 0, 0, false);
-        staffAttack.execute(attacker, zombie, 0, 0, false);
+        staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        staffAttack.execute(attacker, vampire, 0, 0, false, 0);
+        staffAttack.execute(attacker, zombie, 0, 0, false, 0);
         assertEquals(slug.getHealth(), 1);
         assertEquals(vampire.getHealth(), 41);
         assertEquals(zombie.getHealth(), 11);
@@ -41,9 +41,9 @@ public class StaffAttackTest {
         slug.setHealth(10);
         vampire.setHealth(50);
         zombie.setHealth(20);
-        staffAttack.execute(attacker, slug, 0, 0, true);
-        staffAttack.execute(attacker, vampire, 0, 0, true);
-        staffAttack.execute(attacker, zombie, 0, 0, true);
+        staffAttack.execute(attacker, slug, 0, 0, true, 0);
+        staffAttack.execute(attacker, vampire, 0, 0, true, 0);
+        staffAttack.execute(attacker, zombie, 0, 0, true, 0);
         assertEquals(slug.getHealth(), -8);
         assertEquals(vampire.getHealth(), 32);
         assertEquals(zombie.getHealth(), 2);
@@ -62,13 +62,13 @@ public class StaffAttackTest {
         AttackStrategy staffAttack = new StaffAttack();
         Random random = new Random(7);
         Boolean expectedTrance = random.nextInt(99) < 40;
-        Boolean trance = staffAttack.execute(attacker, slug, 0, 0, false);
+        Boolean trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
         expectedTrance = random.nextInt(99) < 40;
-        trance = staffAttack.execute(attacker, slug, 0, 0, false);
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
         expectedTrance = random.nextInt(99) < 40;
-        trance = staffAttack.execute(attacker, slug, 0, 0, false);
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
     }
 }

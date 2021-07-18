@@ -298,7 +298,7 @@ public class Battle {
         for (int i = 0; i < liveEnemies.size(); i++) {
             BasicEnemy enemy = liveEnemies.get(i);
             if (!enemy.isDead()) {
-                Boolean trance = attack.execute(character, enemy, 0, 0, campfires.size() > 0);
+                Boolean trance = attack.execute(character, enemy, 0, 0, campfires.size() > 0, 0);
                 if (trance) {
                     entranceEnemy(enemy, i);
                 }
@@ -320,7 +320,7 @@ public class Battle {
         for (int i = 0; i < allies.size(); i++) {
             AlliedSoldier ally = allies.get(i);
             if (!ally.isDead()) {
-                Boolean infect = attack.execute(attacker, ally, 0, 0, campfires.size() > 0);
+                Boolean infect = attack.execute(attacker, ally, 0, 0, campfires.size() > 0, 0);
                 if (infect) {
                     infectAlly(ally);
                 }
@@ -328,7 +328,7 @@ public class Battle {
             }
         }
         // Otherwise attack character
-        attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0);
+        attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0, getCritReduction());
     }
 
     /**
@@ -368,6 +368,18 @@ public class Battle {
             flatDef += shield.getFlatDamageReduction();
         }
         return flatDef;
+    }
+
+    /**
+     * Gets crit chance reduction for character
+     * @return crit chance reduction
+     */
+    private int getCritReduction() {
+        int critReduction = 0;
+        if (shield != null) {
+            critReduction += shield.getVampireCritChanceReduction();
+        }
+        return critReduction;
     }
 
     /**

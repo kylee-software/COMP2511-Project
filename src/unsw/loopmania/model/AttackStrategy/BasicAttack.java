@@ -18,7 +18,7 @@ public class BasicAttack extends AttackObserver implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
         int damage = attacker.getDamage();
         if (campfire && attacker.getClass().equals(Character.class)) {
             damage *= super.campfireBuff();

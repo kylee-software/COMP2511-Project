@@ -30,9 +30,9 @@ public class SwordAttackTest {
         Zombie zombie = new Zombie(dummyPosition);
         AttackStrategy swordAttack = new SwordAttack();
         // Test simple sword attack
-        swordAttack.execute(attacker, slug, 0, 0, false);
-        swordAttack.execute(attacker, vampire, 0, 0, false);
-        swordAttack.execute(attacker, zombie, 0, 0, false);
+        swordAttack.execute(attacker, slug, 0, 0, false, 0);
+        swordAttack.execute(attacker, vampire, 0, 0, false, 0);
+        swordAttack.execute(attacker, zombie, 0, 0, false, 0);
         assertEquals(slug.getHealth(), -6);
         assertEquals(vampire.getHealth(), 34);
         assertEquals(zombie.getHealth(), 4);
@@ -40,9 +40,9 @@ public class SwordAttackTest {
         slug.setHealth(10);
         vampire.setHealth(50);
         zombie.setHealth(20);
-        swordAttack.execute(attacker, slug, 0, 0, true);
-        swordAttack.execute(attacker, vampire, 0, 0, true);
-        swordAttack.execute(attacker, zombie, 0, 0, true);
+        swordAttack.execute(attacker, slug, 0, 0, true, 0);
+        swordAttack.execute(attacker, vampire, 0, 0, true, 0);
+        swordAttack.execute(attacker, zombie, 0, 0, true, 0);
         assertEquals(slug.getHealth(), -22);
         assertEquals(vampire.getHealth(), 18);
         assertEquals(zombie.getHealth(), -12);
