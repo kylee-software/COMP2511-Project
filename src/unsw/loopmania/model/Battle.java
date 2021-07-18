@@ -122,14 +122,24 @@ public class Battle {
         return deadAllies;
     }
 
-    public void sortEnemiesByCurrentHp() {
+    /**
+     * Sorts list of enemies by hp
+     */
+    private void sortEnemiesByCurrentHp() {
         liveEnemies.sort(Comparator.comparing(BasicEnemy::getHealth));
     }
 
-    public void sortAlliesByCurrentHp() {
+    /**
+     * Sorts list of allies by hp
+     */
+    private void sortAlliesByCurrentHp() {
         allies.sort(Comparator.comparing(AlliedSoldier::getHealth));
     }
 
+    /**
+     * Executes fight mechanic
+     * Check assumptions for battle order
+     */
     public void fight() {
         // Character -> Tower1 → Allied Soldier 1 -> Enemy 1 → character → Tower2 → Allied Soldier 2 → Enemy2
         // Characters and enemies will attack the entity with the lowest current health every turn
@@ -176,10 +186,10 @@ public class Battle {
                 enemyTurn += 1;
                 enemyTurn %= liveEnemies.size();
             }
-            // Reduce life cycle of tranced zombies + revert zombies at end of life cycle
+            // Reduce life cycle of tranced enemies + revert enemies at end of their life cycle
             reduceLifeCycleTrancedZombies();
         }
-        // Kill remaining tranced zombies
+        // Kill remaining tranced enemies
         for (AlliedSoldier ally : allies) {
             if (ally.getTrancedLifeCycle() != -1) {
                 ally.setHealth(0);
@@ -202,7 +212,7 @@ public class Battle {
                 ally.reduceTrancedLifeCycle();
             }
             if (ally.getTrancedLifeCycle() == 0) {
-                revertTrancedZombie(ally);
+                revertTrancedEnemy(ally);
             }
         }
     }
@@ -210,34 +220,34 @@ public class Battle {
     /**
      * Entrances lowest hp zombie -> allied soldier.
      * Lowest hp zombie would be tranced due to battle order.
-     * @param zombie
+     * @param enemy
      * @param index - index of original zombie in liveEnemies
      */
-    private void entranceZombie(BasicEnemy zombie, int index) {
-        if (!zombie.isDead()) {
+    private void entranceEnemy(BasicEnemy enemy, int index) {
+        if (!enemy.isDead()) {
             List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
             dummyPath.add(new Pair<>(0,0));
             PathPosition dummyPosition = new PathPosition(0, dummyPath);
-            AlliedSoldier trancedZombie = new AlliedSoldier(dummyPosition);
+            AlliedSoldier trancedEnemy = new AlliedSoldier(dummyPosition);
             // Set ally hp and damage to zombie's remaining hp
-            trancedZombie.setHealth(zombie.getHealth());
-            trancedZombie.setDamage(zombie.getDamage());
-            trancedZombie.setTrancedLifeCycle();
-            trancedZombie.setTrancedZombieIndex(index);
-            allies.add(trancedZombie);
-            // Temporarily kill original zombie
-            zombie.setHealth(0);
+            trancedEnemy.setHealth(enemy.getHealth());
+            trancedEnemy.setDamage(enemy.getDamage());
+            trancedEnemy.setTrancedLifeCycle();
+            trancedEnemy.setTrancedEnemyIndex(index);
+            allies.add(trancedEnemy);
+            // Temporarily kill original enemy
+            enemy.setHealth(0);
         }
     }
 
     /**
-     * Transfers health of tranced zombie back to original zombie. Kills tranced zombie.
-     * @param trancedZombie
+     * Transfers health of tranced enemy back to original enemy. Kills tranced enemy.
+     * @param trancedEnemy
      */
-    private void revertTrancedZombie(AlliedSoldier trancedZombie) {
-        BasicEnemy originalZombie = liveEnemies.get(trancedZombie.getTrancedZombieIndex());
-        originalZombie.setHealth(trancedZombie.getHealth());
-        trancedZombie.setHealth(0);
+    private void revertTrancedEnemy(AlliedSoldier trancedEnemy) {
+        BasicEnemy originalEnemy = liveEnemies.get(trancedEnemy.getTrancedEnemyIndex());
+        originalEnemy.setHealth(trancedEnemy.getHealth());
+        trancedEnemy.setHealth(0);
     }
 
     /**
@@ -290,7 +300,7 @@ public class Battle {
             if (!enemy.isDead()) {
                 Boolean trance = attack.execute(character, enemy, 0, 0, campfires.size() > 0);
                 if (trance) {
-                    entranceZombie(enemy, i);
+                    entranceEnemy(enemy, i);
                 }
                 return;
             }

@@ -28,9 +28,8 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
             damage *= super.campfireBuff();
         }
         target.setHealth(target.getHealth() - damage);
-
         // Trance effect
-        Random random = new Random();
+        Random random = new Random(7);
         int randomInt = random.nextInt(99);
         Boolean applyEffect = randomInt < tranceChance;
         return applyEffect;

@@ -8,17 +8,17 @@ public class AlliedSoldier extends MovingEntity {
     private static int health = 50;
     private int max;
     private int remainingLifeCycles;
-    private static int trancedZombieLifeCycle = 3;
-    private int trancedZombieIndex;
+    private static int trancedEnemyLifeCycle = 3;
+    private int trancedEnemyIndex;
     private static int damage = 6;
     private static double speed = 0;
     private static AttackStrategy strategy = new BasicAttack();
 
     public AlliedSoldier(PathPosition position) {
         super(position, health, speed);
-        // Default -1 indicates not a tranced zombie
+        // Default -1 indicates not a tranced enemy
         this.remainingLifeCycles = -1;
-        this.trancedZombieIndex = -1;
+        this.trancedEnemyIndex = -1;
     }
 
     /**
@@ -63,10 +63,10 @@ public class AlliedSoldier extends MovingEntity {
     }
 
     /**
-     * Sets life cycle of a tranced zombie.
+     * Sets life cycle of a tranced enemy.
      */
     public void setTrancedLifeCycle() {
-        this.remainingLifeCycles = trancedZombieLifeCycle;
+        this.remainingLifeCycles = trancedEnemyLifeCycle;
     }
 
     public void reduceTrancedLifeCycle() {
@@ -74,7 +74,7 @@ public class AlliedSoldier extends MovingEntity {
     }
 
     /**
-     * Getter for tranced zombie life cycle
+     * Getter for tranced enemy life cycle
      * @return
      */
     public int getTrancedLifeCycle() {
@@ -82,18 +82,18 @@ public class AlliedSoldier extends MovingEntity {
     }
 
     /**
-     * Sets index of original zombie in enemies array of battle
-     * @param index - index of original zombie
+     * Sets index of original enemy in enemies array of battle
+     * @param index - index of original enemy
      */
-    public void setTrancedZombieIndex(int index) {
-        this.trancedZombieIndex = index;
+    public void setTrancedEnemyIndex(int index) {
+        this.trancedEnemyIndex = index;
     }
 
     /**
-     * Returns index of tranced zombie in battle enemies array
+     * Returns index of tranced enemy in battle enemies array
      */
-    public int getTrancedZombieIndex() {
-        return trancedZombieIndex;
+    public int getTrancedEnemyIndex() {
+        return trancedEnemyIndex;
     }
 
     /**
