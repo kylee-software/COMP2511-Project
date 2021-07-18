@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.AttackStrategy.*;
 
 /**
  * Equipped or unequipped Staff in the backend world
@@ -8,9 +9,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Staff extends BasicItem {
     
     private static int buyPrice = 50;
-    private int damage = 3;
-    private int tranceChance = 40;
     private static String type = "Weapon";
+    private static AttackStrategy strategy = new StaffAttack();
 
     /**
      * Constructor for Staff
@@ -21,19 +21,10 @@ public class Staff extends BasicItem {
         super(x, y, buyPrice, type);
     }
 
-    /**
-     * Getter for damage
-     * @return damage
+     /**
+     * Getter for attack strategy
      */
-    public int getDamage() {
-        return damage;
-    }
-
-    /**
-     * Getter for chance of entrancing enemy
-     * @return tranceChance (%)
-     */
-    public int getTranceChance() {
-        return tranceChance;
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
 }

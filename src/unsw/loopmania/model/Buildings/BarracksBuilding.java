@@ -31,8 +31,7 @@ public class BarracksBuilding extends Building {
      * @param y y coordinate of allied soldier
      * @return allied soldier
      */
-    public AlliedSoldier spawnAlliedSoldier(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        return new AlliedSoldier(x, y);
+    public AlliedSoldier spawnAlliedSoldier(PathPosition pathPosition) {
+        return new AlliedSoldier(pathPosition);
     }
-    
 }

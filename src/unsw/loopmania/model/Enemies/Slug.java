@@ -4,6 +4,7 @@ import java.util.List;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
+import unsw.loopmania.model.AttackStrategy.SlugAttack;
 import unsw.loopmania.model.Cards.Card;
 
 public class Slug extends BasicEnemy {
@@ -14,7 +15,7 @@ public class Slug extends BasicEnemy {
     private static int battleRadius = 1;
     private static int supportRadius = 1;
     private static double speed = 3; // Ticks per tile
-    private AttackStrategy strategy; // TODO:
+    private static AttackStrategy strategy = new SlugAttack();
     private static int damage = 7;
     private static int health = 10;
 
@@ -61,5 +62,13 @@ public class Slug extends BasicEnemy {
      */
     public int getSupportRadius() {
         return supportRadius;
+    }
+
+    /**
+     * Getter for attack strategy
+     */
+    @Override
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
 }

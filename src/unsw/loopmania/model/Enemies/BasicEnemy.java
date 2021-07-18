@@ -2,8 +2,6 @@ package unsw.loopmania.model.Enemies;
 
 import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.PathPosition;
-import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
 import java.util.Random;
 
@@ -13,7 +11,6 @@ import java.util.Random;
 public abstract class BasicEnemy extends MovingEntity {
 
     private String type;
-    private AttackStrategy strategy = new BasicAttack();
     private int damage;
 
     /**

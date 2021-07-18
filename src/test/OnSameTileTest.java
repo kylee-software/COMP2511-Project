@@ -50,7 +50,7 @@ public class OnSameTileTest {
 
         PathPosition position = new PathPosition(orderedPath.indexOf(pathTile), orderedPath);
         Character character = new Character(position);
-        AlliedSoldier alliedSoldier = new AlliedSoldier(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        AlliedSoldier alliedSoldier = new AlliedSoldier(position);
 
         assert(world.isOnSameTile(character, alliedSoldier));
     }

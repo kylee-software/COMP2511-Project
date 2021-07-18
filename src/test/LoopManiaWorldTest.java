@@ -5,16 +5,14 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
-import unsw.loopmania.model.Buildings.BarracksBuilding;
-import unsw.loopmania.model.Buildings.Building;
-import unsw.loopmania.model.Buildings.TrapBuilding;
-import unsw.loopmania.model.Cards.Card;
-import unsw.loopmania.model.Cards.TrapCard;
+import unsw.loopmania.model.Cards.*;
+import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Buildings.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -67,8 +65,108 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void runBattlesTest() {
-        
+    public void runBattlesIntegrationTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        // Create a square loop
+        orderedPath.add(new Pair<>(0,0)); // 0
+        orderedPath.add(new Pair<>(1,0)); // 1
+        orderedPath.add(new Pair<>(2,0)); // 2
+        orderedPath.add(new Pair<>(3,0)); // 3
+        orderedPath.add(new Pair<>(4,0)); // 4
+        orderedPath.add(new Pair<>(5,0)); // 5
+        orderedPath.add(new Pair<>(6,0)); // 6
+        orderedPath.add(new Pair<>(7,0)); // 7
+        orderedPath.add(new Pair<>(8,0)); // 8
+        orderedPath.add(new Pair<>(8,1)); // 9
+        orderedPath.add(new Pair<>(8,2)); // 10
+        orderedPath.add(new Pair<>(8,3)); // 11
+        orderedPath.add(new Pair<>(8,4)); // 12
+        orderedPath.add(new Pair<>(8,5)); // 13
+        orderedPath.add(new Pair<>(7,5)); // 14
+        orderedPath.add(new Pair<>(6,5)); // 15
+        orderedPath.add(new Pair<>(5,5)); // 16
+        orderedPath.add(new Pair<>(4,5)); // 17
+        orderedPath.add(new Pair<>(3,5)); // 18
+        orderedPath.add(new Pair<>(2,5)); // 19
+        orderedPath.add(new Pair<>(1,5)); // 20
+        orderedPath.add(new Pair<>(0,5)); // 21
+        orderedPath.add(new Pair<>(0,4)); // 22
+        orderedPath.add(new Pair<>(0,3)); // 23
+        orderedPath.add(new Pair<>(0,2)); // 24
+        orderedPath.add(new Pair<>(0,1)); // 25
+
+        LoopManiaWorld world = new LoopManiaWorld(9, 6, orderedPath, rareItems);
+
+        // Initialise character on 5,0
+        PathPosition characterPosition = new PathPosition(5, orderedPath);
+        Character character = new Character(characterPosition);
+        world.setCharacter(character);
+
+        // Initialise 3 towers: (In range: T1, T2)
+        // Card towerCard1 = world.loadCard("TowerBuilding");
+        // Card towerCard2 = world.loadCard("TowerBuilding");
+        // Card towerCard3 = world.loadCard("TowerBuilding");
+        // Building tower1 = world.convertCardToBuilding(towerCard1.getX(), towerCard1.getY(), 4, 1);
+        // Building tower2 = world.convertCardToBuilding(towerCard2.getX(), towerCard2.getY(), 7, 1);
+        // Building tower3 = world.convertCardToBuilding(towerCard3.getX(), towerCard3.getY(), 5, 4);
+        TowerBuilding tower1 = new TowerBuilding(new SimpleIntegerProperty(4), new SimpleIntegerProperty(1));
+        TowerBuilding tower2 = new TowerBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
+        TowerBuilding tower3 = new TowerBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(4));
+        world.addBuilding(tower1);
+        world.addBuilding(tower2);
+        world.addBuilding(tower3);
+
+        // Initialise allies
+
+        // Initialise enemies (In range: S1, S2, Z1, V1)
+        PathPosition slug1Position = new PathPosition(4, orderedPath);
+        Slug slug1 = new Slug(slug1Position);
+        PathPosition slug2Position = new PathPosition(6, orderedPath);
+        Slug slug2 = new Slug(slug2Position);
+        PathPosition slug3Position = new PathPosition(10, orderedPath);
+        Slug slug3 = new Slug(slug3Position);
+        PathPosition slug4Position = new PathPosition(17, orderedPath);
+        Slug slug4 = new Slug(slug4Position);
+        world.addEnemy(slug1);
+        world.addEnemy(slug2);
+        world.addEnemy(slug3);
+        world.addEnemy(slug4);
+
+
+        PathPosition zombie1Position = new PathPosition(7, orderedPath);
+        Zombie zombie1 = new Zombie(zombie1Position);
+        PathPosition zombie2Position = new PathPosition(24, orderedPath);
+        Zombie zombie2 = new Zombie(zombie2Position);
+        world.addEnemy(zombie1);
+        world.addEnemy(zombie2);
+
+        PathPosition vampire1Postion = new PathPosition(3, orderedPath);
+        Vampire vampire1 = new Vampire(vampire1Postion);
+        PathPosition vampire2Postion = new PathPosition(15, orderedPath);
+        Vampire vampire2 = new Vampire(vampire2Postion);
+        world.addEnemy(vampire1);
+        world.addEnemy(vampire2);
+
+        // Initialise campfire (In range)
+        // Card campfireCard = world.loadCard("CampfireBuilding");
+        // Building campfire = world.convertCardToBuilding(campfireCard.getX(), campfireCard.getY(), 6, 1);
+        CampfireBuilding campfire1 = new CampfireBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
+        CampfireBuilding campfire2 = new CampfireBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(1));
+
+        world.addBuilding(campfire1);
+        world.addBuilding(campfire2);
+
+
+        world.runBattles();
+        assert(world.getIsLost());
+        assert(slug1.getHealth() <= 0);
+        assert(slug2.getHealth() <= 0);
+        assert(slug3.getHealth() == 10);
+        assert(slug4.getHealth() == 10);
+        assert(zombie1.getHealth() <= 0);
+        assert(zombie2.getHealth() == 20);
+        assert(vampire1.getHealth() == 26);
+        assert(vampire2.getHealth() == 50);
     }
 
     @Test

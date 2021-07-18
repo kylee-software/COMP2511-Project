@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import unsw.loopmania.model.*;
 import unsw.loopmania.model.Character;
-import unsw.loopmania.model.AttackStrategy.TowerAttack;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Enemies.*;
 
@@ -52,7 +51,7 @@ public class BuildingsTests {
         assertNotNull(zombiePitBuilding.spawnZombie(cycle, position));
     }
 
-    // TODO = wait until Sam implements attack strategy
+    // TODO = wait until implementation of attack strategy
     @Test
     void TowerTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -93,7 +92,7 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         BarracksBuilding barracksBuilding = new BarracksBuilding(position);
        
-        assertNotNull(barracksBuilding.spawnAlliedSoldier(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1)));
+        assertNotNull(barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath)));
     }
 
     @Test
@@ -110,7 +109,7 @@ public class BuildingsTests {
 
         BasicEnemy vampire = new Vampire(position);
         assertEquals(trapBuilding.damageEnemy(vampire), 40);
-        // TODO: need to check whether the trap is destroyed or not
+        assert(!trapBuilding.shouldExist().get());
     }
 
     @Test

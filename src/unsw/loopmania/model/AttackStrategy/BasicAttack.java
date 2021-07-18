@@ -1,20 +1,30 @@
 package unsw.loopmania.model.AttackStrategy;
 
-import unsw.loopmania.view.AttackObserver;
+import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.MovingEntity;
 
-public class BasicAttack implements AttackStrategy, AttackObserver {
-
+/**
+* Implements basic attack for a character/alliedSoldier/tower on a target
+*/
+public class BasicAttack extends AttackObserver implements AttackStrategy {
+    /**
+     * Execute basic attack on an enemy target
+     * @param attacker
+     * @param target - enemy target
+     * @param scalarDef - target scalar defences
+     * @param fixedDef - target fixed defences
+     * @param campfire - is campfire in range?
+     * @return apply special effects
+     */
     @Override
-    public void execute() {
-        // TODO = need to implement this correctly and add javadoc
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
+        int damage = attacker.getDamage();
+        if (campfire && attacker.getClass().equals(Character.class)) {
+            damage *= super.campfireBuff();
+        }
+        target.setHealth(target.getHealth() - damage);
+        return false;
     }
 
-    //@Override
-    public void updateCampfireBuff() {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
-    public void trance() {
-        // TODO = need to implement this correctly and add javadoc
-    }
 }
