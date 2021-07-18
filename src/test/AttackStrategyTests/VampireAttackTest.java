@@ -13,7 +13,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.VampireAttack;
 import unsw.loopmania.model.Enemies.Vampire;
-import unsw.loopmania.model.AlliedSoldier;
+// import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Character;
 
 
@@ -102,6 +102,8 @@ public class VampireAttackTest {
         // scaledDamage -= 3; // Account for fixedDefences
         // scaledDamage -= 1; // Account for rounding up damage
         // assertEquals(character.getHealth(), 100 - (int)scaledDamage);
+
+        // Test crit reduction
     }
 
     /**
