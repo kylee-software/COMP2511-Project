@@ -17,6 +17,6 @@ public class ZombiePitBuilding extends Building {
      * @return zombie
      */
     public Zombie spawnZombie(PathPosition position) {
-        return new Zombie(position, "Zombie");
+        return new Zombie(position);
     }
 }

@@ -24,8 +24,8 @@ public class Zombie extends BasicEnemy {
      * @param health
      * @param type
      */
-    public Zombie(PathPosition position, String type) {
-        super(position, health, damage, type, speed);
+    public Zombie(PathPosition position) {
+        super(position, health, damage, speed);
     }
 
     @Override

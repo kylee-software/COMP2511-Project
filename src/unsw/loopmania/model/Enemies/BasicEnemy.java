@@ -21,11 +21,9 @@ public abstract class BasicEnemy extends MovingEntity {
      * @param position - position on map
      * @param health
      * @param damage
-     * @param type
      */
-    public BasicEnemy(PathPosition position, int health, int damage, String type, double speed) {
+    public BasicEnemy(PathPosition position, int health, int damage, double speed) {
         super(position, health, speed);
-        this.type = type;
         this.damage = damage;
     }
 

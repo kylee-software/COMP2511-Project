@@ -24,8 +24,8 @@ public class Vampire extends BasicEnemy {
      * @param health
      * @param type
      */
-    public Vampire(PathPosition position, String type) {
-        super(position, health, damage, type, speed);
+    public Vampire(PathPosition position) {
+        super(position, health, damage, speed);
     }
 
     @Override

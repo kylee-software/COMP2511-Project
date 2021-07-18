@@ -21,11 +21,9 @@ public class Slug extends BasicEnemy {
     /**
      * Constructor for slug
      * @param position - current position on map
-     * @param health
-     * @param type
      */
-    public Slug(PathPosition position, String type) {
-        super(position, health, damage, type, speed);
+    public Slug(PathPosition position) {
+        super(position, health, damage, speed);
     }
 
     @Override
