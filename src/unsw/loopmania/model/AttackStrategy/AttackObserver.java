@@ -1,6 +1,6 @@
 package unsw.loopmania.model.AttackStrategy;
 
-public class AttackObserver {
+public abstract class AttackObserver {
     private static int getDamageMultiplier = 2;
 
     /**
