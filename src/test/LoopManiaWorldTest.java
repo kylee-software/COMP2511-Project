@@ -115,6 +115,10 @@ public class LoopManiaWorldTest {
     }
 
     @Test
+    public void unequipEquippedItemTest() {
+    }
+
+    @Test
     public void removeUnequippedInventoryItemByCoordinatesTest() {
     }
 

@@ -779,7 +779,31 @@ public class LoopManiaWorld {
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
      */
-    public Item addUnequippedItem(String type){
+    public Item addUnequippedItem(String type) {
+        Pair<Integer, Integer> firstAvailableSlot = getItemSlot();
+        Item item = createItem(type, firstAvailableSlot);
+        unequippedInventoryItems.add(item);
+        return item;
+    }
+
+    /**
+     * Adds given existing item into unequipped inventory
+     * @param item - item to unequip
+     */
+    public void unequipEquippedItem(Item item) {
+        if (!unequippedInventoryItems.contains(item)) {
+            Pair<Integer, Integer> itemSlot = getItemSlot();
+            item.setX(new SimpleIntegerProperty(itemSlot.getValue0()));
+            item.setY(new SimpleIntegerProperty(itemSlot.getValue1()));
+            unequippedInventoryItems.add(item);
+        }
+    }
+
+    /**
+     * Gets first available item slot. If none available, removes oldest item.
+     * @return available item slot
+     */
+    private Pair<Integer, Integer> getItemSlot() {
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // Eject the oldest unequipped item and replace it
@@ -788,9 +812,7 @@ public class LoopManiaWorld {
             firstAvailableSlot = getFirstAvailableSlotForItem();
             setExperience(getExperience() + 100);
         }
-        Item item = createItem(type, firstAvailableSlot);
-        unequippedInventoryItems.add(item);
-        return item;
+        return firstAvailableSlot;
     }
 
 
