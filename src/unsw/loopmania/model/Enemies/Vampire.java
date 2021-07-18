@@ -64,4 +64,9 @@ public class Vampire extends BasicEnemy {
     public int getSupportRadius() {
         return supportRadius;
     }
+
+    // TODO: stub for vampire running from campfire
+    public boolean runFromCampfire() {
+        return false;
+    }
 }
