@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.javatuples.Pair;
 import unsw.loopmania.*;
+import unsw.loopmania.controller.LoopManiaWorldController;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
@@ -710,7 +711,7 @@ public class LoopManiaWorld {
                     break;
                 }
             } else if (isOnSameTile(character, item)) {
-                    if (item instanceof HealthPotion) {
+                    if (item.getType() == "HealthPotion") {
                         addUnequippedItem("Health Potion");
                         despawnItems(item);
                         break;
@@ -818,7 +819,10 @@ public class LoopManiaWorld {
      * @param type - item type to create
      */
     public Item addUnequippedItem(String type) {
-        Pair<Integer, Integer> firstAvailableSlot = getItemSlot();
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            removeItemByPositionInUnequippedInventoryItems(0);
+        }
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
         return item;

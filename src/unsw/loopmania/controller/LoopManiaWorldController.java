@@ -346,7 +346,6 @@ public class LoopManiaWorldController {
     private void loadHealthPotion(){
         Item healthPotion = world.possiblySpawnHealthPotions();
         onLoadHealthPotion(healthPotion);
-        
     }
 
     /**
@@ -386,6 +385,16 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
+    /**
+     * load healthPotion for inventory into the GUI
+     * @param healthPotion
+     */
+    private void onLoadInventoryHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, healthPotion);
+        addEntity(healthPotion, view);
+        unequippedInventory.getChildren().add(view);
+    }
 
     /**
      * load a vampire castle card into the GUI.
