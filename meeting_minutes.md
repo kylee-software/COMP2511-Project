@@ -399,12 +399,12 @@ Leslie, Kylee, Sam, Jannet
 	- Add tests for spawning enemies
 	- Test - method for checking two entities on the same path tile
 	- Frontend equipped and unequipped item
-Leslie
+- Leslie
 	- Frontend Adding images 
 	- Spawn gold and potions on path - add tests as well
 	- Connect gameMode to backend
 	- Fix enemies unit test
-Jannet
+- Jannet
 	- Add createClass to RewardStrategy
 	- Menu switcher
 	- Win and lose condition - Frontend exit 
