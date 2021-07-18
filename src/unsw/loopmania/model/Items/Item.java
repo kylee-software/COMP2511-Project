@@ -57,4 +57,18 @@ public abstract class Item extends StaticEntity {
      */
     public void usePotion(Character character) {
     }
+
+    /**
+     * Getter for flat damage. Set to 0 by defaut.
+     */
+    public int getFlatDamageReduction() {
+        return 0;
+    }
+
+    /**
+     * Getter for scalar damage. Set to 0 by defaut.
+     */
+    public int getScalarDamageReduction() {
+        return 0;
+    }
 }

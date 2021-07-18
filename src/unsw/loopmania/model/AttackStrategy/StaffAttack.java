@@ -3,6 +3,7 @@ package unsw.loopmania.model.AttackStrategy;
 import java.util.Random;
 
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Entity;
 
 /**
 * Implements staff attack for a character on an target
@@ -21,7 +22,7 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(MovingEntity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         int damage = attacker.getDamage() + staffDamage;
         if (campfire) {
             damage *= super.campfireBuff();

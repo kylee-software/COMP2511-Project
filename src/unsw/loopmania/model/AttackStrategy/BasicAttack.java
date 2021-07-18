@@ -1,15 +1,16 @@
 package unsw.loopmania.model.AttackStrategy;
 
 import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
 
 /**
-* Implements basic attack for a character/allied soldier on a target
+* Implements basic attack for a character/alliedSoldier/tower on a target
 */
 public class BasicAttack extends AttackObserver implements AttackStrategy {
     /**
      * Execute basic attack on an enemy target
-     * @param attacker - character
+     * @param attacker
      * @param target - enemy target
      * @param scalarDef - target scalar defences
      * @param fixedDef - target fixed defences
@@ -17,7 +18,7 @@ public class BasicAttack extends AttackObserver implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(MovingEntity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         int damage = attacker.getDamage();
         if (campfire && !attacker.getClass().equals(AlliedSoldier.class)) {
             damage *= super.campfireBuff();

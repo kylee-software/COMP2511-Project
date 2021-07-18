@@ -4,6 +4,7 @@ import java.util.List;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
+import unsw.loopmania.model.AttackStrategy.VampireAttack;
 import unsw.loopmania.model.Cards.Card;
 
 public class Vampire extends BasicEnemy {
@@ -14,7 +15,7 @@ public class Vampire extends BasicEnemy {
     private static int battleRadius = 2;
     private static int supportRadius = 3;
     private static double speed = 1; // Ticks per tile
-    private AttackStrategy strategy; // TODO:
+    private static AttackStrategy strategy = new VampireAttack();
     private static int damage = 25;
     private static int health = 50;
     private static int critChance = 40;
@@ -68,5 +69,13 @@ public class Vampire extends BasicEnemy {
 
     public int getCritChance() {
         return critChance;
+    }
+
+    /**
+     * Getter for attack strategy
+     */
+    @Override
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
 }

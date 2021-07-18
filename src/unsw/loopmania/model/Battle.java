@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import unsw.loopmania.model.AttackStrategy.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
-import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.Items.BasicItems.*;
 
 public class Battle {
 
@@ -128,24 +130,117 @@ public class Battle {
     }
 
     public void fight() {
-        // TODO:
-        // Character, Tower1 → Enemy 1 → Allied Soldier 1 → Tower2 -> Enemy 2 → Allied Soldier 2 → Enemy 3…
+        // Character -> Tower1 → Allied Soldier 1 -> Enemy 1 → character → Tower2 → Allied Soldier 2 → Enemy2
         // Characters and enemies will attack the entity with the lowest current health every turn
         // Enemies will attack allied soldiers first
-        // Scalar damage reductions is applied before non-scalar damage reductions
         sortEnemiesByCurrentHp();
         sortAlliesByCurrentHp();
-        // int loop = 0;
-        int enemyIndex = 0;
-        int alliedSoldierIndex = 0;
-        int towerIndex = 0;
+        int scalarDef = getScalarDef();
+        int flatDef = getFlatDef();
+        int towerTurn = 0;
+        int allyTurn = 0;
+        int enemyTurn = 0;
+        while (!areEnemiesDead() && !character.isDead()) {
+            // character attack enemy 0
+            // tower 0 attack enemy 0
+            // allied soldier 0 attack enemy 0
+            // enemy 0 attack allied soldier 0
+            Boolean trance = attackLiveEnemy(character);
+            attackLiveEnemy(towers.get(towerTurn % towers.size()));
+            towerTurn += 1;
+            towerTurn %= towers.size();
+            attackLiveEnemy(allies.get(allyTurn));
+            allyTurn += 1;
+            allyTurn %= allies.size();
+            // check next ally is alive
+            Boolean infect = enemyAttack(liveEnemies.get(enemyTurn), scalarDef, flatDef);
+            enemyTurn += 1;
+            enemyTurn %= liveEnemies.size();
+            // check next enemy is alive
+        }
+    }
 
-        // character attack enemy 0
-        // tower 0 attack enemy 0
-        // allied soldier 0 attack enemy 0
-        // enemy 0 attack allied soldier 0
-        
-    
+    /**
+     * Attack first live enemy
+     * @param attacker
+     * @return staff trance?
+     */
+    private Boolean attackLiveEnemy(Entity attacker) {
+        AttackStrategy attack = attacker.getAttackStrategy();
+        if (attacker.getClass().equals(Character.class)) {
+            attack = getItemAttackStrategy();
+        }
+        for (int i = 0; i < liveEnemies.size(); i++) {
+            BasicEnemy enemy = liveEnemies.get(i);
+            if (!enemy.isDead()) {
+                return attack.execute(character, enemy, 0, 0, campfires.size() > 0);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * For a given enemy attacks lowest ally else character
+     * @param attacker - enemy
+     * @param scalarDef - character scalar damage reduction
+     * @param flatDef - character flat damage reduction
+     * @return zombie crit?
+     */
+    private Boolean enemyAttack(Entity attacker, int scalarDef, int flatDef) {
+        AttackStrategy attack = attacker.getAttackStrategy();
+        // Prioritise allies
+        for (int i = 0; i < allies.size(); i++) {
+            AlliedSoldier ally = allies.get(i);
+            if (!ally.isDead()) {
+                return attack.execute(attacker, ally, 0, 0, campfires.size() > 0);
+            }
+        }
+        // Otherwise attack character
+        return attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0);
+    }
+
+    /**
+     * Gets attack strategy for character
+     * @return attack strategy instance
+     */
+    private AttackStrategy getItemAttackStrategy() {
+        if (weapon == null) {
+            return new BasicAttack();
+        } else if (weapon.getClass().equals(Sword.class)) {
+            return new SwordAttack();
+        } else if (weapon.getClass().equals(Stake.class)) {
+            return new StakeAttack();
+        } else if (weapon.getClass().equals(Staff.class)) {
+            return new StaffAttack();
+        }
+        return null;
+    }
+
+    /**
+     * Gets scalar damage reduction for character
+     * @return percentage of damage reduction
+     */
+    private int getScalarDef() {
+        int scalarDef = 0;
+        if (armour != null) {
+            scalarDef += armour.getScalarDamageReduction();
+        }
+        if (helmet != null) {
+            scalarDef += helmet.getScalarDamageReduction();
+        }
+        return scalarDef;
+    }
+
+    /**
+     * Gets flat damage reduction for character
+     * @return damage reduction
+     */
+    private int getFlatDef() {
+        int flatDef = 0;
+        if (shield != null) {
+            flatDef += shield.getFlatDamageReduction();
+        }
+        return flatDef;
     }
 
     /**
@@ -167,16 +262,6 @@ public class Battle {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Deals damage to given receiver based on dealer stats
-     * @param dealer - damage dealer moving entity
-     * @param receiver - damage receiver moving entity
-     */
-    private void dealDamage(MovingEntity dealer, MovingEntity receiver) {
-        // TODO: account for defensive stats
-        receiver.setHealth(receiver.getHealth() - dealer.getDamage());
     }
 
     /**

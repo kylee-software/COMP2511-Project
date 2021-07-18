@@ -7,7 +7,7 @@ import unsw.loopmania.model.AttackStrategy.*;
  */
 public class Character extends MovingEntity {
 
-    private AttackStrategy strategy;
+    private static AttackStrategy strategy = new BasicAttack();
     private static int health = 100;
     private static int baseDamage = 6;
     private static double speed = 2; // Ticks per tile
@@ -52,7 +52,13 @@ public class Character extends MovingEntity {
     public int getDamage() {
         // TODO: account for weapons
         return baseDamage;
-        
+    }
+
+    /**
+     * Getter for attack strategy
+     */
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
     
 }

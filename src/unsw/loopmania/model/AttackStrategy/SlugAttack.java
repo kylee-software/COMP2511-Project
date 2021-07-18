@@ -2,6 +2,7 @@ package unsw.loopmania.model.AttackStrategy;
 
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Entity;
 
 /**
  * Implements slug attack on a target
@@ -18,7 +19,7 @@ public class SlugAttack implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(MovingEntity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         double damage = attacker.getDamage();
         if (target.getClass().equals(Character.class)) {
             damage *= scalarDef / 100;

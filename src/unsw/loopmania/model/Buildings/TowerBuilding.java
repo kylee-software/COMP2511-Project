@@ -28,12 +28,4 @@ public class TowerBuilding extends Building {
         return this.attackStrategy;
     }
 
-    /**
-     * Attacks an enemy in its battle radius during battle
-     */
-    public void attack() {
-        // TODO: coordinate with attack strategy implementation
-        getAttackStrategy().execute();
-    }
-
 }
