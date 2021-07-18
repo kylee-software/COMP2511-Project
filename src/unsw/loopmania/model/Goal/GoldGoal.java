@@ -5,11 +5,14 @@ import unsw.loopmania.model.LoopManiaWorld;
 public class GoldGoal extends Goal {
 
     private int goldGoal;
-    private LoopManiaWorld world;
+    private int worldGold;
 
-    public GoldGoal(int goldGoal, LoopManiaWorld world) {
+    public GoldGoal(int goldGoal) {
         this.goldGoal = goldGoal;
-        this.world = world;
+    }
+
+    public void setWorldGold(int worldGold) {
+        this.worldGold = worldGold;
     }
 
     /**
@@ -18,6 +21,6 @@ public class GoldGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete() {
-        return world.getGold() == goldGoal;
+        return worldGold == goldGoal;
     }
 }

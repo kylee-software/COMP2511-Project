@@ -46,6 +46,10 @@ public class LoopManiaWorld {
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
 
+    private GoldGoal goldGoal;
+    private CycleGoal cycleGoal;
+    private ExperienceGoal experienceGoal;
+
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                     Attributes Related to Character                                        │ */
@@ -367,26 +371,44 @@ public class LoopManiaWorld {
     }
 
     /**
+     * set the goals of the game
+     * @param goals hash map of all goals
+     */
+    public void setGoals(List<Goal> goals) {
+
+        this.experienceGoal = (ExperienceGoal) goals.get(0);
+        this.goldGoal = (GoldGoal) goals.get(1);
+        this.cycleGoal = (CycleGoal) goals.get(2);
+
+    }
+    /**
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
-    public boolean checkWinCondition() {
-        System.out.println("Win? " + getGoal().isGoalComplete());
-        return getGoal().isGoalComplete();
-    }
+     // DONE
+     public boolean isGoalCompleted() {
+         cycleGoal.setWorldGoal(cycles);
+         experienceGoal.setWorldGoal(experience);
+         goldGoal.setWorldGold(gold);
+         AndGoal goal = new AndGoal(cycleGoal, new OrGoal(experienceGoal, goldGoal));
+
+         return goal.isGoalComplete();
+     }
 
 
     /**
      * check is the character completed the current cycle or not
      * @return true if the character complected a cycle else false
      */
-    public boolean completedACycle() {
-        if (isOnSameTile(character, herosCastleBuilding)) {
+    public void completedACycle() {
+        int charaX = character.getX();
+        int charaY = character.getY();
+        if (charaX == 0 && charaY == 0) {
             cycles += 1;
-            return true;
         }
-
-        return false;
+//        if (isOnSameTile(character, herosCastleBuilding)) {
+//            cycles += 1;
+//        }
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */

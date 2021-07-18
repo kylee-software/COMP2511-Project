@@ -5,10 +5,15 @@ import unsw.loopmania.model.LoopManiaWorld;
 public class CycleGoal extends Goal {
 
     private int cycleGoal;
-    private LoopManiaWorld world;
+    private int worldGoal;
 
-    public CycleGoal(int cycleGoal, LoopManiaWorld world) {
+    public CycleGoal(int cycleGoal) {
         this.cycleGoal = cycleGoal;
+    }
+
+
+    public void setWorldGoal(int worldGoal) {
+        this.worldGoal = worldGoal;
     }
 
     /**
@@ -17,6 +22,6 @@ public class CycleGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete() {
-        return world.getCycles() == cycleGoal;
+        return worldGoal == cycleGoal;
     }
 }
