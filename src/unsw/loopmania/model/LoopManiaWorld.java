@@ -172,6 +172,10 @@ public class LoopManiaWorld {
         return cycles;
     }
 
+    public Boolean getIsLost() {
+        return isLost;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                               Getters and Setters Related to the Character                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -248,7 +252,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> supportEnemies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             double supportRadiusSquared = Math.pow(e.getSupportRadius(), 2);
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < supportRadiusSquared){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= supportRadiusSquared){
                 supportEnemies.add(e);
             }
         }
@@ -281,7 +285,7 @@ public class LoopManiaWorld {
                     (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
             ) {
                 double battleRadiusSquared = Math.pow(b.getBattleRadius(), 2);
-                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) < battleRadiusSquared){
+                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) <= battleRadiusSquared){
                     buildings.add(b);
                 }
             }
@@ -563,10 +567,9 @@ public class LoopManiaWorld {
 
         // Check if enemies within battle range
         for (BasicEnemy e: enemies){
-            // Pythagoras: a^2+b^2 < radius^2 to see if within radius
+            // Pythagoras: a^2+b^2 <= radius^2 to see if within radius
             double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < battleRadiusSquared){
-                battleEnemies.add(e);
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= battleRadiusSquared){
                 enemyInBattleRange = true;
                 break;
             }
@@ -585,10 +588,12 @@ public class LoopManiaWorld {
         Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
         // Add items
         setBattleWeapons(battle);
+
         battle.fight();
 
         // Kill dead enemies
         for (BasicEnemy enemy : battle.getKilledEnemies()) {
+            defeatedEnemies.add(enemy);
             killEnemy(enemy);
         }
         // Kill dead allies
@@ -597,7 +602,9 @@ public class LoopManiaWorld {
         }
         if (battle.isLost()) {
             // Check has The One Ring
-            if (equippedRareItem.getClass().equals(TheOneRing.class)) {
+            if (equippedRareItem != null && 
+                equippedRareItem.getClass().equals(TheOneRing.class)
+            ) {
                 Item theOneRing = getEquippedRareItem();
                 theOneRing.usePotion(character);
                 equippedRareItem = null;
@@ -1154,4 +1161,11 @@ public class LoopManiaWorld {
         nonSpecifiedEntities.add(entity);
     }
 
+    public void addEnemy(BasicEnemy enemy) {
+        enemies.add(enemy);
+    }
+
+    public void addBuilding(Building building) {
+        buildingEntities.add(building);
+    }
 }
