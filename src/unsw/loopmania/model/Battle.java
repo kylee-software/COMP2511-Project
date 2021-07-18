@@ -133,14 +133,14 @@ public class Battle {
         // Character -> Tower1 → Allied Soldier 1 -> Enemy 1 → character → Tower2 → Allied Soldier 2 → Enemy2
         // Characters and enemies will attack the entity with the lowest current health every turn
         // Enemies will attack allied soldiers first
-        sortEnemiesByCurrentHp();
-        sortAlliesByCurrentHp();
         int scalarDef = getScalarDef();
         int flatDef = getFlatDef();
         int towerTurn = 0;
         int allyTurn = 0;
         int enemyTurn = 0;
         while (!areEnemiesDead() && !character.isDead()) {
+            sortEnemiesByCurrentHp();
+            sortAlliesByCurrentHp();
             attackLiveEnemy(character);
             if (areEnemiesDead()) {
                 break;
@@ -175,7 +175,6 @@ public class Battle {
                 enemyTurn += 1;
                 enemyTurn %= liveEnemies.size();
             }
-            // deal infect
             // Reduce life cycle of tranced zombies + revert zombies at end of life cycle
             reduceLifeCycleTrancedZombies();
         }
@@ -209,9 +208,9 @@ public class Battle {
      */
     private void entranceZombie(BasicEnemy zombie, int index) {
         if (!zombie.isDead()) {
-            List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-            orderedPath.add(new Pair<>(0,0));
-            PathPosition dummyPosition = new PathPosition(0, orderedPath);
+            List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
+            dummyPath.add(new Pair<>(0,0));
+            PathPosition dummyPosition = new PathPosition(0, dummyPath);
             AlliedSoldier trancedZombie = new AlliedSoldier(dummyPosition);
             // Set ally hp and damage to zombie's remaining hp
             trancedZombie.setHealth(zombie.getHealth());
@@ -232,6 +231,24 @@ public class Battle {
         BasicEnemy originalZombie = liveEnemies.get(trancedZombie.getTrancedZombieIndex());
         originalZombie.setHealth(trancedZombie.getHealth());
         trancedZombie.setHealth(0);
+    }
+
+    /**
+     * Turns an ally into a zombie permanently
+     * @param ally
+     */
+    private void infectAlly(AlliedSoldier ally) {
+        if (!ally.isDead()) {
+            List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
+            dummyPath.add(new Pair<>(0,0));
+            PathPosition dummyPosition = new PathPosition(0, dummyPath);
+            Zombie infectedAlly = new Zombie(dummyPosition);
+            // Set zombie hp to ally's remaining hp
+            infectedAlly.setHealth(ally.getHealth());
+            addEnemyToBattle(infectedAlly);
+            // Kill original ally
+            ally.setHealth(0);
+        }
     }
 
     /**
@@ -268,7 +285,7 @@ public class Battle {
                 if (trance) {
                     entranceZombie(enemy, i);
                 }
-                break;
+                return;
             }
         }
     }
@@ -282,15 +299,15 @@ public class Battle {
      */
     private void enemyAttack(Entity attacker, int scalarDef, int flatDef) {
         AttackStrategy attack = attacker.getAttackStrategy();
-        // Prioritise allies
+        // Prioritise lowest hp alive ally
         for (int i = 0; i < allies.size(); i++) {
             AlliedSoldier ally = allies.get(i);
             if (!ally.isDead()) {
                 Boolean infect = attack.execute(attacker, ally, 0, 0, campfires.size() > 0);
                 if (infect) {
-                    // infect ally
+                    infectAlly(ally);
                 }
-                break;
+                return;
             }
         }
         // Otherwise attack character
