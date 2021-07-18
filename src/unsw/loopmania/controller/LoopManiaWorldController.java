@@ -127,13 +127,45 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image healthPotionImage;
-    private Image goldPileImage;
+    // Card Images
+    private Image barracksCardImage;
+    private Image campfireCardImage;
+    private Image herosCastleCardImage;
+    private Image towerCardImage;
+    private Image trapCardImage;
     private Image vampireCastleCardImage;
-    private Image basicEnemyImage;
-    private Image swordImage;
+    private Image zombiePitCardImage;
+
+    // Building Images
     private Image basicBuildingImage;
     
+    private Image barracksBuildingImage;
+    private Image campfireBuildingImage;
+    private Image towerBuildingImage;
+    private Image trapBuildingImage;
+    private Image vampireCastleBuildingImage;
+    private Image zombiePitBuildingImage;
+
+    // Enemy Images
+    private Image basicEnemyImage;
+
+    private Image slugImage;
+    private Image vampireImage;
+    private Image zombieImage;
+
+    // Allied Solider Image
+    private Image alliedSoldierImage;
+
+    // Item Images
+    private Image amourImage;
+    private Image goldImage;
+    private Image healthPotionImage;
+    private Image helmetImage;
+    private Image shieldImage;
+    private Image staffImage;
+    private Image stakeImage;
+    private Image swordImage;
+    private Image theOneRing;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -187,14 +219,45 @@ public class LoopManiaWorldController {
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
+            /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+            /* │                                  Initializers for LoopManiaWorldController                                 │ */
+            /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
-        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
-        goldPileImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
+        // Card Images
+        barracksCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
+        campfireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
+        trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
-        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        // Building Images
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        barracksBuildingImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+        campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
+        trapBuildingImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle.png")).toURI().toString());
+        zombiePitBuildingImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        // Enemy Images
+        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
+        // Allied Soldier Images
+        alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
+        // Item Images
+        amourImage = new Image((new File("src/images/amour.png")).toURI().toString());
+        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
+        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        theOneRing = new Image((new File("src/images/the_one_ring.png")).toURI().toString()); 
+
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -299,6 +362,10 @@ public class LoopManiaWorldController {
         pause();
     }
 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                    Loading Methods for Controller                                          │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
     /**
      * pair the entity an view so that the view copies the movements of the entity.
      * add view to list of entity images
@@ -347,6 +414,10 @@ public class LoopManiaWorldController {
         Item healthPotion = world.possiblySpawnHealthPotions();
         onLoadHealthPotion(healthPotion);
     }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                      OnLoad Methods for Controller                                         │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
@@ -446,6 +517,9 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                     Dragging Methods from StarterCode                                      │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
     /**
      * add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
      * These are not attached to invidual items such as swords/cards.
