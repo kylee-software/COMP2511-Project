@@ -651,11 +651,10 @@ public class LoopManiaWorld {
         setGold(getGold() + battle.getBattleGold());
         setExperience(getExperience() + battle.getBattleExp());
         for (String card : battle.getBattleCards()) {
-            //addCard(card);
+            loadCard(card);
         }
         for (String item : battle.getBattleItems()) {
-            //addUnequippedItem(item);
-            addUnequippedItem("Sword");
+            addUnequippedItem(item);
         }
     }
 
@@ -684,7 +683,7 @@ public class LoopManiaWorld {
      * Given an item being discarded adds rewards
      * @param item - item to be discarded
      */
-    private void addDiscardRewards(Item item) {
+    private void addDiscardItemRewards(Item item) {
         setExperience(getExperience() + item.getDiscardExp());
         setGold(getGold() + item.getDiscardGold());
     }
@@ -822,12 +821,12 @@ public class LoopManiaWorld {
     /**
      * Remove item at a particular index in the unequipped inventory items list
      * (this is ordered based on age in the starter code)
-     * Calls add discardRewards method
+     * Calls add discardItemRewards method
      * @param index index from 0 to length-1
      */
     private void removeItemByPositionInUnequippedInventoryItems(int index){
         Item item = unequippedInventoryItems.get(index);
-        addDiscardRewards(item);
+        addDiscardItemRewards(item);
         item.destroy();
         unequippedInventoryItems.remove(index);
     }
@@ -873,6 +872,7 @@ public class LoopManiaWorld {
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
+    // TODO: fix front end so i can get rid of this method and replace with the generalised one below
     public VampireCastleCard loadVampireCard(){
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()){
@@ -882,6 +882,21 @@ public class LoopManiaWorld {
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         cardEntities.add(vampireCastleCard);
         return vampireCastleCard;
+    }
+
+    /**
+     * spawn a card in the world and return the card entity
+     * @return a card to be spawned in the controller as a JavaFX node
+     */
+    public Card loadCard(String type){
+        // if adding more cards than have, remove the first card...
+        if (cardEntities.size() >= getWidth()){
+            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+            removeCard(0);
+        }
+        Card card = createCard(type, new SimpleIntegerProperty(cardEntities.size()));
+        cardEntities.add(card);
+        return card;
     }
 
     /**
@@ -917,8 +932,7 @@ public class LoopManiaWorld {
     public void gainDiscardCardRewards(int goldReward, int expReward, List<String> itemReward) {
         addGold(goldReward);
         addExperience(expReward);
-        for (String itemName : itemReward) addUnequippedSword();
-        //for (Item item : itemReward) addUnequippedItem(item);
+        for (String type : itemReward) addUnequippedItem(type);
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -975,32 +989,81 @@ public class LoopManiaWorld {
     }
 
     /**
+     * Spawns given card in the world
+     * @param type - string with capital first letter and suffix Card (eg. BarracksCard, CampfireCard etc.)
+     * @param firstAvailableSlot - first empty card slot
+     * @return card (returns null if invalid type provided)
+     */
+    public Card createCard(String type, SimpleIntegerProperty firstAvailableSlot) {
+        Class<?> cardClass;
+        Class<?>[] parameterType;
+        Card card;       
+        try {
+            cardClass = Class.forName("unsw.loopmania.model.Cards." + type);
+            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+            card = (Card) cardClass.getDeclaredConstructor(parameterType).newInstance(firstAvailableSlot, new SimpleIntegerProperty(0));
+            return card;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            // DONE Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Spawns given item in the world
      * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
      * @param firstAvailableSlot - unequipped inventory slot
      * @return item (returns null if invalid type provided)
      */
     public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-        Item item = null;
-        if (type.equals("Armour")) {
-            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("HealthPotion")) {
-            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Helmet")) {
-            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Shield")) {
-            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Staff")) {
-            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Stake")) {
-            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Sword")) {
-            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("TheOneRing")) {
-            item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        Class<?> itemClass;
+        Class<?>[] parameterType;
+        Item item;       
+        try {
+            if (type == "TheOneRing") 
+                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
+            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
+            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+            return item;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            // DONE Auto-generated catch block
+            e.printStackTrace();
+            return null;
         }
-        return item;
+        
     }
+
+    // /**
+    //  * Spawns given item in the world
+    //  * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+    //  * @param firstAvailableSlot - unequipped inventory slot
+    //  * @return item (returns null if invalid type provided)
+    //  */
+    // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+    //     Item item = null;
+    //     if (type.equals("Armour")) {
+    //         item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("HealthPotion")) {
+    //         item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Helmet")) {
+    //         item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Shield")) {
+    //         item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Staff")) {
+    //         item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Stake")) {
+    //         item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Sword")) {
+    //         item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("TheOneRing")) {
+    //         item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     }
+    //     return item;
+    // }
 
     /**
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
