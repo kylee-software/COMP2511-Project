@@ -31,14 +31,15 @@ public class LoopManiaApplication extends Application {
         primaryStage.setResizable(false);
 
         // load the main game
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
+        LoopManiaWorldControllerLoader loopManiaLoader =
+                new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
         mainController = loopManiaLoader.loadController();
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
         gameLoader.setController(mainController);
         Parent gameRoot = gameLoader.load();
 
         // load the main menu
-        MainMenuController mainMenuController = new MainMenuController();
+        final MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
@@ -52,7 +53,7 @@ public class LoopManiaApplication extends Application {
         FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("WinScreenView.fxml"));
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = winScreenLoader.load();
-        
+
         HerosCastleMenuController herosCastleMenuController = new HerosCastleMenuController();
         FXMLLoader herosCastleMenuLoader = new FXMLLoader(getClass().getResource("HerosCastleMenuView.fxml"));
         herosCastleMenuLoader.setController(herosCastleMenuController);
@@ -63,36 +64,46 @@ public class LoopManiaApplication extends Application {
         Scene gameOverScreenScene = new Scene(gameOverScreenRoot);
         Scene winScreenScene = new Scene(winScreenRoot);
         Scene herosCastleMenuScene = new Scene(herosCastleMenuRoot);
-        
-        
+
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
-        mainMenuController.setGameSwitcher(() -> {switchToRoot(scene, gameRoot, primaryStage);
+        mainController.setMainMenuSwitcher(() -> {
+            switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
+        mainMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+
+            String gameMode = mainMenuController.getGameMode();
+            mainController.setGameMode(gameMode);
+
             mainController.startTimer();
         });
+
         // switch from game to game over screen
-         mainController.setGameOverScreenSwitcher(() -> {switchToRoot(gameOverScreenScene, gameOverScreenRoot, primaryStage);
+        mainController.setGameOverScreenSwitcher(() -> {
+            switchToRoot(gameOverScreenScene, gameOverScreenRoot, primaryStage);
             stop();
         });
         // switch from game to game win screen
-        mainController.setWinScreenSwitcher(() -> {switchToRoot(winScreenScene, winScreenRoot, primaryStage);
+        mainController.setWinScreenSwitcher(() -> {
+            switchToRoot(winScreenScene, winScreenRoot, primaryStage);
             stop();
         });
         // switch from game to heros castle menu
-        mainController.setHerosCastleMenuSwitcher(() -> {switchToRoot(herosCastleMenuScene, herosCastleMenuRoot, primaryStage);
+        mainController.setHerosCastleMenuSwitcher(() -> {
+            switchToRoot(herosCastleMenuScene, herosCastleMenuRoot, primaryStage);
             stop();
         });
         // switch from heros castle menu to game
-        herosCastleMenuController.setGameSwitcher(() -> {switchToRoot(scene, gameRoot, primaryStage);
-            mainController.startTimer();
+        herosCastleMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+
+            // deploy the main onto the stage
+            gameRoot.requestFocus();
+            scene.getRoot().setStyle("-fx-font-family: 'serif'");
+            primaryStage.setScene(scene);
+            primaryStage.show();
         });
-        
-        // deploy the main onto the stage
-        gameRoot.requestFocus();
-        scene.getRoot().setStyle("-fx-font-family: 'serif'");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     @Override

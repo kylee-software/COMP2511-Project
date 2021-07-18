@@ -32,11 +32,11 @@
                   <Font name="Times New Roman" size="15.0" />
                </font>
             </Label>
-            <MenuButton alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" textAlignment="CENTER">
+            <MenuButton fx:id="gameModeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0">
               <items>
-                <MenuItem mnemonicParsing="false" text="Standard" />
-                <MenuItem mnemonicParsing="false" text="Survival" />
-                  <MenuItem mnemonicParsing="false" text="Berserker" />
+                <MenuItem fx:id="standardMode" onAction="#setStandardMode" text="Standard" />
+                <MenuItem fx:id="survivalMode" onAction="#setSurvivalMode" text="Survival" />
+                  <MenuItem fx:id="berserkerMode" onAction="#setBerserkerMode" text="Berserker" />
               </items>
             </MenuButton>
          </children>

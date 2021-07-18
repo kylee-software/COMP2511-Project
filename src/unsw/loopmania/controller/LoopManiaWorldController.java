@@ -365,6 +365,12 @@ public class LoopManiaWorldController {
         timeline.play();
     }
 
+    public void setGameMode(String gameMode) {
+        world.setGameMode(gameMode);
+
+        System.out.println(world.getGameMode());
+    }
+
     /**
      * pause the execution of the game loop
      * the human player can still drag and drop items during the game pause

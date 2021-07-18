@@ -186,6 +186,10 @@ public class LoopManiaWorld {
         return isLost;
     }
 
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                               Getters and Setters Related to the Character                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
