@@ -347,7 +347,6 @@ public class LoopManiaWorld {
     }
 
     public List<Card> getEquippedCards() {
-        // DONE = need to implement this correctly and add javadoc
         return cardEntities;
     }
 
