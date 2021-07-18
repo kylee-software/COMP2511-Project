@@ -2,6 +2,7 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.*;
@@ -9,6 +10,7 @@ import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.RareItem;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +49,6 @@ public class LoopManiaWorldTest {
 
     @Test
     public void runBattlesTest() {
-        
     }
 
     @Test

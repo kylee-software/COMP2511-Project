@@ -85,7 +85,6 @@ public abstract class MovingEntity extends Entity {
 
     /**
      * Checks if entity legally is dead
-     * @return
      */
     public boolean isDead() {
         return this.health <= 0;

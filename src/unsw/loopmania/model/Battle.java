@@ -18,8 +18,8 @@ public class Battle {
     private List<Building> towers;
     private List<AlliedSoldier> allies;
     private List<Building> campfires;
-    private List<BasicEnemy> liveEnemies;
-    private List<BasicEnemy> killedEnemies;
+    private List<BasicEnemy> enemies;
+    private List<BasicEnemy> killedEnemies = new ArrayList<>();
     private Item weapon = null;
     private Item armour = null;
     private Item shield = null;
@@ -45,7 +45,7 @@ public class Battle {
         this.character = character;
         this.towers = towers;
         this.allies = allies;
-        this.liveEnemies = enemies;
+        this.enemies = enemies;
         this.campfires = campfires;
     }
 
@@ -55,7 +55,7 @@ public class Battle {
      */
     private void addEnemyToBattle(BasicEnemy enemy) {
         if (enemy.getHealth() > 0) {
-            this.liveEnemies.add(enemy);
+            this.enemies.add(enemy);
         }
     }
 
@@ -97,7 +97,6 @@ public class Battle {
      * @param enemy - enemy to kill
      */
     private void killEnemy(BasicEnemy enemy) {
-        this.liveEnemies.remove(enemy);
         this.killedEnemies.add(enemy);
     }
 
@@ -126,7 +125,7 @@ public class Battle {
      * Sorts list of enemies by hp
      */
     private void sortEnemiesByCurrentHp() {
-        liveEnemies.sort(Comparator.comparing(BasicEnemy::getHealth));
+        enemies.sort(Comparator.comparing(BasicEnemy::getHealth));
     }
 
     /**
@@ -178,13 +177,13 @@ public class Battle {
                     break;
                 }
             }
-            enemyAttack(liveEnemies.get(enemyTurn), scalarDef, flatDef);
+            enemyAttack(enemies.get(enemyTurn), scalarDef, flatDef);
             enemyTurn += 1;
-            enemyTurn %= liveEnemies.size();
-            while (liveEnemies.get(enemyTurn).isDead()) {
+            enemyTurn %= enemies.size();
+            while (enemies.get(enemyTurn).isDead()) {
                 // Skip if enemy is dead
                 enemyTurn += 1;
-                enemyTurn %= liveEnemies.size();
+                enemyTurn %= enemies.size();
             }
             // Reduce life cycle of tranced enemies + revert enemies at end of their life cycle
             reduceLifeCycleTrancedZombies();
@@ -196,7 +195,7 @@ public class Battle {
             }
         }
         // Kill all dead enemies
-        for (BasicEnemy enemy : liveEnemies) {
+        for (BasicEnemy enemy : enemies) {
             if (enemy.isDead()) {
                 killEnemy(enemy);
             }
@@ -245,7 +244,7 @@ public class Battle {
      * @param trancedEnemy
      */
     private void revertTrancedEnemy(AlliedSoldier trancedEnemy) {
-        BasicEnemy originalEnemy = liveEnemies.get(trancedEnemy.getTrancedEnemyIndex());
+        BasicEnemy originalEnemy = enemies.get(trancedEnemy.getTrancedEnemyIndex());
         originalEnemy.setHealth(trancedEnemy.getHealth());
         trancedEnemy.setHealth(0);
     }
@@ -295,8 +294,8 @@ public class Battle {
         if (attacker.getClass().equals(Character.class)) {
             attack = getItemAttackStrategy();
         }
-        for (int i = 0; i < liveEnemies.size(); i++) {
-            BasicEnemy enemy = liveEnemies.get(i);
+        for (int i = 0; i < enemies.size(); i++) {
+            BasicEnemy enemy = enemies.get(i);
             if (!enemy.isDead()) {
                 Boolean trance = attack.execute(character, enemy, 0, 0, campfires.size() > 0, 0);
                 if (trance) {
@@ -386,10 +385,15 @@ public class Battle {
      * Checks if all enemies are dead
      */
     private boolean areEnemiesDead() {
-        if (liveEnemies.size() == 0) {
+        if (enemies.size() == 0) {
             return true;
         }
-        return false;
+        for (BasicEnemy enemy : enemies) {
+            if (!enemy.isDead()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
