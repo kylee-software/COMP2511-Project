@@ -284,6 +284,7 @@ public class LoopManiaWorldController {
         world.setHealthLabel(worldHealth);
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
+        world.updateNumAlliedSoldiers();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {

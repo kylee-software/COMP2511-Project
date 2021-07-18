@@ -19,7 +19,7 @@
    <!-- HBox is used to stack items horizontally left to right -->
    <HBox>
       <!-- VBox is used to stack items vertically top to bottom -->
-      <VBox>
+      <VBox alignment="TOP_CENTER">
          <children>
              <!-- squares contains the path, buildings, character, and enemies -->
             <GridPane fx:id="squares" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
@@ -53,7 +53,7 @@
             </BorderPane>
          </children>
       </VBox>
-      <VBox prefHeight="284.0" prefWidth="166.0">
+      <VBox prefHeight="284.0" prefWidth="186.0">
          <children>
             <!-- equippedItems contains the equipment equipped by the character in special slots -->
             <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
@@ -114,7 +114,7 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
-            <Label fx:id="worldHealth" prefHeight="60.0" prefWidth="94.0" text=" Health: ">
+            <Label fx:id="worldHealth" prefHeight="60.0" prefWidth="140.0" text=" Health: ">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -122,7 +122,7 @@
                      </image>
                   </ImageView>
                </graphic></Label>
-            <Label fx:id="worldExperience" prefHeight="52.0" prefWidth="115.0" text=" Experience: ">
+            <Label fx:id="worldExperience" prefHeight="52.0" prefWidth="160.0" text=" Experience: ">
                <graphic>
                   <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -130,7 +130,7 @@
                      </image>
                   </ImageView>
                </graphic></Label>
-            <Label fx:id="worldGold" prefHeight="52.0" prefWidth="83.0" text=" Gold: ">
+            <Label fx:id="worldGold" prefHeight="52.0" prefWidth="160.0" text=" Gold: ">
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -138,7 +138,7 @@
                      </image>
                   </ImageView>
                </graphic></Label>
-            <Label fx:id="alliedsoldiers" text="Allied Solders:">
+            <Label fx:id="numAlliedSoldiers" prefHeight="33.0" prefWidth="162.0" text="Allied Solders:">
                <graphic>
                   <ImageView fitHeight="34.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
