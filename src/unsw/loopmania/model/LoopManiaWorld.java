@@ -96,7 +96,7 @@ public class LoopManiaWorld {
 
     private Item equippedAttackItem = null;
 
-    private static List<Item> spanningItems = new ArrayList<Item>();;
+    private static List<Item> spawnedItems = new ArrayList<Item>();;
 
     private Item equippedHelmet = null;
 
@@ -518,7 +518,7 @@ public class LoopManiaWorld {
             PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
             Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
             items.add(gold);
-            spanningItems.add(gold);
+            spawnedItems.add(gold);
         }
 
         if (healthPotionPos != null){
@@ -526,7 +526,7 @@ public class LoopManiaWorld {
             PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
             HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
             items.add(healthPotion);
-            spanningItems.add(healthPotion);
+            spawnedItems.add(healthPotion);
         }
 
         return items;
@@ -667,7 +667,7 @@ public class LoopManiaWorld {
     public void pickupItems() {
 
         // pick up gold if any
-        for (Item item : spanningItems) {
+        for (Item item : spawnedItems) {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
