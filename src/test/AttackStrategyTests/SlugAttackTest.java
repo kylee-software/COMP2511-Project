@@ -18,7 +18,7 @@ import unsw.loopmania.model.Character;
 
 public class SlugAttackTest {
     /**
-     * Test BasicAttack strategy for an attack on a character
+     * Test SlugAttack strategy for an attack on a character
      */
     @Test
     public void attackCharacterExecuteTest() {

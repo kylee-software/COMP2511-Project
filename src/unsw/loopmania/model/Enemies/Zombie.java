@@ -16,6 +16,7 @@ public class Zombie extends BasicEnemy {
     private static int supportRadius = 2;
     private static double speed = 4; // Ticks per tile
     private static AttackStrategy strategy = new ZombieAttack();
+    private static int critChance = 15;
     private static int damage = 14;
     private static int health = 20;
 
@@ -72,6 +73,11 @@ public class Zombie extends BasicEnemy {
     @Override
     public AttackStrategy getAttackStrategy() {
         return strategy;
+    }
+
+    @Override
+    public int getCritChance() {
+        return critChance;
     }
 
 }

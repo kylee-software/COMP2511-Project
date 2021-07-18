@@ -5,6 +5,7 @@ import java.util.Random;
 import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Character;
 
 /**
  * Implements a zombie attack on a target
@@ -24,8 +25,6 @@ public class ZombieAttack implements AttackStrategy {
     @Override
     public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         double damage = attacker.getDamage();
-        Random random = new Random();
-        Boolean crit = random.nextInt(99) < attacker.getCritChance();
         if (target.getClass().equals(Character.class)) {
             double scalarDecimal = 100 - scalarDef;
             scalarDecimal /= 100;
@@ -33,6 +32,8 @@ public class ZombieAttack implements AttackStrategy {
             damage -= fixedDef;
         }
         target.setHealth((int)(target.getHealth() - damage));
+        Random random = new Random(4);
+        Boolean crit = random.nextInt(99) < attacker.getCritChance();
         if (crit && target.getClass().equals(AlliedSoldier.class)) {
             return true;
         } else {
