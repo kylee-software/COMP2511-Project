@@ -27,7 +27,9 @@ public class ZombieAttack implements AttackStrategy {
         Random random = new Random();
         Boolean crit = random.nextInt(99) < attacker.getCritChance();
         if (target.getClass().equals(Character.class)) {
-            damage *= scalarDef / 100;
+            double scalarDecimal = 100 - scalarDef;
+            scalarDecimal /= 100;
+            damage *= scalarDecimal;
             damage -= fixedDef;
         }
         target.setHealth((int)(target.getHealth() - damage));

@@ -12,30 +12,40 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.BasicAttack;
+import unsw.loopmania.model.AttackStrategy.SlugAttack;
 import unsw.loopmania.model.Buildings.TowerBuilding;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Character;
 
 
-public class BasicAttackTest {
+public class SlugAttackTest {
     /**
-     * Test BasicAttack strategy for a character
+     * Test BasicAttack strategy for an attack on a character
      */
     @Test
-    public void characterExecuteTest() {
+    public void attackCharacterExecuteTest() {
         List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
         dummyPath.add(new Pair<>(0,0));
         PathPosition dummyPosition = new PathPosition(0, dummyPath);
-        Character attacker = new Character(dummyPosition);
-        Slug enemy = new Slug(dummyPosition);
-        AttackStrategy basicAttack = new BasicAttack();
-        basicAttack.execute(attacker, enemy, 0, 0, false);
-        assertEquals(enemy.getHealth(), 4);
-        // Check campfire doubles character damage
-        enemy.setHealth(10);
-        basicAttack.execute(attacker, enemy, 0, 0, true);
-        assertEquals(enemy.getHealth(), -2);
+        Character character = new Character(dummyPosition);
+        Slug attacker = new Slug(dummyPosition);
+        AttackStrategy slugAttack = new SlugAttack();
+        // Test attack with no defences
+        slugAttack.execute(attacker, character, 0, 0, false);
+        assertEquals(character.getHealth(), 93);
+        // Check campfire does not affect damage
+        character.setHealth(100);
+        slugAttack.execute(attacker, character, 0, 0, true);
+        assertEquals(character.getHealth(), 93);
+        // Test attack with fixedDefences
+        character.setHealth(100);
+        slugAttack.execute(attacker, character, 0, 2, false);
+        assertEquals(character.getHealth(), 95);
+        // Test attack with scalarDefences
+        character.setHealth(100);
+        slugAttack.execute(attacker, character, 30, 0, false);
+        assertEquals(character.getHealth(), 95);
     }
 
     /**

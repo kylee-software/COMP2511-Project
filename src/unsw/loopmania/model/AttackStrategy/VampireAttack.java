@@ -29,7 +29,9 @@ public class VampireAttack implements AttackStrategy {
             damage += random.nextInt(9) + 1;
         }
         if (target.getClass().equals(Character.class)) {
-            damage *= scalarDef / 100;
+            double scalarDecimal = 100 - scalarDef;
+            scalarDecimal /= 100;
+            damage *= scalarDecimal;
             damage -= fixedDef;
         }
         target.setHealth((int)(target.getHealth() - damage));

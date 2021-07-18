@@ -22,7 +22,9 @@ public class SlugAttack implements AttackStrategy {
     public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
         double damage = attacker.getDamage();
         if (target.getClass().equals(Character.class)) {
-            damage *= scalarDef / 100;
+            double scalarDecimal = 100 - scalarDef;
+            scalarDecimal /= 100;
+            damage *= scalarDecimal;
             damage -= fixedDef;
         }
         target.setHealth((int)(target.getHealth() - damage));
