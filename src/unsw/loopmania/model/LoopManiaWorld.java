@@ -44,6 +44,7 @@ public class LoopManiaWorld {
     private int worldWidth;
     private int worldHeight;
     private String gameMode;
+    private List<String> gameRareItems;
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
@@ -128,7 +129,7 @@ public class LoopManiaWorld {
      * @param worldHeight worldHeight of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath) {
+    public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath, List<String> rareItems) {
         this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
@@ -140,6 +141,7 @@ public class LoopManiaWorld {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
+        this.gameRareItems = rareItems;
     }
 
     /**
@@ -651,9 +653,14 @@ public class LoopManiaWorld {
         for (Card card : battle.getBattleCards()) {
             addCard(card);
         }
-        for (Item item : battle.getBattleItems()) {
-            //addUnequippedItem(item);
-            addUnequippedItem("Sword");
+        for (String item : battle.getBattleItems()) {
+            addUnequippedItem(item);
+            // addUnequippedItem("Sword");
+            Random random = new Random();
+            int randomInt = random.nextInt(19);
+            if (randomInt == 0) {
+                // TODO: Generate random item
+            }
         }
     }
 

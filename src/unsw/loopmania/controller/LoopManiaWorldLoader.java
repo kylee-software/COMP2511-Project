@@ -42,13 +42,20 @@ public abstract class LoopManiaWorldLoader {
     public LoopManiaWorld load() {
         int width = json.getInt("width");
         int height = json.getInt("height");
+        JSONArray jsonRareItems = json.getJSONArray("rare_items");
+        List<String> rareItems = new ArrayList<>();
+        if (jsonRareItems != null) {
+            for (Object item : jsonRareItems) {
+                rareItems.add(item.toString());
+            }
+        }
 
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
         
         // TODO: change this to the game mode the player picks
         //String gameMode = "Standard"; 
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

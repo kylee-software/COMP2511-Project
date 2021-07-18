@@ -157,8 +157,8 @@ public class Battle {
      * Gets item rewards for battle
      * @return list of items gained
      */
-    public List<Item> getBattleItems() {
-        List<Item> items = new ArrayList<Item>();
+    public List<String> getBattleItems() {
+        List<String> items = new ArrayList<String>();
         // for (BasicEnemy enemy : killedEnemies) {
         //     items.add(generateRandomItem());
         // }
