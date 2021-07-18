@@ -96,4 +96,13 @@ public abstract class MovingEntity extends Entity {
         this.health = Math.min(getHealth() + healthBonus, 100);
     }
 
+    /**
+     * Check whether Character is alive
+     * @param void 
+     * @return true if Character is alive 
+     */
+    public boolean isAlive() {
+        if (getHealth() > 0) return true;
+        else return false;
+    }
 }

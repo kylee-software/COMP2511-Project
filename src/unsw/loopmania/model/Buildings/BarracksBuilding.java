@@ -1,5 +1,6 @@
 package unsw.loopmania.model.Buildings;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.PathPosition;
 
@@ -30,7 +31,7 @@ public class BarracksBuilding extends Building {
      * @param y y coordinate of allied soldier
      * @return allied soldier
      */
-    public AlliedSoldier spawnAlliedSoldier() {
+    public AlliedSoldier spawnAlliedSoldier(PathPosition pathPosition) {
         return new AlliedSoldier(pathPosition);
     }
 }

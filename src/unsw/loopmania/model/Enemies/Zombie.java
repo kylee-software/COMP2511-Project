@@ -1,17 +1,13 @@
 package unsw.loopmania.model.Enemies;
 
-import java.util.List;
-
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.ZombieAttack;
-import unsw.loopmania.model.Cards.Card;
 
 public class Zombie extends BasicEnemy {
 
     private static int expReward = 300;
     private static int goldReward = 20;
-    private List<Card> cardReward; // TODO:
     private static int battleRadius = 2;
     private static int supportRadius = 2;
     private static double speed = 4; // Ticks per tile

@@ -1,6 +1,5 @@
 package unsw.loopmania.model.AttackStrategy;
 
-import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
 

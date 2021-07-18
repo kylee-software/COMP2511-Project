@@ -439,7 +439,7 @@ public class Battle {
      */
     public List<String> getBattleCards() {
         List<String> cards = new ArrayList<String>();
-        for (BasicEnemy enemy : killedEnemies) {
+        for (int i = 0; i < killedEnemies.size(); i++) {
             cards.add(getCardRewardStrategy().randomReward());
         }
         return cards;
@@ -455,7 +455,7 @@ public class Battle {
      */
     public List<String> getBattleItems() {
         List<String> items = new ArrayList<String>();
-        for (BasicEnemy enemy : killedEnemies) {
+        for (int i = 0; i < killedEnemies.size(); i++) {
             items.add(getItemRewardStrategy().randomReward());
         }
         Random random = new Random(12);

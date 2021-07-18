@@ -1,7 +1,5 @@
 package unsw.loopmania.model.Buildings;
 
-import java.util.List;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.BasicEnemy;
@@ -25,13 +23,6 @@ public class TrapBuilding extends Building {
 
     public PathPosition getPathPosition() {
         return pathPosition;
-    }
-
-    // OBSERVER PATTERN
-
-    public boolean checkForEnemy(List<BasicEnemy> enemies) {
-        // TODO = need to implement this correctly and add javadoc
-        return false;
     }
 
     /**

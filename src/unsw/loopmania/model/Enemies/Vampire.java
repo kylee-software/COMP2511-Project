@@ -1,17 +1,13 @@
 package unsw.loopmania.model.Enemies;
 
-import java.util.List;
-
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.VampireAttack;
-import unsw.loopmania.model.Cards.Card;
 
 public class Vampire extends BasicEnemy {
 
     private static int expReward = 800;
     private static int goldReward = 50;
-    private List<Card> cardReward; // TODO:
     private static int battleRadius = 2;
     private static int supportRadius = 3;
     private static double speed = 1; // Ticks per tile

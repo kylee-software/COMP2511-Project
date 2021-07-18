@@ -5,23 +5,23 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
-import unsw.loopmania.model.Cards.Card;
-import unsw.loopmania.model.Cards.TrapCard;
+import unsw.loopmania.model.Cards.*;
 import unsw.loopmania.model.Enemies.*;
+import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Buildings.*;
-import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.javatuples.Pair;
-
 
 public class LoopManiaWorldTest {
 
@@ -46,7 +46,22 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void produceAlliesFromBarracksTest() {
+    public void spawnAlliesFromBarracksTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1, 1));
+        orderedPath.add(new Pair<>(1, 2));
+        orderedPath.add(new Pair<>(1, 3));
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        
+        new BarracksBuilding(new PathPosition(2, orderedPath));
+        
+        Character character = new Character(new PathPosition(1, orderedPath));
+        List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
+        assert(alliedSoldiers.isEmpty());
+
+        character.move();
+        alliedSoldiers = world.spawnAlliesFromBarracks();
+        assertNotNull(alliedSoldiers);
     }
 
     @Test
@@ -330,7 +345,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
-        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities
         assert(world.getCardEntities().get(0) instanceof TrapCard);
@@ -355,7 +370,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
-        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities
         assert(world.getCardEntities().get(0) instanceof TrapCard);

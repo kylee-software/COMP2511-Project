@@ -23,7 +23,7 @@ public class TheOneRing extends RareItem {
      * Does nothing unless item is health potion
      */
     public void usePotion(Character character) {
-        if (character.isDead()) {
+        if (!character.isAlive()) {
             character.setHealth(100);
         }
     }

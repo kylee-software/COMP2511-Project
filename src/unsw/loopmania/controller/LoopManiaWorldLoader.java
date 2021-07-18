@@ -67,6 +67,14 @@ public abstract class LoopManiaWorldLoader {
             loadEntity(world, jsonEntities.getJSONObject(i), orderedPath);
         }
 
+        JSONObject jsoGoals = json.getJSONObject("goal-condition");
+        List<Goal> goals = new ArrayList<Goal>();
+        goals.add(new ExperienceGoal(jsoGoals.getInt("ExperienceGoal")));
+        goals.add(new GoldGoal(jsoGoals.getInt("GoldGoal")));
+        goals.add(new CycleGoal(jsoGoals.getInt("CycleGoal")));
+
+        world.setGoals(goals);
+
         return world;
     }
 
@@ -172,37 +180,4 @@ public abstract class LoopManiaWorldLoader {
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
 
     // TODO Create additional abstract methods for the other entities
- 
-    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                                Helper Methods                                              │ */
-    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
-
-    /**
-     * Get goal from JSON file
-     * @return goal
-     */
-    public Goal getGoal(LoopManiaWorld world) {
-        // TODO: implement complex goals 
-        JSONObject goalCondition = json.getJSONObject("goal-condition");
-        String goalType = goalCondition.getString("goal"); 
-        int quantity = goalCondition.getInt("quantity");
-        Goal goal;
-        switch (goalType) {
-            case "experience":
-                goal = new ExperienceGoal(quantity, world);
-                break;
-            case "gold":
-                goal = new GoldGoal(quantity, world);
-                break;
-            case "cycle":
-                goal = new CycleGoal(quantity, world);
-                break;
-            default:
-                throw new RuntimeException("no goal is set, please set one");
-        }
-
-        return goal;
-    }
-
 }

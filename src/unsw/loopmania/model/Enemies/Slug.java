@@ -1,17 +1,13 @@
 package unsw.loopmania.model.Enemies;
 
-import java.util.List;
-
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.SlugAttack;
-import unsw.loopmania.model.Cards.Card;
 
 public class Slug extends BasicEnemy {
 
     private static int expReward = 100;
     private static int goldReward = 10;
-    private List<Card> cardReward; // TODO:
     private static int battleRadius = 1;
     private static int supportRadius = 1;
     private static double speed = 3; // Ticks per tile

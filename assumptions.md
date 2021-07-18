@@ -68,18 +68,21 @@ OR
 
 -   Order in which enemies and characters/allied soldiers fight:
     
-	  	Character, Tower → Enemy 1 → Allied Soldier 1 → Enemy 2 → Allied Soldier 2 → Enemy 3…
-- Characters and enemies will attack the entity with the lowest current health every turn
+	  	Character → Tower 1 → Allied Soldier 1 → Enemy 1 → Character → Allied Soldier 2 → Tower 2…
+        (loops back to start of allies, towers, or enemies when end of list reached)
+-  Enemies prioritise allied soldiers
+-  Attacks will target the entity with the lowest current health every turn
     
 -   ~~Every turn: 80% chance to attack enemy with the lowest current health, 20% chance to attack a random enemy~~
     
 -   ~~Enemy attack order based on movement speed of enemy~~
     
+-  Tranced enemy stays tranced for 3 cycles of battle
 
 -   If there are multiple campfires in battle radius - Character only deals double damage (not accumulative)
     
 -   When zombie bites allied soldier, zombied allied soldier retains its current HP
-    
+-  Campfire damage bonus does not stack with other campfires (max: *2)
 -   Vampires change direction just before entering battle range of campfire.
 -   Enemies under trance have the same damage and missing health that they had before becoming tranced
     
@@ -88,6 +91,8 @@ OR
 	  - For example, on any turn: Sum up scalar (percentage) defence stats, this will be redacted from the enemy’s attack damage first
     
 	-   Then (non-scalar) damage reduction is applied, resulting in the final enemy attack damage.
+
+-  Damage is rounded up to nearest integer before being applied
     
 
 -   Health potion used by moving from unequipped inventory to equipped inventory, consuming item
@@ -123,10 +128,11 @@ OR
 ###  Health:
 - Health can only be an integer value, rounded up to the nearest value. 
 
--   Character Health 0-100 HP 
+-   Character Health 0-100 HP
+
+-  AlliedSoldier: 50 hp
     
 -   Enemy stats (HP)
-    
 
 -   Slug: 10 HP
     

@@ -11,8 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import unsw.loopmania.model.Buildings.*;
-import unsw.loopmania.model.Cards.Card;
-import unsw.loopmania.model.Cards.VampireCastleCard;
+import unsw.loopmania.model.Cards.*;
 
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Slug;
@@ -21,7 +20,7 @@ import unsw.loopmania.model.Enemies.Zombie;
 import unsw.loopmania.model.Goal.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.Item;
-import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.*;
 
 /**
  * A backend world.
@@ -45,6 +44,10 @@ public class LoopManiaWorld {
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
+
+    private GoldGoal goldGoal;
+    private CycleGoal cycleGoal;
+    private ExperienceGoal experienceGoal;
 
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -77,9 +80,12 @@ public class LoopManiaWorld {
    /* │                                    Attributes Related to Buildings                                          │ */
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private List<Building> buildingEntities = new ArrayList<Building>();;
-    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();;
-    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();;
+    // TODO = expand the range of buildings
+    private  List<Building> buildingEntities = new ArrayList<Building>();
+    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();
+    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();
+    private List<BarracksBuilding> barracksBuildings = new ArrayList<BarracksBuilding>();
+    private List<TrapBuilding> trapBuildings = new ArrayList<TrapBuilding>();
     private HerosCastleBuilding herosCastleBuilding;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -172,13 +178,17 @@ public class LoopManiaWorld {
         return cycles;
     }
 
-    public Boolean getIsLost() {
+    public boolean getIsLost() {
         return isLost;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                               Getters and Setters Related to the Character                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    public Character getCharacter() {
+        return character;
+    }
 
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
@@ -329,6 +339,10 @@ public class LoopManiaWorld {
         return unequippedInventoryItems;
     }
 
+    public List<String> getRareItem() {
+        return rareItems;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -367,12 +381,38 @@ public class LoopManiaWorld {
     }
 
     /**
+     * set the goals of the game
+     * @param goals hash map of all goals
+     */
+    public void setGoals(List<Goal> goals) {
+
+        this.experienceGoal = (ExperienceGoal) goals.get(0);
+        this.goldGoal = (GoldGoal) goals.get(1);
+        this.cycleGoal = (CycleGoal) goals.get(2);
+
+    }
+    /**
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
-    public boolean checkWinCondition() {
-        System.out.println("Win? " + getGoal().isGoalComplete());
-        return getGoal().isGoalComplete();
+     // DONE
+     public boolean isGoalCompleted() {
+         cycleGoal.setWorldGoal(cycles);
+         experienceGoal.setWorldGoal(experience);
+         goldGoal.setWorldGold(gold);
+         AndGoal goal = new AndGoal(cycleGoal, new OrGoal(experienceGoal, goldGoal));
+
+         return goal.isGoalComplete();
+     }
+
+    /**
+     * Check whether Character is alive
+     * @param void 
+     * @return true if Character is alive 
+     */
+    public boolean isAlive() {
+        if (getHealth() > 0) return true;
+        else return false;
     }
 
 
@@ -380,13 +420,15 @@ public class LoopManiaWorld {
      * check is the character completed the current cycle or not
      * @return true if the character complected a cycle else false
      */
-    public boolean completedACycle() {
-        if (isOnSameTile(character, herosCastleBuilding)) {
+    public void completedACycle() {
+        int charaX = character.getX();
+        int charaY = character.getY();
+        if (charaX == 0 && charaY == 0) {
             cycles += 1;
-            return true;
         }
-
-        return false;
+//        if (isOnSameTile(character, herosCastleBuilding)) {
+//            cycles += 1;
+//        }
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -507,8 +549,17 @@ public class LoopManiaWorld {
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
      */
-    public void produceAlliesFromBarracks() {
+    public List<AlliedSoldier> spawnAlliesFromBarracks() {
         // TODO = need to implement this correctly and add javadoc
+
+        for (BarracksBuilding barracksBuilding : barracksBuildings) {
+            if (isOnSameTile(character, barracksBuilding)) {
+                AlliedSoldier alliedSoldier = barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath));
+                alliedSoldiers.add(alliedSoldier);
+            }
+        }
+
+        return alliedSoldiers;
     }
 
 
@@ -916,6 +967,22 @@ public class LoopManiaWorld {
             return newBuilding;
         }
         return null;
+    }
+
+    public void trapEnemy() {
+        for (TrapBuilding trapBuilding : trapBuildings) {
+            for(BasicEnemy enemy: getEnemies()) {
+                if (isOnSameTile(enemy, trapBuilding)) {
+                    trapBuilding.damageEnemy(enemy);
+                    if(!enemy.isAlive()) {
+                        killEnemy(enemy);
+                        trapBuildings.remove(trapBuilding);
+                        break;
+                    }
+                }
+            }
+            break;
+        }
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
