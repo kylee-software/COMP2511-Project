@@ -262,9 +262,8 @@ public class LoopManiaWorld {
     /* │                                   Getters and Setters Related to Buildings                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-
-    public void addBuilding(Building building) {
-        // TODO = need to implement this correctly and add javadoc
+    public List<Building> getBuildingEntities() {
+        return buildingEntities;
     }
 
     public void setHerosCastleBuilding(HerosCastleBuilding herosCastleBuilding) {
@@ -278,7 +277,7 @@ public class LoopManiaWorld {
      */
     private List<Building> getSupportBuildings(String type) {
         List<Building> buildings = new ArrayList<Building>();
-        for (Building b : buildingEntities){
+        for (Building b : getBuildingEntities()){
             if (
                     (type.equals("Tower") && b.getClass().equals(TowerBuilding.class)) ||
                     (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
@@ -341,7 +340,7 @@ public class LoopManiaWorld {
         return equippedRareItem;
     }
 
-    public List<Card> getEquippedCards() {
+    public List<Card> getCardEntities() {
         // DONE = need to implement this correctly and add javadoc
         return cardEntities;
     }
@@ -875,11 +874,12 @@ public class LoopManiaWorld {
 
     /**
      * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to worldWidth-1 of card to be removed
-     * @param cardNodeY y index from 0 to worldHeight-1 of card to be removed
-     * @param buildingNodeX x index from 0 to worldWidth-1 of building to be added
-     * @param buildingNodeY y index from 0 to worldHeight-1 of building to be added
+     * @param cardNodeX x index from 0 to width-1 of card to be removed
+     * @param cardNodeY y index from 0 to height-1 of card to be removed
+     * @param buildingNodeX x index from 0 to width-1 of building to be added
+     * @param buildingNodeY y index from 0 to height-1 of building to be added
      */
+    // TODO: replace this with the one below after fixing front end
     public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
@@ -889,7 +889,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
-
+        
         // now spawn building
         VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         buildingEntities.add(newBuilding);
@@ -900,6 +900,40 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+    /**
+     * remove a card by its x, y coordinates
+     * @param cardNodeX x index from 0 to worldWidth-1 of card to be removed
+     * @param cardNodeY y index from 0 to worldHeight-1 of card to be removed
+     * @param buildingNodeX x index from 0 to worldWidth-1 of building to be added
+     * @param buildingNodeY y index from 0 to worldHeight-1 of building to be added
+     */
+    public Building convertCardToBuilding(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+        // start by getting card
+        Card card = null;
+        String cardType = null;
+        for (Card c: cardEntities){
+            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
+                card = c;
+                cardType = card.getClass().toString().split("@")[0];
+                cardType = cardType.substring(cardType.lastIndexOf(".") + 1);
+                break;
+            }
+        }
+        // now spawn building if the give location is valid
+        if (card.getPositionStrategy().validPosition(buildingNodeX, buildingNodeY, orderedPath)) {
+            String buildingType = cardType.substring(0, cardType.lastIndexOf("Card")) + "Building";
+            Building newBuilding = createBuilding(buildingType, buildingNodeX, buildingNodeY);
+            buildingEntities.add(newBuilding);
+            System.out.println("New" + buildingType + "placed on map");
+            // destroy the card
+            card.destroy();
+            cardEntities.remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
+            return newBuilding;
+        }
+        return null;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -1054,14 +1088,57 @@ public class LoopManiaWorld {
      * @param firstAvailableSlot - unequipped inventory slot
      * @return item (returns null if invalid type provided)
      */
+    public Building createBuilding(String type, int buildingNodeX, int buildingNodeY) {
+        Class<?> buildingClass;
+        Class<?>[] parameterType;
+        Building building;       
+        try {
+            buildingClass = Class.forName("unsw.loopmania.model.Buildings." + type);
+            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+            building = (Building) buildingClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            return building;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            // DONE Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+        
+    }
+    // public Building createBuilding(String type, int buildingNodeX, int buildingNodeY) {
+    //     Building building = null;
+    //     if (type.equals("BarracksBuilding")) {
+    //         building = new BarracksBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("CampfireBuilding")) {
+    //         building = new CampfireBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("TowerBuilding")) {
+    //         building = new TowerBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("TrapBuilding")) {
+    //         building = new TrapBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("VampireCastleBuilding")) {
+    //         building = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("VillageBuilding")) {
+    //         building = new VillageBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     } else if (type.equals("ZombiePitBuilding")) {
+    //         building = new ZombiePitBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+    //     }
+    //     return building;
+    // }
+
+    /**
+     * Spawns given item in the world
+     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+     * @param firstAvailableSlot - unequipped inventory slot
+     * @return item (returns null if invalid type provided)
+     */
     public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
         Class<?> itemClass;
         Class<?>[] parameterType;
         Item item;       
         try {
             if (type == "TheOneRing") 
-                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
-            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
+                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
+            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
             item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
             return item;

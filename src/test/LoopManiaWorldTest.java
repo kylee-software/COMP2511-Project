@@ -2,8 +2,13 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.Buildings.Building;
+import unsw.loopmania.model.Buildings.TrapBuilding;
+import unsw.loopmania.model.Cards.Card;
+import unsw.loopmania.model.Cards.TrapCard;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
@@ -12,6 +17,8 @@ import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,7 +227,51 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void convertCardToBuildingByCoordinatesTest() {
+    public void convertCardToBuildingTestSuccess() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        world.loadCard("TrapCard");
+        // Trap card is in first slot of card entities
+        assert(world.getCardEntities().get(0) instanceof TrapCard);
+        assertEquals(world.getCardEntities().get(0).getX(), 0);
+        assertEquals(world.getCardEntities().get(0).getY(), 0);
+        int cardNodeX = world.getCardEntities().get(0).getX();
+        int cardNodeY = world.getCardEntities().get(0).getY();
+        int buildingNodeX = 1;
+        int buildingNodeY = 2;
+        String newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        assertEquals(newBuilding, "TrapBuilding");
+        assert(world.getBuildingEntities().get(0) instanceof TrapBuilding);
+        assertEquals(world.getBuildingEntities().get(0).getX(), buildingNodeX);
+        assertEquals(world.getBuildingEntities().get(0).getY(), buildingNodeY);
+        assert(world.getCardEntities().isEmpty());
+    }
+
+    @Test
+    public void convertCardToBuildingTestFail() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        world.loadCard("TrapCard");
+        // Trap card is in first slot of card entities
+        assert(world.getCardEntities().get(0) instanceof TrapCard);
+        assertEquals(world.getCardEntities().get(0).getX(), 0);
+        assertEquals(world.getCardEntities().get(0).getY(), 0);
+        int cardNodeX = world.getCardEntities().get(0).getX();
+        int cardNodeY = world.getCardEntities().get(0).getY();
+        int buildingNodeX = 2;
+        int buildingNodeY = 2;
+        String newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        assertNull(newBuilding);
+        assert(world.getBuildingEntities().isEmpty());
+        assert(world.getCardEntities().get(0) instanceof TrapCard);
     }
 
     @Test

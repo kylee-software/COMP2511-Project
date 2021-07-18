@@ -87,7 +87,7 @@ public abstract class LoopManiaWorldLoader {
         // TODO = load more entity types from the file
         switch (type) {
         case "hero_castle":
-            // added the hero castle to the world
+            // Add hero castle to the world
             HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
             world.setHerosCastleBuilding(herosCastleBuilding);
             onLoad(herosCastleBuilding);

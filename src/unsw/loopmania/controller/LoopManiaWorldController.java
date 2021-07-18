@@ -130,6 +130,7 @@ public class LoopManiaWorldController {
     // Card Images
     private Image barracksCardImage;
     private Image campfireCardImage;
+    private Image herosCastleCardImage;
     private Image towerCardImage;
     private Image trapCardImage;
     private Image vampireCastleCardImage;

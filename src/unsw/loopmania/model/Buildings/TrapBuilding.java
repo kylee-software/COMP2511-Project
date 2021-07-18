@@ -2,12 +2,17 @@ package unsw.loopmania.model.Buildings;
 
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.BasicEnemy;
 
 public class TrapBuilding extends Building {
 
     private PathPosition pathPosition;
+
+    public TrapBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y);
+    }
 
     public TrapBuilding(PathPosition pathPosition) {
         super(pathPosition.getX(), pathPosition.getY());
