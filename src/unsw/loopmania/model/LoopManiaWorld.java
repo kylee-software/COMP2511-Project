@@ -523,25 +523,23 @@ public class LoopManiaWorld {
         return item;
     }
 
-    // /**
-    //  * spawns health potions if the conditions warrant it, adds to world
-    //  * @return list of the items to be displayed on screen
-    //  */
-    // public Item possiblySpawnHealthPotions(){
-    //     Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
-
-    //     Item item = createItem("HealthPotion",healthPotionPos);
-
-    //     if (healthPotionPos != null){
-    //         int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
-    //         PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
-    //         HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-    //         items.add(healthPotion);
-    //         spawnedItems.add(healthPotion);
-    //     }
-
-    //     return items;
-    // }
+    /**
+     * spawns health potions if the conditions warrant it, adds to world
+     * @return list of the items to be displayed on screen
+     */
+    public Item possiblySpawnHealthPotions(){
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(10);
+        System.out.println(healthPotionPos);
+        Item item = createItem("HealthPotion",healthPotionPos);
+        System.out.println(item);
+        if (healthPotionPos != null){
+            int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
+            PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
+            HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
+            spawnedItems.add(healthPotion);
+        }
+        return item;
+    }
 
     //  /**
     //  * spawns items if the conditions warrant it, adds to world
@@ -710,11 +708,13 @@ public class LoopManiaWorld {
                     gold += ((Gold) item).getGoldFromGround();
                     despawnItems(item);
                     break;
-                } else {
-                    addUnequippedItem("Health Potion");
-                    despawnItems(item);
-                    break;
                 }
+            } else if (isOnSameTile(character, item)) {
+                    if (item instanceof HealthPotion) {
+                        addUnequippedItem("Health Potion");
+                        despawnItems(item);
+                        break;
+                    }
             }
         }
     }
@@ -1139,6 +1139,8 @@ public class LoopManiaWorld {
             item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         } else if (type.equals("Gold")) {
             item = new Gold(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("HealthPotion")) {
+            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         }
             return item;
     }

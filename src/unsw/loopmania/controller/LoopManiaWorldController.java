@@ -127,11 +127,13 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
+    private Image healthPotionImage;
+    private Image goldPileImage;
     private Image vampireCastleCardImage;
     private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
-    private Image goldPileImage;
+    
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -187,11 +189,12 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
+        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        goldPileImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
-        goldPileImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -336,7 +339,13 @@ public class LoopManiaWorldController {
 
     private void loadGoldPile(){
         Item gold = world.possiblySpawnGold();
-        onLoad(gold);
+        onLoadGold(gold);
+        
+    }
+
+    private void loadHealthPotion(){
+        Item healthPotion = world.possiblySpawnHealthPotions();
+        onLoadHealthPotion(healthPotion);
         
     }
 
@@ -352,6 +361,7 @@ public class LoopManiaWorldController {
         loadSword();
         loadVampireCard();
         loadGoldPile();
+        loadHealthPotion();
     }
 
     /**
@@ -359,11 +369,23 @@ public class LoopManiaWorldController {
      * @param goldPile
      */
 
-    private void onLoad(Item gold){
+    private void onLoadGold(Item gold){
         ImageView view = new ImageView(goldPileImage);
         addEntity(gold, view);
         squares.getChildren().add(view);
     }
+
+    /**
+     * load healthPotion into the GUI
+     * @param healthPotion
+     */
+
+    private void onLoadHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addEntity(healthPotion, view);
+        squares.getChildren().add(view);
+    }
+
 
     /**
      * load a vampire castle card into the GUI.
