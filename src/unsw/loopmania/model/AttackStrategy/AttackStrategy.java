@@ -1,7 +1,8 @@
 package unsw.loopmania.model.AttackStrategy;
 
-public interface AttackStrategy {
-    public void execute();
+import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.MovingEntity;
 
-    public void updateCampfireBuff();
+public interface AttackStrategy {
+    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction);
 }

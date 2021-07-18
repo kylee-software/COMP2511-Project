@@ -36,7 +36,7 @@ OR
 	-   Against an allied soldier, causes allied soldier to turn into zombie forever
     
 
--   Critical bite from vampire happens randomly with a 20% chance
+-   Critical bite from vampire happens randomly with a 40% chance
 	-   Causes random additional damage (between 1-10) with every vampire attack (for a random number of vampire attacks (between 1-5))
     -   Shield makes vampire attacks 60% less likely
    -   Gold spawns randomly on path tiles
@@ -113,7 +113,7 @@ OR
     
 -   Character: 6 Base DMG
     
--   Allied soldier: 50% Characters Damage
+-   Allied soldier: 6 DMG
     
 -   Tower: 3 DMG per turn
     

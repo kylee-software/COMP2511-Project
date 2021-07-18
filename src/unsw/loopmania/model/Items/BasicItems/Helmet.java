@@ -25,7 +25,8 @@ public class Helmet extends BasicItem {
      * Getter for reduction in damage dealt by character
      * @return damageDealtReduction
      */
-    public int getDamageDealtReduction() {
+    @Override
+    public int getScalarDamageReduction() {
         return damageDealtReduction;
     }
 

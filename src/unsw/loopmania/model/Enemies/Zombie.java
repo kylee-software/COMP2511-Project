@@ -4,6 +4,7 @@ import java.util.List;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
+import unsw.loopmania.model.AttackStrategy.ZombieAttack;
 import unsw.loopmania.model.Cards.Card;
 
 public class Zombie extends BasicEnemy {
@@ -14,7 +15,8 @@ public class Zombie extends BasicEnemy {
     private static int battleRadius = 2;
     private static int supportRadius = 2;
     private static double speed = 4; // Ticks per tile
-    private AttackStrategy strategy; // TODO:
+    private static AttackStrategy strategy = new ZombieAttack();
+    private static int critChance = 15;
     private static int damage = 14;
     private static int health = 20;
 
@@ -63,6 +65,19 @@ public class Zombie extends BasicEnemy {
      */
     public int getSupportRadius() {
         return supportRadius;
+    }
+
+    /**
+     * Getter for attack strategy
+     */
+    @Override
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
+    }
+
+    @Override
+    public int getCritChance() {
+        return critChance;
     }
 
 }

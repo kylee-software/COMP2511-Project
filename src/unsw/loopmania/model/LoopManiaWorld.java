@@ -41,6 +41,7 @@ public class LoopManiaWorld {
     private List<String> rareItems;
     private Goal goal;
     private String gameMode;
+    private Boolean isLost;
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
@@ -71,8 +72,6 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-    private static Boolean isLost = false;
-
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
@@ -135,6 +134,7 @@ public class LoopManiaWorld {
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
         this.rareItems = rareItems;
+        this.isLost = false;
     }
 
     /**
@@ -170,6 +170,10 @@ public class LoopManiaWorld {
 
     public int getCycles() {
         return cycles;
+    }
+
+    public Boolean getIsLost() {
+        return isLost;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -248,7 +252,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> supportEnemies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             double supportRadiusSquared = Math.pow(e.getSupportRadius(), 2);
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < supportRadiusSquared){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= supportRadiusSquared){
                 supportEnemies.add(e);
             }
         }
@@ -281,7 +285,7 @@ public class LoopManiaWorld {
                     (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
             ) {
                 double battleRadiusSquared = Math.pow(b.getBattleRadius(), 2);
-                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) < battleRadiusSquared){
+                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) <= battleRadiusSquared){
                     buildings.add(b);
                 }
             }
@@ -512,6 +516,41 @@ public class LoopManiaWorld {
     /* │                                       Methods Related to the Battle                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
+    // /**
+    //  * Run the expected battles in the world, based on current world state.
+    //  * Adds entities in range to battle if an enemy in battle range.
+    //  * Signals game lost if battle lost without TheOneRing.
+    //  * Adds rewards, kills dead entities.
+    //  * @return list of enemies which have been killed
+    //  */
+    // public List<BasicEnemy> runBattles() {
+    //     // TODO = modify this - currently the character automatically wins all battles without any damage!
+    //     List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+    //     for (BasicEnemy e: enemies){
+    //         // Pythagoras: a^2+b^2 < radius^2 to see if within radius
+    //         // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
+    //         if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+    //             // fight...
+    //             defeatedEnemies.add(e);      
+    //         }
+    //     }
+    //     for (BasicEnemy e: defeatedEnemies){
+    //         // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
+    //         // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
+    //         // due to mutating list we're iterating over
+    //         killEnemy(e);
+    //         setExperience(getExperience()+10);
+    //         updateExperience();
+    //         setGold(getGold()+2);
+    //         updateGold();
+    //         setHealth(getHealth() - 5);
+    //         updateHealth();
+    //     }
+    //     System.out.println(defeatedEnemies);
+    //     return defeatedEnemies;
+    // }
+
+
     /**
      * Run the expected battles in the world, based on current world state.
      * Adds entities in range to battle if an enemy in battle range.
@@ -520,92 +559,83 @@ public class LoopManiaWorld {
      * @return list of enemies which have been killed
      */
     public List<BasicEnemy> runBattles() {
-        // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
+        List<Building> battleTowers = new ArrayList<Building>();
+        List<Building> battleCampfires = new ArrayList<Building>();
+        Boolean enemyInBattleRange = false;
+
+        // Check if enemies within battle range
         for (BasicEnemy e: enemies){
-            // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-            // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-                // fight...
-                defeatedEnemies.add(e);      
+            // Pythagoras: a^2+b^2 <= radius^2 to see if within radius
+            double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= battleRadiusSquared){
+                enemyInBattleRange = true;
+                break;
             }
         }
-        for (BasicEnemy e: defeatedEnemies){
-            // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
-            // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
-            // due to mutating list we're iterating over
-            killEnemy(e);
-            setExperience(getExperience()+10);
-            updateExperience();
-            setGold(getGold()+2);
-            updateGold();
-            setHealth(getHealth() - 5);
-            updateHealth();
+        // No battle if no enemies in battle range
+        if (!enemyInBattleRange) {
+            return defeatedEnemies;
         }
-        System.out.println(defeatedEnemies);
+        // Add all support enemies if an enemy in battle range
+        battleEnemies.addAll(getSupportEnemies());
+        // Add all towers
+        battleTowers.addAll(getSupportBuildings("Tower"));
+        // Add all campfires
+        battleCampfires.addAll(getSupportBuildings("Campfire"));
+        // Battle
+        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
+        // Add items
+        setBattleWeapons(battle);
+
+        battle.fight();
+
+        // Kill dead enemies
+        for (BasicEnemy enemy : battle.getKilledEnemies()) {
+            defeatedEnemies.add(enemy);
+            killEnemy(enemy);
+        }
+        // Kill dead allies
+        for (AlliedSoldier ally : battle.getKilledAllies()) {
+            alliedSoldiers.remove(ally);
+        }
+        if (battle.isLost()) {
+            // Check has The One Ring
+            if (equippedRareItem != null && 
+                equippedRareItem.getClass().equals(TheOneRing.class)
+            ) {
+                Item theOneRing = getEquippedRareItem();
+                theOneRing.usePotion(character);
+                equippedRareItem = null;
+            } else {
+                // Game Lost
+                isLost = true;
+            }
+        } else {
+            gainBattleRewards(battle);
+        }
         return defeatedEnemies;
     }
 
-
-    // /**
-    //  * Run the expected battles in the world, based on current world state.
-    //  * @return list of enemies which have been killed
-    //  */
-    // public List<BasicEnemy> runBattles() {
-    //     List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-    //     List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
-    //     List<Building> battleTowers = new ArrayList<Building>();
-    //     List<Building> battleCampfires = new ArrayList<Building>();
-    //     Boolean enemyInBattleRange = false;
-
-    //     // Check if enemies within battle range
-    //     for (BasicEnemy e: enemies){
-    //         // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-    //         double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
-    //         if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < battleRadiusSquared){
-    //             battleEnemies.add(e);
-    //             enemyInBattleRange = true;
-    //             break;
-    //         }
-    //     }
-    //     // No battle if no enemies in battle range
-    //     if (!enemyInBattleRange) {
-    //         return defeatedEnemies;
-    //     }
-    //     // Add all support enemies if an enemy in battle range
-    //     battleEnemies.addAll(getSupportEnemies());
-    //     // Add all towers
-    //     battleTowers.addAll(getSupportBuildings("Tower"));
-    //     // Add all campfires
-    //     battleCampfires.addAll(getSupportBuildings("Campfire"));
-
-    //     // Battle
-    //     Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
-    //     battle.fight();
-
-    //     // Kill dead enemies
-    //     for (BasicEnemy enemy : battle.getKilledEnemies()) {
-    //         killEnemy(enemy);
-    //     }
-    //     // Kill dead allies
-    //     for (AlliedSoldier ally : battle.getKilledAllies()) {
-    //         alliedSoldiers.remove(ally);
-    //     }
-    //     if (battle.isLost()) {
-    //         // Check has The One Ring
-    //         if (equippedRareItem.getClass().equals(TheOneRing.class)) {
-    // Item theOneRing = getEquippedRareItem();
-    // theOneRing.usePotion(character);
-    //             equippedRareItem = null;
-    //         } else {
-    //             // Game Lost
-    //             isLost = true;
-    //         }
-    //     } else {
-    //         gainBattleRewards(battle);
-    //     }
-    //     return defeatedEnemies;
-    // }
+    /**
+     * Given a battle supplys equipped items
+     * @param battle
+     */
+    private void setBattleWeapons(Battle battle) {
+        if (equippedAttackItem != null) {
+            battle.setWeapon(equippedAttackItem);
+        }
+        if (equippedArmour != null) {
+            battle.setArmour(equippedArmour);
+        }
+        if (equippedShield != null) {
+            battle.setShield(equippedShield);
+        }
+        if (equippedHelmet != null) {
+            battle.setHelmet(equippedHelmet);
+        }
+    }
 
 
     /**
@@ -1127,4 +1157,11 @@ public class LoopManiaWorld {
         nonSpecifiedEntities.add(entity);
     }
 
+    public void addEnemy(BasicEnemy enemy) {
+        enemies.add(enemy);
+    }
+
+    public void addBuilding(Building building) {
+        buildingEntities.add(building);
+    }
 }

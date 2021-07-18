@@ -84,16 +84,16 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
-     * Getter for damage of entity
-     * @return damage
+     * Checks if entity legally is dead
      */
+    public boolean isDead() {
+        return this.health <= 0;
+    }
+    
     public abstract int getDamage();
 
     public void gainHealth(int healthBonus) {
         this.health = Math.min(getHealth() + healthBonus, 100);
     }
 
-    public boolean isDead() {
-        return getHealth() == 0;
-    }
 }

@@ -3,6 +3,7 @@ package unsw.loopmania.model;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 
 /**
  * A backend entity in the world.
@@ -77,4 +78,26 @@ public abstract class Entity {
      * @return y coordinate, as number from 0 to height-1
      */
     public abstract int getY();
+
+    /**
+     * Getter for damage of entity. Set to 0 by default.
+     * @return damage
+     */
+    public int getDamage() {
+        return 0;
+    }
+
+    /**
+     * Critical stike chance is set to 0 by default
+     */
+    public int getCritChance() {
+        return 0;
+    }
+
+    /**
+     * Getter for attack strategy of entitt. Set to null by default.
+     */
+    public AttackStrategy getAttackStrategy() {
+        return null;
+    }
 }
