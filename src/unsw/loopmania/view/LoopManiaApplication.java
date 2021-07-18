@@ -43,16 +43,36 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // GameOverScreenController gameOverScreenController = new GameOverScreenController();
+        // FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("GameOverScreenView.fxml"));
+        // gameOverScreenLoader.setController(gameOverScreenController);
+        // Parent gameOverScreenRoot = gameOverScreenLoader.load();
+
+        // WinScreenController winScreenController = new WinScreenController();
+        // FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("WinScreenView.fxml"));
+        // winScreenLoader.setController(winScreenController);
+        // Parent winScreenRoot = winScreenLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
+        // Scene gameOverScreenScene = new Scene(gameOverScreenRoot);
+        // Scene winScreenScene = new Scene(winScreenRoot);
+        
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
-        mainMenuController.setGameSwitcher(() -> {
-            switchToRoot(scene, gameRoot, primaryStage);
+        mainMenuController.setGameSwitcher(() -> {switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+        // switch from game to game over screen
+        //  mainController.setGameOverScreenSwitcher(() -> {switchToRoot(gameOverScreenScene, gameOverScreenRoot, primaryStage);
+        //     mainController.terminate();
+        // });
+        // // switch from game to game win screen
+        // mainController.setWinScreenSwitcher(() -> {switchToRoot(winScreenScene, winScreenRoot, primaryStage);
+        //     mainController.terminate();
+        // });
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
