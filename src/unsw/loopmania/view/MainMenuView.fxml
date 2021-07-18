@@ -14,7 +14,7 @@
 <!-- TODO = modify and expand the range of menus available from the menu menu, and develop game modes you can select when starting a new game -->
 <!-- vertically stacked label and button -->
 
-<VBox alignment="CENTER" prefHeight="453.0" prefWidth="277.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" prefHeight="453.0" prefWidth="277.0" spacing="20.0" style="-fx-background-color: #87e496;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Main Menu">
          <font>
