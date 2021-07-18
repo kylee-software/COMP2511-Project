@@ -53,7 +53,7 @@
             </BorderPane>
          </children>
       </VBox>
-      <VBox>
+      <VBox prefHeight="284.0" prefWidth="166.0">
          <children>
             <!-- equippedItems contains the equipment equipped by the character in special slots -->
             <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
@@ -89,6 +89,11 @@
                   <ImageView id="swordCell" fx:id="helmetSlot" GridPane.columnIndex="1">
                      <image>
                         <Image url="@../../../images/helmet_slot.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="healthPotionSlot" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@../../../images/empty_heart.PNG" />
                      </image>
                   </ImageView>
                </children>
@@ -133,6 +138,15 @@
                      </image>
                   </ImageView>
                </graphic></Label>
+            <Label fx:id="alliedsoldiers" text="Allied Solders:">
+               <graphic>
+                  <ImageView fitHeight="34.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/deep_elf_master_archer.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
          </children>
       </VBox>
    </HBox>

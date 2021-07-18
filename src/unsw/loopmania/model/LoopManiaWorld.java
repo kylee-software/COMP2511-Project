@@ -55,7 +55,11 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private Character character;
+    
+    @FXML
+    private Label numAlliedSoldiers;    
     private List<AlliedSoldier> alliedSoldiers = new ArrayList<AlliedSoldier>();
+
     @FXML
     private Label worldExperience;
     private int experience;
@@ -246,6 +250,10 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
+    public void setNumAlliedSoldiers(Label numAlliedSoldiers){
+        this.numAlliedSoldiers = numAlliedSoldiers;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Getters and Setters Related to Enemies                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -357,6 +365,10 @@ public class LoopManiaWorld {
 
     public void updateHealth() {
         worldHealth.setText("Health: " + this.health);
+    }
+
+    public void updateNumAlliedSoldiers(){
+        numAlliedSoldiers.setText("Allied Soldiers: " + this.getAlliedSoldiers().size());
     }
 
     public void addGold(int gold) {
@@ -525,7 +537,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(5);
         Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
@@ -541,7 +553,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(1);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(5);
         Item item = createItem("HealthPotion",healthPotionPos);
         if (healthPotionPos != null){
             int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
@@ -724,14 +736,10 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
-                    despawnItems(item);
-                    break;
                 }
             } else if (isOnSameTile(character, item)) {
                     if (item.getType() == "HealthPotion") {
                         addUnequippedItem("Health Potion");
-                        despawnItems(item);
-                        break;
                     }
             }
         }
