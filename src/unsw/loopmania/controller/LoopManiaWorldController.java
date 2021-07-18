@@ -265,7 +265,7 @@ public class LoopManiaWorldController {
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
+            List<BasicEnemy> newEnemies = world.SpawnSlugs();
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
@@ -322,6 +322,7 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
+        addUnequippedItem("Sword");
         Sword sword = world.addUnequippedSword();
         onLoad(sword);
     }

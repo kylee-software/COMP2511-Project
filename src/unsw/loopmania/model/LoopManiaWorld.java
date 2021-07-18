@@ -298,6 +298,26 @@ public class LoopManiaWorld {
     /* │                                    Getters and Setters Related to Items                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
+    /**
+     * spawn a sword in the world and return the sword entity
+     * @return a sword to be spawned in the controller as a JavaFX node
+     */
+    public Sword addUnequippedSword(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new sword, as we know we have at least made a slot available...
+        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(sword);
+        return sword;
+    }
+
 
     public List<Item> getUnequippedItems() {
         return unequippedInventoryItems;
@@ -555,6 +575,7 @@ public class LoopManiaWorld {
             setHealth(getHealth() - 5);
             updateHealth();
         }
+
         return defeatedEnemies;
     }
 
@@ -632,7 +653,7 @@ public class LoopManiaWorld {
         }
         for (Item item : battle.getBattleItems()) {
             //addUnequippedItem(item);
-            addUnequippedSword();
+            addUnequippedItem("Sword");
         }
     }
 
@@ -956,7 +977,7 @@ public class LoopManiaWorld {
      * @param firstAvailableSlot - unequipped inventory slot
      * @return item (returns null if invalid type provided)
      */
-    private Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+    public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
         Item item = null;
         if (type.equals("Armour")) {
             item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
@@ -982,7 +1003,7 @@ public class LoopManiaWorld {
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
      * @return x,y coordinate pair
      */
-    private Pair<Integer, Integer> getFirstAvailableSlotForItem(){
+    public Pair<Integer, Integer> getFirstAvailableSlotForItem(){
         // first available slot for an item...
         // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
         for (int y=0; y<unequippedInventoryHeight; y++){

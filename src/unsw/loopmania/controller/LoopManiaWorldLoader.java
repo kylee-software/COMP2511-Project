@@ -84,7 +84,7 @@ public abstract class LoopManiaWorldLoader {
             // added the hero castle to the world
             world.setHerosCastleBuilding(herosCastleBuilding);
 
-            Character character = new Character(new PathPosition(indexInPath, orderedPath), 100);
+            Character character = new Character(new PathPosition(indexInPath, orderedPath));
             world.setCharacter(character);
             onLoad(character);
             entity = character;
