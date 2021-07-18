@@ -361,7 +361,7 @@ Leslie, Kylee, Sam, Jannet
 
 ### Next meeting: Sunday 10am
 
-## Meeting #11 17th July
+## Meeting #12 18th July
 
 ### Attendees:Sam, Leslie, Kylee, Jannet
 
