@@ -173,7 +173,6 @@ public class LoopManiaWorld {
         this.gold = getGold() + gold;
     }
 
-<<<<<<< HEAD
     public void addItem(Item item) {
         getUnequippedItems().add(item);
     }
@@ -181,9 +180,6 @@ public class LoopManiaWorld {
     public List<Item> getEquippedItems() {
         // TODO = need to implement this correctly and add javadoc
         return new ArrayList<Item>();
-=======
-    public int getCycles() {
-        return cycles;
     }
 
     public Item getEquippedAttackItem() {
@@ -204,7 +200,6 @@ public class LoopManiaWorld {
 
     public Item getEquippedRareItem() {
         return equippedRareItem;
->>>>>>> Milestone2/StarterCode
     }
 
     public List<Card> getEquippedCards() {
@@ -779,9 +774,7 @@ public class LoopManiaWorld {
     public void gainDiscardCardRewards(int goldReward, int expReward, List<String> itemReward) {
         addGold(goldReward);
         addExperience(expReward);
-<<<<<<< HEAD
         for (String itemName : itemReward) addUnequippedSword();
-=======
         // for (Item item : itemReward) addUnequippedItem(item);
     }
 
@@ -791,7 +784,6 @@ public class LoopManiaWorld {
      */
     public boolean isGoalCompleted() {
         return false;
->>>>>>> Milestone2/StarterCode
     }
 
     /**
