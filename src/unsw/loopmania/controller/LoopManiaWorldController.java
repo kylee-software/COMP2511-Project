@@ -203,6 +203,8 @@ public class LoopManiaWorldController {
      * object handling switching to the main menu
      */
     private MenuSwitcher mainMenuSwitcher;
+    private MenuSwitcher gameOverScreenSwitcher;
+    private MenuSwitcher winScreenSwitcher;
 
     @FXML
     private Label worldExperience;
@@ -342,6 +344,12 @@ public class LoopManiaWorldController {
             }
             // increment cycle
             // world.checkWinCondition();
+            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
+            if (!world.getCharacter().isAlive()) 
+                switchToGameOverScreen();
+            else if (world.checkWinCondition()) 
+                switchToWinScreen();
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -777,6 +785,14 @@ public class LoopManiaWorldController {
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
+    public void setGameOverScreenSwitcher(MenuSwitcher gameOverScreenSwitcher){
+        this.gameOverScreenSwitcher = gameOverScreenSwitcher;
+    }
+
+    public void setWinScreenSwitcher(MenuSwitcher winScreenSwitcher){
+        this.winScreenSwitcher = winScreenSwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -786,6 +802,16 @@ public class LoopManiaWorldController {
         // TODO = possibly set other menu switchers
         pause();
         mainMenuSwitcher.switchMenu();
+    }
+
+    private void switchToGameOverScreen() {
+        pause();
+        gameOverScreenSwitcher.switchMenu();
+    }
+
+    private void switchToWinScreen() {
+        pause();
+        winScreenSwitcher.switchMenu();
     }
 
     /**

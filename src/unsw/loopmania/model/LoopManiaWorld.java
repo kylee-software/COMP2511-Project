@@ -176,10 +176,18 @@ public class LoopManiaWorld {
         return cycles;
     }
 
+    public boolean getIsLost() {
+        return isLost;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                               Getters and Setters Related to the Character                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
+    public Character getCharacter() {
+        return character;
+    }
+    
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
