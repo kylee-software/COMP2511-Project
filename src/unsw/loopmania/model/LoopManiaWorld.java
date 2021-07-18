@@ -1,31 +1,23 @@
 package unsw.loopmania.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.javatuples.Pair;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
-import unsw.loopmania.AndGoal;
-import unsw.loopmania.OrGoal;
+import org.javatuples.Pair;
 import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.*;
-
 import unsw.loopmania.model.Cards.Card;
- import unsw.loopmania.model.Cards.VampireCastleCard;
-
- import unsw.loopmania.model.Enemies.BasicEnemy;
- import unsw.loopmania.model.Enemies.Slug;
- import unsw.loopmania.model.Enemies.Vampire;
- import unsw.loopmania.model.Enemies.Zombie;
-
+import unsw.loopmania.model.Cards.VampireCastleCard;
+import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.Slug;
+import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.Enemies.Zombie;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.Item;
- import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.TheOneRing;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A backend world.
@@ -34,7 +26,6 @@ import unsw.loopmania.model.Items.Item;
  * entity can occupy the same square.
  */
 public class LoopManiaWorld {
-
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Initializers for the Loop Mania World                                     │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */

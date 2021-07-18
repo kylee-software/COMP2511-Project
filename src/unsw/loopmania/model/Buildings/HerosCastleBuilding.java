@@ -34,11 +34,11 @@ public class HerosCastleBuilding extends Building {
      * @param item item player wants to purchase
      * @return true if purchase is valid, otherwise false
      */
-    public boolean isValidPurchase(String gameMode, Item item, int cycles) {
+    public boolean isValidPurchase(String gameMode, BasicItem item, int cycles) {
         if (gameMode.equals("Survival")) {
             if (item instanceof HealthPotion) {
                 // check when is the last time the character purchased a health potion
-                if (cycles % 5 == 0 && cycles >= 0 && cycles < lastPurchasedHP) {
+                if (cycles % 5 == 0 && cycles >= 0 && lastPurchasedHP < cycles) {
                     lastPurchasedHP = cycles;
                     return true;
                 } else {
@@ -48,7 +48,7 @@ public class HerosCastleBuilding extends Building {
         } else if (gameMode.equals("Berserker")) {
             if (item instanceof Armour || item instanceof Helmet || item instanceof Shield) {
                 // check when is the last time the character purchased a protective gear
-                if (cycles > 0 && cycles < lastPurchasedPG) {
+                if (cycles > 0 && lastPurchasedPG < cycles) {
                     lastPurchasedPG = cycles;
                     return true;
                 } else {

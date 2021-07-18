@@ -122,6 +122,9 @@ public class HerosCastleMenuTest {
     @Test
     public void successToBuyHPTest() {
 
+        herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(),
+        new SimpleIntegerProperty());
+
         HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(),
                                                      new SimpleIntegerProperty());
 
@@ -129,13 +132,13 @@ public class HerosCastleMenuTest {
         boolean success = herosCastleBuilding.isValidPurchase("Survival", healthPotion, 5);
         assert(success);
 
-        // Buy item
-        herosCastleBuilding.buyItem(healthPotion, unequippedInventory);
-        assert(unequippedInventory.get(0) == healthPotion);
+        // // Buy item
+        // herosCastleBuilding.buyItem(healthPotion, unequippedInventory);
+        // assert(unequippedInventory.get(0) == healthPotion);
 
-        // Sell item
-        herosCastleBuilding.sellItem(healthPotion, unequippedInventory);
-        assert(unequippedInventory.isEmpty());
+        // // Sell item
+        // herosCastleBuilding.sellItem(healthPotion, unequippedInventory);
+        // assert(unequippedInventory.isEmpty());
     }
 
     @Test
@@ -152,6 +155,9 @@ public class HerosCastleMenuTest {
     @Test
     public void successToBuyPGTest() {
 
+        herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(),
+        new SimpleIntegerProperty());
+
         Armour armour = new Armour(new SimpleIntegerProperty(),
                                    new SimpleIntegerProperty());
 
@@ -166,6 +172,7 @@ public class HerosCastleMenuTest {
         // Sell item
         herosCastleBuilding.sellItem(armour, unequippedInventory);
         assert(unequippedInventory.isEmpty());
+
     }
 }
 
