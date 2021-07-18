@@ -25,15 +25,6 @@ import unsw.loopmania.model.Items.BasicItems.Shield;
 
 public class BuildingsTests {
 
-    // private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/world_with_twists_and_turns.json")));
-
-    // int width = json.getInt("width");
-    // int height = json.getInt("height");
-
-    // // path variable is collection of coordinates with directions of path taken...
-    // List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width, height);
-    // LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-    
     @Test
     void VampireCastleTest() {
         VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
@@ -61,24 +52,27 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
 
-        assertNotNull(zombiePitBuilding.spawnZombie(position));
+        int cycle = 0;
+        assertNull(zombiePitBuilding.spawnZombie(cycle, position));
+
+        cycle = 1;
+        assertNotNull(zombiePitBuilding.spawnZombie(cycle, position));
     }
 
-    // TODO = fix this and figure out attack strategy
+    // TODO = wait until Sam implements attack strategy
     @Test
     void TowerTest() {
-
-        PathPosition vampirePathPosition = new PathPosition(5, orderedPath);
-
-        SimpleIntegerProperty vampireX = vampirePathPosition.getX();
-        SimpleIntegerProperty vampireY = vampirePathPosition.getY();
-
-        Vampire vampire = new Vampire(vampirePathPosition, 100, "Vampire");
-        TowerBuilding towerBuilding = new TowerBuilding(vampireX + new SimpleIntegerProperty(1), vampireY + new SimpleIntegerProperty(1), 100);
-
-        towerBuilding.attackStrategy(new TowerAttack());
-
-        assert(vampire.getHealth < 100);
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition vampirePathPosition = new PathPosition(1, orderedPath);
+        Vampire vampire = new Vampire(vampirePathPosition);
+        int vampireX = vampirePathPosition.getX().intValue();
+        int vampireY = vampirePathPosition.getY().intValue();
+        TowerBuilding towerBuilding = new TowerBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY + 1));
+        // towerBuilding.attackStrategy(new TowerAttack());
+        // assert(vampire.getHealth < 100);
     }
 
     @Test
@@ -89,7 +83,7 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
         Character character = new Character(position);
-        character.takeDamage(50);
+        character.reduceHealth(50);
 
         VillageBuilding villageBuilding = new VillageBuilding(position);
         villageBuilding.gainHealth(character);
@@ -118,45 +112,53 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         TrapBuilding trapBuilding = new TrapBuilding(position);
         
-        // TODO: fix up when enemies classes are pushed
-        BasicEnemy slug = new Slug(position, "Slug");
+        BasicEnemy slug = new Slug(position);
         assertEquals(trapBuilding.damageEnemy(slug), 0);
 
-        BasicEnemy vampire = new Vampire(position, "Vampire");
+        BasicEnemy vampire = new Vampire(position);
         assertEquals(trapBuilding.damageEnemy(vampire), 40);
         // TODO: need to check whether the trap is destroyed or not
     }
 
     @Test
     void CampfireTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition vampirePathPosition = new PathPosition(1, orderedPath);
 
-        PathPosition vampirePathPosition = new PathPosition(5, orderedPath);
+        Vampire vampire = new Vampire(vampirePathPosition);
+        
+        int vampireX = vampirePathPosition.getX().intValue();
+        int vampireY = vampirePathPosition.getY().intValue();
+        CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY));
+        // Test scaring vampire
+        // vampire.runFromCampfire();
 
-        SimpleIntegerProperty campfireX = vampirePathPosition.getX() + new SimpleIntegerProperty(1);
-        SimpleIntegerProperty campfireY = vampirePathPosition.getY() + new SimpleIntegerProperty(1);
-
-        Character character = new Character(characterPathPosition, 100);
-        CampfireBuilding campfireBuilding = new CampfireBuilding(campfireX, campfireY);
-
-       campfireBuilding.performDamage(character);
-
-        assert(character.getHealth() == 100 - campfireBuilding.getDamageBonus());
+        // TODO: Test strategy of double damage in battle
+        // Character character = new Character(new PathPosition(2, orderedPath));
+        // campfireBuilding.performDamage(character, vampire);
+        // assert(vampire.getHealth() == 100 - campfireBuilding.getDamageBonus());
 
     }
+    // Not sure if need this anymore since it's tested in menu tests
+    // @Test
+    // void HerosCastleBuilding() {
+    //     List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+    //     orderedPath.add(new Pair<>(1,1));
+    //     orderedPath.add(new Pair<>(1,2));
+    //     orderedPath.add(new Pair<>(1,3));
+    //     HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
 
-    @Test
-    void HerosCastleBuilding() {
+    //     Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
 
-        HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(), new SimpleIntegerProperty());
+    //     // Buy item
+    //     herosCastleBuilding.buyItem(shield, null);
+    //     assert(herosCastleBuilding.getBoughtItems() != null);
 
-        Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
-
-        // Buy item
-        herosCastleBuilding.buyItem(shield);
-        assert(herosCastleBuilding.getBoughtItems() != null);
-
-        // sell item
-        herosCastleBuilding.sellItem(shield);
-        assert(herosCastleBuilding.getBoughtItems().isEmpty());
-    }
+    //     // sell item
+    //     herosCastleBuilding.sellItem(shield, null);
+    //     assert(herosCastleBuilding.getBoughtItems().isEmpty());
+    // }
 }

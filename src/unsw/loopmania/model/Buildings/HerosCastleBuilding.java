@@ -1,6 +1,5 @@
 package unsw.loopmania.model.Buildings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,7 +21,7 @@ public class HerosCastleBuilding extends Building {
         return item.getBuyPrice();
     }
 
-    public int sellItem(Item item, List<Item> unequippedInventory) {
+    public int sellItem(BasicItem item, List<Item> unequippedInventory) {
         unequippedInventory.remove(item);
         int price = item.getSellPrice();
         item.destroy();
@@ -38,9 +37,8 @@ public class HerosCastleBuilding extends Building {
         if (gameMode.equals("Survival")) {
             if (item instanceof HealthPotion) { ;
                 // check when is the last time the character purchased a health potion
-                if (cycles == lastPurchasedHP) {
-                    return false;
-                } else {
+                if (lastPurchasedHP == cycles) return false;
+                else {
                     lastPurchasedHP = cycles;
                     return true;
                 }
@@ -48,9 +46,8 @@ public class HerosCastleBuilding extends Building {
         } else if (gameMode.equals("Berserker")) {
             if (item instanceof Armour || item instanceof Helmet || item instanceof Shield) {
                 // check when is the last time the character purchased a protective gear
-                if (cycles == lastPurchasedPG) {
-                    return false;
-                } else {
+                if (lastPurchasedPG == cycles) return false;
+                else {
                     lastPurchasedPG = cycles;
                     return true;
                 }

@@ -4,9 +4,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.PathPosition;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * a basic form of building in the world
  */

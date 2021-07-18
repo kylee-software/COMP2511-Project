@@ -13,23 +13,6 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 /**
- * the items that can be obtained as reward 
- * If more item types are added, add an enum value here.
- */
-enum ITEM {
-    Sword, Stake, Staff, Armour, Shield, Helmet, HealthPotion;
-
-    /**
-     * Pick a random value of the ITEM enum.
-     * @return a random ITEM.
-     */
-    public static ITEM getRandomItem() {
-        Random random = new Random();
-        return values()[random.nextInt(values().length)];
-    }
-}
-
-/**
  * a Card in the world which doesn't move
  */
 public abstract class Card extends StaticEntity {
@@ -79,23 +62,6 @@ public abstract class Card extends StaticEntity {
         for (int i = 0; i < itemCount; i++) {
             getItemRewardList().add(getRandomItemReward());
         }
-
-        // Class<?> itemClass;
-        // Class<?>[] parameterType;
-        // Item item;
-        // for (int i = 0; i < itemCount; i++) {        
-        //     try {
-        //         itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + ITEM.getRandomItem().name());
-        //         parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-        //         item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(),
-        //                 new SimpleIntegerProperty());
-        //         getItemReward().add(item);
-        //     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-        //             | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-        //         // DONE Auto-generated catch block
-        //         e.printStackTrace();
-        //     }
-        // }
     }
     
     /**

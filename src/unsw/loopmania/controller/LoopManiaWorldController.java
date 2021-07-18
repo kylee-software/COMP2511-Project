@@ -33,6 +33,7 @@ import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.Goal;
 import unsw.loopmania.model.Battle;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -269,6 +270,10 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            
+            // if (goal.isGoalComplete()) {
+            //     System.out.println("We WON");
+            // }
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -322,7 +327,7 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        world.addUnequippedItem("Sword");
+        //addUnequippedItem("Sword");
         Sword sword = world.addUnequippedSword();
         onLoad(sword);
     }

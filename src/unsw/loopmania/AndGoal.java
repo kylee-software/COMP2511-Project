@@ -15,10 +15,7 @@ public class AndGoal extends Goal {
      * @return true if the player completed both goals else false
      */
     @Override
-    public boolean evaluateGoal() {
-        boolean resultA = goalA.evaluateGoal();
-        boolean resultB = goalB.evaluateGoal();
-
-        return resultA && resultB;
+    public boolean isGoalComplete() {
+        return goalA.isGoalComplete() && goalB.isGoalComplete();
     }
 }
