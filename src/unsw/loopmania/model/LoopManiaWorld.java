@@ -85,6 +85,7 @@ public class LoopManiaWorld {
     private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();
     private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();
     private List<BarracksBuilding> barracksBuildings = new ArrayList<BarracksBuilding>();
+    private List<TrapBuilding> trapBuildings = new ArrayList<TrapBuilding>();
     private HerosCastleBuilding herosCastleBuilding;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -985,6 +986,22 @@ public class LoopManiaWorld {
         return null;
     }
 
+    public void trapEnemy() {
+        for (TrapBuilding trapBuilding : trapBuildings) {
+            for(BasicEnemy enemy: getEnemies()) {
+                if (isOnSameTile(enemy, trapBuilding)) {
+                    trapBuilding.damageEnemy(enemy);
+                    if(!enemy.isAlive()) {
+                        killEnemy(enemy);
+                        trapBuildings.remove(trapBuilding);
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                            Mehods Related to Cards                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -1316,10 +1333,6 @@ public class LoopManiaWorld {
         // for adding non-specific entities (ones without another dedicated list)
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
-    }
-
-    public void trap() {
-        // TODO = need to implement this correctly and add javadoc
     }
 
 }

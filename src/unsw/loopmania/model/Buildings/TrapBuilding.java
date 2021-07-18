@@ -27,13 +27,6 @@ public class TrapBuilding extends Building {
         return pathPosition;
     }
 
-    // OBSERVER PATTERN
-
-    public boolean checkForEnemy(List<BasicEnemy> enemies) {
-        // TODO = need to implement this correctly and add javadoc
-        return false;
-    }
-
     /**
      * Damage an enemy's health when the enemy passes over the trap
      * @param enemy Enemy
