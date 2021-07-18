@@ -52,7 +52,7 @@ public class LoopManiaWorld {
     /* │                                     Attributes Related to Character                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private static Character character;
+    private Character character;
     private List<AlliedSoldier> alliedSoldiers = new ArrayList<AlliedSoldier>();
     @FXML
     private Label worldExperience;
@@ -60,7 +60,7 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldGold;
-    private static int gold;
+    private int gold;
 
     @FXML
     private Label worldHealth;
@@ -95,7 +95,7 @@ public class LoopManiaWorld {
 
     private Item equippedAttackItem = null;
 
-    private static List<Item> spawnedItems = new ArrayList<Item>();;
+    private List<Item> spawnedItems = new ArrayList<Item>();;
 
     private Item equippedHelmet = null;
 
@@ -147,8 +147,9 @@ public class LoopManiaWorld {
      */
     public void runTickMoves() {
         character.moveDownPath();
+        pickupItems();
         moveBasicEnemies();
-        LoopManiaWorld.pickupItems();
+        updateGold();
     }
 
 
@@ -512,7 +513,6 @@ public class LoopManiaWorld {
      */
     public Item possiblySpawnGold(){
         Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
-        System.out.println(goldPos);
         Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
@@ -520,7 +520,6 @@ public class LoopManiaWorld {
             Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
             spawnedItems.add(gold);
         }
-        System.out.println(item);
         return item;
     }
 
@@ -702,15 +701,19 @@ public class LoopManiaWorld {
     /**
      * pickup spawn items on the path tile when the character passes by
      */
-    public static void pickupItems() {
+    public void pickupItems() {
 
         // pick up gold if any
         for (Item item : spawnedItems) {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
+                    item.destroy();
+                    spawnedItems.remove(item);
                 } else {
                     addUnequippedItem("Health Potion");
+                    item.destroy();
+                    spawnedItems.remove(item);
                 }
             }
         }
@@ -809,7 +812,7 @@ public class LoopManiaWorld {
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
      */
-    public static Item addUnequippedItem(String type) {
+    public Item addUnequippedItem(String type) {
         Pair<Integer, Integer> firstAvailableSlot = getItemSlot();
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
@@ -1047,7 +1050,7 @@ public class LoopManiaWorld {
      * @param entityB the entity that is comparing to the first one
      * @return true if two entities are on the same path tile else false
      */
-    public static boolean isOnSameTile(Entity entityA, Entity entityB) {
+    public boolean isOnSameTile(Entity entityA, Entity entityB) {
         int entityAX = entityA.getX();
         int entityAY = entityA.getY();
 
