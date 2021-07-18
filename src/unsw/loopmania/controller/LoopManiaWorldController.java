@@ -440,7 +440,7 @@ public class LoopManiaWorldController {
      */
 
     private void onLoadGold(Item gold){
-        ImageView view = new ImageView(goldPileImage);
+        ImageView view = new ImageView(goldImage);
         addEntity(gold, view);
         squares.getChildren().add(view);
     }
