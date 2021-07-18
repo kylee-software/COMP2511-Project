@@ -131,6 +131,7 @@ public class LoopManiaWorldController {
     private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
+    private Image goldPileImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -190,6 +191,7 @@ public class LoopManiaWorldController {
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        goldPileImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -332,6 +334,12 @@ public class LoopManiaWorldController {
         onLoad(sword);
     }
 
+    private void loadGoldPile(){
+        Item gold = world.possiblySpawnGold();
+        onLoad(gold);
+        
+    }
+
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
@@ -343,6 +351,7 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadSword();
         loadVampireCard();
+        loadGoldPile();
     }
 
     /**
@@ -392,6 +401,17 @@ public class LoopManiaWorldController {
     private void onLoad(VampireCastleBuilding building){
         ImageView view = new ImageView(basicBuildingImage);
         addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load goldPile into the GUI
+     * @param goldPile
+     */
+
+    private void onLoad(Item gold){
+        ImageView view = new ImageView(goldPileImage);
+        addEntity(gold, view);
         squares.getChildren().add(view);
     }
 
