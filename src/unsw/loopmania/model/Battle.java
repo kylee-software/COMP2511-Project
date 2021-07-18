@@ -8,10 +8,9 @@ import java.util.List;
 
 import unsw.loopmania.model.AttackStrategy.*;
 import unsw.loopmania.model.Buildings.*;
-import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
-import unsw.loopmania.model.Items.BasicItems.*;
+import unsw.loopmania.model.RewardStrategy.*;
 
 public class Battle {
 
@@ -25,6 +24,8 @@ public class Battle {
     private Item armour = null;
     private Item shield = null;
     private Item helmet = null;
+    private RewardStrategy itemRewardStrategy = new ItemRewardBehaviour();
+    private RewardStrategy cardRewardStrategy = new CardRewardBehaviour();
 
     /**
      * Constructor for a battle
@@ -398,13 +399,24 @@ public class Battle {
         return gold;
     }
 
+    public RewardStrategy getCardRewardStrategy() {
+        return this.cardRewardStrategy;
+    }
+
     /**
      * Gets card rewards for battle
      * @return list of cards gained
      */
-    public List<Card> getBattleCards() {
-        TODO:
-        return null;
+    public List<String> getBattleCards() {
+        List<String> cards = new ArrayList<String>();
+        for (BasicEnemy enemy : killedEnemies) {
+            cards.add(getCardRewardStrategy().randomReward());
+        }
+        return cards;
+    }
+
+    public RewardStrategy getItemRewardStrategy() {
+        return this.itemRewardStrategy;
     }
 
     /**
@@ -413,9 +425,9 @@ public class Battle {
      */
     public List<String> getBattleItems() {
         List<String> items = new ArrayList<String>();
-        // for (BasicEnemy enemy : killedEnemies) {
-        //     items.add(generateRandomItem());
-        // }
+        for (BasicEnemy enemy : killedEnemies) {
+            items.add(getItemRewardStrategy().randomReward());
+        }
         return items;
     }
 

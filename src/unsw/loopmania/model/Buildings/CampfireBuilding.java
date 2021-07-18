@@ -2,7 +2,7 @@ package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Character;
 
 public class CampfireBuilding extends Building {
@@ -12,10 +12,6 @@ public class CampfireBuilding extends Building {
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-    }
-
-    public void scareVampire(Vampire vampire) {
-        // TODO = need to implement this correctly and add javadoc
     }
 
     @Override
@@ -29,7 +25,7 @@ public class CampfireBuilding extends Building {
     }
 
     // BUFFER INTERFACE
-    public void performDamage(Character character) {
+    public void performDamage(Character character, BasicEnemy enemy) {
         // TODO = need to implement this correctly and add javadoc
     }
 

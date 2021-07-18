@@ -90,4 +90,11 @@ public abstract class MovingEntity extends Entity {
     public boolean isDead() {
         return this.health == 0;
     }
+    
+    public abstract int getDamage();
+
+    public void gainHealth(int healthBonus) {
+        this.health = Math.min(getHealth() + healthBonus, 100);
+    }
+
 }

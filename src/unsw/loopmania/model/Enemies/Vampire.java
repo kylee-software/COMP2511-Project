@@ -78,4 +78,9 @@ public class Vampire extends BasicEnemy {
     public AttackStrategy getAttackStrategy() {
         return strategy;
     }
+
+    // TODO: stub for vampire running from campfire
+    public boolean runFromCampfire() {
+        return false;
+    }
 }

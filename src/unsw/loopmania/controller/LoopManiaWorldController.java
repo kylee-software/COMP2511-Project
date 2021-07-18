@@ -33,6 +33,7 @@ import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.Goal;
 import unsw.loopmania.model.Battle;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -126,10 +127,13 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
+    private Image healthPotionImage;
+    private Image goldPileImage;
     private Image vampireCastleCardImage;
     private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
+    
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -185,6 +189,8 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
+        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        goldPileImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
@@ -269,6 +275,10 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            
+            // if (goal.isGoalComplete()) {
+            //     System.out.println("We WON");
+            // }
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -322,9 +332,20 @@ public class LoopManiaWorldController {
     private void loadSword(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        world.addUnequippedItem("Sword");
+        //addUnequippedItem("Sword");
         Sword sword = world.addUnequippedSword();
         onLoad(sword);
+    }
+
+    private void loadGoldPile(){
+        Item gold = world.possiblySpawnGold();
+        onLoadGold(gold);
+        
+    }
+
+    private void loadHealthPotion(){
+        Item healthPotion = world.possiblySpawnHealthPotions();
+        onLoadHealthPotion(healthPotion);
     }
 
     /**
@@ -338,6 +359,41 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadSword();
         loadVampireCard();
+        loadGoldPile();
+        loadHealthPotion();
+    }
+
+    /**
+     * load goldPile into the GUI
+     * @param goldPile
+     */
+
+    private void onLoadGold(Item gold){
+        ImageView view = new ImageView(goldPileImage);
+        addEntity(gold, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load healthPotion into the GUI
+     * @param healthPotion
+     */
+
+    private void onLoadHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addEntity(healthPotion, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load healthPotion for inventory into the GUI
+     * @param healthPotion
+     */
+    private void onLoadInventoryHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, healthPotion);
+        addEntity(healthPotion, view);
+        unequippedInventory.getChildren().add(view);
     }
 
     /**

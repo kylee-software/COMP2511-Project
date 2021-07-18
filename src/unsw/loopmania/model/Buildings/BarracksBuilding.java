@@ -1,6 +1,5 @@
 package unsw.loopmania.model.Buildings;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.PathPosition;
 
