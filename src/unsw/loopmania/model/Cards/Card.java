@@ -22,7 +22,6 @@ public abstract class Card extends StaticEntity {
     private List<String> itemReward = new ArrayList<>();
     private RewardStrategy rewardStrategy = new ItemRewardBehaviour();
 
-    // DONE = implement other varieties of card than VampireCastleCard
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
@@ -48,10 +47,6 @@ public abstract class Card extends StaticEntity {
     public String getRandomItemReward() {
         return getRewardStrategy().randomReward();
     }
-    // public List<Item> getItemReward() {
-    //     return this.itemReward;
-    // }
-    
     
     /**
      * Add a random number of random items to item rewards list

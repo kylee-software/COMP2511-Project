@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.Goal;
 
 import unsw.loopmania.model.LoopManiaWorld;
 

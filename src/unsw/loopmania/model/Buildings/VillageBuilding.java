@@ -1,12 +1,17 @@
 package unsw.loopmania.model.Buildings;
 
 import unsw.loopmania.model.PathPosition;
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Character;
 
 public class VillageBuilding extends Building {
 
     private PathPosition pathPosition;
-
+    
+    public VillageBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y);
+    }
+    
     public VillageBuilding (PathPosition pathPosition) {
         super(pathPosition.getX(), pathPosition.getY());
         this.pathPosition = pathPosition;

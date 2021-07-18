@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.Goal;
 
 public class AndGoal extends Goal {
 

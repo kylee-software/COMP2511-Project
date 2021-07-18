@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.*;
+import unsw.loopmania.Goal.*;
 import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Entity;
@@ -58,6 +58,7 @@ public abstract class LoopManiaWorldLoader {
         // TODO: change this to the game mode the player picks
         //String gameMode = "Standard"; 
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        //world.setGoal(getGoal(world));
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
@@ -67,33 +68,6 @@ public abstract class LoopManiaWorldLoader {
         }
 
         return world;
-    }
-
-    /**
-     * Get goal from JSON file
-     * @return goal
-     */
-    public Goal getGoal(LoopManiaWorld world) {
-        
-        JSONObject goalCondition = json.getJSONObject("goal-condition");
-        String goalType = goalCondition.getString("goal"); 
-        int quantity = goalCondition.getInt("quantity");
-        Goal goal;
-        switch (goalType) {
-            case "experience":
-                goal = new ExperienceGoal(quantity, world);
-                break;
-            case "gold":
-                goal = new GoldGoal(quantity, world);
-                break;
-            case "cycle":
-                goal = new CycleGoal(quantity, world);
-                break;
-            default:
-                throw new RuntimeException("no goal is set, please set one");
-        }
-
-        return goal;
     }
 
     /**
@@ -113,12 +87,10 @@ public abstract class LoopManiaWorldLoader {
         // TODO = load more entity types from the file
         switch (type) {
         case "hero_castle":
-
-            HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(x),
-                                                                              new SimpleIntegerProperty(y));
-
-            // added the hero castle to the world
+            // Add hero castle to the world
+            HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
             world.setHerosCastleBuilding(herosCastleBuilding);
+            onLoad(herosCastleBuilding);
 
             Character character = new Character(new PathPosition(indexInPath, orderedPath));
             world.setCharacter(character);
@@ -196,8 +168,41 @@ public abstract class LoopManiaWorldLoader {
     }
 
     public abstract void onLoad(Character character);
+    public abstract void onLoad(HerosCastleBuilding herosCastleBuidling);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
 
     // TODO Create additional abstract methods for the other entities
+ 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                                Helper Methods                                              │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+
+    /**
+     * Get goal from JSON file
+     * @return goal
+     */
+    public Goal getGoal(LoopManiaWorld world) {
+        // TODO: implement complex goals 
+        JSONObject goalCondition = json.getJSONObject("goal-condition");
+        String goalType = goalCondition.getString("goal"); 
+        int quantity = goalCondition.getInt("quantity");
+        Goal goal;
+        switch (goalType) {
+            case "experience":
+                goal = new ExperienceGoal(quantity, world);
+                break;
+            case "gold":
+                goal = new GoldGoal(quantity, world);
+                break;
+            case "cycle":
+                goal = new CycleGoal(quantity, world);
+                break;
+            default:
+                throw new RuntimeException("no goal is set, please set one");
+        }
+
+        return goal;
+    }
 
 }
