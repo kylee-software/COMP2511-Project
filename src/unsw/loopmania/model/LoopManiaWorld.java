@@ -529,10 +529,8 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(10);
-        System.out.println(healthPotionPos);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(1);
         Item item = createItem("HealthPotion",healthPotionPos);
-        System.out.println(item);
         if (healthPotionPos != null){
             int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
             PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
@@ -701,7 +699,7 @@ public class LoopManiaWorld {
      * pickup spawn items on the path tile when the character passes by
      */
     public void pickupItems() {
-
+        List<Item> collectedItems = new ArrayList<Item>();
         // pick up gold if any
         for (Item item : spawnedItems) {
             if (isOnSameTile(character, item)) {
@@ -716,6 +714,12 @@ public class LoopManiaWorld {
                         despawnItems(item);
                         break;
                     }
+            }
+        }
+        // Second loop to despawn items to avoid comodification exception
+        for (Item item : collectedItems) {
+            if (isOnSameTile(character, item)) {
+                despawnItems(item);
             }
         }
     }
