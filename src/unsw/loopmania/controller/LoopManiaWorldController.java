@@ -333,7 +333,8 @@ public class LoopManiaWorldController {
             }
             List<BasicEnemy> newEnemies = world.SpawnSlugs();
             for (BasicEnemy newEnemy: newEnemies){
-                onLoad(newEnemy);
+                // onLoad(newEnemy);
+                onLoadEnemy(newEnemy);
             }
             // increment cycle
             // world.checkWinCondition();
@@ -459,17 +460,6 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load healthPotion for inventory into the GUI
-     * @param healthPotion
-     */
-    private void onLoadInventoryHealthPotion(Item healthPotion){
-        ImageView view = new ImageView(healthPotionImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, healthPotion);
-        addEntity(healthPotion, view);
-        unequippedInventory.getChildren().add(view);
-    }
-
-    /**
      * load a vampire castle card into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the cards GridPane.
@@ -524,6 +514,12 @@ public class LoopManiaWorldController {
      */
     private void onLoad(BasicEnemy enemy) {
         ImageView view = new ImageView(basicEnemyImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoadEnemy(BasicEnemy enemy) {
+        ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
@@ -976,6 +972,17 @@ public class LoopManiaWorldController {
             view = new ImageView(swordImage);
         else if (item instanceof TheOneRing) 
             view = new ImageView(theOneRingImage);
+        return view;
+    }
+
+    private ImageView onLoadEnemyView(BasicEnemy enemy) {
+        ImageView view = null;
+        if (enemy instanceof Slug) 
+            view = new ImageView(slugImage);
+        else if (enemy instanceof Vampire) 
+            view = new ImageView(vampireImage);
+        else if (enemy instanceof Zombie) 
+            view = new ImageView(zombieImage);
         return view;
     }
 

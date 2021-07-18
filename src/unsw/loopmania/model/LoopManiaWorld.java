@@ -996,6 +996,7 @@ public class LoopManiaWorld {
         if (cardEntities.size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
+            
         }
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         cardEntities.add(vampireCastleCard);
@@ -1010,7 +1011,8 @@ public class LoopManiaWorld {
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
+            gainDiscardCardRewards(cardEntities.get(0));
+            removeCard(0); 
         }
         Card card = createCard(type, new SimpleIntegerProperty(cardEntities.size()));
         cardEntities.add(card);
@@ -1047,10 +1049,12 @@ public class LoopManiaWorld {
      * @param expReward experience reward
      * @param itemReward item reward/s
      */
-    public void gainDiscardCardRewards(int goldReward, int expReward, List<String> itemReward) {
-        addGold(goldReward);
-        addExperience(expReward);
-        for (String type : itemReward) addUnequippedItem(type);
+    public void gainDiscardCardRewards(Card card) {
+        addGold(card.getGoldReward());
+        addExperience(card.getExpReward());
+        card.setItemReward();
+        for (String type : card.getItemRewardList())
+            addUnequippedItem(type);
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
