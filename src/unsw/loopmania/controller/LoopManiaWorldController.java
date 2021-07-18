@@ -130,7 +130,6 @@ public class LoopManiaWorldController {
     // Card Images
     private Image barracksCardImage;
     private Image campfireCardImage;
-    private Image herosCastleCardImage;
     private Image towerCardImage;
     private Image trapCardImage;
     private Image vampireCastleCardImage;
@@ -141,7 +140,6 @@ public class LoopManiaWorldController {
     
     private Image barracksBuildingImage;
     private Image campfireBuildingImage;
-    private Image herosCastleBuildingImage;
     private Image towerBuildingImage;
     private Image trapBuildingImage;
     private Image vampireCastleBuildingImage;
@@ -225,7 +223,6 @@ public class LoopManiaWorldController {
         // Card Images
         barracksCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
         campfireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
-        herosCastleCardImage = new Image((new File("src/images/heros_castle_card.png")).toURI().toString());
         towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
         trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
@@ -234,7 +231,6 @@ public class LoopManiaWorldController {
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         barracksBuildingImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
-        herosCastleBuildingImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
         towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
         trapBuildingImage = new Image((new File("src/images/trap.png")).toURI().toString());
         vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle.png")).toURI().toString());

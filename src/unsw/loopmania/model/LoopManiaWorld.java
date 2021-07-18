@@ -10,6 +10,7 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import unsw.loopmania.Goal;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
@@ -38,8 +39,9 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryHeight = 4;
     private int worldWidth;
     private int worldHeight;
-    private String gameMode;
     private List<String> rareItems;
+    private Goal goal;
+    private String gameMode;
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
@@ -145,7 +147,6 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
-        runBattles();
     }
 
 
@@ -387,6 +388,14 @@ public class LoopManiaWorld {
 
     public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
         getAlliedSoldiers().add(alliedSoldier);
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
     }
 
     /**
