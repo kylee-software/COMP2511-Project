@@ -708,15 +708,20 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
-                    item.destroy();
-                    spawnedItems.remove(item);
+                    despawnItems(item);
+                    break;
                 } else {
                     addUnequippedItem("Health Potion");
-                    item.destroy();
-                    spawnedItems.remove(item);
+                    despawnItems(item);
+                    break;
                 }
             }
         }
+    }
+
+    public void despawnItems(Item items){
+        items.destroy();
+        spawnedItems.remove(items);
     }
 
     /**
