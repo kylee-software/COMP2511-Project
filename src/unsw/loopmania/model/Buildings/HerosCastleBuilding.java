@@ -36,9 +36,9 @@ public class HerosCastleBuilding extends Building {
      */
     public boolean isValidPurchase(String gameMode, BasicItem item, int cycles) {
         if (gameMode.equals("Survival")) {
-            if (item instanceof HealthPotion) {
+            if (item instanceof HealthPotion) { ;
                 // check when is the last time the character purchased a health potion
-                if (cycles % 5 == 0 && cycles >= 0 && lastPurchasedHP < cycles) {
+                if (cycles >= 0 && lastPurchasedHP < cycles) {
                     lastPurchasedHP = cycles;
                     return true;
                 } else {

@@ -25,19 +25,10 @@ import unsw.loopmania.model.Items.BasicItems.Shield;
 
 public class BuildingsTests {
 
-    // private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/world_with_twists_and_turns.json")));
-
-    // int width = json.getInt("width");
-    // int height = json.getInt("height");
-
-    // // path variable is collection of coordinates with directions of path taken...
-    // List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width, height);
-    // LoopManiaWorld world = new LoopManiaWorld("Standard", width, height, orderedPath);
-    
     @Test
     void VampireCastleTest() {
         VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
-        
+
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
@@ -61,7 +52,7 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
 
-        assertNotNull(zombiePitBuilding.spawnZombie(position));
+        assertNotNull(zombiePitBuilding.spawnZombie(1, position));
     }
 
     // TODO = fix this and figure out attack strategy
