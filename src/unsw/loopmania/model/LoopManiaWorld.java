@@ -10,7 +10,7 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import unsw.loopmania.Goal;
+import unsw.loopmania.Goal.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
@@ -297,27 +297,6 @@ public class LoopManiaWorld {
     /* │                                    Getters and Setters Related to Items                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    /**
-     * spawn a sword in the world and return the sword entity
-     * @return a sword to be spawned in the controller as a JavaFX node
-     */
-    public Sword addUnequippedSword(){
-        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest sword
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(sword);
-        return sword;
-    }
-
-
     public List<Item> getUnequippedItems() {
         return unequippedInventoryItems;
     }
@@ -403,13 +382,10 @@ public class LoopManiaWorld {
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
-    // TODO
-    // public boolean isGoalCompleted() {
-    //     AndGoal isCompleted = new AndGoal(new CycleGoal(cycles), new OrGoal(new ExperienceGoal(experience),
-    //                                                                         new GoldGoal(gold)));
-
-    //     return isCompleted.evaluateGoal();
-    // }
+    public boolean checkWinCondition() {
+        System.out.println("Win? " + getGoal().isGoalComplete());
+        return getGoal().isGoalComplete();
+    }
 
 
     /**
@@ -819,6 +795,26 @@ public class LoopManiaWorld {
         return true;
     }
 
+     /**
+     * spawn a sword in the world and return the sword entity
+     * @return a sword to be spawned in the controller as a JavaFX node
+     */
+    public Sword addUnequippedSword(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new sword, as we know we have at least made a slot available...
+        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(sword);
+        return sword;
+    }
+
     /**
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
@@ -827,6 +823,7 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
             removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
         }
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);

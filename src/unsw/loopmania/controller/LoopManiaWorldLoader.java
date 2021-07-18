@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.*;
+import unsw.loopmania.Goal.*;
 import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Entity;
@@ -58,7 +58,7 @@ public abstract class LoopManiaWorldLoader {
         // TODO: change this to the game mode the player picks
         //String gameMode = "Standard"; 
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
-        world.setGoal(getGoal(world));
+        //world.setGoal(getGoal(world));
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

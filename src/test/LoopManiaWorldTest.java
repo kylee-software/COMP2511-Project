@@ -4,20 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
-import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.TrapBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.TrapCard;
-import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.RareItem;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
-import unsw.loopmania.model.Character;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
