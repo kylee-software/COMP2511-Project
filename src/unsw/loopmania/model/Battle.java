@@ -139,7 +139,7 @@ public class Battle {
         int towerTurn = 0;
         int allyTurn = 0;
         int enemyTurn = 0;
-        while (!areEnemiesDead() && !character.isDead()) {
+        while (!areEnemiesDead() && !isLost()) {
             sortEnemiesByCurrentHp();
             sortAlliesByCurrentHp();
             attackLiveEnemy(character);
@@ -183,6 +183,12 @@ public class Battle {
         for (AlliedSoldier ally : allies) {
             if (ally.getTrancedLifeCycle() != -1) {
                 ally.setHealth(0);
+            }
+        }
+        // Kill all dead enemies
+        for (BasicEnemy enemy : liveEnemies) {
+            if (enemy.isDead()) {
+                killEnemy(enemy);
             }
         }
     }
@@ -369,10 +375,7 @@ public class Battle {
      * @return loss status
      */
     public Boolean isLost() {
-        if (character.getHealth() == 0) {
-            return true;
-        }
-        return false;
+        return character.isDead();
     }
 
     /**
