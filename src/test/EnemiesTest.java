@@ -1,86 +1,63 @@
 package test;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
-import unsw.loopmania.*;
-import unsw.loopmania.controller.LoopManiaWorldLoader;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.*;
 
-import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
-import org.json.*;
 
-public class EnemiesTests {
-
-    private JSONObject json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
-
-    int width = json.getInt("width");
-    int height = json.getInt("height");
-
-    // path variable is collection of coordinates with directions of path taken...
-    List<Pair<Integer, Integer>> orderedPath = LoopManiaWorldLoader.loadPathTiles(json.getJSONObject("path"), width,
-                                                                                  height);
+public class EnemiesTest { 
 
     @Test
     public void SlugTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+        
+        Slug slug = new Slug(pathPosition);
+        Pair<Integer, Integer> positionBefore = new Pair<>(slug.getX(), slug.getY());
 
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
-        SimpleIntegerProperty xBefore = pathPosition.getX();
-        SimpleIntegerProperty yBefore = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionBefore = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xBefore, yBefore);
-
-        Slug slug = new Slug(pathPosition, 100, "Slug");
         slug.move();
-
-        SimpleIntegerProperty xAfter = pathPosition.getX();
-        SimpleIntegerProperty yAfter = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionAfter = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xAfter, yAfter);
+        Pair<Integer, Integer> positionAfter = new Pair<>(slug.getX(), slug.getY());
 
         assert(!positionBefore.equals(positionAfter));
-
     }
 
     @Test
     void ZombieTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
 
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
-        SimpleIntegerProperty xBefore = pathPosition.getX();
-        SimpleIntegerProperty yBefore = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionBefore = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xBefore, yBefore);
+        Zombie zombie = new Zombie(pathPosition);
+        Pair<Integer, Integer> positionBefore = new Pair<>(zombie.getX(), zombie.getY());
 
-        Zombie zombie = new Zombie(pathPosition, 100, "Zombie");
         zombie.move();
-
-        SimpleIntegerProperty xAfter = pathPosition.getX();
-        SimpleIntegerProperty yAfter = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionAfter = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xAfter, yAfter);
+        Pair<Integer, Integer> positionAfter = new Pair<>(zombie.getX(), zombie.getY());
 
         assert(!positionBefore.equals(positionAfter));
-
     }
 
     @Test
     void VampireTest() {
 
-        PathPosition pathPosition = new PathPosition(5, orderedPath);
-        SimpleIntegerProperty xBefore = pathPosition.getX();
-        SimpleIntegerProperty yBefore = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionBefore = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xBefore, yBefore);
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
 
-        Vampire vampire = new Vampire(pathPosition, 100, "Vampire");
+        Vampire vampire = new Vampire(pathPosition);
+        Pair<Integer, Integer> positionBefore = new Pair<>(vampire.getX(), vampire.getY());
+
         vampire.move();
-
-        SimpleIntegerProperty xAfter = pathPosition.getX();
-        SimpleIntegerProperty yAfter = pathPosition.getY();
-        Pair<SimpleIntegerProperty, SimpleIntegerProperty> positionAfter = new Pair<SimpleIntegerProperty,
-                SimpleIntegerProperty>(xAfter, yAfter);
+        Pair<Integer, Integer> positionAfter = new Pair<>(vampire.getX(), vampire.getY());
 
         assert(!positionBefore.equals(positionAfter));
 
