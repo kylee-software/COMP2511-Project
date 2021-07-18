@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.model.LoopManiaWorld;
 
 
 /**
@@ -22,7 +22,7 @@ public class TrivialTest {
     
     @Test
     public void blahTest2(){
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>());
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>(), new ArrayList<>());
         assertEquals(d.getWidth(), 1);
     }
 }
