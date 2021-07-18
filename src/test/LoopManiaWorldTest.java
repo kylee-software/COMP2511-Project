@@ -4,22 +4,26 @@ import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.LoopManiaWorld;
+import unsw.loopmania.model.PathPosition;
+import unsw.loopmania.model.Buildings.BarracksBuilding;
 import unsw.loopmania.model.Buildings.Building;
 import unsw.loopmania.model.Buildings.TrapBuilding;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.TrapCard;
+import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.javatuples.Pair;
-
 
 public class LoopManiaWorldTest {
 
@@ -44,7 +48,22 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void produceAlliesFromBarracksTest() {
+    public void spawnAlliesFromBarracksTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1, 1));
+        orderedPath.add(new Pair<>(1, 2));
+        orderedPath.add(new Pair<>(1, 3));
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        
+        Building barrackBuilding = new BarracksBuilding(new PathPosition(2, orderedPath));
+        
+        Character character = new Character(new PathPosition(1, orderedPath));
+        List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
+        assert(alliedSoldiers.isEmpty());
+
+        character.move();
+        alliedSoldiers = world.spawnAlliesFromBarracks();
+        assertNotNull(alliedSoldiers);
     }
 
     @Test

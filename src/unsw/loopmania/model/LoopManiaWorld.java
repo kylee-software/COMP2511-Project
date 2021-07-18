@@ -81,9 +81,10 @@ public class LoopManiaWorld {
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     // TODO = expand the range of buildings
-    private  List<Building> buildingEntities = new ArrayList<Building>();;
-    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();;
-    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();;
+    private  List<Building> buildingEntities = new ArrayList<Building>();
+    private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();
+    private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();
+    private List<BarracksBuilding> barracksBuildings = new ArrayList<BarracksBuilding>();
     private HerosCastleBuilding herosCastleBuilding;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -187,7 +188,7 @@ public class LoopManiaWorld {
     public Character getCharacter() {
         return character;
     }
-    
+
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
@@ -395,6 +396,16 @@ public class LoopManiaWorld {
         return getGoal().isGoalComplete();
     }
 
+    /**
+     * Check whether Character is alive
+     * @param void 
+     * @return true if Character is alive 
+     */
+    public boolean isAlive() {
+        if (getHealth() > 0) return true;
+        else return false;
+    }
+
 
     /**
      * check is the character completed the current cycle or not
@@ -560,8 +571,17 @@ public class LoopManiaWorld {
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
      */
-    public void produceAlliesFromBarracks() {
+    public List<AlliedSoldier> spawnAlliesFromBarracks() {
         // TODO = need to implement this correctly and add javadoc
+
+        for (BarracksBuilding barracksBuilding : barracksBuildings) {
+            if (isOnSameTile(character, barracksBuilding)) {
+                AlliedSoldier alliedSoldier = barracksBuilding.spawnAlliedSoldier(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+                alliedSoldiers.add(alliedSoldier);
+            }
+        }
+
+        return alliedSoldiers;
     }
 
 
