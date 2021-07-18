@@ -201,6 +201,7 @@ public class LoopManiaWorldController {
     private MenuSwitcher mainMenuSwitcher;
     private MenuSwitcher gameOverScreenSwitcher;
     private MenuSwitcher winScreenSwitcher;
+    private MenuSwitcher herosCastleMenuSwitcher;
 
     @FXML
     private Label worldExperience;
@@ -353,6 +354,9 @@ public class LoopManiaWorldController {
                 System.out.println("We WON");
                 pause();
                 switchToWinScreen();
+            } else if (world.canAccessHerosCastleMenu()) {
+                pause();
+                switchToHerosCastleMenu();
             }
 
             printThreadingNotes("HANDLED TIMER");
@@ -786,7 +790,6 @@ public class LoopManiaWorldController {
     }
 
     public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
-        // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
@@ -798,13 +801,16 @@ public class LoopManiaWorldController {
         this.winScreenSwitcher = winScreenSwitcher;
     }
 
+    public void setHerosCastleMenuSwitcher(MenuSwitcher herosCastleMenuSwitcher){
+        this.herosCastleMenuSwitcher = herosCastleMenuSwitcher;
+    }
+    
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
      */
     @FXML
     private void switchToMainMenu() throws IOException {
-        // TODO = possibly set other menu switchers
         pause();
         mainMenuSwitcher.switchMenu();
     }
@@ -817,6 +823,11 @@ public class LoopManiaWorldController {
     private void switchToWinScreen() {
         pause();
         winScreenSwitcher.switchMenu();
+    }
+
+    private void switchToHerosCastleMenu() {
+        pause();
+        herosCastleMenuSwitcher.switchMenu();
     }
 
     /**

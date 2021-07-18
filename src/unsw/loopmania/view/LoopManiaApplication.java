@@ -43,20 +43,26 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
-        // GameOverScreenController gameOverScreenController = new GameOverScreenController();
-        // FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("GameOverScreenView.fxml"));
-        // gameOverScreenLoader.setController(gameOverScreenController);
-        // Parent gameOverScreenRoot = gameOverScreenLoader.load();
+        GameOverScreenController gameOverScreenController = new GameOverScreenController();
+        FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("GameOverScreenView.fxml"));
+        gameOverScreenLoader.setController(gameOverScreenController);
+        Parent gameOverScreenRoot = gameOverScreenLoader.load();
 
-        // WinScreenController winScreenController = new WinScreenController();
-        // FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("WinScreenView.fxml"));
-        // winScreenLoader.setController(winScreenController);
-        // Parent winScreenRoot = winScreenLoader.load();
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("WinScreenView.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+        
+        HerosCastleMenuController herosCastleMenuController = new HerosCastleMenuController();
+        FXMLLoader herosCastleMenuLoader = new FXMLLoader(getClass().getResource("HerosCastleMenuView.fxml"));
+        herosCastleMenuLoader.setController(herosCastleMenuController);
+        Parent herosCastleMenuRoot = herosCastleMenuLoader.load();
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
-        // Scene gameOverScreenScene = new Scene(gameOverScreenRoot);
-        // Scene winScreenScene = new Scene(winScreenRoot);
+        Scene gameOverScreenScene = new Scene(gameOverScreenRoot);
+        Scene winScreenScene = new Scene(winScreenRoot);
+        Scene herosCastleMenuScene = new Scene(herosCastleMenuRoot);
         
         
         // set functions which are activated when button click to switch menu is pressed
@@ -66,13 +72,21 @@ public class LoopManiaApplication extends Application {
             mainController.startTimer();
         });
         // switch from game to game over screen
-        //  mainController.setGameOverScreenSwitcher(() -> {switchToRoot(gameOverScreenScene, gameOverScreenRoot, primaryStage);
-        //     mainController.terminate();
-        // });
-        // // switch from game to game win screen
-        // mainController.setWinScreenSwitcher(() -> {switchToRoot(winScreenScene, winScreenRoot, primaryStage);
-        //     mainController.terminate();
-        // });
+         mainController.setGameOverScreenSwitcher(() -> {switchToRoot(gameOverScreenScene, gameOverScreenRoot, primaryStage);
+            stop();
+        });
+        // switch from game to game win screen
+        mainController.setWinScreenSwitcher(() -> {switchToRoot(winScreenScene, winScreenRoot, primaryStage);
+            stop();
+        });
+        // switch from game to heros castle menu
+        mainController.setHerosCastleMenuSwitcher(() -> {switchToRoot(herosCastleMenuScene, herosCastleMenuRoot, primaryStage);
+            stop();
+        });
+        // switch from heros castle menu to game
+        herosCastleMenuController.setGameSwitcher(() -> {switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
