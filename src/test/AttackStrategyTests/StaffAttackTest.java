@@ -21,7 +21,7 @@ public class StaffAttackTest {
      * Test StaffAttack strategy damage on enemies
      */
     @Test
-    public void basicExecuteTest() {
+    public void staffExecuteTest() {
         List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
         dummyPath.add(new Pair<>(0,0));
         PathPosition dummyPosition = new PathPosition(0, dummyPath);
