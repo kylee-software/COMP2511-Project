@@ -9,8 +9,6 @@ import unsw.loopmania.model.AttackStrategy.*;
 public class Stake extends BasicItem {
     
     private static int buyPrice = 100;
-    private int damage = 5;
-    private int vampireDamage = 25;
     private static String type = "Weapon";
     private AttackStrategy strategy = new StakeAttack();
 
@@ -21,22 +19,6 @@ public class Stake extends BasicItem {
      */
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, buyPrice, type);
-    }
-
-    /**
-     * Getter for damage
-     * @return damage
-     */
-    public int getDamage() {
-        return damage;
-    }
-
-    /**
-     * Getter for damage dealt to vampires
-     * @return vampireDamage
-     */
-    public int getVampireDamage() {
-        return vampireDamage;
     }
 
      /**

@@ -44,6 +44,8 @@ public class LoopManiaWorld {
     private int worldHeight;
     private String gameMode;
     private List<String> rareItems;
+    private Boolean isLost;
+
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
@@ -75,8 +77,6 @@ public class LoopManiaWorld {
 
     // DONE = expand the range of enemies
     private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-    private static Boolean isLost = false;
-
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
@@ -141,6 +141,7 @@ public class LoopManiaWorld {
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
         this.rareItems = rareItems;
+        this.isLost = false;
     }
 
     /**
@@ -582,13 +583,13 @@ public class LoopManiaWorld {
     /* │                                       Methods Related to the Battle                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    /**
-     * Run the expected battles in the world, based on current world state.
-     * Adds entities in range to battle if an enemy in battle range.
-     * Signals game lost if battle lost without TheOneRing.
-     * Adds rewards, kills dead entities.
-     * @return list of enemies which have been killed
-     */
+    // /**
+    //  * Run the expected battles in the world, based on current world state.
+    //  * Adds entities in range to battle if an enemy in battle range.
+    //  * Signals game lost if battle lost without TheOneRing.
+    //  * Adds rewards, kills dead entities.
+    //  * @return list of enemies which have been killed
+    //  */
     // public List<BasicEnemy> runBattles() {
     //     // TODO = modify this - currently the character automatically wins all battles without any damage!
     //     List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();

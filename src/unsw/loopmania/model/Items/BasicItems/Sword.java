@@ -9,7 +9,6 @@ import unsw.loopmania.model.AttackStrategy.*;
 public class Sword extends BasicItem {
     
     private static int buyPrice = 40;
-    private int damage = 10;
     private static String type = "Weapon";
     private static AttackStrategy strategy = new SwordAttack();
 
@@ -20,14 +19,6 @@ public class Sword extends BasicItem {
      */
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, buyPrice, type);
-    }
-
-    /**
-     * Getter for damage
-     * @return damage
-     */
-    public int getDamage() {
-        return damage;
     }
 
     /**
