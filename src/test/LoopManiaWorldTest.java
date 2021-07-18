@@ -7,6 +7,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
+import unsw.loopmania.model.Items.RareItems.RareItem;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Character;
 
@@ -22,6 +23,7 @@ public class LoopManiaWorldTest {
 
     private static int width = 5;
     private static int height = 5;
+    private static List<String> rareItems = new ArrayList<String>();
 
     @Test
     public void receiveInventoryFullRewardsTest() {
@@ -62,7 +64,7 @@ public class LoopManiaWorldTest {
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
         // Test item creation
         world.addUnequippedItem("Stake");
         Item stake = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
@@ -126,7 +128,7 @@ public class LoopManiaWorldTest {
     @Test
     public void equipItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
         // Test weapon slot
         world.addUnequippedItem("Sword");
         Item sword = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
@@ -186,7 +188,7 @@ public class LoopManiaWorldTest {
     @Test
     public void removeUnequippedInventoryItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
         assertEquals(world.getUnequippedItems().size(), 0);
         world.removeUnequippedInventoryItemByCoordinates(0, 0);
         assertEquals(world.getUnequippedItems().size(), 0);
@@ -202,7 +204,7 @@ public class LoopManiaWorldTest {
     @Test
     public void getUnequippedInventoryItemEntityByCoordinatesTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
         Item item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
         assertEquals(item, null);
         world.addUnequippedItem("Stake");

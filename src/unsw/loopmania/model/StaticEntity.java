@@ -35,4 +35,12 @@ public abstract class StaticEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+    public void setX(IntegerProperty x) {
+        this.x = x;
+    }
+
+    public void setY(IntegerProperty y) {
+        this.y = y;
+    }
 }

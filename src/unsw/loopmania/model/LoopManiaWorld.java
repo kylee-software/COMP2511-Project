@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,16 +17,16 @@ import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.*;
 
 import unsw.loopmania.model.Cards.Card;
- import unsw.loopmania.model.Cards.VampireCastleCard;
+import unsw.loopmania.model.Cards.VampireCastleCard;
 
- import unsw.loopmania.model.Enemies.BasicEnemy;
- import unsw.loopmania.model.Enemies.Slug;
- import unsw.loopmania.model.Enemies.Vampire;
- import unsw.loopmania.model.Enemies.Zombie;
+import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.Slug;
+import unsw.loopmania.model.Enemies.Vampire;
+import unsw.loopmania.model.Enemies.Zombie;
 
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.Item;
- import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.TheOneRing;
 
 /**
  * A backend world.
@@ -730,30 +731,40 @@ public class LoopManiaWorld {
         if (item.getType().equals("RareItem")) {
             if (equippedRareItem == null) {
                 equippedRareItem = item;
+                item.setX(new SimpleIntegerProperty(0));
+                item.setY(new SimpleIntegerProperty(2));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Weapon")) {
             if (equippedAttackItem == null) {
                 equippedAttackItem = item;
+                item.setX(new SimpleIntegerProperty(1));
+                item.setY(new SimpleIntegerProperty(0));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Helmet")) {
             if (equippedHelmet == null) {
                 equippedHelmet = item;
+                item.setX(new SimpleIntegerProperty(0));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Shield")) {
             if (equippedShield == null) {
                 equippedShield = item;
+                item.setX(new SimpleIntegerProperty(1));
+                item.setY(new SimpleIntegerProperty(2));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Armour")) {
             if (equippedArmour == null) {
                 equippedArmour = item;
+                item.setX(new SimpleIntegerProperty(1));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
