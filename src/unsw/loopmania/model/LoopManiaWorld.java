@@ -426,10 +426,16 @@ public class LoopManiaWorld {
         if (charaX == 0 && charaY == 0) {
             cycles += 1;
         }
-//        if (isOnSameTile(character, herosCastleBuilding)) {
-//            cycles += 1;
-//        }
     }
+    
+    public boolean canAccessHerosCastleMenu() {
+        int charaX = character.getX();
+        int charaY = character.getY();
+        if (charaX == 0 && charaY == 0 && getCycles() > 0) 
+            return true;
+        else return false;
+    }
+    
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                          Methods Related  to Enemies                                       │ */

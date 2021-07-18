@@ -2,7 +2,7 @@
   "width": 8,
   "height": 14,
   "rare_items": [],
-  "goal-condition": {"ExperienceGoal": 10, "GoldGoal": 10, "CycleGoal": 1},
+  "goal-condition": {"ExperienceGoal": 1000, "GoldGoal": 100, "CycleGoal": 4 },
   "entities": [
     {"x": 0, "y": 0, "type": "hero_castle"}
   ],
