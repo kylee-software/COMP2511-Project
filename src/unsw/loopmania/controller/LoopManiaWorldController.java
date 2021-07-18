@@ -345,9 +345,6 @@ public class LoopManiaWorldController {
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
             if (!world.isAlive()) 
                 switchToGameOverScreen();
             else if (world.isGoalCompleted()) {
