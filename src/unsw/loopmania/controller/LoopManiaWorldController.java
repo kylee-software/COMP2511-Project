@@ -31,10 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.Sword;
-import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.view.DragIcon;
-import unsw.loopmania.Goal;
-import unsw.loopmania.model.Battle;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
@@ -396,6 +393,17 @@ public class LoopManiaWorldController {
         onLoad(sword);
     }
 
+    private void loadGoldPile(){
+        Item gold = world.possiblySpawnGold();
+        onLoadGold(gold);
+        
+    }
+
+    private void loadHealthPotion(){
+        Item healthPotion = world.possiblySpawnHealthPotions();
+        onLoadHealthPotion(healthPotion);
+    }
+
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
@@ -407,6 +415,41 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadSword();
         loadVampireCard();
+        loadGoldPile();
+        loadHealthPotion();
+    }
+
+    /**
+     * load goldPile into the GUI
+     * @param goldPile
+     */
+
+    private void onLoadGold(Item gold){
+        ImageView view = new ImageView(goldImage);
+        addEntity(gold, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load healthPotion into the GUI
+     * @param healthPotion
+     */
+
+    private void onLoadHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addEntity(healthPotion, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
+     * load healthPotion for inventory into the GUI
+     * @param healthPotion
+     */
+    private void onLoadInventoryHealthPotion(Item healthPotion){
+        ImageView view = new ImageView(healthPotionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems, null, healthPotion);
+        addEntity(healthPotion, view);
+        unequippedInventory.getChildren().add(view);
     }
 
     /**

@@ -94,7 +94,7 @@ public class LoopManiaWorld {
 
     private Item equippedAttackItem = null;
 
-    private static List<Item> spawnedItems = new ArrayList<Item>();;
+    private List<Item> spawnedItems = new ArrayList<Item>();;
 
     private Item equippedHelmet = null;
 
@@ -146,7 +146,9 @@ public class LoopManiaWorld {
      */
     public void runTickMoves() {
         character.moveDownPath();
+        pickupItems();
         moveBasicEnemies();
+        updateGold();
     }
 
 
@@ -461,14 +463,15 @@ public class LoopManiaWorld {
     public List<BasicEnemy> SpawnSlugs() {
         Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
         List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
-        if (pos != null){
+        int slugSpawnChance = (new Random()).nextInt(4);
+        if (pos != null && slugSpawnChance == 1){
             int indexInPath = orderedPath.indexOf(pos);
             BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
 
-        return spawningEnemies;
+        return enemies;
     }
 
     /**
@@ -511,33 +514,66 @@ public class LoopManiaWorld {
     }
 
     /**
-     * spawns items if the conditions warrant it, adds to world
+     * spawns gold if the conditions warrant it, adds to world
      * @return list of the items to be displayed on screen
      */
-    public List<Item> possiblySpawnItems(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
-
-        List<Item> items = new ArrayList<Item>();
+    public Item possiblySpawnGold(){
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
+        Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
             PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
             Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
-            items.add(gold);
             spawnedItems.add(gold);
         }
+        return item;
+    }
 
+    /**
+     * spawns health potions if the conditions warrant it, adds to world
+     * @return list of the items to be displayed on screen
+     */
+    public Item possiblySpawnHealthPotions(){
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(10);
+        System.out.println(healthPotionPos);
+        Item item = createItem("HealthPotion",healthPotionPos);
+        System.out.println(item);
         if (healthPotionPos != null){
             int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
             PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
             HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-            items.add(healthPotion);
             spawnedItems.add(healthPotion);
         }
-
-        return items;
+        return item;
     }
 
+    //  /**
+    //  * spawns items if the conditions warrant it, adds to world
+    //  * @return list of the items to be displayed on screen
+    //  */
+    // public List<Item> possiblySpawnItems(){
+    //     Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
+    //     Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
+
+    //     List<Item> items = new ArrayList<Item>();
+    //     if (goldPos != null){
+    //         int goldIndexInPath = orderedPath.indexOf(goldPos);
+    //         PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
+    //         Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
+    //         items.add(gold);
+    //         spawnedItems.add(gold);
+    //     }
+
+    //     if (healthPotionPos != null){
+    //         int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
+    //         PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
+    //         HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
+    //         items.add(healthPotion);
+    //         spawnedItems.add(healthPotion);
+    //     }
+
+    //     return items;
+    // }
 
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
@@ -581,7 +617,7 @@ public class LoopManiaWorld {
             setHealth(getHealth() - 5);
             updateHealth();
         }
-
+        System.out.println(defeatedEnemies);
         return defeatedEnemies;
     }
 
@@ -676,11 +712,22 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
-                } else {
-                    addUnequippedItem("Health Potion");
+                    despawnItems(item);
+                    break;
                 }
+            } else if (isOnSameTile(character, item)) {
+                    if (item.getType() == "HealthPotion") {
+                        addUnequippedItem("Health Potion");
+                        despawnItems(item);
+                        break;
+                    }
             }
         }
+    }
+
+    public void despawnItems(Item items){
+        items.destroy();
+        spawnedItems.remove(items);
     }
 
     /**
@@ -777,7 +824,10 @@ public class LoopManiaWorld {
      * @param type - item type to create
      */
     public Item addUnequippedItem(String type) {
-        Pair<Integer, Integer> firstAvailableSlot = getItemSlot();
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            removeItemByPositionInUnequippedInventoryItems(0);
+        }
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
         return item;
@@ -1082,6 +1132,31 @@ public class LoopManiaWorld {
         return null;
     }
 
+    // /**
+    //  * Spawns given item in the world
+    //  * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+    //  * @param firstAvailableSlot - unequipped inventory slot
+    //  * @return item (returns null if invalid type provided)
+    //  */
+    // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+    //     Class<?> itemClass;
+    //     Class<?>[] parameterType;
+    //     Item item;       
+    //     try {
+    //         if (type == "TheOneRing") 
+    //             itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
+    //         else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
+    //         parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+    //         item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //         return item;
+    //     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+    //             | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+    //         // DONE Auto-generated catch block
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+
+
     /**
      * Spawns given item in the world
      * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
@@ -1148,15 +1223,8 @@ public class LoopManiaWorld {
             e.printStackTrace();
             return null;
         }
-        
     }
-
-    // /**
-    //  * Spawns given item in the world
-    //  * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
-    //  * @param firstAvailableSlot - unequipped inventory slot
-    //  * @return item (returns null if invalid type provided)
-    //  */
+    
     // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
     //     Item item = null;
     //     if (type.equals("Armour")) {
@@ -1175,8 +1243,12 @@ public class LoopManiaWorld {
     //         item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
     //     } else if (type.equals("TheOneRing")) {
     //         item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("Gold")) {
+    //         item = new Gold(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     } else if (type.equals("HealthPotion")) {
+    //         item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
     //     }
-    //     return item;
+    //         return item;
     // }
 
     /**

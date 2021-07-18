@@ -243,7 +243,7 @@ public class LoopManiaWorldTest {
         int cardNodeY = world.getCardEntities().get(0).getY();
         int buildingNodeX = 1;
         int buildingNodeY = 2;
-        String newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        Building newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
         assertEquals(newBuilding, "TrapBuilding");
         assert(world.getBuildingEntities().get(0) instanceof TrapBuilding);
         assertEquals(world.getBuildingEntities().get(0).getX(), buildingNodeX);
@@ -268,7 +268,7 @@ public class LoopManiaWorldTest {
         int cardNodeY = world.getCardEntities().get(0).getY();
         int buildingNodeX = 2;
         int buildingNodeY = 2;
-        String newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        Building newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
         assertNull(newBuilding);
         assert(world.getBuildingEntities().isEmpty());
         assert(world.getCardEntities().get(0) instanceof TrapCard);
