@@ -1,11 +1,8 @@
-﻿## ASSUMPTIONS:
+## ASSUMPTIONS:
 
 ### World:
 -   Board size: 8 wide, 17 long.
-### Simple Win Condition
-- Amass 2000 gold AND completes 30 cycles.
-OR 
-- Amass 15,000 EXP AND completes 30 cycles.
+
 ### Experience Points  
 -   Killing 1 Slug: 100 EXP
    -   Killing 1 Zombie: 300 EXP
@@ -61,7 +58,7 @@ OR
     
 -   Maximum of two allied soldiers in battle, can have more in inventory
     
--   5 maximum number of cards in inventory
+-   8 maximum number of cards in inventory
     
 
 ## Battle:
