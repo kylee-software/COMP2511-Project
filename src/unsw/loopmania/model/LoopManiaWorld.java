@@ -10,7 +10,6 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import unsw.loopmania.Goal.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
@@ -19,7 +18,7 @@ import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Slug;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
-
+import unsw.loopmania.model.Goal.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
@@ -71,7 +70,6 @@ public class LoopManiaWorld {
     /* │                                       Attributes Related to Enemies                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    // DONE = expand the range of enemies
     private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
     private static Boolean isLost = false;
 
@@ -80,8 +78,7 @@ public class LoopManiaWorld {
    /* │                                    Attributes Related to Buildings                                          │ */
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    // TODO = expand the range of buildings
-    private  List<Building> buildingEntities = new ArrayList<Building>();;
+    private List<Building> buildingEntities = new ArrayList<Building>();;
     private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<VampireCastleBuilding>();;
     private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<ZombiePitBuilding>();;
     private HerosCastleBuilding herosCastleBuilding;
@@ -104,7 +101,6 @@ public class LoopManiaWorld {
 
     private Item equippedRareItem = null;
 
-    // TODO = expand the range of cards
     private List<Card> cardEntities = new ArrayList<Card>();;
 
 
@@ -322,7 +318,6 @@ public class LoopManiaWorld {
     }
 
     public List<Card> getCardEntities() {
-        // DONE = need to implement this correctly and add javadoc
         return cardEntities;
     }
 
@@ -334,18 +329,12 @@ public class LoopManiaWorld {
     /* │                                      Methods Related to the Character                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    // TODO: not sure if these
     public void updateExperience() {
         worldExperience.setText("Experience: " + this.experience);
     }
 
     public void updateGold() {
         worldGold.setText("Gold: " + this.gold);
-    }
-
-    public void receiveInventoryFullRewards() {
-        // TODO = need to implement this correctly and add javadoc
-        return;
     }
 
     public void updateHealth() {
@@ -359,11 +348,6 @@ public class LoopManiaWorld {
 
     public void addExperience(int experience) {
         this.experience = getExperience() + experience;
-    }
-
-    public void addCard(Card card) {
-        // TODO = need to implement this correctly and add javadoc
-        return;
     }
 
     public void addAlliedSoldier(AlliedSoldier alliedSoldier) {
@@ -405,10 +389,6 @@ public class LoopManiaWorld {
     /* │                                          Methods Related  to Enemies                                       │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    public void addEnemy(BasicEnemy enemy) {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
     /**
      * kill an enemy
      * @param enemy enemy to be killed
@@ -422,7 +402,6 @@ public class LoopManiaWorld {
      * move all enemies
      */
     private void moveBasicEnemies() {
-        // TODO = expand to more types of enemy
         for (BasicEnemy e: enemies){
             e.move();
         }
@@ -447,7 +426,7 @@ public class LoopManiaWorld {
             spawningEnemies.add(enemy);
         }
 
-        return enemies;
+        return spawningEnemies;
     }
 
     /**
@@ -520,34 +499,6 @@ public class LoopManiaWorld {
         }
         return item;
     }
-
-    //  /**
-    //  * spawns items if the conditions warrant it, adds to world
-    //  * @return list of the items to be displayed on screen
-    //  */
-    // public List<Item> possiblySpawnItems(){
-    //     Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
-    //     Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
-
-    //     List<Item> items = new ArrayList<Item>();
-    //     if (goldPos != null){
-    //         int goldIndexInPath = orderedPath.indexOf(goldPos);
-    //         PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
-    //         Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
-    //         items.add(gold);
-    //         spawnedItems.add(gold);
-    //     }
-
-    //     if (healthPotionPos != null){
-    //         int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
-    //         PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
-    //         HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-    //         items.add(healthPotion);
-    //         spawnedItems.add(healthPotion);
-    //     }
-
-    //     return items;
-    // }
 
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
@@ -795,26 +746,6 @@ public class LoopManiaWorld {
         return true;
     }
 
-     /**
-     * spawn a sword in the world and return the sword entity
-     * @return a sword to be spawned in the controller as a JavaFX node
-     */
-    public Sword addUnequippedSword(){
-        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest sword
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(sword);
-        return sword;
-    }
-
     /**
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
@@ -919,6 +850,10 @@ public class LoopManiaWorld {
     /* │                                        Methods Related to Buildings                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
+    public void trap() {
+        // TODO = need to implement this correctly and add javadoc
+    }
+
     /**
      * remove a card by its x, y coordinates
      * @param cardNodeX x index from 0 to worldWidth-1 of card to be removed
@@ -963,8 +898,7 @@ public class LoopManiaWorld {
      */
     public Card loadCard(String type){
         // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+        if (cardEntities.size() >= getWidth()) {
             gainDiscardCardRewards(cardEntities.get(0));
             removeCard(0); 
         }
@@ -1087,30 +1021,6 @@ public class LoopManiaWorld {
         return null;
     }
 
-    // /**
-    //  * Spawns given item in the world
-    //  * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
-    //  * @param firstAvailableSlot - unequipped inventory slot
-    //  * @return item (returns null if invalid type provided)
-    //  */
-    // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-    //     Class<?> itemClass;
-    //     Class<?>[] parameterType;
-    //     Item item;       
-    //     try {
-    //         if (type == "TheOneRing") 
-    //             itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
-    //         else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
-    //         parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-    //         item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //         return item;
-    //     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-    //             | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-    //         // DONE Auto-generated catch block
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-
 
     /**
      * Spawns given item in the world
@@ -1135,25 +1045,6 @@ public class LoopManiaWorld {
         }
         
     }
-    // public Building createBuilding(String type, int buildingNodeX, int buildingNodeY) {
-    //     Building building = null;
-    //     if (type.equals("BarracksBuilding")) {
-    //         building = new BarracksBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("CampfireBuilding")) {
-    //         building = new CampfireBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("TowerBuilding")) {
-    //         building = new TowerBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("TrapBuilding")) {
-    //         building = new TrapBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("VampireCastleBuilding")) {
-    //         building = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("VillageBuilding")) {
-    //         building = new VillageBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     } else if (type.equals("ZombiePitBuilding")) {
-    //         building = new ZombiePitBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-    //     }
-    //     return building;
-    // }
 
     /**
      * Spawns given item in the world
@@ -1179,32 +1070,6 @@ public class LoopManiaWorld {
             return null;
         }
     }
-    
-    // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-    //     Item item = null;
-    //     if (type.equals("Armour")) {
-    //         item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("HealthPotion")) {
-    //         item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Helmet")) {
-    //         item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Shield")) {
-    //         item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Staff")) {
-    //         item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Stake")) {
-    //         item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Sword")) {
-    //         item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("TheOneRing")) {
-    //         item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Gold")) {
-    //         item = new Gold(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("HealthPotion")) {
-    //         item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     }
-    //         return item;
-    // }
 
     /**
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
@@ -1222,30 +1087,6 @@ public class LoopManiaWorld {
         }
         return null;
     }
-
-    // private Item generateRandomBasicItem() {
-    //     Random random = new Random();
-    //     int randomInt = random.nextInt(6);
-    //     if (randomInt == 0) {
-
-    //     }
-    // }
-
-    // /**
-    //  * Generates a list with every item subclass name
-    //  * @return list of item names
-    //  */
-    // private List<String> allItemTypes() {
-    //     List<String> items = new ArrayList<String>();
-    //     items.add("Armour");
-    //     items.add("HealthPotion");
-    //     items.add("Helmet");
-    //     items.add("Shield");
-    //     items.add("Staff");
-    //     items.add("Stake");
-    //     items.add("Sword");
-    //     return items;
-    // }
 
 
     private PathPosition spawnPositionFromBuilding(Building building) {
@@ -1284,10 +1125,6 @@ public class LoopManiaWorld {
         // for adding non-specific entities (ones without another dedicated list)
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
-    }
-
-    public void trap() {
-        // TODO = need to implement this correctly and add javadoc
     }
 
 }
