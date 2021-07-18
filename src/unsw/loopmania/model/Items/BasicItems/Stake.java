@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.AttackStrategy.*;
 
 /**
  * Equipped or unequipped stake in the backend world
@@ -11,6 +12,7 @@ public class Stake extends BasicItem {
     private int damage = 5;
     private int vampireDamage = 25;
     private static String type = "Weapon";
+    private AttackStrategy strategy = new StakeAttack();
 
     /**
      * Constructor for Stake
@@ -35,5 +37,12 @@ public class Stake extends BasicItem {
      */
     public int getVampireDamage() {
         return vampireDamage;
+    }
+
+     /**
+     * Getter for attack strategy
+     */
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
 }

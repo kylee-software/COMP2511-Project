@@ -1,6 +1,7 @@
 package unsw.loopmania.model.Items.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.model.AttackStrategy.*;
 
 /**
  * Equipped or unequipped sword in the backend world
@@ -10,6 +11,7 @@ public class Sword extends BasicItem {
     private static int buyPrice = 40;
     private int damage = 10;
     private static String type = "Weapon";
+    private static AttackStrategy strategy = new SwordAttack();
 
     /**
      * Constructor for Sword
@@ -26,5 +28,12 @@ public class Sword extends BasicItem {
      */
     public int getDamage() {
         return damage;
+    }
+
+    /**
+     * Getter for attack strategy
+     */
+    public AttackStrategy getAttackStrategy() {
+        return strategy;
     }
 }

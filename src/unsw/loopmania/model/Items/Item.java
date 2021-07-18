@@ -3,6 +3,8 @@ package unsw.loopmania.model.Items;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.StaticEntity;
+import unsw.loopmania.model.AttackStrategy.AttackStrategy;
+import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
 public abstract class Item extends StaticEntity {
     
@@ -56,6 +58,13 @@ public abstract class Item extends StaticEntity {
      * Does nothing unless item is HealthPotion/TheOneRing
      */
     public void usePotion(Character character) {
+    }
+
+    /**
+     * Getter for attack strategy. Null by default.
+     */
+    public AttackStrategy getAttackStrategy() {
+        return null;
     }
 
     /**

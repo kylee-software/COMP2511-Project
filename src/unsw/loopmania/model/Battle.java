@@ -167,7 +167,7 @@ public class Battle {
                     break;
                 }
             }
-            Boolean infect = enemyAttack(liveEnemies.get(enemyTurn), scalarDef, flatDef);
+            enemyAttack(liveEnemies.get(enemyTurn), scalarDef, flatDef);
             enemyTurn += 1;
             enemyTurn %= liveEnemies.size();
             while (liveEnemies.get(enemyTurn).isDead()) {
@@ -280,17 +280,21 @@ public class Battle {
      * @param flatDef - character flat damage reduction
      * @return zombie crit?
      */
-    private Boolean enemyAttack(Entity attacker, int scalarDef, int flatDef) {
+    private void enemyAttack(Entity attacker, int scalarDef, int flatDef) {
         AttackStrategy attack = attacker.getAttackStrategy();
         // Prioritise allies
         for (int i = 0; i < allies.size(); i++) {
             AlliedSoldier ally = allies.get(i);
             if (!ally.isDead()) {
-                return attack.execute(attacker, ally, 0, 0, campfires.size() > 0);
+                Boolean infect = attack.execute(attacker, ally, 0, 0, campfires.size() > 0);
+                if (infect) {
+                    // infect ally
+                }
+                break;
             }
         }
         // Otherwise attack character
-        return attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0);
+        attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0);
     }
 
     /**
@@ -300,14 +304,9 @@ public class Battle {
     private AttackStrategy getItemAttackStrategy() {
         if (weapon == null) {
             return new BasicAttack();
-        } else if (weapon.getClass().equals(Sword.class)) {
-            return new SwordAttack();
-        } else if (weapon.getClass().equals(Stake.class)) {
-            return new StakeAttack();
-        } else if (weapon.getClass().equals(Staff.class)) {
-            return new StaffAttack();
+        } else {
+            return weapon.getAttackStrategy();
         }
-        return null;
     }
 
     /**
