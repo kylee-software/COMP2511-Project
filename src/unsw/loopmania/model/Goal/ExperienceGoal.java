@@ -1,7 +1,5 @@
 package unsw.loopmania.model.Goal;
 
-import unsw.loopmania.model.LoopManiaWorld;
-
 public class ExperienceGoal extends Goal {
 
     private int expPointGoal;

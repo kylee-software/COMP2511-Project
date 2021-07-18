@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.StaticEntity;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
 public abstract class Item extends StaticEntity {
     

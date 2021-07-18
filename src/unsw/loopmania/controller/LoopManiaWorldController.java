@@ -135,8 +135,6 @@ public class LoopManiaWorldController {
     private Image zombiePitCardImage;
 
     // Building Images
-    private Image basicBuildingImage;
-    
     private Image barracksBuildingImage;
     private Image campfireBuildingImage;
     private Image towerBuildingImage;
@@ -146,8 +144,6 @@ public class LoopManiaWorldController {
     private Image zombiePitBuildingImage;
 
     // Enemy Images
-    private Image basicEnemyImage;
-
     private Image slugImage;
     private Image vampireImage;
     private Image zombieImage;
@@ -235,7 +231,6 @@ public class LoopManiaWorldController {
         villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
         zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
         // Building Images
-        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         barracksBuildingImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
         towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
@@ -244,7 +239,6 @@ public class LoopManiaWorldController {
         villageBuildingImage = new Image((new File("src/images/village.png")).toURI().toString());
         zombiePitBuildingImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
         // Enemy Images
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());

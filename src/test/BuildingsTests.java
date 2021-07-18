@@ -59,10 +59,10 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         PathPosition vampirePathPosition = new PathPosition(1, orderedPath);
-        Vampire vampire = new Vampire(vampirePathPosition);
+        new Vampire(vampirePathPosition);
         int vampireX = vampirePathPosition.getX().intValue();
         int vampireY = vampirePathPosition.getY().intValue();
-        TowerBuilding towerBuilding = new TowerBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY + 1));
+        new TowerBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY + 1));
         // towerBuilding.attackStrategy(new TowerAttack());
         // assert(vampire.getHealth < 100);
     }
@@ -120,11 +120,11 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,3));
         PathPosition vampirePathPosition = new PathPosition(1, orderedPath);
 
-        Vampire vampire = new Vampire(vampirePathPosition);
+        new Vampire(vampirePathPosition);
         
         int vampireX = vampirePathPosition.getX().intValue();
         int vampireY = vampirePathPosition.getY().intValue();
-        CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY));
+        new CampfireBuilding(new SimpleIntegerProperty(vampireX + 1), new SimpleIntegerProperty(vampireY));
         // Test scaring vampire
         // vampire.runFromCampfire();
 

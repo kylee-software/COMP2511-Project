@@ -53,7 +53,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1, 3));
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
         
-        Building barrackBuilding = new BarracksBuilding(new PathPosition(2, orderedPath));
+        new BarracksBuilding(new PathPosition(2, orderedPath));
         
         Character character = new Character(new PathPosition(1, orderedPath));
         List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
@@ -345,7 +345,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
-        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities
         assert(world.getCardEntities().get(0) instanceof TrapCard);
@@ -370,7 +370,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
-        Card trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities
         assert(world.getCardEntities().get(0) instanceof TrapCard);

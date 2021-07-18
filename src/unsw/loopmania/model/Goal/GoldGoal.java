@@ -1,7 +1,5 @@
 package unsw.loopmania.model.Goal;
 
-import unsw.loopmania.model.LoopManiaWorld;
-
 public class GoldGoal extends Goal {
 
     private int goldGoal;

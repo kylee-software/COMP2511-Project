@@ -1,6 +1,5 @@
 package unsw.loopmania.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
