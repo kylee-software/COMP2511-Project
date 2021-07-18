@@ -355,6 +355,17 @@ public class LoopManiaWorldController {
     }
 
     /**
+     * load goldPile into the GUI
+     * @param goldPile
+     */
+
+    private void onLoad(Item gold){
+        ImageView view = new ImageView(goldPileImage);
+        addEntity(gold, view);
+        squares.getChildren().add(view);
+    }
+
+    /**
      * load a vampire castle card into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the cards GridPane.
@@ -401,17 +412,6 @@ public class LoopManiaWorldController {
     private void onLoad(VampireCastleBuilding building){
         ImageView view = new ImageView(basicBuildingImage);
         addEntity(building, view);
-        squares.getChildren().add(view);
-    }
-
-    /**
-     * load goldPile into the GUI
-     * @param goldPile
-     */
-
-    private void onLoad(Item gold){
-        ImageView view = new ImageView(goldPileImage);
-        addEntity(gold, view);
         squares.getChildren().add(view);
     }
 

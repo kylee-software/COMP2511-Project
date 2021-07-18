@@ -52,7 +52,7 @@ public class LoopManiaWorld {
     /* │                                     Attributes Related to Character                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private Character character;
+    private static Character character;
     private List<AlliedSoldier> alliedSoldiers = new ArrayList<AlliedSoldier>();
     @FXML
     private Label worldExperience;
@@ -60,7 +60,7 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldGold;
-    private int gold;
+    private static int gold;
 
     @FXML
     private Label worldHealth;
@@ -148,6 +148,7 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
+        LoopManiaWorld.pickupItems();
     }
 
 
@@ -511,6 +512,7 @@ public class LoopManiaWorld {
      */
     public Item possiblySpawnGold(){
         Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
+        System.out.println(goldPos);
         Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
@@ -518,6 +520,7 @@ public class LoopManiaWorld {
             Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
             spawnedItems.add(gold);
         }
+        System.out.println(item);
         return item;
     }
 
@@ -699,7 +702,7 @@ public class LoopManiaWorld {
     /**
      * pickup spawn items on the path tile when the character passes by
      */
-    public void pickupItems() {
+    public static void pickupItems() {
 
         // pick up gold if any
         for (Item item : spawnedItems) {
@@ -806,7 +809,7 @@ public class LoopManiaWorld {
      * Adds a new item of given type to unequipped inventory
      * @param type - item type to create
      */
-    public Item addUnequippedItem(String type) {
+    public static Item addUnequippedItem(String type) {
         Pair<Integer, Integer> firstAvailableSlot = getItemSlot();
         Item item = createItem(type, firstAvailableSlot);
         unequippedInventoryItems.add(item);
@@ -1018,7 +1021,7 @@ public class LoopManiaWorld {
         int choice = rand.nextInt(chance);
 
         // TODO = change based on spec
-        if ((choice == 1)){
+        if ((choice == 0)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -1044,7 +1047,7 @@ public class LoopManiaWorld {
      * @param entityB the entity that is comparing to the first one
      * @return true if two entities are on the same path tile else false
      */
-    public boolean isOnSameTile(Entity entityA, Entity entityB) {
+    public static boolean isOnSameTile(Entity entityA, Entity entityB) {
         int entityAX = entityA.getX();
         int entityAY = entityA.getY();
 
@@ -1077,31 +1080,6 @@ public class LoopManiaWorld {
         return null;
     }
 
-    /**
-     * Spawns given item in the world
-     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
-     * @param firstAvailableSlot - unequipped inventory slot
-     * @return item (returns null if invalid type provided)
-     */
-    public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-        Class<?> itemClass;
-        Class<?>[] parameterType;
-        Item item;       
-        try {
-            if (type == "TheOneRing") 
-                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
-            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
-            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-            return item;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            // DONE Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-
-
     // /**
     //  * Spawns given item in the world
     //  * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
@@ -1109,26 +1087,53 @@ public class LoopManiaWorld {
     //  * @return item (returns null if invalid type provided)
     //  */
     // public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-    //     Item item = null;
-    //     if (type.equals("Armour")) {
-    //         item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("HealthPotion")) {
-    //         item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Helmet")) {
-    //         item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Shield")) {
-    //         item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Staff")) {
-    //         item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Stake")) {
-    //         item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("Sword")) {
-    //         item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-    //     } else if (type.equals("TheOneRing")) {
-    //         item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //     Class<?> itemClass;
+    //     Class<?>[] parameterType;
+    //     Item item;       
+    //     try {
+    //         if (type == "TheOneRing") 
+    //             itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
+    //         else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
+    //         parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+    //         item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+    //         return item;
+    //     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+    //             | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+    //         // DONE Auto-generated catch block
+    //         e.printStackTrace();
+    //         return null;
     //     }
-    //     return item;
-    // }
+
+
+    /**
+     * Spawns given item in the world
+     * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
+     * @param firstAvailableSlot - unequipped inventory slot
+     * @return item (returns null if invalid type provided)
+     */
+    public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+        Item item = null;
+        if (type.equals("Armour")) {
+            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("HealthPotion")) {
+            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Helmet")) {
+            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Shield")) {
+            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Staff")) {
+            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Stake")) {
+            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Sword")) {
+            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("TheOneRing")) {
+            item = new TheOneRing(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Gold")) {
+            item = new Gold(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        }
+            return item;
+    }
 
     /**
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
