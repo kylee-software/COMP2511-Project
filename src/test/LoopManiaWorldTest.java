@@ -49,6 +49,36 @@ public class LoopManiaWorldTest {
 
     @Test
     public void runBattlesTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        // Create a square loop
+        orderedPath.add(new Pair<>(0,0));
+        orderedPath.add(new Pair<>(1,0));
+        orderedPath.add(new Pair<>(2,0));
+        orderedPath.add(new Pair<>(3,0));
+        orderedPath.add(new Pair<>(4,0));
+        orderedPath.add(new Pair<>(5,0));
+        orderedPath.add(new Pair<>(6,0));
+        orderedPath.add(new Pair<>(7,0));
+        orderedPath.add(new Pair<>(8,0));
+        orderedPath.add(new Pair<>(8,1));
+        orderedPath.add(new Pair<>(8,2));
+        orderedPath.add(new Pair<>(8,3));
+        orderedPath.add(new Pair<>(8,4));
+        orderedPath.add(new Pair<>(8,5));
+        orderedPath.add(new Pair<>(7,5));
+        orderedPath.add(new Pair<>(6,5));
+        orderedPath.add(new Pair<>(5,5));
+        orderedPath.add(new Pair<>(4,5));
+        orderedPath.add(new Pair<>(3,5));
+        orderedPath.add(new Pair<>(2,5));
+        orderedPath.add(new Pair<>(1,5));
+        orderedPath.add(new Pair<>(0,5));
+        orderedPath.add(new Pair<>(0,4));
+        orderedPath.add(new Pair<>(0,3));
+        orderedPath.add(new Pair<>(0,2));
+        orderedPath.add(new Pair<>(0,1));
+
+        LoopManiaWorld world = new LoopManiaWorld(9, 6, orderedPath, rareItems);
     }
 
     @Test

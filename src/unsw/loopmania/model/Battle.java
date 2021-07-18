@@ -5,6 +5,7 @@ import org.javatuples.Pair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import unsw.loopmania.model.AttackStrategy.*;
 import unsw.loopmania.model.Buildings.*;
@@ -449,13 +450,17 @@ public class Battle {
     }
 
     /**
-     * Gets item rewards for battle
+     * Gets item rewards for battle. 5% chance of extra TheOneRing granted.
      * @return list of items gained
      */
     public List<String> getBattleItems() {
         List<String> items = new ArrayList<String>();
         for (BasicEnemy enemy : killedEnemies) {
             items.add(getItemRewardStrategy().randomReward());
+        }
+        Random random = new Random(12);
+        if (random.nextInt(99) < 5) {
+            items.add("TheOneRing");
         }
         return items;
     }

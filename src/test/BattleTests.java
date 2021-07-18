@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -123,8 +124,21 @@ public class BattleTests {
         if (!battle.isLost()) {
             // Check all enemies dead
             assert(battle.getKilledEnemies().size() >= enemies.size());
+            // Check item rewards (account for possible TheOneRing)
+            assert(battle.getBattleItems().size() >= enemies.size());
+            Random random = new Random(12);
+            if (random.nextInt(99) < 5) {
+                assert(battle.getBattleItems().contains("TheOneRing"));
+            }
+
+            // Check card rewards
+            assertEquals(battle.getBattleCards().size(), enemies.size());
         } else {
             assert(battle.getKilledEnemies().size() < enemies.size());
         }
+        // Check ally took damage
+        assertNotEquals(ally1.getHealth(), 50);
+
+        
     }
 }
