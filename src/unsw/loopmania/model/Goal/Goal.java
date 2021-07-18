@@ -1,11 +1,11 @@
-package unsw.loopmania.Goal;
+package unsw.loopmania.model.Goal;
 
-public interface GoalComponent {
+public abstract class Goal {
 
     /**
      * check if a certain goal is satisfied or not
      * @return true if it is satisfied else false
      */
-    public boolean isGoalComplete();
+    public abstract boolean isGoalComplete();
 
 }
