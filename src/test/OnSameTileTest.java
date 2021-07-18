@@ -25,7 +25,7 @@ public class OnSameTileTest {
 
     List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
 
-    LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath);
+    LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>());
 
     /**
      * Test to make sure character and enemy are on the same location
