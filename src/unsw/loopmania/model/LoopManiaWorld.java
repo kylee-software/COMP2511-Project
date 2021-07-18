@@ -148,7 +148,6 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
-        runBattles();
     }
 
 
@@ -456,14 +455,15 @@ public class LoopManiaWorld {
     public List<BasicEnemy> SpawnSlugs() {
         Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
         List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
-        if (pos != null){
+        int slugSpawnChance = (new Random()).nextInt(4);
+        if (pos != null && slugSpawnChance == 1){
             int indexInPath = orderedPath.indexOf(pos);
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
 
-        return spawningEnemies;
+        return enemies;
     }
 
     /**
@@ -510,9 +510,8 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(50);
-
-        Item item = createItem("gold", goldPos);
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(1);
+        Item item = createItem("Gold", goldPos);
         if (goldPos != null){
             int goldIndexInPath = orderedPath.indexOf(goldPos);
             PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
@@ -522,25 +521,25 @@ public class LoopManiaWorld {
         return item;
     }
 
-    /**
-     * spawns health potions if the conditions warrant it, adds to world
-     * @return list of the items to be displayed on screen
-     */
-    public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
+    // /**
+    //  * spawns health potions if the conditions warrant it, adds to world
+    //  * @return list of the items to be displayed on screen
+    //  */
+    // public Item possiblySpawnHealthPotions(){
+    //     Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(50);
 
-        List<Item> items = new ArrayList<Item>();
+    //     Item item = createItem("HealthPotion",healthPotionPos);
 
-        if (healthPotionPos != null){
-            int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
-            PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
-            HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-            items.add(healthPotion);
-            spawnedItems.add(healthPotion);
-        }
+    //     if (healthPotionPos != null){
+    //         int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
+    //         PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
+    //         HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
+    //         items.add(healthPotion);
+    //         spawnedItems.add(healthPotion);
+    //     }
 
-        return items;
-    }
+    //     return items;
+    // }
 
     //  /**
     //  * spawns items if the conditions warrant it, adds to world
@@ -612,7 +611,7 @@ public class LoopManiaWorld {
             setHealth(getHealth() - 5);
             updateHealth();
         }
-
+        System.out.println(defeatedEnemies);
         return defeatedEnemies;
     }
 
@@ -1019,7 +1018,7 @@ public class LoopManiaWorld {
         int choice = rand.nextInt(chance);
 
         // TODO = change based on spec
-        if ((choice == 0)){
+        if ((choice == 1)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -1085,23 +1084,23 @@ public class LoopManiaWorld {
      * @return item (returns null if invalid type provided)
      */
     public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-        Class<?> itemClass;
-        Class<?>[] parameterType;
-        Item item;       
-        try {
-            if (type == "TheOneRing") 
-                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
-            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
-            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-            return item;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            // DONE Auto-generated catch block
-            e.printStackTrace();
-            return null;
+        Item item = null;
+        if (type.equals("Armour")) {
+            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("HealthPotion")) {
+            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Helmet")) {
+            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Shield")) {
+            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Staff")) {
+            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Stake")) {
+            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        } else if (type.equals("Sword")) {
+            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         }
-        
+        return item;
     }
 
     // /**
