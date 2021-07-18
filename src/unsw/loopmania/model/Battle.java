@@ -2,6 +2,7 @@ package unsw.loopmania.model;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import unsw.loopmania.model.Buildings.*;
@@ -17,6 +18,11 @@ public class Battle {
     private List<Building> campfires;
     private List<BasicEnemy> liveEnemies;
     private List<BasicEnemy> killedEnemies;
+    private Item weapon = null;
+    private Item armour = null;
+    private Item shield = null;
+    private Item helmet = null;
+    private int characterDamage = character.getDamage();
 
     /**
      * Constructor for a battle
@@ -51,6 +57,38 @@ public class Battle {
     }
 
     /**
+     * Setter for equipped weapon
+     * @param weapon
+     */
+    public void setWeapon(Item weapon) {
+        this.weapon = weapon;
+    }
+
+    /**
+     * Setter for equipped armour
+     * @param armour
+     */
+    public void setArmour(Item armour) {
+        this.armour = armour;
+    }
+
+    /**
+     * Setter for equipped Shield
+     * @param shield
+     */
+    public void setShield(Item shield) {
+        this.shield = shield;
+    }
+
+    /**
+     * Setter for equipped helmet
+     * @param helmet
+     */
+    public void setHelmet(Item helmet) {
+        this.helmet = helmet;
+    }
+
+    /**
      * Removes given enemy from list of alive enemies.
      * Adds enemy to list of killed enemies
      * @param enemy - enemy to kill
@@ -81,12 +119,33 @@ public class Battle {
         return deadAllies;
     }
 
-    public void sortListByCurrentHp() {
-        // TODO:
+    public void sortEnemiesByCurrentHp() {
+        liveEnemies.sort(Comparator.comparing(BasicEnemy::getHealth));
+    }
+
+    public void sortAlliesByCurrentHp() {
+        allies.sort(Comparator.comparing(AlliedSoldier::getHealth));
     }
 
     public void fight() {
         // TODO:
+        // Character, Tower1 → Enemy 1 → Allied Soldier 1 → Tower2 -> Enemy 2 → Allied Soldier 2 → Enemy 3…
+        // Characters and enemies will attack the entity with the lowest current health every turn
+        // Enemies will attack allied soldiers first
+        // Scalar damage reductions is applied before non-scalar damage reductions
+        sortEnemiesByCurrentHp();
+        sortAlliesByCurrentHp();
+        // int loop = 0;
+        int enemyIndex = 0;
+        int alliedSoldierIndex = 0;
+        int towerIndex = 0;
+
+        // character attack enemy 0
+        // tower 0 attack enemy 0
+        // allied soldier 0 attack enemy 0
+        // enemy 0 attack allied soldier 0
+        
+    
     }
 
     /**
@@ -165,5 +224,4 @@ public class Battle {
         return items;
     }
 
-    
 }

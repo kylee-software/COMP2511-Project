@@ -17,6 +17,7 @@ public class Vampire extends BasicEnemy {
     private AttackStrategy strategy; // TODO:
     private static int damage = 25;
     private static int health = 50;
+    private static int critChance = 40;
 
     /**
      * Constructor for Vampire
@@ -63,5 +64,9 @@ public class Vampire extends BasicEnemy {
      */
     public int getSupportRadius() {
         return supportRadius;
+    }
+
+    public int getCritChance() {
+        return critChance;
     }
 }

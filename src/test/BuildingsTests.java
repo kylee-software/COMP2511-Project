@@ -106,7 +106,7 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         BarracksBuilding barracksBuilding = new BarracksBuilding(position);
        
-        assertNotNull(barracksBuilding.spawnAlliedSoldier(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1)));
+        assertNotNull(barracksBuilding.spawnAlliedSoldier());
     }
 
     @Test

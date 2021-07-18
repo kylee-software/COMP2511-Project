@@ -89,8 +89,18 @@ public abstract class MovingEntity extends Entity {
      */
     public abstract int getDamage();
 
+    /**
+     * Checks if entity legally is dead
+     * @return
+     */
     public boolean isDead() {
-        // TODO: = need to implement this correctly and add javadoc
-        return false;
+        return this.health == 0;
+    }
+
+    /**
+     * Critical stike chance is set to 0 by default
+     */
+    public int getCritChance() {
+        return 0;
     }
 }

@@ -614,10 +614,11 @@ public class LoopManiaWorld {
     //     battleTowers.addAll(getSupportBuildings("Tower"));
     //     // Add all campfires
     //     battleCampfires.addAll(getSupportBuildings("Campfire"));
-
     //     // Battle
-    //     Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
-    //     battle.fight();
+        // Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
+    //     // Add items
+    // setBattleWeapons(battle);
+        // battle.fight();
 
     //     // Kill dead enemies
     //     for (BasicEnemy enemy : battle.getKilledEnemies()) {
@@ -642,6 +643,25 @@ public class LoopManiaWorld {
     //     }
     //     return defeatedEnemies;
     // }
+
+    /**
+     * Given a battle supplys equipped items
+     * @param battle
+     */
+    private void setBattleWeapons(Battle battle) {
+        if (equippedAttackItem != null) {
+            battle.setWeapon(equippedAttackItem);
+        }
+        if (equippedArmour != null) {
+            battle.setArmour(equippedArmour);
+        }
+        if (equippedShield != null) {
+            battle.setShield(equippedShield);
+        }
+        if (equippedHelmet != null) {
+            battle.setHelmet(equippedHelmet);
+        }
+    }
 
 
     /**

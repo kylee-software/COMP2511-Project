@@ -7,7 +7,8 @@ import unsw.loopmania.model.Character;
 
 public class CampfireBuilding extends Building {
 
-    private int battleRadius = 2;
+    private static int battleRadius = 2;
+    private static int damageMultiplier = 2;
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -20,6 +21,11 @@ public class CampfireBuilding extends Building {
     @Override
     public int getBattleRadius() {
         return battleRadius;
+    }
+
+    @Override
+    public int getDamageMultiplier() {
+        return damageMultiplier;
     }
 
     // BUFFER INTERFACE

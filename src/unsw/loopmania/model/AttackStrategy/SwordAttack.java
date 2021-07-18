@@ -1,15 +1,29 @@
 package unsw.loopmania.model.AttackStrategy;
 
-import unsw.loopmania.view.AttackObserver;
+import unsw.loopmania.model.MovingEntity;
 
-public class SwordAttack implements AttackStrategy, AttackObserver {
+/**
+* Implements sword attack for a character on an target
+*/
+public class SwordAttack extends AttackObserver implements AttackStrategy  {
+    private int swordDamage = 10;
+    
+    /**
+     * Execute sword attack on an enemy target
+     * @param attacker - character
+     * @param target - enemy target
+     * @param scalarDef - target scalar defences
+     * @param fixedDef - target fixed defences
+     * @param campfire - is campfire in range?
+     * @return apply special effects
+     */
     @Override
-    public void execute() {
-        // TODO = need to implement this correctly and add javadoc
-    }
-
-    @Override
-    public void updateCampfireBuff() {
-        // TODO = need to implement this correctly and add javadoc
+    public Boolean execute(MovingEntity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire) {
+        int damage = attacker.getDamage() + swordDamage;
+        if (campfire) {
+            damage *= super.campfireBuff();
+        }
+        target.setHealth(target.getHealth() - damage);
+        return false;
     }
 }
