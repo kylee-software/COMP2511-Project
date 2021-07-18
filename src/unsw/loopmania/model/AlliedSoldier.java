@@ -5,7 +5,7 @@ import unsw.loopmania.model.AttackStrategy.BasicAttack;
 
 public class AlliedSoldier extends MovingEntity {
 
-    private static int health = 100;
+    private static int health = 50;
     private int max;
     private int remainingLifeCycles;
     private static int trancedZombieLifeCycle = 3;
