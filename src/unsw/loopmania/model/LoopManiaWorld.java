@@ -10,12 +10,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
-import unsw.loopmania.AndGoal;
-import unsw.loopmania.OrGoal;
+import org.javatuples.Pair;
 import unsw.loopmania.*;
 import unsw.loopmania.model.Buildings.*;
-
 import unsw.loopmania.model.Cards.Card;
 import unsw.loopmania.model.Cards.VampireCastleCard;
 
@@ -35,7 +32,6 @@ import unsw.loopmania.model.Items.RareItems.TheOneRing;
  * entity can occupy the same square.
  */
 public class LoopManiaWorld {
-
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Initializers for the Loop Mania World                                     │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */

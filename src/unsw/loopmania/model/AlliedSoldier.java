@@ -4,12 +4,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class AlliedSoldier extends StaticEntity {
 
-    private int health;
+    private int health = 100;
     private int max;
 
-    public AlliedSoldier(SimpleIntegerProperty x, SimpleIntegerProperty y, int health) {
+    public AlliedSoldier(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.health = health;
     }
 
     public int getHealth() {
