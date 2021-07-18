@@ -1084,24 +1084,23 @@ public class LoopManiaWorld {
      * @return item (returns null if invalid type provided)
      */
     public Item createItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
-        Item item = null;
-        if (type.equals("Armour")) {
-            item = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("HealthPotion")) {
-            item = new HealthPotion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Helmet")) {
-            item = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Shield")) {
-            item = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Staff")) {
-            item = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Stake")) {
-            item = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        } else if (type.equals("Sword")) {
-            item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        Class<?> itemClass;
+        Class<?>[] parameterType;
+        Item item;       
+        try {
+            if (type == "TheOneRing") 
+                itemClass = Class.forName("unsw.loopmania.model.Items.RareItems."+ type);
+            else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems."+ type);
+            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+            return item;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            // DONE Auto-generated catch block
+            e.printStackTrace();
+            return null;
         }
-        return item;
-    }
+
 
     // /**
     //  * Spawns given item in the world
