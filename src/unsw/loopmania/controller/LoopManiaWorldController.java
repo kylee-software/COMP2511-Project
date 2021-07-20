@@ -348,7 +348,7 @@ public class LoopManiaWorldController {
             // increment cycle
             // world.checkWinCondition();
             // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
-            if (!world.isAlive()) 
+            if (world.getIsLost()) 
                 switchToGameOverScreen();
             else if (world.isGoalCompleted()) {
                 System.out.println("We WON");
@@ -425,8 +425,9 @@ public class LoopManiaWorldController {
      */
     private void loadGoldPile(){
         Item gold = world.possiblySpawnGold();
-        onLoadGold(gold);
-        
+        if (gold != null) {
+            onLoadGold(gold);
+        }
     }
 
     /**
@@ -434,7 +435,9 @@ public class LoopManiaWorldController {
      */
     private void loadHealthPotion(){
         Item healthPotion = world.possiblySpawnHealthPotions();
-        onLoadHealthPotion(healthPotion);
+        if (healthPotion != null) {
+            onLoadHealthPotion(healthPotion);
+        }
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -450,8 +453,6 @@ public class LoopManiaWorldController {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadItem("Staff");
-        loadCard("VillageCard");
         loadGoldPile();
         loadHealthPotion();
     }
