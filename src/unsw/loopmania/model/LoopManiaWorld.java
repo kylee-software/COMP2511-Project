@@ -541,7 +541,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(5);
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(15);
         Item item = null;
         if (goldPos != null) {
             item = createItem("Gold", goldPos);
@@ -558,7 +558,7 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(5);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(15);
         Item item = null;
         if (healthPotionPos != null){
             item = createItem("HealthPotion",healthPotionPos);
