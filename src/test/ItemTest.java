@@ -14,7 +14,6 @@ import org.javatuples.Pair;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.HealthPotion;
-import unsw.loopmania.model.Items.BasicItems.Sword;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Character;
 

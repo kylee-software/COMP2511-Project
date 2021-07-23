@@ -5,10 +5,8 @@ import org.junit.Test;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Buildings.ZombiePitBuilding;
 import unsw.loopmania.model.Character;
-import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
-import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 
