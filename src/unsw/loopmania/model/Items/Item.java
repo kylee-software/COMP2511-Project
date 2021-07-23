@@ -57,7 +57,6 @@ public abstract class Item extends StaticEntity {
      * Does nothing unless item is HealthPotion/TheOneRing
      */
     public void usePotion(Character character) {
-        return;
     }
 
     /**

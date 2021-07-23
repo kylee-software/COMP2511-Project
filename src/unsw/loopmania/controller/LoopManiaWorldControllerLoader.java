@@ -44,6 +44,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         
     }
 
+    // TODO = load more entity types from the file
     @Override
     public void onLoad(Character character) {
         ImageView view = new ImageView(characterImage);

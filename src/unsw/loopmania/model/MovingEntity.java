@@ -97,9 +97,9 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
-     * Check whether Character/Enemy is alive
+     * Check whether Character is alive
      * @param void 
-     * @return true if Character/Enemy is alive 
+     * @return true if Character is alive 
      */
     public boolean isAlive() {
         if (getHealth() > 0) return true;
