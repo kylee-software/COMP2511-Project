@@ -2,6 +2,7 @@ package unsw.loopmania.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -453,9 +454,14 @@ public class LoopManiaWorld {
      * move all enemies
      */
     private void moveBasicEnemies() {
-        for (BasicEnemy e: enemies){
+        Iterator<BasicEnemy> itr = enemies.iterator();
+        while(itr.hasNext()) {
+            BasicEnemy e = itr.next();
             e.move();
-            possiblyTrapEnemy(e);
+            if (possiblyTrapEnemy(e) != null) {
+                e.destroy();
+                itr.remove();
+            }
             if (e instanceof Vampire) {
                 scareVampireWithinCampfire((Vampire) e);
             }
@@ -927,10 +933,11 @@ public class LoopManiaWorld {
             }
         }
         // now spawn building if the give location is valid
-        if (card.getPositionStrategy().validPosition(buildingNodeX, buildingNodeY, orderedPath)) {
+        if (card.validPosition(buildingNodeX, buildingNodeY, orderedPath)) {
             String buildingType = cardType.substring(0, cardType.lastIndexOf("Card")) + "Building";
             Building newBuilding = createBuilding(buildingType, buildingNodeX, buildingNodeY);
             buildingEntities.add(newBuilding);
+            addBuilding(newBuilding);
             System.out.println("New " + buildingType + " placed on map");
             // destroy the card
             card.destroy();
@@ -941,19 +948,24 @@ public class LoopManiaWorld {
         return null;
     }
 
-    public void possiblyTrapEnemy(BasicEnemy enemy) {
+    public BasicEnemy possiblyTrapEnemy(BasicEnemy enemy) {
         if (!trapBuildings.isEmpty()) {
             for (TrapBuilding trapBuilding : trapBuildings) {
                 if (isOnSameTile(enemy, trapBuilding)) {
                     trapBuilding.damageEnemy(enemy);
+                    trapBuilding.destroy();
+                    trapBuildings.remove(trapBuilding);
                     if(!enemy.isAlive()) {
-                        killEnemy(enemy);    
+                        System.out.println("Trap has killed one enemy");
+                        return enemy;
+                    } else {
+                        System.out.println("Trap has injured one enemy");
                     }
-                    trapBuildings.remove(trapBuilding); 
                     break;
                 }
             }
         }
+        return null;
     }
 
     public void scareVampireWithinCampfire(Vampire e) {
@@ -1005,6 +1017,8 @@ public class LoopManiaWorld {
             for (VillageBuilding villageBuilding : villageBuildings) {
                 if (isOnSameTile(character, villageBuilding)) {
                     villageBuilding.gainHealth(character);
+                    updateHealth();
+                    System.out.println("Character has rested in the Village: Health +50");
                     break;
                 }
             }
@@ -1168,6 +1182,23 @@ public class LoopManiaWorld {
         
     }
 
+    public void addBuilding(Building building) {
+        if (building instanceof BarracksBuilding) 
+            barracksBuildings.add((BarracksBuilding) building);
+        else if (building instanceof CampfireBuilding) 
+            campfireBuildings.add((CampfireBuilding) building);
+        else if (building instanceof TowerBuilding) 
+            towerBuildings.add((TowerBuilding) building);
+        else if (building instanceof TrapBuilding) 
+            trapBuildings.add((TrapBuilding) building);
+        else if (building instanceof VampireCastleBuilding) 
+            vampireCastleBuildings.add((VampireCastleBuilding) building);
+        else if (building instanceof VillageBuilding) 
+            villageBuildings.add((VillageBuilding) building);
+        else if (building instanceof ZombiePitBuilding) 
+            zombiePitBuildings.add((ZombiePitBuilding) building);
+    }
+
     /**
      * Spawns given item in the world
      * @param type - string with capital first letter (eg. Armour, Stake, HealthPotion, etc.)
@@ -1255,7 +1286,4 @@ public class LoopManiaWorld {
         enemies.add(enemy);
     }
 
-    public void addBuilding(Building building) {
-        buildingEntities.add(building);
-    }
 }

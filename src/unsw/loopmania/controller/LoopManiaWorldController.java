@@ -450,6 +450,8 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadGoldPile();
         loadHealthPotion();
+        loadCard("TrapCard");
+        loadCard("VillageCard");
     }
 
     /**
@@ -566,11 +568,14 @@ public class LoopManiaWorldController {
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
                         switch (draggableType){
                             case CARD:
-                                if (card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
-                                    removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                    Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
+                                if (newBuilding != null)
                                     onloadBuilding(newBuilding);
+                                else {
+                                    currentlyDraggedImage.setVisible(true);  
                                 }
+                                node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -1022,4 +1027,5 @@ public class LoopManiaWorldController {
         else if (item instanceof TheOneRing) 
         draggedEntity.setImage(theOneRingImage);
     }
+
 }

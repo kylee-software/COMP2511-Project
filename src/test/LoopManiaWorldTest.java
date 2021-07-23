@@ -386,6 +386,11 @@ public class LoopManiaWorldTest {
     }
 
     @Test
+    public void healCharacterInVillage() {
+        
+    }
+
+    @Test
     public void gainDiscardCardRewardsTest() {
 
     }
