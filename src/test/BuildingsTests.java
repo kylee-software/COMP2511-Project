@@ -92,12 +92,9 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
-        Character character = new Character(position);
-        character.reduceHealth(50);
-        VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
-        villageBuilding.gainHealth(character);
-
-        assertEquals(character.getHealth(), 100);
+        VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        villageBuilding.setPathPosition(position);
+        assertEquals(villageBuilding.getPathPosition(), position);
     }
 
     @Test
@@ -110,6 +107,19 @@ public class BuildingsTests {
         BarracksBuilding barracksBuilding = new BarracksBuilding(position);
        
         assertNotNull(barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath)));
+    }
+
+    @Test
+    void BarrackTest2() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        BarracksBuilding barracksBuilding = new BarracksBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        barracksBuilding.setPathPosition(position);
+        assertEquals(barracksBuilding.getPathPosition(), position);
+        
     }
 
     @Test
