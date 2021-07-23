@@ -71,7 +71,6 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldHealth;
-    private int health = 100;
 
     private int cycles;
 
@@ -244,14 +243,6 @@ public class LoopManiaWorld {
         return experience;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public List<AlliedSoldier> getAlliedSoldiers() {
         return alliedSoldiers;
     }
@@ -404,17 +395,6 @@ public class LoopManiaWorld {
 
          return goal.isGoalComplete();
      }
-
-    /**
-     * Check whether Character is alive
-     * @param void 
-     * @return true if Character is alive 
-     */
-    public boolean isAlive() {
-        if (getHealth() > 0) return true;
-        else return false;
-    }
-
 
     /**
      * check is the character completed the current cycle or not
@@ -570,6 +550,8 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, barracksBuilding)) {
                 AlliedSoldier alliedSoldier = barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath));
                 alliedSoldiers.add(alliedSoldier);
+                updateNumAlliedSoldiers();
+                System.out.println("One allied soldier has joined you!");
             }
         }
 
