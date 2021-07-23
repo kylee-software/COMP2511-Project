@@ -56,11 +56,11 @@ public class LoopManiaWorldTest {
         new BarracksBuilding(new PathPosition(2, orderedPath));
         
         Character character = new Character(new PathPosition(1, orderedPath));
-        List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
+        List<AlliedSoldier> alliedSoldiers = world.spawnAllyFromBarracks();
         assert(alliedSoldiers.isEmpty());
 
         character.moveDownPath();
-        alliedSoldiers = world.spawnAlliesFromBarracks();
+        alliedSoldiers = world.spawnAllyFromBarracks();
         assertNotNull(alliedSoldiers);
     }
 

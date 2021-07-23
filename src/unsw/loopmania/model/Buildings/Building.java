@@ -9,13 +9,4 @@ public abstract class Building extends StaticEntity {
         super(x, y);
     }
 
-    // Overridden getter for battle radius
-    public int getBattleRadius() {
-        return 0;
-    };
-
-    // Overridden getter for damage multiplier
-    public int getDamageMultiplier() {
-        return 0;
-    }
 }

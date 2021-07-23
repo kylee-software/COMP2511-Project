@@ -329,7 +329,20 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+            if (world.getIsLost()) 
+                switchToGameOverScreen();
+            else if (world.isGoalCompleted()) {
+                System.out.println("We WON");
+                pause();
+                switchToWinScreen();
+            } else if (world.canAccessHerosCastleMenu()) {
+                pause();
+                switchToHerosCastleMenu();
+            }
+            // check goal completion
             world.completedACycle();
+            world.healCharacterInVillage();
+            world.spawnAllyFromBarracks();
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
@@ -341,19 +354,6 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
-            }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
-            else if (world.isGoalCompleted()) {
-                System.out.println("We WON");
-                pause();
-                switchToWinScreen();
-            } else if (world.canAccessHerosCastleMenu()) {
-                pause();
-                switchToHerosCastleMenu();
             }
 
             printThreadingNotes("HANDLED TIMER");
