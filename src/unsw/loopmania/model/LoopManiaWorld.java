@@ -41,17 +41,12 @@ public class LoopManiaWorld {
     private List<String> rareItems;
     private Random random;
     private int randomChance;
-    private Goal goal;
+    private Goal goals;
     private String gameMode;
     private Boolean isLost;
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
-
-    private GoldGoal goldGoal;
-    private CycleGoal cycleGoal;
-    private ExperienceGoal experienceGoal;
-
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                     Attributes Related to Character                                        │ */
@@ -405,36 +400,24 @@ public class LoopManiaWorld {
     }
 
     public Goal getGoal() {
-        return goal;
-    }
-
-    public void setGoal(Goal goal) {
-        this.goal = goal;
+        return goals;
     }
 
     /**
      * set the goals of the game
      * @param goals hash map of all goals
      */
-    public void setGoals(List<Goal> goals) {
-
-        this.experienceGoal = (ExperienceGoal) goals.get(0);
-        this.goldGoal = (GoldGoal) goals.get(1);
-        this.cycleGoal = (CycleGoal) goals.get(2);
-
+    public void setGoals(Goal goals) {
+        this.goals = goals;
     }
+
     /**
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
      // DONE
      public boolean isGoalCompleted() {
-         cycleGoal.setWorldGoal(cycles);
-         experienceGoal.setWorldGoal(experience);
-         goldGoal.setWorldGold(gold);
-         AndGoal goal = new AndGoal(cycleGoal, new OrGoal(experienceGoal, goldGoal));
-
-         return goal.isGoalComplete();
+         return goals.isGoalComplete(this);
      }
 
     /**

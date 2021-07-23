@@ -70,12 +70,8 @@ public abstract class LoopManiaWorldLoader {
             loadEntity(world, jsonEntities.getJSONObject(i), orderedPath);
         }
 
-        JSONObject jsoGoals = json.getJSONObject("goal-condition");
-        List<Goal> goals = new ArrayList<Goal>();
-        goals.add(new ExperienceGoal(jsoGoals.getInt("ExperienceGoal")));
-        goals.add(new GoldGoal(jsoGoals.getInt("GoldGoal")));
-        goals.add(new CycleGoal(jsoGoals.getInt("CycleGoal")));
-
+        JSONObject jsonGoals = json.getJSONObject("goal-condition");
+        Goal goals = loadGoals(jsonGoals);
         world.setGoals(goals);
 
         return world;
@@ -176,6 +172,39 @@ public abstract class LoopManiaWorldLoader {
         }
         onLoad(starting, connections.get(connections.size() - 1), connections.get(0));
         return orderedPath;
+    }
+
+    private Goal loadGoals(JSONObject goal) {
+        String goalType = goal.getString("goal");
+
+        switch (goalType) {
+            case "AND":
+                JSONArray andGoals = goal.getJSONArray("subgoals");
+                Goal firstAndGoal = loadGoals(andGoals.getJSONObject(0));
+                Goal secondAndGoal = loadGoals(andGoals.getJSONObject(1));
+                AndGoal andGoal = new AndGoal(firstAndGoal, secondAndGoal);
+                return andGoal;
+            case "OR":
+                JSONArray orGoals = goal.getJSONArray("subgoals");
+                Goal firstOrGoal = loadGoals(orGoals.getJSONObject(0));
+                Goal secondOrGoal = loadGoals(orGoals.getJSONObject(1));
+                OrGoal orGoal = new OrGoal(firstOrGoal, secondOrGoal);
+                return orGoal;
+            case "experience":
+                int expQuantity = goal.getInt("quantity");
+                ExperienceGoal experienceGoal = new ExperienceGoal(expQuantity);
+                return experienceGoal;
+            case "gold":
+                int goldQuantity = goal.getInt("quantity");
+                GoldGoal goldGoal = new GoldGoal(goldQuantity);
+                return goldGoal;
+            case "cycles":
+                int cyclesQuantity = goal.getInt("quantity");
+                CycleGoal cycleGoal = new CycleGoal(cyclesQuantity);
+                return cycleGoal;
+        }
+
+        return null;
     }
 
     public abstract void onLoad(Character character);

@@ -1,16 +1,13 @@
 package unsw.loopmania.model.Goal;
 
+import unsw.loopmania.model.LoopManiaWorld;
+
 public class ExperienceGoal extends Goal {
 
     private int expPointGoal;
-    private int worldGoal;
 
     public ExperienceGoal(int expPointGoal) {
         this.expPointGoal = expPointGoal;
-    }
-
-    public void setWorldGoal(int worldGoal) {
-        this.worldGoal = worldGoal;
     }
 
     /**
@@ -18,7 +15,7 @@ public class ExperienceGoal extends Goal {
      * @return true if the player reached the experience point goal else false
      */
     @Override
-    public boolean isGoalComplete() {
-        return worldGoal == expPointGoal;
+    public boolean isGoalComplete(LoopManiaWorld world) {
+        return world.getExperience() == expPointGoal;
     }
 }
