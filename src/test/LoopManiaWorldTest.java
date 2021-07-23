@@ -57,11 +57,11 @@ public class LoopManiaWorldTest {
         new BarracksBuilding(new PathPosition(2, orderedPath));
         
         Character character = new Character(new PathPosition(1, orderedPath));
-        List<AlliedSoldier> alliedSoldiers = world.spawnAllyFromBarracks();
+        List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
         assert(alliedSoldiers.isEmpty());
 
-        character.moveDownPath();
-        alliedSoldiers = world.spawnAllyFromBarracks();
+        character.move();
+        alliedSoldiers = world.spawnAlliesFromBarracks();
         assertNotNull(alliedSoldiers);
     }
 
@@ -356,7 +356,8 @@ public class LoopManiaWorldTest {
         int cardNodeY = world.getCardEntities().get(0).getY();
         int buildingNodeX = 1;
         int buildingNodeY = 2;
-        world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        Building newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        assertEquals(newBuilding, "TrapBuilding");
         assert(world.getBuildingEntities().get(0) instanceof TrapBuilding);
         assertEquals(world.getBuildingEntities().get(0).getX(), buildingNodeX);
         assertEquals(world.getBuildingEntities().get(0).getY(), buildingNodeY);
@@ -384,11 +385,6 @@ public class LoopManiaWorldTest {
         assertNull(newBuilding);
         assert(world.getBuildingEntities().isEmpty());
         assert(world.getCardEntities().get(0) instanceof TrapCard);
-    }
-
-    @Test
-    public void healCharacterInVillage() {
-        
     }
 
     @Test
