@@ -19,7 +19,7 @@ public class BuildingsTests {
 
     @Test
     void VampireCastleTest() {
-        VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        
         
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         orderedPath.add(new Pair<>(1,1));
@@ -77,6 +77,24 @@ public class BuildingsTests {
         character.reduceHealth(50);
 
         VillageBuilding villageBuilding = new VillageBuilding(position);
+        villageBuilding.gainHealth(character);
+
+        assertEquals(character.getHealth(), 100);
+    }
+    /*
+    * Testing super class instantiation
+    */
+    @Test
+    void VillageTest2() {
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        Character character = new Character(position);
+        character.reduceHealth(50);
+        VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
         villageBuilding.gainHealth(character);
 
         assertEquals(character.getHealth(), 100);
