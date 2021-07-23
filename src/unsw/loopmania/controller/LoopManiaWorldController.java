@@ -347,8 +347,10 @@ public class LoopManiaWorldController {
             world.runBattles();
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
+            world.getBattleRewardCards().clear();
             for (String item: world.getBattleRewardItems())
                 loadItem(item);
+            world.getBattleRewardItems().clear();
             List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());

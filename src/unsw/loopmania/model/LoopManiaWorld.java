@@ -636,6 +636,9 @@ public class LoopManiaWorld {
             updateGold();
             updateHealth();
         }
+        System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
+        System.out.println("Card rewards: "+ battleRewardCards.size());
+        System.out.println("Item rewards: "+ battleRewardItems.size());  
         return defeatedEnemies;
     }
 
@@ -666,8 +669,6 @@ public class LoopManiaWorld {
     private void gainBattleRewards(Battle battle) {
         setGold(getGold() + battle.getBattleGold());
         setExperience(getExperience() + battle.getBattleExp());
-        battleRewardCards = new ArrayList<>();
-        battleRewardItems = new ArrayList<>();
         for (String card : battle.getBattleCards()) {
             battleRewardCards.add(card);
         }
@@ -675,14 +676,6 @@ public class LoopManiaWorld {
             battleRewardItems.add(item);
         }
     }
-
-    private void gainBattleCardRewards(BasicEnemy enemy) {
-        for (String card : battle.getBattleCards()) {
-            loadCard(card);
-        }
-    }
-
-
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                          Methods Related to Items                                          │ */
