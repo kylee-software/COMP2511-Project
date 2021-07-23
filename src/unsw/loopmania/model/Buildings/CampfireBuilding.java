@@ -26,19 +26,15 @@ public class CampfireBuilding extends Building {
 
     // BUFFER INTERFACE
     public void performDamage(Character character, BasicEnemy enemy) {
-        // TODO = need to implement this correctly and add javadoc
     }
 
     // OBSERVER PATTERN FOR ATTACKS
     public void addAttackObserver(AttackStrategy attackStrategy) {
-        // TODO = need to implement this correctly and add javadoc
     }
 
     public void removeAttackObserver(AttackStrategy attackStrategy) {
-        // TODO = need to implement this correctly and add javadoc
     }
 
     public void notifyAttackObservers() {
-        // TODO = need to implement this correctly and add javadoc
     }
 }

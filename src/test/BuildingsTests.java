@@ -51,7 +51,6 @@ public class BuildingsTests {
         assertNotNull(zombiePitBuilding.spawnZombie(cycle, position));
     }
 
-    // TODO = wait until implementation of attack strategy
     @Test
     void TowerTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -128,29 +127,5 @@ public class BuildingsTests {
         // Test scaring vampire
         // vampire.runFromCampfire();
 
-        // TODO: Test strategy of double damage in battle
-        // Character character = new Character(new PathPosition(2, orderedPath));
-        // campfireBuilding.performDamage(character, vampire);
-        // assert(vampire.getHealth() == 100 - campfireBuilding.getDamageBonus());
-
     }
-    // Not sure if need this anymore since it's tested in menu tests
-    // @Test
-    // void HerosCastleBuilding() {
-    //     List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-    //     orderedPath.add(new Pair<>(1,1));
-    //     orderedPath.add(new Pair<>(1,2));
-    //     orderedPath.add(new Pair<>(1,3));
-    //     HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-
-    //     Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
-
-    //     // Buy item
-    //     herosCastleBuilding.buyItem(shield, null);
-    //     assert(herosCastleBuilding.getBoughtItems() != null);
-
-    //     // sell item
-    //     herosCastleBuilding.sellItem(shield, null);
-    //     assert(herosCastleBuilding.getBoughtItems().isEmpty());
-    // }
 }
