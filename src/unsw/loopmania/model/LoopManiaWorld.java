@@ -3,6 +3,7 @@ package unsw.loopmania.model;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -417,6 +418,11 @@ public class LoopManiaWorld {
      */
      // DONE
      public boolean isGoalCompleted() {
+
+//         HashMap<String, Integer> worldPoints = new HashMap<>();
+//         worldPoints.put("gold", gold);
+//         worldPoints.put("experience", experience);
+//         worldPoints.put("cycles", cycles);
          return goals.isGoalComplete(this);
      }
 

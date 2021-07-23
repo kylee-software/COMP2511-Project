@@ -18,6 +18,7 @@ import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.PathTile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 

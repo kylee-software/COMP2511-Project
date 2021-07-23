@@ -16,6 +16,6 @@ public class GoldGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete(LoopManiaWorld world) {
-        return world.getGold() == goldGoal;
+        return world.getGold() >= goldGoal;
     }
 }

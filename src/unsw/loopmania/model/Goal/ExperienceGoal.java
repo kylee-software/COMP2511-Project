@@ -16,6 +16,6 @@ public class ExperienceGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete(LoopManiaWorld world) {
-        return world.getExperience() == expPointGoal;
+        return world.getExperience() >= expPointGoal;
     }
 }
