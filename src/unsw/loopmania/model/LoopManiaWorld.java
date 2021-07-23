@@ -703,6 +703,18 @@ public class LoopManiaWorld {
         }
     }
 
+    private void gainBattleRewardItems(Battle battle) {
+        for (String item : battle.getBattleItems()) {
+            addUnequippedItem(item);
+        }
+    }
+
+    private void gainBattleRewardCards(Battle battle) {
+        for (String card : battle.getBattleCards()) {
+            loadCard(card);
+        }
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                          Methods Related to Items                                          │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
