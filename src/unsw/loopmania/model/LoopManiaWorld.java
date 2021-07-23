@@ -146,6 +146,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         this.rareItems = rareItems;
         this.isLost = false;
+        this.cycles = -1;
     }
 
     /**
@@ -400,22 +401,15 @@ public class LoopManiaWorld {
      * check is the character completed the current cycle or not
      * @return true if the character complected a cycle else false
      */
-    public void completedACycle() {
+    public boolean completedACycle() {
         int charaX = character.getX();
         int charaY = character.getY();
         if (charaX == 0 && charaY == 0) {
             cycles += 1;
-        }
-    }
-    
-    public boolean canAccessHerosCastleMenu() {
-        int charaX = character.getX();
-        int charaY = character.getY();
-        if (charaX == 0 && charaY == 0 && getCycles() > 0) 
             return true;
+        }
         else return false;
     }
-    
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                          Methods Related  to Enemies                                       │ */
@@ -479,7 +473,8 @@ public class LoopManiaWorld {
 
         for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(vampireCastleBuilding);
-            Vampire vampire = vampireCastleBuilding.spawnVampire(cycles, pathPosition);
+            boolean validSpawn = completedACycle() && getCycles() % 5 == 0;
+            Vampire vampire = vampireCastleBuilding.spawnVampire(validSpawn, pathPosition);
             if (vampire != null) {
                 enemies.add(vampire);
                 spawningEnemies.add(vampire);
@@ -497,7 +492,8 @@ public class LoopManiaWorld {
 
         for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(zombiePitBuilding);
-            Zombie zombie = zombiePitBuilding.spawnZombie(cycles, pathPosition);
+            boolean validSpawn = completedACycle() && getCycles() > 0;
+            Zombie zombie = zombiePitBuilding.spawnZombie(validSpawn, pathPosition);
             if (zombie != null) {
                 enemies.add(zombie);
                 spawningEnemies.add(zombie);

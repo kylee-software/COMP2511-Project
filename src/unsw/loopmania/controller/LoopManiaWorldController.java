@@ -238,7 +238,7 @@ public class LoopManiaWorldController {
         campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
         towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
         trapBuildingImage = new Image((new File("src/images/trap.png")).toURI().toString());
-        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle.png")).toURI().toString());
+        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         villageBuildingImage = new Image((new File("src/images/village.png")).toURI().toString());
         zombiePitBuildingImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
         // Enemy Images
@@ -335,7 +335,7 @@ public class LoopManiaWorldController {
                 System.out.println("We WON");
                 pause();
                 switchToWinScreen();
-            } else if (world.canAccessHerosCastleMenu()) {
+            } else if (world.completedACycle() && world.getCycles() > 0) {
                 pause();
                 switchToHerosCastleMenu();
             }
@@ -348,7 +348,10 @@ public class LoopManiaWorldController {
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.SpawnSlugs();
+            List<BasicEnemy> newEnemies = new ArrayList<>();
+            newEnemies.addAll(world.SpawnSlugs());
+            newEnemies.addAll(world.spawnVampiresFromVampireCastles());
+            newEnemies.addAll(world.spawnZombiesFromZombiePits());
             // ADD OTHER SPAWNING THINGS HERE
 
             for (BasicEnemy newEnemy: newEnemies){
@@ -450,8 +453,8 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadGoldPile();
         loadHealthPotion();
-        loadCard("TrapCard");
-        loadCard("BarracksCard");
+        loadCard("VampireCastleCard");
+        loadCard("ZombiePitCard");
     }
 
     /**
