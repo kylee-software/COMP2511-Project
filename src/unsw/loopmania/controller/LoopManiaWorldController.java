@@ -338,6 +338,28 @@ public class LoopManiaWorldController {
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
+
+            // ALL ITEM SPAWNING MECHANICS
+            List<Item> spawnedItems = world.possiblySpawnItem();
+            for (Item item : spawnedItems) {
+                if (item instanceof Gold) {
+                    Gold gold = (Gold) item;
+                    onLoadGold(gold);
+                } else if (item instanceof HealthPotion) {
+                    HealthPotion healthPotion = (HealthPotion) item;
+                    onLoadHealthPotion(healthPotion);
+                }
+            }
+
+            // PICKUP ITEMS
+            Item collectibleItem = world.pickupItems();
+            if (collectibleItem != null && !(collectibleItem instanceof Gold)) {
+                onLoadHealthPotion(collectibleItem);
+            }
+            if (collectibleItem != null) {
+                world.despawnItems(collectibleItem);
+            }
+            
             List<BasicEnemy> newEnemies = world.SpawnSlugs();
             // ADD OTHER SPAWNING THINGS HERE
 
@@ -420,25 +442,25 @@ public class LoopManiaWorldController {
         onLoadItem(item);
     }
 
-    /**
-     * load spawned gold from the world, and pair it with an image in the GUI
-     */
-    private void loadGoldPile(){
-        Item gold = world.possiblySpawnGold();
-        if (gold != null) {
-            onLoadGold(gold);
-        }
-    }
+    // /**
+    //  * load spawned gold from the world, and pair it with an image in the GUI
+    //  */
+    // private void loadGoldPile(){
+    //     Item gold = world.possiblySpawnGold();
+    //     if (gold != null) {
+    //         onLoadGold(gold);
+    //     }
+    // }
 
-    /**
-     * load spawned health potion from the world, and pair it with an image in the GUI
-     */
-    private void loadHealthPotion(){
-        Item healthPotion = world.possiblySpawnHealthPotions();
-        if (healthPotion != null) {
-            onLoadHealthPotion(healthPotion);
-        }
-    }
+    // /**
+    //  * load spawned health potion from the world, and pair it with an image in the GUI
+    //  */
+    // private void loadHealthPotion(){
+    //     Item healthPotion = world.possiblySpawnHealthPotions();
+    //     if (healthPotion != null) {
+    //         onLoadHealthPotion(healthPotion);
+    //     }
+    // }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      OnLoad Methods for Controller                                         │ */
@@ -453,8 +475,6 @@ public class LoopManiaWorldController {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadGoldPile();
-        loadHealthPotion();
     }
 
     /**

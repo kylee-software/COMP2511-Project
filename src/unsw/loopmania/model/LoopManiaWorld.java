@@ -158,7 +158,6 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         randomChance = random.nextInt(99);
         character.moveDownPath();
-        pickupItems();
         moveBasicEnemies();
         updateGold();
     }
@@ -548,49 +547,72 @@ public class LoopManiaWorld {
 
     }
 
-    /**
-     * spawns gold if the conditions warrant it, adds to world
-     * @return list of the items to be displayed on screen
-     */
-    public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = null;
-
+    public List<Item> possiblySpawnItem(){
+        List<Item> spawnedItems = this.spawnedItems;
+        Pair<Integer, Integer> itemPos = null;
         if (randomChance < 15) {
-            goldPos = possiblyGetSpawnPosition();
+            itemPos = possiblyGetSpawnPosition();
         }
-
-        Item item = null;
-        if (goldPos != null) {
-            item = createItem("Gold", goldPos);
-            int goldIndexInPath = orderedPath.indexOf(goldPos);
-            PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
-            Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
-            spawnedItems.add(gold);
+        if (itemPos != null) {
+            int indexInPath = orderedPath.indexOf(itemPos);
+            PathPosition itemPosition = new PathPosition(indexInPath, orderedPath);
+            Random rand = new Random();
+            int goldOrHPChance = rand.nextInt(2);
+            if (goldOrHPChance == 0) {
+                Gold gold = new Gold(itemPosition.getX(), itemPosition.getY());
+                spawnedItems.add(gold);
+            }
+            else if (goldOrHPChance == 1) {
+                HealthPotion healthPotion = new HealthPotion(itemPosition.getX(), itemPosition.getY());
+                spawnedItems.add(healthPotion);
+            }
         }
-        return item;
+        return this.spawnedItems;
     }
 
-    /**
-     * spawns health potions if the conditions warrant it, adds to world
-     * @return list of the items to be displayed on screen
-     */
-    public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = null;
+    // /**
+    //  * spawns gold if the conditions warrant it, adds to world
+    //  * @return list of the items to be displayed on screen
+    //  */
+    // public Item possiblySpawnGold(){
+    //     Pair<Integer, Integer> goldPos = null;
 
-        if (randomChance < 15) {
-            healthPotionPos = possiblyGetSpawnPosition();
-        }
+    //     if (randomChance < 15) {
+    //         goldPos = possiblyGetSpawnPosition();
+    //     }
 
-        Item item = null;
-        if (healthPotionPos != null){
-            item = createItem("HealthPotion",healthPotionPos);
-            int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
-            PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
-            HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-            spawnedItems.add(healthPotion);
-        }
-        return item;
-    }
+    //     Item item = null;
+    //     if (goldPos != null) {
+    //         item = createItem("Gold", goldPos);
+    //         int goldIndexInPath = orderedPath.indexOf(goldPos);
+    //         PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
+    //         Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
+    //         spawnedItems.add(gold);
+    //     }
+    //     return item;
+    // }
+
+    // /**
+    //  * spawns health potions if the conditions warrant it, adds to world
+    //  * @return list of the items to be displayed on screen
+    //  */
+    // public Item possiblySpawnHealthPotions(){
+    //     Pair<Integer, Integer> healthPotionPos = null;
+
+    //     if (randomChance < 15) {
+    //         healthPotionPos = possiblyGetSpawnPosition();
+    //     }
+
+    //     Item item = null;
+    //     if (healthPotionPos != null){
+    //         item = createItem("HealthPotion",healthPotionPos);
+    //         int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
+    //         PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
+    //         HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
+    //         spawnedItems.add(healthPotion);
+    //     }
+    //     return item;
+    // }
 
     /**
      * produce new allied soldiers(s) when the Character passes through barracks
@@ -760,7 +782,7 @@ public class LoopManiaWorld {
     /**
      * pickup spawn items on the path tile when the character passes by
      */
-    public void pickupItems() {
+    public Item pickupItems() {
         List<Item> collectedItems = new ArrayList<Item>();
         // pick up gold if any
         for (Item item : spawnedItems) {
@@ -778,8 +800,10 @@ public class LoopManiaWorld {
         for (Item item : collectedItems) {
             if (isOnSameTile(character, item)) {
                 despawnItems(item);
+                return item;
             }
         }
+        return null;
     }
 
     public void despawnItems(Item items){
