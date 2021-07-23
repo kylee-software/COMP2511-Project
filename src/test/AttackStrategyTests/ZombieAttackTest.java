@@ -75,7 +75,7 @@ public class ZombieAttackTest {
     }
 
     /**
-     * Test randomness of infect chance 4 times with random seed of 4
+     * Test randomness of infect chance 10 times with random seed of 4
      */
     @Test
     public void infectChanceExecuteTest() {
@@ -88,6 +88,27 @@ public class ZombieAttackTest {
         Random random = new Random(4);
         Boolean expectedInfect = random.nextInt(99) < 15;
         Boolean infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
         infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);

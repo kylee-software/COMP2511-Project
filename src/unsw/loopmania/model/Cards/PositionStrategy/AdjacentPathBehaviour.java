@@ -11,19 +11,19 @@ public class AdjacentPathBehaviour implements PositionStrategy {
         
         Integer x = Integer.valueOf(buildingNodeX);
         Integer y = Integer.valueOf(buildingNodeY);
-        Pair<Integer, Integer> tile = new Pair<Integer, Integer>(x, y);
+        Pair<Integer, Integer> tile = new Pair<>(x, y);
 
-        for (Pair<Integer, Integer> coordinate : orderedPath) {
-            if (!tile.equals(coordinate)) {
-                for ( Integer i = coordinate.getValue0() - 1; i <= coordinate.getValue0() + 1; i++) {
-                    for ( Integer j = coordinate.getValue1() - 1; j <= coordinate.getValue1() + 1; j++) {
-                        if (tile.getValue0().equals(i) && tile.getValue1().equals(j)) return true;
-                    }
+        if (!orderedPath.contains(tile)) {
+            for ( Integer i = tile.getValue0() - 1; i <= tile.getValue0() + 1; i++) {
+                for ( Integer j = tile.getValue1() - 1; j <= tile.getValue1() + 1; j++) {
+                    Pair<Integer, Integer> adjacentTile = new Pair<>(i, j);
+                    if (orderedPath.contains(adjacentTile))
+                        return true;
                 }
             }
         }
-        
         return false;
+        
     }
 
 }

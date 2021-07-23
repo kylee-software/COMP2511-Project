@@ -27,7 +27,6 @@ public class ItemRewardBehaviour implements RewardStrategy {
      */
     @Override
     public String randomReward() {
-        // TODO Auto-generated method stub
         return ITEM.getRandomItem().name();
     }
 
