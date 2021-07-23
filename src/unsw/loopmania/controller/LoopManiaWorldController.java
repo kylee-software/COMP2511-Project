@@ -344,10 +344,11 @@ public class LoopManiaWorldController {
             world.healCharacterInVillage();
             world.spawnAllyFromBarracks();
             world.runTickMoves();
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e: defeatedEnemies){
-                reactToEnemyDefeat(e);
-            }
+            world.runBattles();
+            for (String card: world.getBattleRewardCards())
+                loadCard(card);
+            for (String item: world.getBattleRewardItems())
+                loadItem(item);
             List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
@@ -446,7 +447,6 @@ public class LoopManiaWorldController {
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
-    //private void reactToEnemyDefeat(Battle battle){
     private void reactToEnemyDefeat(BasicEnemy enemy){
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...

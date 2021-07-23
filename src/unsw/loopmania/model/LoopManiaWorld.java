@@ -102,7 +102,7 @@ public class LoopManiaWorld {
 
     private Item equippedAttackItem = null;
 
-    private List<Item> spawnedItems = new ArrayList<Item>();;
+    private List<Item> spawnedItems = new ArrayList<Item>();
 
     private Item equippedHelmet = null;
 
@@ -114,6 +114,9 @@ public class LoopManiaWorld {
 
     private List<Card> cardEntities = new ArrayList<Card>();;
 
+    private List<String> battleRewardItems = new ArrayList<>();
+
+    private List<String> battleRewardCards = new ArrayList<>();
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
@@ -330,6 +333,15 @@ public class LoopManiaWorld {
     public List<String> getRareItem() {
         return rareItems;
     }
+
+    public List<String> getBattleRewardItems() {
+        return battleRewardItems;
+    }
+
+    public List<String> getBattleRewardCards() {
+        return battleRewardCards;
+    }
+    
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
@@ -654,13 +666,23 @@ public class LoopManiaWorld {
     private void gainBattleRewards(Battle battle) {
         setGold(getGold() + battle.getBattleGold());
         setExperience(getExperience() + battle.getBattleExp());
+        battleRewardCards = new ArrayList<>();
+        battleRewardItems = new ArrayList<>();
+        for (String card : battle.getBattleCards()) {
+            battleRewardCards.add(card);
+        }
+        for (String item : battle.getBattleItems()) {
+            battleRewardItems.add(item);
+        }
+    }
+
+    private void gainBattleCardRewards(BasicEnemy enemy) {
         for (String card : battle.getBattleCards()) {
             loadCard(card);
         }
-        for (String item : battle.getBattleItems()) {
-            addUnequippedItem(item);
-        }
     }
+
+
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                          Methods Related to Items                                          │ */
