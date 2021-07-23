@@ -8,7 +8,6 @@ import javafx.scene.control.MenuButton;
 
 /**
  * controller for the main menu.
- * TODO = you could extend this, for example with a settings menu, or a menu to load particular maps.
  */
 public class MainMenuController {
     /**

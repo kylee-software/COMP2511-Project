@@ -15,6 +15,9 @@ public class Vampire extends BasicEnemy {
     private static int damage = 25;
     private static int health = 50;
     private static int critChance = 40;
+    // for running away from campfire
+    private boolean inCampfireRange;
+    private int runAwayTicks;
 
     /**
      * Constructor for Vampire
@@ -75,8 +78,7 @@ public class Vampire extends BasicEnemy {
         return strategy;
     }
 
-    // TODO: stub for vampire running from campfire
-    public boolean runFromCampfire() {
-        return false;
+    // for running away from campfire
+    public void setInCampfireRange(boolean inCampfireRange) {
     }
 }

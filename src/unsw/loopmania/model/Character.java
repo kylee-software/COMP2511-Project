@@ -16,13 +16,6 @@ public class Character extends MovingEntity {
         super(position, health, speed);
     }
 
-    // Dont know if this is needed since its already implemented
-    public void move() {
-        // TODO: = need to implement this correctly and add javadoc
-    }
-
-    // IMPLEMENT OBSERVWRE PATTERN FOR BATTLE
-
     /**
      * Getter for damage of character (base + weapons)
      * @return damage

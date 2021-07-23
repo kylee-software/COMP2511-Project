@@ -166,7 +166,6 @@ public class LoopManiaWorldController {
      * the image currently being dragged, if there is one, otherwise null.
      * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
      */
-    // TODO = it would be a good idea for you to instead replace this with the building/item which should be dropped
     private ImageView currentlyDraggedImage;
 
     /**
@@ -272,7 +271,6 @@ public class LoopManiaWorldController {
 
     @FXML
     public void initialize() {
-        // TODO = load more images/entities during initialization
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
@@ -327,12 +325,24 @@ public class LoopManiaWorldController {
      * create and run the timer
      */
     public void startTimer(){
-        // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+            if (world.getIsLost()) 
+                switchToGameOverScreen();
+            else if (world.isGoalCompleted()) {
+                System.out.println("We WON");
+                pause();
+                switchToWinScreen();
+            } else if (world.canAccessHerosCastleMenu()) {
+                pause();
+                switchToHerosCastleMenu();
+            }
+            // check goal completion
             world.completedACycle();
+            world.healCharacterInVillage();
+            world.spawnAllyFromBarracks();
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
             for (BasicEnemy e: defeatedEnemies){
@@ -344,19 +354,6 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
-            }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
-            else if (world.isGoalCompleted()) {
-                System.out.println("We WON");
-                pause();
-                switchToWinScreen();
-            } else if (world.canAccessHerosCastleMenu()) {
-                pause();
-                switchToHerosCastleMenu();
             }
 
             printThreadingNotes("HANDLED TIMER");
@@ -404,7 +401,6 @@ public class LoopManiaWorldController {
      * load a card from the world, and pair it with an image in the GUI
      */
     private void loadCard(String type) {
-        // TODO = load more types of card
         Card card = world.loadCard(type);
         onLoadCard(card);
     }
@@ -413,7 +409,6 @@ public class LoopManiaWorldController {
      * load an item from the world, and pair it with an image in the GUI
      */
     private void loadItem(String type){
-        // TODO = load more types of weapon
         // start by getting first available coordinates
         // addUnequippedItem("Sword");
         Item item = world.addUnequippedItem(type);
@@ -541,12 +536,10 @@ public class LoopManiaWorldController {
      * @param targetGridPane the gridpane the human player should be dragging to (but we of course cannot guarantee they will do so)
      */
     private void buildNonEntityDragHandlers(DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane, Card card, Item item){
-        // TODO = be more selective about where something can be dropped
         // for example, in the specification, villages can only be dropped on path, whilst vampire castles cannot go on the path
 
         gridPaneSetOnDragDropped.put(draggableType, new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
-                // TODO = for being more selective about where something can be dropped, consider applying additional if-statement logic
                 /*
                  *you might want to design the application so dropping at an invalid location drops at the most recent valid location hovered over,
                  * or simply allow the card/item to return to its slot (the latter is easier, as you won't have to store the last valid drop location!)
@@ -581,7 +574,6 @@ public class LoopManiaWorldController {
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
@@ -724,7 +716,6 @@ public class LoopManiaWorldController {
                     // these do not affect visibility of original image...
                     // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
                     gridPaneNodeSetOnDragEntered.put(draggableType, new EventHandler<DragEvent>() {
-                        // TODO = be more selective about whether highlighting changes - if it cannot be dropped in the location, the location shouldn't be highlighted!
                         public void handle(DragEvent event) {
                             if (currentlyDraggedType == draggableType){
                             //The drag-and-drop gesture entered the target
@@ -737,7 +728,6 @@ public class LoopManiaWorldController {
                         }
                     });
                     gridPaneNodeSetOnDragExited.put(draggableType, new EventHandler<DragEvent>() {
-                        // TODO = since being more selective about whether highlighting changes, you could program the game so if the new highlight location is invalid the highlighting doesn't change, or leave this as-is
                         public void handle(DragEvent event) {
                             if (currentlyDraggedType == draggableType){
                                 n.setOpacity(1);
@@ -781,7 +771,6 @@ public class LoopManiaWorldController {
      */
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
         case SPACE:
             if (isPaused){
@@ -853,7 +842,6 @@ public class LoopManiaWorldController {
      * @param node
      */
     private void trackPosition(Entity entity, Node node) {
-        // TODO = tweak this slightly to remove items from the equipped inventory?
         GridPane.setColumnIndex(node, entity.getX());
         GridPane.setRowIndex(node, entity.getY());
 
