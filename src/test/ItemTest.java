@@ -54,21 +54,4 @@ public class ItemTest {
         ring.usePotion(c);
         assertEquals(c.getHealth(), 100);
     }
-
-    /**
-     * Test: usePotion does nothing for other item types
-     */
-    @Test
-    public void usePotionOthersTest() {
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        orderedPath.add(new Pair<>(1,1));
-        PathPosition position = new PathPosition(0, orderedPath);
-        Character c = new Character(position);
-        c.setHealth(25);
-        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
-        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
-        Item sword = new Sword(x, y);
-        sword.usePotion(c);
-        assertEquals(c.getHealth(), 25);
-    }
 }
