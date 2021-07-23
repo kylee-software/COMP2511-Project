@@ -352,13 +352,13 @@ public class LoopManiaWorldController {
             }
 
             // PICKUP ITEMS
-            Item collectibleItem = world.pickupItems();
-            if (collectibleItem != null && !(collectibleItem instanceof Gold)) {
-                onLoadHealthPotion(collectibleItem);
-            }
-            if (collectibleItem != null) {
-                world.despawnItems(collectibleItem);
-            }
+//            Item collectibleItem = world.pickupItems();
+//            if (collectibleItem != null && !(collectibleItem instanceof Gold)) {
+//                onLoadHealthPotion(collectibleItem);
+//            }
+//            if (collectibleItem != null) {
+//                world.despawnItems(collectibleItem);
+//            }
             
             List<BasicEnemy> newEnemies = world.SpawnSlugs();
             // ADD OTHER SPAWNING THINGS HERE
@@ -380,6 +380,9 @@ public class LoopManiaWorldController {
                 pause();
                 switchToHerosCastleMenu();
             }
+
+             pickUpItems();
+             despawnItems();
 
             printThreadingNotes("HANDLED TIMER");
         }));
@@ -420,6 +423,11 @@ public class LoopManiaWorldController {
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
         entityImages.add(view);
+    }
+
+    private void removeEntity(Entity entity, ImageView view) {
+        trackPosition(entity, view);
+        entityImages.remove(view);
     }
 
     /**
@@ -549,6 +557,35 @@ public class LoopManiaWorldController {
         addEntity(building, view);
         squares.getChildren().add(view);
     }
+
+    /**
+     * pick up items on the path and add it to the unequipped inventory
+     */
+    private void pickUpItems() {
+        List<Item> items = world.pickupItems();
+
+        if (!items.isEmpty()) {
+            for (Item item : items) {
+                onLoadItem(item);
+            }
+        }
+    }
+
+     /**
+      * remove despawnned items from on the path
+      */
+     private void despawnItems() {
+         List<Item> items = world.getDespawnItems();
+
+         if (items != null) {
+             for (Item item : items) {
+                 item.destroy();
+             }
+         }
+
+         world.restDespawnItems();
+     }
+
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                     Dragging Methods from StarterCode                                      │ */

@@ -75,7 +75,7 @@ public class SpawningTest {
     }
 
     @Test
-    public void SpawnGoldTest() {
+    public void SpawnItemTest() {
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
         orderedPath.add(new Pair<>(1,1));
@@ -91,28 +91,7 @@ public class SpawningTest {
         world.setCharacter(character);
 
         if (chance < 15) {
-            assertNotNull(world.possiblySpawnGold());
-        }
-    }
-
-    @Test
-    public void SpawnHealthPotionTest() {
-
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
-        orderedPath.add(new Pair<>(1,1));
-        orderedPath.add(new Pair<>(1,2));
-        orderedPath.add(new Pair<>(1,3));
-        PathPosition pathPosition = new PathPosition(1, orderedPath);
-        Character character =  new Character(pathPosition);
-
-        Random random = new Random(1);
-        int chance = random.nextInt(99);
-
-        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
-        world.setCharacter(character);
-
-        if (chance < 15) {
-            assertNotNull(world.possiblySpawnHealthPotions());
+            assertNotNull(world.possiblySpawnItem());
         }
     }
 

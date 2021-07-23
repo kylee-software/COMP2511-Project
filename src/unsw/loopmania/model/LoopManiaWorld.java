@@ -1,5 +1,6 @@
 package unsw.loopmania.model;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,8 @@ public class LoopManiaWorld {
     private Item equippedAttackItem = null;
 
     private List<Item> spawnedItems = new ArrayList<Item>();;
+
+    private List<Item> despawnItems = new ArrayList<Item>();
 
     private Item equippedHelmet = null;
 
@@ -360,6 +363,14 @@ public class LoopManiaWorld {
         return rareItems;
     }
 
+    public List<Item> getDespawnItems() {
+        return despawnItems;
+    }
+
+    public void restDespawnItems() {
+        this.despawnItems = new ArrayList<Item>();
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -548,7 +559,7 @@ public class LoopManiaWorld {
     }
 
     public List<Item> possiblySpawnItem(){
-        List<Item> spawnedItems = this.spawnedItems;
+        List<Item> newlySpawnedItems = new ArrayList<Item>();
         Pair<Integer, Integer> itemPos = null;
         if (randomChance < 15) {
             itemPos = possiblyGetSpawnPosition();
@@ -561,13 +572,15 @@ public class LoopManiaWorld {
             if (goldOrHPChance == 0) {
                 Gold gold = new Gold(itemPosition.getX(), itemPosition.getY());
                 spawnedItems.add(gold);
+                newlySpawnedItems.add(gold);
             }
             else if (goldOrHPChance == 1) {
                 HealthPotion healthPotion = new HealthPotion(itemPosition.getX(), itemPosition.getY());
                 spawnedItems.add(healthPotion);
+                newlySpawnedItems.add(healthPotion);
             }
         }
-        return this.spawnedItems;
+        return newlySpawnedItems;
     }
 
     // /**
@@ -782,33 +795,28 @@ public class LoopManiaWorld {
     /**
      * pickup spawn items on the path tile when the character passes by
      */
-    public Item pickupItems() {
+    public List<Item> pickupItems() {
         List<Item> collectedItems = new ArrayList<Item>();
         // pick up gold if any
+
+        List<Item> itemsToRemove = new ArrayList<Item>();
+    
         for (Item item : spawnedItems) {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
+                    despawnItems.add(item);
+                    itemsToRemove.add(item);
+                } else if (item instanceof HealthPotion) {
+                    Item collectedItem = addUnequippedItem("HealthPotion");
+                    collectedItems.add(collectedItem);
+                    despawnItems.add(item);
+                    itemsToRemove.add(item);
                 }
-            } else if (isOnSameTile(character, item)) {
-                    if (item.getType() == "HealthPotion") {
-                        addUnequippedItem("Health Potion");
-                    }
             }
         }
-        // Second loop to despawn items to avoid comodification exception
-        for (Item item : collectedItems) {
-            if (isOnSameTile(character, item)) {
-                despawnItems(item);
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public void despawnItems(Item items){
-        items.destroy();
-        spawnedItems.remove(items);
+        spawnedItems.removeAll(itemsToRemove);
+        return collectedItems;
     }
 
     /**
