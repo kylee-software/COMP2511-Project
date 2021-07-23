@@ -186,6 +186,10 @@ public class LoopManiaWorld {
         return isLost;
     }
 
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                               Getters and Setters Related to the Character                                 │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -364,7 +368,7 @@ public class LoopManiaWorld {
     }
 
     public void updateHealth() {
-        worldHealth.setText("Health: " + this.health);
+        worldHealth.setText("Health: " + this.getCharacter().getHealth());
     }
 
     public void updateNumAlliedSoldiers(){
@@ -537,9 +541,10 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(5);
-        Item item = createItem("Gold", goldPos);
-        if (goldPos != null){
+        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(15);
+        Item item = null;
+        if (goldPos != null) {
+            item = createItem("Gold", goldPos);
             int goldIndexInPath = orderedPath.indexOf(goldPos);
             PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
             Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
@@ -553,9 +558,10 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(5);
-        Item item = createItem("HealthPotion",healthPotionPos);
+        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(15);
+        Item item = null;
         if (healthPotionPos != null){
+            item = createItem("HealthPotion",healthPotionPos);
             int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
             PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
             HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
@@ -683,6 +689,9 @@ public class LoopManiaWorld {
             }
         } else {
             gainBattleRewards(battle);
+            updateExperience();
+            updateGold();
+            updateHealth();
         }
         return defeatedEnemies;
     }
@@ -1176,7 +1185,10 @@ public class LoopManiaWorld {
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
-            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+            item = (Item) itemClass.getDeclaredConstructor(parameterType).newInstance(
+                new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
+                new SimpleIntegerProperty(firstAvailableSlot.getValue1())
+            );
             return item;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | NoSuchMethodException | SecurityException e) {
