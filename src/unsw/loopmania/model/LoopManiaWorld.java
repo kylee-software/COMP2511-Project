@@ -38,6 +38,8 @@ public class LoopManiaWorld {
     private int worldWidth;
     private int worldHeight;
     private List<String> rareItems;
+    private Random random;
+    private int randomChance;
     private Goal goal;
     private String gameMode;
     private Boolean isLost;
@@ -131,7 +133,8 @@ public class LoopManiaWorld {
      * @param worldHeight worldHeight of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath, List<String> rareItems) {
+    public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath,
+                          List<String> rareItems, Random random) {
         // TODO: this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
@@ -145,12 +148,15 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         this.rareItems = rareItems;
         this.isLost = false;
+        this.random = random;
+        this.randomChance = random.nextInt(99);
     }
 
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves() {
+        randomChance = random.nextInt(99);
         character.moveDownPath();
         pickupItems();
         moveBasicEnemies();
@@ -484,10 +490,16 @@ public class LoopManiaWorld {
      * @return list of the slugs to be displayed on screen
      */
     public List<BasicEnemy> SpawnSlugs() {
-        Pair<Integer, Integer> pos = possiblyGetSpawnPosition(2);
+
+        Pair<Integer, Integer> pos = null;
+
+        if (randomChance < 50) {
+            pos = possiblyGetSpawnPosition();
+        }
+
         List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
-        int slugSpawnChance = (new Random()).nextInt(4);
-        if (pos != null && slugSpawnChance == 1){
+
+        if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
@@ -541,7 +553,12 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = possiblyGetSpawnPosition(15);
+        Pair<Integer, Integer> goldPos = null;
+
+        if (randomChance < 15) {
+            goldPos = possiblyGetSpawnPosition();
+        }
+
         Item item = null;
         if (goldPos != null) {
             item = createItem("Gold", goldPos);
@@ -558,7 +575,12 @@ public class LoopManiaWorld {
      * @return list of the items to be displayed on screen
      */
     public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = possiblyGetSpawnPosition(15);
+        Pair<Integer, Integer> healthPotionPos = null;
+
+        if (randomChance < 15) {
+            healthPotionPos = possiblyGetSpawnPosition();
+        }
+
         Item item = null;
         if (healthPotionPos != null){
             item = createItem("HealthPotion",healthPotionPos);
@@ -1013,7 +1035,7 @@ public class LoopManiaWorld {
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                            Mehods Related to Cards                                         │ */
+    /* │                                           Methods Related to Cards                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
@@ -1073,37 +1095,30 @@ public class LoopManiaWorld {
     /* │                                                Helper Methods                                              │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-
     /**
      * get a randomly generated position which could be used to spawn an entity
      * @return null if random choice is that wont be spawning an entity or it isn't possible, or random coordinate pair
      * if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetSpawnPosition(int chance){
+    private Pair<Integer, Integer> possiblyGetSpawnPosition(){
 
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
-        Random rand = new Random();
-        int choice = rand.nextInt(chance);
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
+        int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+        // inclusive start and exclusive end of range of positions not allowed
+        int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+        int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+        // note terminating condition has to be != rather than < since wrap around...
+        for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
 
-        // TODO = change based on spec
-        if ((choice == 0)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<Pair<Integer, Integer>>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
+            orderedPathSpawnCandidates.add(orderedPath.get(i));
         }
-        return null;
+
+        Random random = new Random();
+        // choose random choice
+        Pair<Integer, Integer> spawnPosition =
+                orderedPathSpawnCandidates.get(random.nextInt(orderedPathSpawnCandidates.size()));
+
+        return spawnPosition;
     }
 
     /**

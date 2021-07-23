@@ -4,6 +4,7 @@ import org.javatuples.Pair;
 import org.junit.Test;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Buildings.ZombiePitBuilding;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Enemies.BasicEnemy;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
@@ -13,6 +14,7 @@ import unsw.loopmania.model.PathPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -24,11 +26,18 @@ public class SpawningTest {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+        Character character =  new Character(pathPosition);
 
-        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>());
-        List<BasicEnemy> spanningEnemies = world.SpawnSlugs();
+        Random random = new Random(1);
+        int chance = random.nextInt(99);
 
-        assertNotNull(spanningEnemies);
+        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
+        world.setCharacter(character);
+
+        if (chance < 50) {
+            assertNotNull(world.SpawnSlugs());
+        }
 
     }
 
@@ -72,11 +81,18 @@ public class SpawningTest {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+        Character character =  new Character(pathPosition);
 
-        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>());
-        Item item = world.possiblySpawnGold();
+        Random random = new Random(1);
+        int chance = random.nextInt(99);
 
-        assertNotNull(item);
+        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
+        world.setCharacter(character);
+
+        if (chance < 15) {
+            assertNotNull(world.possiblySpawnGold());
+        }
     }
 
     @Test
@@ -86,11 +102,18 @@ public class SpawningTest {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+        Character character =  new Character(pathPosition);
 
-        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>());
-        Item item = world.possiblySpawnHealthPotions();
+        Random random = new Random(1);
+        int chance = random.nextInt(99);
 
-        assertNotNull(item);
+        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
+        world.setCharacter(character);
+
+        if (chance < 15) {
+            assertNotNull(world.possiblySpawnHealthPotions());
+        }
     }
 
 }
