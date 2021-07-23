@@ -140,6 +140,19 @@ public class BuildingsTests {
     }
 
     @Test
+    void TrapTest2() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        TrapBuilding trapBuilding = new TrapBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1)));
+        trapBuilding.setPathPosition(position);
+        assertEquals(trapBuilding.getPathPosition(), position)
+        BasicEnemy slug = new Slug(position);
+    }
+
+    @Test
     void CampfireTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         orderedPath.add(new Pair<>(1,1));
