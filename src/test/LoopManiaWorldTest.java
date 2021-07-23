@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 
@@ -51,7 +52,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1, 1));
         orderedPath.add(new Pair<>(1, 2));
         orderedPath.add(new Pair<>(1, 3));
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         
         new BarracksBuilding(new PathPosition(2, orderedPath));
         
@@ -95,7 +96,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(0,2)); // 24
         orderedPath.add(new Pair<>(0,1)); // 25
 
-        LoopManiaWorld world = new LoopManiaWorld(9, 6, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(9, 6, orderedPath, rareItems, new Random(1));
 
         // Initialise character on 5,0
         PathPosition characterPosition = new PathPosition(5, orderedPath);
@@ -183,7 +184,7 @@ public class LoopManiaWorldTest {
     @Test
     public void addUnequippedItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         // Test item creation
         world.addUnequippedItem("Stake");
         Item stake = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
@@ -251,7 +252,7 @@ public class LoopManiaWorldTest {
     @Test
     public void equipItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         // Test weapon slot
         world.addUnequippedItem("Sword");
         Item sword = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
@@ -311,7 +312,7 @@ public class LoopManiaWorldTest {
     @Test
     public void removeUnequippedInventoryItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         assertEquals(world.getUnequippedItems().size(), 0);
         world.removeUnequippedInventoryItemByCoordinates(0, 0);
         assertEquals(world.getUnequippedItems().size(), 0);
@@ -327,7 +328,7 @@ public class LoopManiaWorldTest {
     @Test
     public void getUnequippedInventoryItemEntityByCoordinatesTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         Item item = world.getUnequippedInventoryItemEntityByCoordinates(0,0);
         assertEquals(item, null);
         world.addUnequippedItem("Stake");
@@ -344,7 +345,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities
@@ -369,7 +370,7 @@ public class LoopManiaWorldTest {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
         new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         world.loadCard("TrapCard");
         // Trap card is in first slot of card entities

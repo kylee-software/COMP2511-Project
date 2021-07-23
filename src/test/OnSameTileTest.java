@@ -18,12 +18,13 @@ import unsw.loopmania.model.PathPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class OnSameTileTest {
 
     List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
 
-    LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>());
+    LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
 
     /**
      * Test to make sure character and enemy are on the same location
