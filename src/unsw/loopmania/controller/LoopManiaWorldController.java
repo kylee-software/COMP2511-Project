@@ -451,7 +451,7 @@ public class LoopManiaWorldController {
         loadGoldPile();
         loadHealthPotion();
         loadCard("TrapCard");
-        loadCard("VillageCard");
+        loadCard("BarracksCard");
     }
 
     /**
