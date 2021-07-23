@@ -17,8 +17,8 @@ public class ZombiePitBuilding extends Building {
      * @param position position where zombie is spawned
      * @return zombie
      */
-    public Zombie spawnZombie(boolean validSpawn, PathPosition pathPosition) {
-        if (validSpawn) {
+    public Zombie spawnZombie(boolean completedACycle, int cycles, PathPosition pathPosition) {
+        if (completedACycle && cycles > 0) {
             return new Zombie(pathPosition);
         }
         return null;

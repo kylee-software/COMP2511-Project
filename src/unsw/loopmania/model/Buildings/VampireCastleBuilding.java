@@ -19,8 +19,8 @@ public class VampireCastleBuilding extends Building {
      * @param pathPosition position where vampire is spawned
      * @return vampire
      */
-    public Vampire spawnVampire(boolean validSpawn, PathPosition pathPosition) {
-        if (validSpawn) {
+    public Vampire spawnVampire(boolean completedACycle, int cycles, PathPosition pathPosition) {
+        if (completedACycle && cycles % 5 == 0) {
             return new Vampire(pathPosition);
         }
         return null;

@@ -473,8 +473,7 @@ public class LoopManiaWorld {
 
         for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(vampireCastleBuilding);
-            boolean validSpawn = completedACycle() && getCycles() % 5 == 0;
-            Vampire vampire = vampireCastleBuilding.spawnVampire(validSpawn, pathPosition);
+            Vampire vampire = vampireCastleBuilding.spawnVampire(completedACycle(), getCycles(), pathPosition);
             if (vampire != null) {
                 enemies.add(vampire);
                 spawningEnemies.add(vampire);
@@ -492,8 +491,7 @@ public class LoopManiaWorld {
 
         for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(zombiePitBuilding);
-            boolean validSpawn = completedACycle() && getCycles() > 0;
-            Zombie zombie = zombiePitBuilding.spawnZombie(validSpawn, pathPosition);
+            Zombie zombie = zombiePitBuilding.spawnZombie(completedACycle(), getCycles(), pathPosition);
             if (zombie != null) {
                 enemies.add(zombie);
                 spawningEnemies.add(zombie);
