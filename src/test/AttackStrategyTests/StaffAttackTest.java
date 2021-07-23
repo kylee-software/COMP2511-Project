@@ -50,7 +50,7 @@ public class StaffAttackTest {
     }
 
     /**
-     * Test randomness of trance chance 3 times with random seed of 7
+     * Test randomness of trance chance 10 times with random seed of 7
      */
     @Test
     public void tranceChanceExecuteTest() {
@@ -63,6 +63,27 @@ public class StaffAttackTest {
         Random random = new Random(7);
         Boolean expectedTrance = random.nextInt(99) < 40;
         Boolean trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
         expectedTrance = random.nextInt(99) < 40;
         trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
