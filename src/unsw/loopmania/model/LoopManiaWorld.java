@@ -145,6 +145,7 @@ public class LoopManiaWorld {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
+        this.experience = 0;
         this.rareItems = rareItems;
         this.isLost = false;
         this.random = random;
