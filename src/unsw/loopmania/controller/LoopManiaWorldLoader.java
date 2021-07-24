@@ -19,6 +19,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.PathTile;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Loads a world from a .json file.
@@ -55,8 +56,11 @@ public abstract class LoopManiaWorldLoader {
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
         
-        //String gameMode = "Standard"; 
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems);
+        // TODO: change this to the game mode the player picks
+        //String gameMode = "Standard";
+
+        Random random = new Random(1);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, random);
         //world.setGoal(getGoal(world));
 
         JSONArray jsonEntities = json.getJSONArray("entities");

@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ public class TrivialTest {
     
     @Test
     public void blahTest2(){
-        LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>(), new ArrayList<>());
+        LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>(), new ArrayList<>(), new Random(1));
         assertEquals(d.getWidth(), 1);
     }
 }

@@ -238,7 +238,7 @@ public class LoopManiaWorldController {
         campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
         towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
         trapBuildingImage = new Image((new File("src/images/trap.png")).toURI().toString());
-        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle.png")).toURI().toString());
+        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         villageBuildingImage = new Image((new File("src/images/village.png")).toURI().toString());
         zombiePitBuildingImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
         // Enemy Images
@@ -329,31 +329,37 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-            world.completedACycle();
-            world.runTickMoves();
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e: defeatedEnemies){
-                reactToEnemyDefeat(e);
-            }
-            List<BasicEnemy> newEnemies = world.SpawnSlugs();
-            // ADD OTHER SPAWNING THINGS HERE
-
-            for (BasicEnemy newEnemy: newEnemies){
-                // onLoad(newEnemy);
-                onLoadEnemy(newEnemy);
-            }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
             if (world.getIsLost()) 
                 switchToGameOverScreen();
             else if (world.isGoalCompleted()) {
                 System.out.println("We WON");
                 pause();
                 switchToWinScreen();
-            } else if (world.canAccessHerosCastleMenu()) {
+            } else if (world.completedACycle() && world.getCycles() > 0) {
                 pause();
                 switchToHerosCastleMenu();
+            }
+            // check goal completion
+            world.completedACycle();
+            world.healCharacterInVillage();
+            world.spawnAllyFromBarracks();
+            world.runTickMoves();
+            world.runBattles();
+            for (String card: world.getBattleRewardCards())
+                loadCard(card);
+            world.getBattleRewardCards().clear();
+            for (String item: world.getBattleRewardItems())
+                loadItem(item);
+            world.getBattleRewardItems().clear();
+            List<BasicEnemy> newEnemies = new ArrayList<>();
+            newEnemies.addAll(world.SpawnSlugs());
+            newEnemies.addAll(world.spawnVampiresFromVampireCastles());
+            newEnemies.addAll(world.spawnZombiesFromZombiePits());
+            // ADD OTHER SPAWNING THINGS HERE
+
+            for (BasicEnemy newEnemy: newEnemies){
+                // onLoad(newEnemy);
+                onLoadEnemy(newEnemy);
             }
 
             printThreadingNotes("HANDLED TIMER");
@@ -443,13 +449,14 @@ public class LoopManiaWorldController {
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
-    //private void reactToEnemyDefeat(Battle battle){
     private void reactToEnemyDefeat(BasicEnemy enemy){
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         loadGoldPile();
         loadHealthPotion();
+        loadCard("VampireCastleCard");
+        loadCard("ZombiePitCard");
     }
 
     /**
@@ -566,11 +573,14 @@ public class LoopManiaWorldController {
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
                         switch (draggableType){
                             case CARD:
-                                if (card.validPosition(nodeX, nodeY, world.getOrderedPath())) {
-                                    removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                    Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                Building newBuilding = convertCardToBuilding(nodeX, nodeY, x, y);
+                                if (newBuilding != null)
                                     onloadBuilding(newBuilding);
+                                else {
+                                    currentlyDraggedImage.setVisible(true);  
                                 }
+                                node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -1022,4 +1032,5 @@ public class LoopManiaWorldController {
         else if (item instanceof TheOneRing) 
         draggedEntity.setImage(theOneRingImage);
     }
+
 }

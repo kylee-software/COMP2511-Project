@@ -17,12 +17,12 @@ public class BarracksBuilding extends Building {
         this.pathPosition = pathPosition;
     }
 
-    public void setPathPosition(PathPosition pathPosition) {
-        this.pathPosition = pathPosition;
-    }
-
     public PathPosition getPathPosition() {
         return pathPosition;
+    }
+
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
     }
 
     /**

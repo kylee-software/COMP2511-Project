@@ -2,6 +2,7 @@ package unsw.loopmania.model.AttackStrategy;
 
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Character;
 
 /**
 * Implements basic attack for a character/alliedSoldier/tower on a target
