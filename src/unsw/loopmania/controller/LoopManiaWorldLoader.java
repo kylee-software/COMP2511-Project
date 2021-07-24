@@ -18,7 +18,6 @@ import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.PathTile;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -92,7 +91,6 @@ public abstract class LoopManiaWorldLoader {
         assert indexInPath != -1;
 
         Entity entity = null;
-        // TODO = load more entity types from the file
         switch (type) {
         case "hero_castle":
             // Add hero castle to the world
@@ -107,7 +105,6 @@ public abstract class LoopManiaWorldLoader {
             break;
         case "path_tile":
             throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
-        // TODO Handle other possible entities
         }
         world.addEntity(entity);
     }

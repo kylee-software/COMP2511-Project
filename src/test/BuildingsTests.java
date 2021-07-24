@@ -28,10 +28,10 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
 
         int cycle = 1;
-        assertNull(vampireCastleBuilding.spawnVampire(cycle, position));
+        assertNull(vampireCastleBuilding.spawnVampire(true, cycle, position));
 
         cycle = 5;
-        assertNotNull(vampireCastleBuilding.spawnVampire(cycle, position));
+        assertNotNull(vampireCastleBuilding.spawnVampire(true, cycle, position));
     }
 
     @Test
@@ -45,10 +45,10 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
 
         int cycle = 0;
-        assertNull(zombiePitBuilding.spawnZombie(cycle, position));
+        assertNull(zombiePitBuilding.spawnZombie(false, cycle, position));
 
         cycle = 1;
-        assertNotNull(zombiePitBuilding.spawnZombie(cycle, position));
+        assertNotNull(zombiePitBuilding.spawnZombie(true, cycle, position));
     }
 
     // TODO = wait until implementation of attack strategy
@@ -169,29 +169,5 @@ public class BuildingsTests {
         // Test scaring vampire
         // vampire.runFromCampfire();
 
-        // TODO: Test strategy of double damage in battle
-        // Character character = new Character(new PathPosition(2, orderedPath));
-        // campfireBuilding.performDamage(character, vampire);
-        // assert(vampire.getHealth() == 100 - campfireBuilding.getDamageBonus());
-
     }
-    // Not sure if need this anymore since it's tested in menu tests
-    // @Test
-    // void HerosCastleBuilding() {
-    //     List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-    //     orderedPath.add(new Pair<>(1,1));
-    //     orderedPath.add(new Pair<>(1,2));
-    //     orderedPath.add(new Pair<>(1,3));
-    //     HerosCastleBuilding herosCastleBuilding = new HerosCastleBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-
-    //     Shield shield = new Shield(new SimpleIntegerProperty(), new SimpleIntegerProperty());
-
-    //     // Buy item
-    //     herosCastleBuilding.buyItem(shield, null);
-    //     assert(herosCastleBuilding.getBoughtItems() != null);
-
-    //     // sell item
-    //     herosCastleBuilding.sellItem(shield, null);
-    //     assert(herosCastleBuilding.getBoughtItems().isEmpty());
-    // }
 }

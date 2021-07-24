@@ -57,11 +57,11 @@ public class LoopManiaWorldTest {
         new BarracksBuilding(new PathPosition(2, orderedPath));
         
         Character character = new Character(new PathPosition(1, orderedPath));
-        List<AlliedSoldier> alliedSoldiers = world.spawnAlliesFromBarracks();
+        List<AlliedSoldier> alliedSoldiers = world.spawnAllyFromBarracks();
         assert(alliedSoldiers.isEmpty());
 
-        character.move();
-        alliedSoldiers = world.spawnAlliesFromBarracks();
+        character.moveDownPath();
+        alliedSoldiers = world.spawnAllyFromBarracks();
         assertNotNull(alliedSoldiers);
     }
 
@@ -152,6 +152,8 @@ public class LoopManiaWorldTest {
         world.addEnemy(vampire2);
 
         // Initialise campfire (In range)
+        // Card campfireCard = world.loadCard("CampfireBuilding");
+        // Building campfire = world.convertCardToBuilding(campfireCard.getX(), campfireCard.getY(), 6, 1);
         CampfireBuilding campfire1 = new CampfireBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
         CampfireBuilding campfire2 = new CampfireBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(1));
 
@@ -386,6 +388,11 @@ public class LoopManiaWorldTest {
         assertNull(newBuilding);
         assert(world.getBuildingEntities().isEmpty());
         assert(world.getCardEntities().get(0) instanceof TrapCard);
+    }
+
+    @Test
+    public void healCharacterInVillage() {
+
     }
 
     @Test

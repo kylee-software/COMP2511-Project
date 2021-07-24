@@ -25,10 +25,6 @@ public class TrapBuilding extends Building {
         return pathPosition;
     }
 
-    public void setPathPosition(PathPosition pathPosition) {
-        this.pathPosition = pathPosition;
-    }
-
     /**
      * Damage an enemy's health when the enemy passes over the trap
      * Deals 10 damage
