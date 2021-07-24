@@ -25,9 +25,15 @@ public class TrapBuilding extends Building {
         return pathPosition;
     }
 
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
+    }
+
     /**
      * Damage an enemy's health when the enemy passes over the trap
+     * Deals 10 damage
      * @param enemy Enemy
+     * @return enemy's new health after damage has been dealt
      */
     public int damageEnemy(BasicEnemy enemy) {
         int damage = 10;

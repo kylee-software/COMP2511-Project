@@ -82,6 +82,21 @@ public class BuildingsTests {
 
         assertEquals(character.getHealth(), 100);
     }
+    /*
+    * Testing super class instantiation
+    */
+    @Test
+    void VillageTest2() {
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        villageBuilding.setPathPosition(position);
+        assertEquals(villageBuilding.getPathPosition(), position);
+    }
 
     @Test
     void BarrackTest() {
@@ -93,6 +108,19 @@ public class BuildingsTests {
         BarracksBuilding barracksBuilding = new BarracksBuilding(position);
        
         assertNotNull(barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath)));
+    }
+
+    @Test
+    void BarrackTest2() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        BarracksBuilding barracksBuilding = new BarracksBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        barracksBuilding.setPathPosition(position);
+        assertEquals(barracksBuilding.getPathPosition(), position);
+        
     }
 
     @Test
@@ -110,6 +138,19 @@ public class BuildingsTests {
         BasicEnemy vampire = new Vampire(position);
         assertEquals(trapBuilding.damageEnemy(vampire), 40);
         assert(!trapBuilding.shouldExist().get());
+    }
+
+    @Test
+    void TrapTest2() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(1, orderedPath);
+        TrapBuilding trapBuilding = new TrapBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        trapBuilding.setPathPosition(position);
+        assertEquals(trapBuilding.getPathPosition(), position);
+        BasicEnemy slug = new Slug(position);
     }
 
     @Test

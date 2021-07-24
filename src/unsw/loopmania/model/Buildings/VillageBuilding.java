@@ -25,6 +25,10 @@ public class VillageBuilding extends Building {
         return pathPosition;
     }
 
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
+    }
+
     public boolean checkForCharacter(Character character) {
         // TODO = need to implement this correctly and add javadoc
         return false;

@@ -25,6 +25,10 @@ public class BarracksBuilding extends Building {
         return pathPosition;
     }
 
+    public void setPathPosition(PathPosition pathPosition) {
+        this.pathPosition = pathPosition;
+    }
+
     /**
      * Creates an allied soldier when Character passes over barracks
      * @param x x coordinate of allied soldier
