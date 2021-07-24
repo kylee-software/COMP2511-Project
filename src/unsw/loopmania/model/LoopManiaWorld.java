@@ -151,6 +151,7 @@ public class LoopManiaWorld {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
+        this.experience = 0;
         this.rareItems = rareItems;
         this.isLost = false;
         this.random = random;
@@ -697,18 +698,6 @@ public class LoopManiaWorld {
         }
         for (String item : battle.getBattleItems()) {
             battleRewardItems.add(item);
-        }
-    }
-
-    private void gainBattleRewardItems(Battle battle) {
-        for (String item : battle.getBattleItems()) {
-            addUnequippedItem(item);
-        }
-    }
-
-    private void gainBattleRewardCards(Battle battle) {
-        for (String card : battle.getBattleCards()) {
-            loadCard(card);
         }
     }
 

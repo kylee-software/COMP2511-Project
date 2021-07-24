@@ -118,6 +118,9 @@ public class LoopManiaWorldTest {
         world.addBuilding(tower3);
 
         // Initialise allies
+        PathPosition allyPosition = new PathPosition(1, orderedPath);
+        AlliedSoldier ally1 = new AlliedSoldier(allyPosition);
+        world.addAlliedSoldier(ally1);
 
         // Initialise enemies (In range: S1, S2, Z1, V1)
         PathPosition slug1Position = new PathPosition(4, orderedPath);
@@ -149,8 +152,6 @@ public class LoopManiaWorldTest {
         world.addEnemy(vampire2);
 
         // Initialise campfire (In range)
-        // Card campfireCard = world.loadCard("CampfireBuilding");
-        // Building campfire = world.convertCardToBuilding(campfireCard.getX(), campfireCard.getY(), 6, 1);
         CampfireBuilding campfire1 = new CampfireBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
         CampfireBuilding campfire2 = new CampfireBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(1));
 
