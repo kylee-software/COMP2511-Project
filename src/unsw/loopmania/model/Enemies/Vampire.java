@@ -1,5 +1,7 @@
 package unsw.loopmania.model.Enemies;
 
+import java.util.Random;
+
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.VampireAttack;
@@ -29,9 +31,23 @@ public class Vampire extends BasicEnemy {
         super(position, health, damage, speed);
     }
 
+    /**
+     * Movement for vampire is the same as other basic enemies until
+     * it has the runAway debuff from reaching a campfire
+     */
     @Override
     public void move() {
-        super.move();
+        if (runAwayTicks > 0) {
+            moveUpPath();
+            runAwayTicks--;
+        } else {
+            int directionChoice = (new Random()).nextInt(2);
+            if (directionChoice == 0){
+                moveUpPath();
+            } else if (directionChoice == 1) {
+                moveDownPath();
+            }
+        }
     }
 
      /**
@@ -78,7 +94,18 @@ public class Vampire extends BasicEnemy {
         return strategy;
     }
 
-    // for running away from campfire
+    /**
+     * Gives the vampire a running away debuff for a set number of ticks
+     * which will decrease in the move function before resuming normal
+     * movement
+     * @param inCampfireRange
+     */
     public void setInCampfireRange(boolean inCampfireRange) {
+        if (runAwayTicks > 0) {
+            this.inCampfireRange = inCampfireRange;
+        } else if (inCampfireRange) {
+            this.inCampfireRange = inCampfireRange;
+            runAwayTicks = 3;
+        }
     }
 }

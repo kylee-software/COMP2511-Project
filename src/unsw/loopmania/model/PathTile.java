@@ -57,8 +57,10 @@ public class PathTile extends StaticEntity {
     }
 
     public void spawnItems() {
+        // TODO = need to implement this correctly and add javadoc
     }
 
     public void pickupItems(Character character) {
+        // TODO = need to implement this correctly and add javadoc
     }
 }
