@@ -65,7 +65,7 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldExperience;
-    private int experience;
+    private int experience = 0;
 
     @FXML
     private Label worldGold;
@@ -655,9 +655,6 @@ public class LoopManiaWorld {
             }
         } else {
             gainBattleRewards(battle);
-            updateExperience();
-            updateGold();
-            updateHealth();
         }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());

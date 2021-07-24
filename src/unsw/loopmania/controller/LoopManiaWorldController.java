@@ -345,6 +345,9 @@ public class LoopManiaWorldController {
             world.spawnAllyFromBarracks();
             world.runTickMoves();
             world.runBattles();
+            world.updateExperience();
+            world.updateGold();
+            world.updateHealth();
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
             world.getBattleRewardCards().clear();
