@@ -200,6 +200,9 @@ public abstract class LoopManiaWorldLoader {
                 int cyclesQuantity = goal.getInt("quantity");
                 CycleGoal cycleGoal = new CycleGoal(cyclesQuantity);
                 return cycleGoal;
+            case "bosses":
+                BossGoal bossGoal = new BossGoal();
+                return bossGoal;
         }
 
         return null;
