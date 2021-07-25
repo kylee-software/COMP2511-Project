@@ -14,6 +14,7 @@ public class AndGoal extends Goal {
 
     /**
      * to check if two goals are satisfied or not
+     * @param world the current Loop Mania World
      * @return true if the player completed both goals else false
      */
     @Override

@@ -77,6 +77,7 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+    private List<Boss> bosses = new ArrayList<Boss>();
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
@@ -291,6 +292,9 @@ public class LoopManiaWorld {
         return supportEnemies;
     }
 
+    public List<Boss> getBosses() {
+        return bosses;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                   Getters and Setters Related to Buildings                                 │ */
