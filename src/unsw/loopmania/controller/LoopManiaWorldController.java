@@ -586,9 +586,32 @@ public class LoopManiaWorldController {
                                 node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
+                                Boolean success = world.equipItem(item);
+                                if (!success) {
+                                    // return card
+                                    return;
+                                }
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 removeItemByCoordinates(nodeX, nodeY);
-                                targetGridPane.add(image, x, y, 1, 1);
+                                if (item.getType().equals("Weapon")) {
+                                    x = 0;
+                                    y = 1;
+                                } else if (item.getType().equals("RareItem")) {
+                                    x = 2;
+                                    y = 0;
+                                } else if (item.getType().equals("Helmet")) {
+                                    x = 1;
+                                    y = 0;
+                                } else if (item.getType().equals("Shield")) {
+                                    x = 2;
+                                    y = 1;
+                                } else if (item.getType().equals("Armour")) {
+                                    x = 1;
+                                    y = 1;
+                                }
+                                if (item.getClass() != HealthPotion.class) {
+                                    targetGridPane.add(image, x, y, 1, 1);
+                                }
                                 break;
                             default:
                                 break;

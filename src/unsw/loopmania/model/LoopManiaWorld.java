@@ -776,32 +776,32 @@ public class LoopManiaWorld {
         if (item.getType().equals("RareItem")) {
             if (equippedRareItem == null) {
                 equippedRareItem = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(2));
+                item.setX(new SimpleIntegerProperty(2));
+                item.setY(new SimpleIntegerProperty(0));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Weapon")) {
             if (equippedAttackItem == null) {
                 equippedAttackItem = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(0));
+                item.setX(new SimpleIntegerProperty(0));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Helmet")) {
             if (equippedHelmet == null) {
                 equippedHelmet = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(1));
+                item.setX(new SimpleIntegerProperty(1));
+                item.setY(new SimpleIntegerProperty(0));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Shield")) {
             if (equippedShield == null) {
                 equippedShield = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(2));
+                item.setX(new SimpleIntegerProperty(2));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
