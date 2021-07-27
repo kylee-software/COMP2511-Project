@@ -59,6 +59,24 @@ public class VampireAttackTest {
         assertEquals(character.getHealth(), 100 - baseDamage);
         character.setHealth(100);
 
+        vampireAttack.execute(attacker, character, 0, 0, false, 0);
+        expectedCrit = random.nextInt(99) < 40;
+        baseDamage = 25;
+        if (expectedCrit) {
+            baseDamage += random.nextInt(9) + 1;
+        }
+        assertEquals(character.getHealth(), 100 - baseDamage);
+        character.setHealth(100);
+
+        vampireAttack.execute(attacker, character, 0, 0, false, 0);
+        expectedCrit = random.nextInt(99) < 40;
+        baseDamage = 25;
+        if (expectedCrit) {
+            baseDamage += random.nextInt(9) + 1;
+        }
+        assertEquals(character.getHealth(), 100 - baseDamage);
+        character.setHealth(100);
+        
         // Check campfire does not affect damage
         vampireAttack.execute(attacker, character, 0, 0, true, 0);
         expectedCrit = random.nextInt(99) < 40;

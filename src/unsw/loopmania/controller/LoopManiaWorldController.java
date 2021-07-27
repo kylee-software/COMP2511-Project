@@ -248,7 +248,7 @@ public class LoopManiaWorldController {
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         // Item Images
-        armourImage = new Image((new File("src/images/amour.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
@@ -365,6 +365,9 @@ public class LoopManiaWorldController {
             for (String item: world.getBattleRewardItems())
                 loadItem(item);
             world.getBattleRewardItems().clear();
+            for (String item: world.getDiscardCardRewardItems())
+                loadItem(item);
+            world.getDiscardCardRewardItems().clear();
             List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
@@ -374,11 +377,6 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
-            }
-
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e: defeatedEnemies){
-                reactToEnemyDefeat(e);
             }
 
             // ALL ITEM SPAWNING MECHANICS
@@ -483,20 +481,6 @@ public class LoopManiaWorldController {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      OnLoad Methods for Controller                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
-    /**
-     * run GUI events after an enemy is defeated, such as spawning items/experience/gold
-     * @param enemy defeated enemy for which we should react to the death of
-     */
-    private void reactToEnemyDefeat(BasicEnemy enemy){
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-//        loadGoldPile();
-//        loadHealthPotion();
-        loadCard("VampireCastleCard");
-        loadCard("ZombiePitCard");
-    }
 
     /**
      * load goldPile into the GUI
@@ -651,9 +635,32 @@ public class LoopManiaWorldController {
                                 node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
+                                Boolean success = world.equipItem(item);
+                                if (!success) {
+                                    // return card
+                                    return;
+                                }
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 removeItemByCoordinates(nodeX, nodeY);
-                                targetGridPane.add(image, x, y, 1, 1);
+                                if (item.getType().equals("Weapon")) {
+                                    x = 0;
+                                    y = 1;
+                                } else if (item.getType().equals("RareItem")) {
+                                    x = 2;
+                                    y = 0;
+                                } else if (item.getType().equals("Helmet")) {
+                                    x = 1;
+                                    y = 0;
+                                } else if (item.getType().equals("Shield")) {
+                                    x = 2;
+                                    y = 1;
+                                } else if (item.getType().equals("Armour")) {
+                                    x = 1;
+                                    y = 1;
+                                }
+                                if (item.getClass() != HealthPotion.class) {
+                                    targetGridPane.add(image, x, y, 1, 1);
+                                }
                                 break;
                             default:
                                 break;

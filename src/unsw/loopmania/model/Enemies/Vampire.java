@@ -86,6 +86,10 @@ public class Vampire extends BasicEnemy {
         return critChance;
     }
 
+    public boolean getInCampfireRange() {
+        return inCampfireRange;
+    }
+
     /**
      * Getter for attack strategy
      */

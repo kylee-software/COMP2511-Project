@@ -98,6 +98,27 @@ public class ZombieAttackTest {
         expectedInfect = random.nextInt(99) < 15;
         infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
+        expectedInfect = random.nextInt(99) < 15;
+        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        assertEquals(infect, expectedInfect);
     }
 }
 

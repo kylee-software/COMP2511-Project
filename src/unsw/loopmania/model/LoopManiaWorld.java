@@ -68,7 +68,6 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldHealth;
-    private int health = 100;
 
     private int cycles;
 
@@ -118,6 +117,8 @@ public class LoopManiaWorld {
     private List<String> battleRewardItems = new ArrayList<>();
 
     private List<String> battleRewardCards = new ArrayList<>();
+
+    private List<String> discardCardRewardItems = new ArrayList<>();
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
@@ -253,14 +254,6 @@ public class LoopManiaWorld {
         return experience;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public List<AlliedSoldier> getAlliedSoldiers() {
         return alliedSoldiers;
     }
@@ -309,27 +302,6 @@ public class LoopManiaWorld {
      */
     public void setHerosCastleBuilding(HerosCastleBuilding herosCastleBuilding) {
         this.herosCastleBuilding = herosCastleBuilding;
-    }
-
-    /**
-     * Returns list of all towers/campfires in support range
-     * @param type - 'Campfire' or 'Tower'
-     * @return buildings list
-     */
-    private List<Building> getSupportBuildings(String type) {
-        List<Building> buildings = new ArrayList<Building>();
-        for (Building b : getBuildingEntities()){
-            if (
-                    (type.equals("Tower") && b.getClass().equals(TowerBuilding.class)) ||
-                    (type.equals("Campfire") && b.getClass().equals(CampfireBuilding.class))
-            ) {
-                double battleRadiusSquared = Math.pow(b.getBattleRadius(), 2);
-                if (Math.pow((character.getX()-b.getX()), 2) +  Math.pow((character.getY()-b.getY()), 2) <= battleRadiusSquared){
-                    buildings.add(b);
-                }
-            }
-        }
-        return buildings;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -388,6 +360,9 @@ public class LoopManiaWorld {
         return battleRewardCards;
     }
 
+    public List<String> getDiscardCardRewardItems() {
+        return discardCardRewardItems;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
@@ -449,7 +424,7 @@ public class LoopManiaWorld {
      * @return true if Character is alive 
      */
     public boolean isAlive() {
-        if (getHealth() > 0) return true;
+        if (getCharacter().getHealth() > 0) return true;
         else return false;
     }
 
@@ -792,32 +767,32 @@ public class LoopManiaWorld {
         if (item.getType().equals("RareItem")) {
             if (equippedRareItem == null) {
                 equippedRareItem = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(2));
+                item.setX(new SimpleIntegerProperty(2));
+                item.setY(new SimpleIntegerProperty(0));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Weapon")) {
             if (equippedAttackItem == null) {
                 equippedAttackItem = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(0));
+                item.setX(new SimpleIntegerProperty(0));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Helmet")) {
             if (equippedHelmet == null) {
                 equippedHelmet = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(1));
+                item.setX(new SimpleIntegerProperty(1));
+                item.setY(new SimpleIntegerProperty(0));
             } else {
                 return false;
             }
         } else if (item.getType().equals("Shield")) {
             if (equippedShield == null) {
                 equippedShield = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(2));
+                item.setX(new SimpleIntegerProperty(2));
+                item.setY(new SimpleIntegerProperty(1));
             } else {
                 return false;
             }
@@ -939,10 +914,6 @@ public class LoopManiaWorld {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                        Methods Related to Buildings                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
-    public void trap() {
-        // TODO = need to implement this correctly and add javadoc
-    }
 
     /**
      * remove a card by its x, y coordinates
@@ -1109,8 +1080,8 @@ public class LoopManiaWorld {
         addGold(card.getGoldReward());
         addExperience(card.getExpReward());
         card.setItemReward();
-        for (String type : card.getItemRewardList())
-            addUnequippedItem(type);
+        for (String item : card.getItemRewardList())
+        discardCardRewardItems.add(item); 
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */

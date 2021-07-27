@@ -70,5 +70,26 @@ public class StaffAttackTest {
         expectedTrance = random.nextInt(99) < 40;
         trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
+        expectedTrance = random.nextInt(99) < 40;
+        trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        assertEquals(trance, expectedTrance);
     }
 }

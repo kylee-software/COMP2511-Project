@@ -17,40 +17,6 @@ import unsw.loopmania.model.Enemies.*;
 
 public class BuildingsTests {
 
-    @Test
-    void VampireCastleTest() {
-        VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
-        
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        orderedPath.add(new Pair<>(1,1));
-        orderedPath.add(new Pair<>(1,2));
-        orderedPath.add(new Pair<>(1,3));
-        PathPosition position = new PathPosition(1, orderedPath);
-
-        int cycle = 1;
-        assertNull(vampireCastleBuilding.spawnVampire(true, cycle, position));
-
-        cycle = 5;
-        assertNotNull(vampireCastleBuilding.spawnVampire(true, cycle, position));
-    }
-
-    @Test
-    void ZombiePitTest() {
-        ZombiePitBuilding zombiePitBuilding = new ZombiePitBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
-       
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        orderedPath.add(new Pair<>(1,1));
-        orderedPath.add(new Pair<>(1,2));
-        orderedPath.add(new Pair<>(1,3));
-        PathPosition position = new PathPosition(1, orderedPath);
-
-        int cycle = 0;
-        assertNull(zombiePitBuilding.spawnZombie(false, cycle, position));
-
-        cycle = 1;
-        assertNotNull(zombiePitBuilding.spawnZombie(true, cycle, position));
-    }
-
     // TODO = wait until implementation of attack strategy
     @Test
     void TowerTest() {
