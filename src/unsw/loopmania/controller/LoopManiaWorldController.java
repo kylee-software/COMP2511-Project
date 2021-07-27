@@ -248,7 +248,7 @@ public class LoopManiaWorldController {
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         // Item Images
-        armourImage = new Image((new File("src/images/amour.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
