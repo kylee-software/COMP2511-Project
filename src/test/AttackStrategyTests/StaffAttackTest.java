@@ -50,7 +50,7 @@ public class StaffAttackTest {
     }
 
     /**
-     * Test randomness of trance chance 10 times with random seed of 7
+     * Test randomness of trance chance 3 times with random seed of 7
      */
     @Test
     public void tranceChanceExecuteTest() {

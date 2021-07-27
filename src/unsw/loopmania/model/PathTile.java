@@ -55,10 +55,4 @@ public class PathTile extends StaticEntity {
     public PathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
-
-    public void spawnItems() {
-    }
-
-    public void pickupItems(Character character) {
-    }
 }

@@ -118,6 +118,9 @@ public class LoopManiaWorldTest {
         world.addBuilding(tower3);
 
         // Initialise allies
+        PathPosition allyPosition = new PathPosition(1, orderedPath);
+        AlliedSoldier ally1 = new AlliedSoldier(allyPosition);
+        world.addAlliedSoldier(ally1);
 
         // Initialise enemies (In range: S1, S2, Z1, V1)
         PathPosition slug1Position = new PathPosition(4, orderedPath);
@@ -356,7 +359,8 @@ public class LoopManiaWorldTest {
         int cardNodeY = world.getCardEntities().get(0).getY();
         int buildingNodeX = 1;
         int buildingNodeY = 2;
-        world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        Building newBuilding = world.convertCardToBuilding(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+        assertEquals(newBuilding, "TrapBuilding");
         assert(world.getBuildingEntities().get(0) instanceof TrapBuilding);
         assertEquals(world.getBuildingEntities().get(0).getX(), buildingNodeX);
         assertEquals(world.getBuildingEntities().get(0).getY(), buildingNodeY);
@@ -388,7 +392,7 @@ public class LoopManiaWorldTest {
 
     @Test
     public void healCharacterInVillage() {
-        
+
     }
 
     @Test

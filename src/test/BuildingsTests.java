@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import unsw.loopmania.model.Enemies.*;
 
 public class BuildingsTests {
 
+    // TODO = wait until implementation of attack strategy
     @Test
     void TowerTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();

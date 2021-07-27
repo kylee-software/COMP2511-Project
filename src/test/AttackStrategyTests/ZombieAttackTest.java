@@ -75,7 +75,7 @@ public class ZombieAttackTest {
     }
 
     /**
-     * Test randomness of infect chance 10 times with random seed of 4
+     * Test randomness of infect chance 4 times with random seed of 4
      */
     @Test
     public void infectChanceExecuteTest() {

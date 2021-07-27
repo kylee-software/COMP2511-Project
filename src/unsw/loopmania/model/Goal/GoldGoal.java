@@ -1,16 +1,13 @@
 package unsw.loopmania.model.Goal;
 
+import unsw.loopmania.model.LoopManiaWorld;
+
 public class GoldGoal extends Goal {
 
     private int goldGoal;
-    private int worldGold;
 
     public GoldGoal(int goldGoal) {
         this.goldGoal = goldGoal;
-    }
-
-    public void setWorldGold(int worldGold) {
-        this.worldGold = worldGold;
     }
 
     /**
@@ -18,7 +15,7 @@ public class GoldGoal extends Goal {
      * @return true if the player reached the gold goal else false
      */
     @Override
-    public boolean isGoalComplete() {
-        return worldGold == goldGoal;
+    public boolean isGoalComplete(LoopManiaWorld world) {
+        return world.getGold() >= goldGoal;
     }
 }

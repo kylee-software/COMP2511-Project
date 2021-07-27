@@ -31,7 +31,7 @@ public class VampireAttackTest {
         AttackStrategy vampireAttack = new VampireAttack();
         Random random = new Random(9);
         
-        // Test attack with no defences 5 times
+        // Test attack with no defences 3 times
         vampireAttack.execute(attacker, character, 0, 0, false, 0);
         Boolean expectedCrit = random.nextInt(99) < 40;
         int baseDamage = 25;
@@ -58,25 +58,25 @@ public class VampireAttackTest {
         }
         assertEquals(character.getHealth(), 100 - baseDamage);
         character.setHealth(100);
+
+        vampireAttack.execute(attacker, character, 0, 0, false, 0);
+        expectedCrit = random.nextInt(99) < 40;
+        baseDamage = 25;
+        if (expectedCrit) {
+            baseDamage += random.nextInt(9) + 1;
+        }
+        assertEquals(character.getHealth(), 100 - baseDamage);
+        character.setHealth(100);
+
+        vampireAttack.execute(attacker, character, 0, 0, false, 0);
+        expectedCrit = random.nextInt(99) < 40;
+        baseDamage = 25;
+        if (expectedCrit) {
+            baseDamage += random.nextInt(9) + 1;
+        }
+        assertEquals(character.getHealth(), 100 - baseDamage);
+        character.setHealth(100);
         
-        vampireAttack.execute(attacker, character, 0, 0, false, 0);
-        expectedCrit = random.nextInt(99) < 40;
-        baseDamage = 25;
-        if (expectedCrit) {
-            baseDamage += random.nextInt(9) + 1;
-        }
-        assertEquals(character.getHealth(), 100 - baseDamage);
-        character.setHealth(100);
-
-        vampireAttack.execute(attacker, character, 0, 0, false, 0);
-        expectedCrit = random.nextInt(99) < 40;
-        baseDamage = 25;
-        if (expectedCrit) {
-            baseDamage += random.nextInt(9) + 1;
-        }
-        assertEquals(character.getHealth(), 100 - baseDamage);
-        character.setHealth(100);
-
         // Check campfire does not affect damage
         vampireAttack.execute(attacker, character, 0, 0, true, 0);
         expectedCrit = random.nextInt(99) < 40;

@@ -329,6 +329,17 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+
+//            List<BasicEnemy> newEnemies = world.SpawnSlugs();
+//            // ADD OTHER SPAWNING THINGS HERE
+//
+//            for (BasicEnemy newEnemy: newEnemies){
+//                // onLoad(newEnemy);
+//                onLoadEnemy(newEnemy);
+//            }
+            // increment cycle
+            // world.checkWinCondition();
+            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
             if (world.getIsLost()) 
                 switchToGameOverScreen();
             else if (world.isGoalCompleted()) {
@@ -354,6 +365,9 @@ public class LoopManiaWorldController {
             for (String item: world.getBattleRewardItems())
                 loadItem(item);
             world.getBattleRewardItems().clear();
+            for (String item: world.getDiscardCardRewardItems())
+                loadItem(item);
+            world.getDiscardCardRewardItems().clear();
             List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
@@ -364,6 +378,21 @@ public class LoopManiaWorldController {
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
+
+            // ALL ITEM SPAWNING MECHANICS
+            List<Item> spawnedItems = world.possiblySpawnItem();
+            for (Item item : spawnedItems) {
+                if (item instanceof Gold) {
+                    Gold gold = (Gold) item;
+                    onLoadGold(gold);
+                } else if (item instanceof HealthPotion) {
+                    HealthPotion healthPotion = (HealthPotion) item;
+                    onLoadHealthPotion(healthPotion);
+                }
+            }
+
+             pickUpItems();
+             despawnItems();
 
             printThreadingNotes("HANDLED TIMER");
         }));
@@ -406,6 +435,11 @@ public class LoopManiaWorldController {
         entityImages.add(view);
     }
 
+    private void removeEntity(Entity entity, ImageView view) {
+        trackPosition(entity, view);
+        entityImages.remove(view);
+    }
+
     /**
      * load a card from the world, and pair it with an image in the GUI
      */
@@ -424,43 +458,29 @@ public class LoopManiaWorldController {
         onLoadItem(item);
     }
 
-    /**
-     * load spawned gold from the world, and pair it with an image in the GUI
-     */
-    private void loadGoldPile(){
-        Item gold = world.possiblySpawnGold();
-        if (gold != null) {
-            onLoadGold(gold);
-        }
-    }
+    // /**
+    //  * load spawned gold from the world, and pair it with an image in the GUI
+    //  */
+    // private void loadGoldPile(){
+    //     Item gold = world.possiblySpawnGold();
+    //     if (gold != null) {
+    //         onLoadGold(gold);
+    //     }
+    // }
 
-    /**
-     * load spawned health potion from the world, and pair it with an image in the GUI
-     */
-    private void loadHealthPotion(){
-        Item healthPotion = world.possiblySpawnHealthPotions();
-        if (healthPotion != null) {
-            onLoadHealthPotion(healthPotion);
-        }
-    }
+    // /**
+    //  * load spawned health potion from the world, and pair it with an image in the GUI
+    //  */
+    // private void loadHealthPotion(){
+    //     Item healthPotion = world.possiblySpawnHealthPotions();
+    //     if (healthPotion != null) {
+    //         onLoadHealthPotion(healthPotion);
+    //     }
+    // }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      OnLoad Methods for Controller                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
-    /**
-     * run GUI events after an enemy is defeated, such as spawning items/experience/gold
-     * @param enemy defeated enemy for which we should react to the death of
-     */
-    private void reactToEnemyDefeat(BasicEnemy enemy){
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadGoldPile();
-        loadHealthPotion();
-        loadCard("VampireCastleCard");
-        loadCard("ZombiePitCard");
-    }
 
     /**
      * load goldPile into the GUI
@@ -535,6 +555,35 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
+    /**
+     * pick up items on the path and add it to the unequipped inventory
+     */
+    private void pickUpItems() {
+        List<Item> items = world.pickupItems();
+
+        if (!items.isEmpty()) {
+            for (Item item : items) {
+                onLoadItem(item);
+            }
+        }
+    }
+
+     /**
+      * remove despawnned items from on the path
+      */
+     private void despawnItems() {
+         List<Item> items = world.getDespawnItems();
+
+         if (items != null) {
+             for (Item item : items) {
+                 item.destroy();
+             }
+         }
+
+         world.restDespawnItems();
+     }
+
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                     Dragging Methods from StarterCode                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -581,7 +630,7 @@ public class LoopManiaWorldController {
                                 if (newBuilding != null)
                                     onloadBuilding(newBuilding);
                                 else {
-                                    currentlyDraggedImage.setVisible(true);  
+                                    currentlyDraggedImage.setVisible(true);
                                 }
                                 node.setOpacity(node.getOpacity() + 0.3);
                                 break;

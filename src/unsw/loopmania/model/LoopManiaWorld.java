@@ -41,17 +41,12 @@ public class LoopManiaWorld {
     private List<String> rareItems;
     private Random random;
     private int randomChance;
-    private Goal goal;
+    private Goal goals;
     private String gameMode;
     private Boolean isLost;
 
     // list of x,y coordinate pairs in the order by which moving entities traverse them
     private List<Pair<Integer, Integer>> orderedPath;
-
-    private GoldGoal goldGoal;
-    private CycleGoal cycleGoal;
-    private ExperienceGoal experienceGoal;
-
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                     Attributes Related to Character                                        │ */
@@ -104,7 +99,9 @@ public class LoopManiaWorld {
 
     private Item equippedAttackItem = null;
 
-    private List<Item> spawnedItems = new ArrayList<Item>();
+    private List<Item> spawnedItems = new ArrayList<Item>();;
+
+    private List<Item> despawnItems = new ArrayList<Item>();
 
     private Item equippedHelmet = null;
 
@@ -119,6 +116,8 @@ public class LoopManiaWorld {
     private List<String> battleRewardItems = new ArrayList<>();
 
     private List<String> battleRewardCards = new ArrayList<>();
+
+    private List<String> discardCardRewardItems = new ArrayList<>();
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
@@ -151,6 +150,7 @@ public class LoopManiaWorld {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
+        this.experience = 0;
         this.rareItems = rareItems;
         this.isLost = false;
         this.random = random;
@@ -164,7 +164,6 @@ public class LoopManiaWorld {
     public void runTickMoves() {
         randomChance = random.nextInt(99);
         character.moveDownPath();
-        pickupItems();
         moveBasicEnemies();
         updateGold();
     }
@@ -341,6 +340,14 @@ public class LoopManiaWorld {
         return rareItems;
     }
 
+    public List<Item> getDespawnItems() {
+        return despawnItems;
+    }
+
+    public void restDespawnItems() {
+        this.despawnItems = new ArrayList<Item>();
+    }
+
     public List<String> getBattleRewardItems() {
         return battleRewardItems;
     }
@@ -348,7 +355,10 @@ public class LoopManiaWorld {
     public List<String> getBattleRewardCards() {
         return battleRewardCards;
     }
-    
+
+    public List<String> getDiscardCardRewardItems() {
+        return discardCardRewardItems;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
@@ -384,37 +394,36 @@ public class LoopManiaWorld {
     }
 
     public Goal getGoal() {
-        return goal;
-    }
-
-    public void setGoal(Goal goal) {
-        this.goal = goal;
+        return goals;
     }
 
     /**
      * set the goals of the game
      * @param goals hash map of all goals
      */
-    public void setGoals(List<Goal> goals) {
-
-        this.experienceGoal = (ExperienceGoal) goals.get(0);
-        this.goldGoal = (GoldGoal) goals.get(1);
-        this.cycleGoal = (CycleGoal) goals.get(2);
-
+    public void setGoals(Goal goals) {
+        this.goals = goals;
     }
+
     /**
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
      // DONE
      public boolean isGoalCompleted() {
-         cycleGoal.setWorldGoal(cycles);
-         experienceGoal.setWorldGoal(experience);
-         goldGoal.setWorldGold(gold);
-         AndGoal goal = new AndGoal(cycleGoal, new OrGoal(experienceGoal, goldGoal));
-
-         return goal.isGoalComplete();
+         return goals.isGoalComplete(this);
      }
+
+    /**
+     * Check whether Character is alive
+     * @param void 
+     * @return true if Character is alive 
+     */
+    public boolean isAlive() {
+        if (getCharacter().getHealth() > 0) return true;
+        else return false;
+    }
+
 
     /**
      * check is the character completed the current cycle or not
@@ -527,48 +536,29 @@ public class LoopManiaWorld {
 
     }
 
-    /**
-     * spawns gold if the conditions warrant it, adds to world
-     * @return list of the items to be displayed on screen
-     */
-    public Item possiblySpawnGold(){
-        Pair<Integer, Integer> goldPos = null;
-
+    public List<Item> possiblySpawnItem(){
+        List<Item> newlySpawnedItems = new ArrayList<Item>();
+        Pair<Integer, Integer> itemPos = null;
         if (randomChance < 15) {
-            goldPos = possiblyGetSpawnPosition();
+            itemPos = possiblyGetSpawnPosition();
         }
-
-        Item item = null;
-        if (goldPos != null) {
-            item = createItem("Gold", goldPos);
-            int goldIndexInPath = orderedPath.indexOf(goldPos);
-            PathPosition goldPosition = new PathPosition(goldIndexInPath, orderedPath);
-            Gold gold = new Gold(goldPosition.getX(), goldPosition.getY());
-            spawnedItems.add(gold);
+        if (itemPos != null) {
+            int indexInPath = orderedPath.indexOf(itemPos);
+            PathPosition itemPosition = new PathPosition(indexInPath, orderedPath);
+            Random rand = new Random();
+            int goldOrHPChance = rand.nextInt(2);
+            if (goldOrHPChance == 0) {
+                Gold gold = new Gold(itemPosition.getX(), itemPosition.getY());
+                spawnedItems.add(gold);
+                newlySpawnedItems.add(gold);
+            }
+            else if (goldOrHPChance == 1) {
+                HealthPotion healthPotion = new HealthPotion(itemPosition.getX(), itemPosition.getY());
+                spawnedItems.add(healthPotion);
+                newlySpawnedItems.add(healthPotion);
+            }
         }
-        return item;
-    }
-
-    /**
-     * spawns health potions if the conditions warrant it, adds to world
-     * @return list of the items to be displayed on screen
-     */
-    public Item possiblySpawnHealthPotions(){
-        Pair<Integer, Integer> healthPotionPos = null;
-
-        if (randomChance < 15) {
-            healthPotionPos = possiblyGetSpawnPosition();
-        }
-
-        Item item = null;
-        if (healthPotionPos != null){
-            item = createItem("HealthPotion",healthPotionPos);
-            int hpIndexInPath = orderedPath.indexOf(healthPotionPos);
-            PathPosition hpPosition = new PathPosition(hpIndexInPath, orderedPath);
-            HealthPotion healthPotion = new HealthPotion(hpPosition.getX(), hpPosition.getY());
-            spawnedItems.add(healthPotion);
-        }
-        return item;
+        return newlySpawnedItems;
     }
 
     /**
@@ -658,7 +648,7 @@ public class LoopManiaWorld {
         }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());
-        System.out.println("Item rewards: "+ battleRewardItems.size());  
+        System.out.println("Item rewards: "+ battleRewardItems.size());
         return defeatedEnemies;
     }
 
@@ -704,31 +694,28 @@ public class LoopManiaWorld {
     /**
      * pickup spawn items on the path tile when the character passes by
      */
-    public void pickupItems() {
+    public List<Item> pickupItems() {
         List<Item> collectedItems = new ArrayList<Item>();
         // pick up gold if any
+
+        List<Item> itemsToRemove = new ArrayList<Item>();
+    
         for (Item item : spawnedItems) {
             if (isOnSameTile(character, item)) {
                 if (item instanceof Gold) {
                     gold += ((Gold) item).getGoldFromGround();
+                    despawnItems.add(item);
+                    itemsToRemove.add(item);
+                } else if (item instanceof HealthPotion) {
+                    Item collectedItem = addUnequippedItem("HealthPotion");
+                    collectedItems.add(collectedItem);
+                    despawnItems.add(item);
+                    itemsToRemove.add(item);
                 }
-            } else if (isOnSameTile(character, item)) {
-                    if (item.getType() == "HealthPotion") {
-                        addUnequippedItem("Health Potion");
-                    }
             }
         }
-        // Second loop to despawn items to avoid comodification exception
-        for (Item item : collectedItems) {
-            if (isOnSameTile(character, item)) {
-                despawnItems(item);
-            }
-        }
-    }
-
-    public void despawnItems(Item items){
-        items.destroy();
-        spawnedItems.remove(items);
+        spawnedItems.removeAll(itemsToRemove);
+        return collectedItems;
     }
 
     /**
@@ -980,9 +967,9 @@ public class LoopManiaWorld {
     }
 
     public void scareVampireWithinCampfire(Vampire e) {
-        if (campfireBuildings.isEmpty()) 
+        if (campfireBuildings.isEmpty())
             e.setInCampfireRange(false);
-        else { 
+        else {
             for (CampfireBuilding b : campfireBuildings) {
                 if (Math.pow((e.getX()-b.getX()), 2) + Math.pow((e.getY()-b.getY()), 2) < Math.pow(b.getScareRadius(), 2)) {
                     e.setInCampfireRange(true);
@@ -1034,7 +1021,7 @@ public class LoopManiaWorld {
                 }
             }
         }
-    } 
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                           Methods Related to Cards                                         │ */
@@ -1089,8 +1076,8 @@ public class LoopManiaWorld {
         addGold(card.getGoldReward());
         addExperience(card.getExpReward());
         card.setItemReward();
-        for (String type : card.getItemRewardList())
-            addUnequippedItem(type);
+        for (String item : card.getItemRewardList())
+        discardCardRewardItems.add(item); 
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -1188,19 +1175,19 @@ public class LoopManiaWorld {
     }
 
     public void addBuilding(Building building) {
-        if (building instanceof BarracksBuilding) 
+        if (building instanceof BarracksBuilding)
             barracksBuildings.add((BarracksBuilding) building);
-        else if (building instanceof CampfireBuilding) 
+        else if (building instanceof CampfireBuilding)
             campfireBuildings.add((CampfireBuilding) building);
-        else if (building instanceof TowerBuilding) 
+        else if (building instanceof TowerBuilding)
             towerBuildings.add((TowerBuilding) building);
-        else if (building instanceof TrapBuilding) 
+        else if (building instanceof TrapBuilding)
             trapBuildings.add((TrapBuilding) building);
-        else if (building instanceof VampireCastleBuilding) 
+        else if (building instanceof VampireCastleBuilding)
             vampireCastleBuildings.add((VampireCastleBuilding) building);
-        else if (building instanceof VillageBuilding) 
+        else if (building instanceof VillageBuilding)
             villageBuildings.add((VillageBuilding) building);
-        else if (building instanceof ZombiePitBuilding) 
+        else if (building instanceof ZombiePitBuilding)
             zombiePitBuildings.add((ZombiePitBuilding) building);
     }
 
