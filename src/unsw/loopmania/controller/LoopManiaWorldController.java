@@ -248,7 +248,7 @@ public class LoopManiaWorldController {
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         // Item Images
-        armourImage = new Image((new File("src/images/amour.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
@@ -365,6 +365,9 @@ public class LoopManiaWorldController {
             for (String item: world.getBattleRewardItems())
                 loadItem(item);
             world.getBattleRewardItems().clear();
+            for (String item: world.getDiscardCardRewardItems())
+                loadItem(item);
+            world.getDiscardCardRewardItems().clear();
             List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
