@@ -14,10 +14,7 @@ import javafx.scene.control.Label;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.*;
 
-import unsw.loopmania.model.Enemies.BasicEnemy;
-import unsw.loopmania.model.Enemies.Slug;
-import unsw.loopmania.model.Enemies.Vampire;
-import unsw.loopmania.model.Enemies.Zombie;
+import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Goal.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.Item;
@@ -77,6 +74,8 @@ public class LoopManiaWorld {
 
     private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
     private List<Boss> bosses = new ArrayList<Boss>();
+    private boolean isElanMuskeSpawned = false;
+    private boolean isDoggieSpawned = false;
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
@@ -420,8 +419,7 @@ public class LoopManiaWorld {
 
     /**
      * Check whether Character is alive
-     * @param void 
-     * @return true if Character is alive 
+     * @return true if Character is alive
      */
     public boolean isAlive() {
         if (getCharacter().getHealth() > 0) return true;
@@ -579,6 +577,27 @@ public class LoopManiaWorld {
         }
 
         return alliedSoldiers;
+    }
+
+    public List<Boss> spawnBosses() {
+        List<Boss> bosses = new ArrayList<Boss>();
+        Pair<Integer, Integer> pos = possiblyGetSpawnPosition();
+        int indexInPath = orderedPath.indexOf(pos);
+        PathPosition pathPosition = new PathPosition(indexInPath, orderedPath);
+
+        if (cycles >= 20 && !isDoggieSpawned) {
+            Doggie doggie = new Doggie(pathPosition);
+            bosses.add(doggie);
+            isDoggieSpawned = true;
+        }
+
+        if (cycles >= 40 && experience >= 10000 && !isElanMuskeSpawned) {
+            ElanMuske elanMuske = new ElanMuske(pathPosition);
+            bosses.add(elanMuske);
+            isElanMuskeSpawned = true;
+        }
+
+        return bosses;
     }
 
 

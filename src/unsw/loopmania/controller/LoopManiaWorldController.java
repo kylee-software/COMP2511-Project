@@ -458,26 +458,6 @@ public class LoopManiaWorldController {
         onLoadItem(item);
     }
 
-    // /**
-    //  * load spawned gold from the world, and pair it with an image in the GUI
-    //  */
-    // private void loadGoldPile(){
-    //     Item gold = world.possiblySpawnGold();
-    //     if (gold != null) {
-    //         onLoadGold(gold);
-    //     }
-    // }
-
-    // /**
-    //  * load spawned health potion from the world, and pair it with an image in the GUI
-    //  */
-    // private void loadHealthPotion(){
-    //     Item healthPotion = world.possiblySpawnHealthPotions();
-    //     if (healthPotion != null) {
-    //         onLoadHealthPotion(healthPotion);
-    //     }
-    // }
-
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      OnLoad Methods for Controller                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
