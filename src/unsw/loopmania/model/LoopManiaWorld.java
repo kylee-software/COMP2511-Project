@@ -1215,7 +1215,7 @@ public class LoopManiaWorld {
         Class<?>[] parameterType;
         Item item;       
         try {
-            if (type == "TheOneRing") 
+            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril") 
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
