@@ -34,6 +34,7 @@ public class Shield extends BasicItem {
      * Getter for reduction in chance of a vampire critical strike
      * @return vampireCritChanceReduction (%)
      */
+    @Override
     public int getVampireCritChanceReduction() {
         return vampireCritChanceReduction;
     }

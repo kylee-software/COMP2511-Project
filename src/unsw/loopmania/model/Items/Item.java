@@ -87,4 +87,12 @@ public abstract class Item extends StaticEntity {
     public int getVampireCritChanceReduction() {
         return 0;
     }
+
+    /**
+     * Getter for flat damage reduction in damage recieved against a boss.
+     * Set to 0 by default
+     */
+    public int getBossFlatDamageReduction() {
+        return 0;
+    }
 }
