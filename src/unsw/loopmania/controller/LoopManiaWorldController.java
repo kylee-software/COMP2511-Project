@@ -329,29 +329,7 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-
-//            List<BasicEnemy> newEnemies = world.SpawnSlugs();
-//            // ADD OTHER SPAWNING THINGS HERE
-//
-//            for (BasicEnemy newEnemy: newEnemies){
-//                // onLoad(newEnemy);
-//                onLoadEnemy(newEnemy);
-//            }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
-            else if (world.isGoalCompleted()) {
-                System.out.println("We WON");
-                pause();
-                switchToWinScreen();
-            } else if (world.completedACycle() && world.getCycles() > 0) {
-                pause();
-                switchToHerosCastleMenu();
-            }
-            // check goal completion
-            world.completedACycle();
+            world.incrementCycles();
             world.healCharacterInVillage();
             world.spawnAllyFromBarracks();
             world.runTickMoves();
@@ -359,6 +337,7 @@ public class LoopManiaWorldController {
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            System.out.println(world.getCycles());
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
             world.getBattleRewardCards().clear();
@@ -391,8 +370,19 @@ public class LoopManiaWorldController {
                 }
             }
 
-             pickUpItems();
-             despawnItems();
+            pickUpItems();
+            despawnItems();
+
+            if (world.getIsLost()) 
+                switchToGameOverScreen();
+            else if (world.isGoalCompleted()) {
+                System.out.println("We WON");
+                pause();
+                switchToWinScreen();
+            } else if (world.completedACycle() && world.getCycles() >= 0) {
+                pause();
+                switchToHerosCastleMenu();
+            }
 
             printThreadingNotes("HANDLED TIMER");
         }));

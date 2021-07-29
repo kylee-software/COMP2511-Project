@@ -60,7 +60,7 @@ public class LoopManiaWorld {
 
     @FXML
     private Label worldExperience;
-    private int experience = 0;
+    private int experience;
 
     @FXML
     private Label worldGold;
@@ -424,6 +424,10 @@ public class LoopManiaWorld {
         else return false;
     }
 
+    public void incrementCycles() {
+        if (completedACycle())
+            cycles += 1;
+    }
 
     /**
      * check is the character completed the current cycle or not
@@ -433,7 +437,6 @@ public class LoopManiaWorld {
         int charaX = character.getX();
         int charaY = character.getY();
         if (charaX == 0 && charaY == 0) {
-            cycles += 1;
             return true;
         }
         else return false;
