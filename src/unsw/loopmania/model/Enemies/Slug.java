@@ -4,7 +4,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.SlugAttack;
 
-public class Slug extends BasicEnemy {
+public class Slug extends Enemy {
 
     private static int expReward = 100;
     private static int goldReward = 10;

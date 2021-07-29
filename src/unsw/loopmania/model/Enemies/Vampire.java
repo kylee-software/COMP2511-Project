@@ -6,7 +6,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.VampireAttack;
 
-public class Vampire extends BasicEnemy {
+public class Vampire extends Enemy {
 
     private static int expReward = 800;
     private static int goldReward = 50;

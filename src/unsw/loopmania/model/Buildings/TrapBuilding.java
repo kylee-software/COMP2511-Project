@@ -2,7 +2,7 @@ package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.PathPosition;
-import unsw.loopmania.model.Enemies.BasicEnemy;
+import unsw.loopmania.model.Enemies.Enemy;
 
 public class TrapBuilding extends Building {
 
@@ -31,7 +31,7 @@ public class TrapBuilding extends Building {
      * @param enemy Enemy
      * @return enemy's new health after damage has been dealt
      */
-    public int damageEnemy(BasicEnemy enemy) {
+    public int damageEnemy(Enemy enemy) {
         int damage = 10;
         enemy.reduceHealth(damage);
         return enemy.getHealth();

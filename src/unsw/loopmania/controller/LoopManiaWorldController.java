@@ -368,13 +368,13 @@ public class LoopManiaWorldController {
             for (String item: world.getDiscardCardRewardItems())
                 loadItem(item);
             world.getDiscardCardRewardItems().clear();
-            List<BasicEnemy> newEnemies = new ArrayList<>();
+            List<Enemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
             newEnemies.addAll(world.spawnZombiesFromZombiePits());
             // ADD OTHER SPAWNING THINGS HERE
 
-            for (BasicEnemy newEnemy: newEnemies){
+            for (Enemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
@@ -519,7 +519,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoadEnemy(BasicEnemy enemy) {
+    private void onLoadEnemy(Enemy enemy) {
         ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
         squares.getChildren().add(view);
@@ -1020,15 +1020,15 @@ public class LoopManiaWorldController {
 
     private ImageView onLoadItemView(Item item) {
         ImageView view = null;
-        if (item instanceof Armour) 
+        if (item instanceof Armour)
             view = new ImageView(armourImage);
         else if (item instanceof Gold) 
             view = new ImageView(goldImage);
         else if (item instanceof HealthPotion) 
             view = new ImageView(healthPotionImage);
-        else if (item instanceof Helmet) 
+        else if (item instanceof Helmet)
             view = new ImageView(helmetImage);
-        else if (item instanceof Shield) 
+        else if (item instanceof Shield)
             view = new ImageView(shieldImage);
         else if (item instanceof Staff) 
             view = new ImageView(staffImage);
@@ -1036,12 +1036,12 @@ public class LoopManiaWorldController {
             view = new ImageView(stakeImage);
         else if (item instanceof Sword) 
             view = new ImageView(swordImage);
-        else if (item instanceof TheOneRing) 
+        else if (item instanceof TheOneRing)
             view = new ImageView(theOneRingImage);
         return view;
     }
 
-    private ImageView onLoadEnemyView(BasicEnemy enemy) {
+    private ImageView onLoadEnemyView(Enemy enemy) {
         ImageView view = null;
         if (enemy instanceof Slug) 
             view = new ImageView(slugImage);

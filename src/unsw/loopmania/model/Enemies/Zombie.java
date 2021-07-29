@@ -4,7 +4,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.ZombieAttack;
 
-public class Zombie extends BasicEnemy {
+public class Zombie extends Enemy {
 
     private static int expReward = 300;
     private static int goldReward = 20;
@@ -19,8 +19,6 @@ public class Zombie extends BasicEnemy {
     /**
      * Constructor for Zombie
      * @param position - current position on map
-     * @param health
-     * @param type
      */
     public Zombie(PathPosition position) {
         super(position, health, damage, speed);
