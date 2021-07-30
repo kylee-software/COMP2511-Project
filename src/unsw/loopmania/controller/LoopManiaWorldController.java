@@ -1119,4 +1119,9 @@ public class LoopManiaWorldController {
         draggedEntity.setImage(theOneRingImage);
     }
 
+
+    public LoopManiaWorld getWorld(){
+        return world;
+    }
+
 }
