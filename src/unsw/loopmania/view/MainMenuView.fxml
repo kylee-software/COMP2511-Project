@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import unsw.loopmania.controller.FileSelector?>
 
 <!-- TODO = modify and expand the range of menus available from the menu menu, and develop game modes you can select when starting a new game -->
 <!-- vertically stacked label and button -->
-
 
 <Pane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -32,14 +32,22 @@
             <Font name="Times New Roman" size="15.0" />
          </font>
       </Label>
-      <MenuButton fx:id="gameModeButton" layoutX="202.0" layoutY="290.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0">
+      <MenuButton fx:id="gameModeButton" alignment="CENTER" contentDisplay="CENTER" layoutX="202.0" layoutY="290.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Choose Game Mode">
         <items>
-          <MenuItem fx:id="standardMode" onAction="#setStandardMode" text="Standard" />
-          <MenuItem fx:id="survivalMode" onAction="#setSurvivalMode" text="Survival" />
-            <MenuItem fx:id="berserkerMode" onAction="#setBerserkerMode" text="Berserker" />
+          <MenuItem fx:id="standardMode" text="Standard" />
+          <MenuItem fx:id="survivalMode" text="Survival" />
+            <MenuItem fx:id="berserkerMode" text="Berserker" />
         </items>
       </MenuButton>
       <!-- clicking button should start/resume the game -->
       <Button fx:id="startGameButton" layoutX="202.0" layoutY="354.0" onAction="#switchToGame" text="Start Game" />
+      <Label alignment="CENTER" layoutX="96.0" layoutY="244.0" prefHeight="23.0" prefWidth="106.0" text="World: " textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Label>
+      <FileSelector fx:id="worldSelector" alignment="CENTER" contentDisplay="CENTER" layoutX="202.0" layoutY="243.0"
+         mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="Choose World" textAlignment="CENTER">
+      </FileSelector>
    </children>
 </Pane>

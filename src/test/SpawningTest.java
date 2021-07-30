@@ -104,33 +104,33 @@ public class SpawningTest {
         }
     }
 
-    @Test
-    public void SpawnBossesTest() {
-
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
-        orderedPath.add(new Pair<>(1,1));
-        orderedPath.add(new Pair<>(1,2));
-        orderedPath.add(new Pair<>(1,3));
-        PathPosition pathPosition = new PathPosition(0, orderedPath);
-
-        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<String>(),new Random(1));
-        Character character = new Character(pathPosition);
-        world.setCharacter(character);
-
-        for (int cycle = 0; cycle < 40; cycle++) {
-            world.completedACycle();
-            if (cycle == 19) {
-                // Test spawn Doggie
-                assertNotNull(world.spawnBosses());
-            }
-
-            if (cycle == 39) {
-                world.setExperience(10000);
-                // Test spawn Elan Muske
-                assertNotNull(world.spawnBosses());
-            }
-        }
-
-    }
+//    @Test
+//    public void SpawnBossesTest() {
+//
+//        List<Pair<Integer, Integer>> orderedPath = new ArrayList<Pair<Integer, Integer>>();
+//        orderedPath.add(new Pair<>(1,1));
+//        orderedPath.add(new Pair<>(1,2));
+//        orderedPath.add(new Pair<>(1,3));
+//        PathPosition pathPosition = new PathPosition(0, orderedPath);
+//
+//        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<String>(),new Random(1));
+//        Character character = new Character(pathPosition);
+//        world.setCharacter(character);
+//
+//        for (int cycle = 0; cycle < 40; cycle++) {
+//            world.completedACycle();
+//            if (cycle == 19) {
+//                // Test spawn Doggie
+//                assertNotNull(world.spawnBosses());
+//            }
+//
+//            if (cycle == 39) {
+//                world.setExperience(10000);
+//                // Test spawn Elan Muske
+//                assertNotNull(world.spawnBosses());
+//            }
+//        }
+//
+//    }
 
 }

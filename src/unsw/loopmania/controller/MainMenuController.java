@@ -1,7 +1,11 @@
 package unsw.loopmania.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
-import java.beans.EventHandler;
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -18,14 +22,17 @@ public class MainMenuController {
     @FXML
     private MenuButton gameModeButton;
 
-    @FXML
-    private MenuItem standardMode;
+//    @FXML
+//    private MenuItem standardMode;
+//
+//    @FXML
+//    private MenuItem survivalMode;
+//
+//    @FXML
+//    private MenuItem berserkerMode;
 
     @FXML
-    private MenuItem survivalMode;
-
-    @FXML
-    private MenuItem berserkerMode;
+    private FileSelector worldSelector;
 
     public MainMenuController() {
     }
@@ -44,21 +51,39 @@ public class MainMenuController {
     }
 
     @FXML
-    private void setStandardMode() throws IOException {
-        gameModeButton.setText("Standard");
-    }
-
-    @FXML
-    private void setSurvivalMode() throws IOException {
-        gameModeButton.setText("Survival");
-    }
-
-    @FXML
-    private void setBerserkerMode() throws IOException {
-        gameModeButton.setText("Berserker");
+    public void initialize() {
+        worldSelector.setDirectory(new File("worlds"));
+        selectWorld();
+        selectGameMode();
     }
 
     public String getGameMode() {
         return gameModeButton.getText();
+    }
+
+    public String getWorld() {
+        return worldSelector.getText();
+    }
+
+    public void selectWorld() {
+        for (final MenuItem world: worldSelector.getItems()) {
+            world.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+                @Override
+                public void handle(javafx.event.ActionEvent actionEvent) {
+                    worldSelector.setText(world.getText());
+                }
+            });
+        }
+    }
+
+    public void selectGameMode() {
+        for (final MenuItem gameMode: gameModeButton.getItems()) {
+            gameMode.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+                @Override
+                public void handle(javafx.event.ActionEvent actionEvent) {
+                    gameModeButton.setText(gameMode.getText());
+                }
+            });
+        }
     }
 }

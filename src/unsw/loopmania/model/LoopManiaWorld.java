@@ -579,26 +579,26 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
-    public List<Enemy> spawnBosses() {
-        List<Enemy> bosses = new ArrayList<Enemy>();
-        Pair<Integer, Integer> pos = possiblyGetSpawnPosition();
-        int indexInPath = orderedPath.indexOf(pos);
-        PathPosition pathPosition = new PathPosition(indexInPath, orderedPath);
-
-        if (cycles >= 20 && !isDoggieSpawned) {
-            Doggie doggie = new Doggie(pathPosition);
-            bosses.add(doggie);
-            isDoggieSpawned = true;
-        }
-
-        if (cycles >= 40 && experience >= 10000 && !isElanMuskeSpawned) {
-            ElanMuske elanMuske = new ElanMuske(pathPosition);
-            bosses.add(elanMuske);
-            isElanMuskeSpawned = true;
-        }
-
-        return bosses;
-    }
+//    public List<Enemy> spawnBosses() {
+//        List<Enemy> bosses = new ArrayList<Enemy>();
+//        Pair<Integer, Integer> pos = possiblyGetSpawnPosition();
+//        int indexInPath = orderedPath.indexOf(pos);
+//        PathPosition pathPosition = new PathPosition(indexInPath, orderedPath);
+//
+//        if (cycles >= 20 && !isDoggieSpawned) {
+//            Doggie doggie = new Doggie(pathPosition);
+//            bosses.add(doggie);
+//            isDoggieSpawned = true;
+//        }
+//
+//        if (cycles >= 40 && experience >= 10000 && !isElanMuskeSpawned) {
+//            ElanMuske elanMuske = new ElanMuske(pathPosition);
+//            bosses.add(elanMuske);
+//            isElanMuskeSpawned = true;
+//        }
+//
+//        return bosses;
+//    }
 
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
