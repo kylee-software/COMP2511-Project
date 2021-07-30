@@ -2,7 +2,9 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Label;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Cards.*;
@@ -30,40 +32,19 @@ public class LoopManiaWorldTest {
     private static int height = 5;
     private static List<String> rareItems = new ArrayList<String>();
 
+
     @Test
-    public void receiveInventoryFullRewardsTest() {
+    public void runTickMovesTest() {
     }
 
     @Test
-    public void possiblySpawnEnemiesTest() {
-    };
-
-    @Test
-    public void spawnVampiresFromVampireCastlesTest() {
+    public void isGoalCompletedTest() {
     }
 
-    @Test
-    public void spawnZombiesFromZombiePits() {
-    }
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                       Tests Related to the Battle                                          │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    @Test
-    public void spawnAlliesFromBarracksTest() {
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        orderedPath.add(new Pair<>(1, 1));
-        orderedPath.add(new Pair<>(1, 2));
-        orderedPath.add(new Pair<>(1, 3));
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
-        
-        new BarracksBuilding(new PathPosition(2, orderedPath));
-        
-        Character character = new Character(new PathPosition(1, orderedPath));
-        List<AlliedSoldier> alliedSoldiers = world.spawnAllyFromBarracks();
-        assert(alliedSoldiers.isEmpty());
-
-        character.moveDownPath();
-        alliedSoldiers = world.spawnAllyFromBarracks();
-        assertNotNull(alliedSoldiers);
-    }
 
     @Test
     public void runBattlesIntegrationTest() {
@@ -173,13 +154,9 @@ public class LoopManiaWorldTest {
         assert(vampire2.getHealth() == 50);
     }
 
-    @Test
-    public void loadVampireCardTest(){
-    }
-
-    @Test
-    public void trapTest() {
-    }
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                          Methods Related to Items                                          │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
      * Test depends on getUnequippedInventoryItemEntityByCoordinates()
@@ -245,8 +222,9 @@ public class LoopManiaWorldTest {
     public void removeUnequippedInventoryItemByCoordinatesTest() {
     }
 
+
     @Test
-    public void runTickMovesTest() {
+    public void receiveInventoryFullRewardsTest() {
     }
 
     /**
@@ -342,6 +320,10 @@ public class LoopManiaWorldTest {
         assertEquals(item.getClass(), Sword.class);
     }
 
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                        Tests Related to Buildings                                          │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
     @Test
     public void convertCardToBuildingTestSuccess() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -391,16 +373,183 @@ public class LoopManiaWorldTest {
     }
 
     @Test
-    public void healCharacterInVillage() {
+    public void possiblyTrapEnemyTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+       
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        TrapBuilding trapBuilding = new TrapBuilding(position);
+        world.addBuilding(trapBuilding);
+
+        Slug slug = new Slug(position);
+        assert(world.isOnSameTile(slug, trapBuilding));
+        assertEquals(world.possiblyTrapEnemy(slug), slug);
+        assert(!trapBuilding.shouldExist().getValue());
+        assert(slug.isDead());
+        
+    }
+
+    @Test
+    public void scareVampireWithinCampfireTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Vampire vampire = new Vampire(position);
+        assert(!vampire.getInCampfireRange());
+
+        CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.addBuilding(campfireBuilding);
+        world.scareVampireWithinCampfire(vampire);
+        assert(vampire.getInCampfireRange());
+    }
+
+    @Test
+    public void getSupportCampfireBuildingsTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Character character = new Character(position);
+        world.setCharacter(character);
+        assert(world.getSupportCampfireBuildings().isEmpty());
+
+        CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.addBuilding(campfireBuilding);
+        assert(world.getSupportCampfireBuildings().contains(campfireBuilding));
 
     }
+
+    @Test
+    public void getSupportTowerBuildingsTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Character character = new Character(position);
+        world.setCharacter(character);
+        assert(world.getSupportTowerBuildings().isEmpty());
+
+        TowerBuilding towerBuilding = new TowerBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.addBuilding(towerBuilding);
+        assert(world.getSupportTowerBuildings().contains(towerBuilding));
+        
+    }
+
+    @Test
+    public void healCharacterInVillageTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Character character = new Character(position);
+        
+        world.setCharacter(character);
+        character.setHealth(20);
+        assertEquals(character.getHealth(), 20);
+        
+        VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        world.addBuilding(villageBuilding);
+
+        world.healCharacterInVillage();
+        assertEquals(character.getHealth(), 70);
+
+        world.healCharacterInVillage();
+        assertEquals(character.getHealth(), 100);
+        
+    }
+
+    @Test
+    public void freezeEntityOnGlacier() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position1 = new PathPosition(0, orderedPath);
+        PathPosition position2 = new PathPosition(1, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Vampire vampire = new Vampire(position1);
+        vampire.setUnfreeze(false);
+        world.freezeEntityOnGlacier(vampire);
+        assert(!vampire.getStuckOnGlacier());
+
+        vampire.setUnfreeze(false);
+        GlacierBuilding glacierBuilding1 = new GlacierBuilding(position2);
+        world.addBuilding(glacierBuilding1);
+        world.freezeEntityOnGlacier(vampire);
+        assert(!vampire.getStuckOnGlacier());
+        
+        GlacierBuilding glacierBuilding2 = new GlacierBuilding(position1);
+        world.addBuilding(glacierBuilding2);
+        world.freezeEntityOnGlacier(vampire);
+        assert(vampire.getStuckOnGlacier());
+        assert(vampire.getUnfreeze());
+        world.addBuilding(glacierBuilding2);
+        world.freezeEntityOnGlacier(vampire);
+        assert(!vampire.getStuckOnGlacier());
+        
+    }
+
+    @Test
+    public void cloakCharacter() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition position = new PathPosition(0, orderedPath);
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        Character character = new Character(position);
+        world.setCharacter(character);
+        assert(!world.cloakCharacter());
+
+        CloakingTowerBuilding cloakingTowerBuilding = new CloakingTowerBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.addBuilding(cloakingTowerBuilding);
+        assert(world.cloakCharacter());
+
+    }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                           Tests Related to Cards                                           │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     @Test
     public void gainDiscardCardRewardsTest() {
-
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        
+        TrapCard trapCard = new TrapCard(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        world.loadCard("TrapCard");
+        world.gainDiscardCardRewards(trapCard);
+        assertEquals(world.getGold(), trapCard.getGoldReward());
+        assertEquals(world.getExperience(), trapCard.getExpReward());
+        assert(!world.getDiscardCardRewardItems().isEmpty());
     }
 
-    @Test
-    public void isGoalCompletedTest() {
-    }
 }

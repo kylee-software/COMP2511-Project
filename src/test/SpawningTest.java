@@ -2,8 +2,11 @@ package test;
 
 import org.javatuples.Pair;
 import org.junit.Test;
+
+import unsw.loopmania.model.Buildings.BarracksBuilding;
 import unsw.loopmania.model.Buildings.VampireCastleBuilding;
 import unsw.loopmania.model.Buildings.ZombiePitBuilding;
+import unsw.loopmania.model.AlliedSoldier;
 import unsw.loopmania.model.Character;
 import unsw.loopmania.model.Enemies.Vampire;
 import unsw.loopmania.model.Enemies.Zombie;
@@ -102,6 +105,25 @@ public class SpawningTest {
         if (chance < 15) {
             assertNotNull(world.possiblySpawnItem());
         }
+    }
+
+    @Test
+    public void spawnAlliesFromBarracksTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1, 1));
+        orderedPath.add(new Pair<>(1, 2));
+        orderedPath.add(new Pair<>(1, 3));
+        LoopManiaWorld world = new LoopManiaWorld(10, 10, orderedPath, new ArrayList<>(), new Random(1));
+        
+        new BarracksBuilding(new PathPosition(2, orderedPath));
+        
+        Character character = new Character(new PathPosition(1, orderedPath));
+        List<AlliedSoldier> alliedSoldiers = world.spawnAllyFromBarracks();
+        assert(alliedSoldiers.isEmpty());
+
+        character.moveDownPath();
+        alliedSoldiers = world.spawnAllyFromBarracks();
+        assertNotNull(alliedSoldiers);
     }
 
 }
