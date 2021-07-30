@@ -1,7 +1,6 @@
 package unsw.loopmania.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
@@ -15,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -23,12 +21,8 @@ import javafx.scene.layout.GridPane;
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
-import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
-import unsw.loopmania.model.Buildings.*;
-import unsw.loopmania.model.Cards.*;
-import unsw.loopmania.model.Enemies.*;
 
 public class HerosCastleMenuController  {
 

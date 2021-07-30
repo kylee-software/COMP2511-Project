@@ -2,9 +2,7 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Label;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.Cards.*;
@@ -17,7 +15,6 @@ import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Buildings.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
@@ -178,7 +175,7 @@ public class LoopManiaWorldTest {
         world.addUnequippedItem("Armour");
         Item armour = world.getUnequippedInventoryItemEntityByCoordinates(3, 0);
         assertEquals(armour.getClass(), Armour.class);
-        assertEquals(world.getUnequippedItems().size(), 4);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 4);
         world.addUnequippedItem("Helmet");
         Item helmet = world.getUnequippedInventoryItemEntityByCoordinates(0, 1);
         assertEquals(helmet.getClass(), Helmet.class);
@@ -201,15 +198,15 @@ public class LoopManiaWorldTest {
         world.addUnequippedItem("Sword");
         world.addUnequippedItem("Armour");
         world.addUnequippedItem("Armour");
-        assertEquals(world.getUnequippedItems().size(), 16);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 16);
         // First item should now set to type Sword
         world.addUnequippedItem("Sword");
-        assertEquals(world.getUnequippedItems().size(), 16);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 16);
         Item item1 = world.getUnequippedInventoryItemEntityByCoordinates(0, 0);
         assertEquals(item1.getClass(), Sword.class);
         // Second item should now set to type Health Potion
         world.addUnequippedItem("HealthPotion");
-        assertEquals(world.getUnequippedItems().size(), 16);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 16);
         Item item2 = world.getUnequippedInventoryItemEntityByCoordinates(1, 0);
         assertEquals(item2.getClass(), HealthPotion.class);
     }
@@ -294,13 +291,13 @@ public class LoopManiaWorldTest {
     public void removeUnequippedInventoryItemTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
-        assertEquals(world.getUnequippedItems().size(), 0);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 0);
         world.removeUnequippedInventoryItemByCoordinates(0, 0);
-        assertEquals(world.getUnequippedItems().size(), 0);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 0);
         world.addUnequippedItem("Stake");
-        assertEquals(world.getUnequippedItems().size(), 1);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 1);
         world.removeUnequippedInventoryItemByCoordinates(0, 0);
-        assertEquals(world.getUnequippedItems().size(), 0);
+        assertEquals(LoopManiaWorld.getUnequippedItems().size(), 0);
     }
 
     /**
