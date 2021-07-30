@@ -8,6 +8,7 @@ package unsw.loopmania.view;
         import javafx.scene.Scene;
         import javafx.stage.Stage;
         import unsw.loopmania.controller.*;
+        import unsw.loopmania.model.LoopManiaWorld;
 
 /**
  * the main application
@@ -51,7 +52,7 @@ public class LoopManiaApplication extends Application {
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = winScreenLoader.load();
 
-        HerosCastleMenuController herosCastleMenuController = new HerosCastleMenuController();
+        HerosCastleMenuController herosCastleMenuController = new HerosCastleMenuController(LoopManiaWorld.getUnequippedItems(), mainController.getWorld());
         FXMLLoader herosCastleMenuLoader = new FXMLLoader(getClass().getResource("HerosCastleMenuView.fxml"));
         herosCastleMenuLoader.setController(herosCastleMenuController);
         Parent herosCastleMenuRoot = herosCastleMenuLoader.load();
@@ -83,6 +84,7 @@ public class LoopManiaApplication extends Application {
         });
         // switch from game to heros castle menu
         mainController.setHerosCastleMenuSwitcher(() -> {switchToRoot(herosCastleMenuScene, herosCastleMenuRoot, primaryStage);
+            herosCastleMenuController.refreshInventory();
             stop();
         });
         // switch from heros castle menu to game

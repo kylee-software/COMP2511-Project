@@ -12,13 +12,13 @@ public abstract class MovingEntity extends Entity {
      */
     private PathPosition position;
     private int health;
-    private double speed;
+    private int speed;
 
     /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
-    public MovingEntity(PathPosition position, int health, double speed) {
+    public MovingEntity(PathPosition position, int health, int speed) {
         super();
         this.position = position;
         this.health = health;
@@ -79,7 +79,7 @@ public abstract class MovingEntity extends Entity {
      * Getter for speed of moving entity
      * @return speed
      */
-    public double getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
@@ -96,13 +96,7 @@ public abstract class MovingEntity extends Entity {
         this.health = Math.min(getHealth() + healthBonus, 100);
     }
 
-    /**
-     * Check whether Character/Enemy is alive
-     * @param void 
-     * @return true if Character/Enemy is alive 
-     */
-    public boolean isAlive() {
-        if (getHealth() > 0) return true;
-        else return false;
-    }
+    public abstract void setStuckOnGlacier(boolean stuckOnGlacier);
+    public abstract boolean getUnfreeze();
+    public abstract void setUnfreeze(boolean unfreeze);
 }

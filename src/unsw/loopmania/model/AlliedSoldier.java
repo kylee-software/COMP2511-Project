@@ -11,7 +11,7 @@ public class AlliedSoldier extends MovingEntity {
     private static int trancedEnemyLifeCycle = 3;
     private int trancedEnemyIndex;
     private static int damage = 6;
-    private static double speed = 0;
+    private static int speed = 0;
     private static AttackStrategy strategy = new BasicAttack();
 
     public AlliedSoldier(PathPosition position) {
@@ -103,4 +103,22 @@ public class AlliedSoldier extends MovingEntity {
     public AttackStrategy getAttackStrategy() {
         return strategy;
     }
+
+    @Override
+    public void setStuckOnGlacier(boolean stuckOnGlacier) {
+        return;
+    }
+
+    @Override
+    public boolean getUnfreeze() {
+        return true;
+
+    }
+
+    @Override
+    public void setUnfreeze(boolean unfreeze) {
+        return;
+
+    }
+
 }

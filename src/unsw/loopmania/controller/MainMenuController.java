@@ -34,6 +34,9 @@ public class MainMenuController {
     @FXML
     private FileSelector worldSelector;
 
+    @FXML
+    private MenuItem confusingMode;
+
     public MainMenuController() {
     }
 
@@ -63,6 +66,11 @@ public class MainMenuController {
 
     public String getWorld() {
         return worldSelector.getText();
+    }
+    
+    @FXML
+    private void setConfusingMode() throws IOException {
+        gameModeButton.setText("Confusing");
     }
 
     public void selectWorld() {

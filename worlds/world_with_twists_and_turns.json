@@ -1,11 +1,11 @@
 {
   "width": 8,
   "height": 14,
-  "rare_items": [],
+  "rare_items": ["TheOneRing"],
   "goal-condition": {
     "goal": "AND", "subgoals": [
       {"goal": "AND", "subgoals": [
-        {"goal": "cycles", "quantity": 2},
+        {"goal": "cycles", "quantity": 6},
         {"goal": "experience", "quantity": 10}
       ]},
       {"goal": "OR", "subgoals": [

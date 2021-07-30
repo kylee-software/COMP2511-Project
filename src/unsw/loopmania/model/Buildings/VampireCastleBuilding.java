@@ -20,7 +20,7 @@ public class VampireCastleBuilding extends Building {
      * @return vampire
      */
     public Vampire spawnVampire(boolean completedACycle, int cycles, PathPosition pathPosition) {
-        if (completedACycle && cycles % 5 == 0) {
+        if (completedACycle && cycles > 0 && cycles % 5 == 0) {
             return new Vampire(pathPosition);
         }
         return null;

@@ -18,6 +18,6 @@ public class CycleGoal extends Goal {
      */
     @Override
     public boolean isGoalComplete(LoopManiaWorld world) {
-        return world.getCycles() >= cycleGoal;
+        return world.getCycles() > cycleGoal;
     }
 }
