@@ -3,6 +3,7 @@ package unsw.loopmania.model.AttackStrategy;
 import java.util.Random;
 
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.AttackEffects;
 import unsw.loopmania.model.Entity;
 
 /**
@@ -22,7 +23,7 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
+    public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
         int damage = attacker.getDamage() + staffDamage;
         if (campfire) {
             damage *= super.campfireBuff();
@@ -31,7 +32,11 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
         // Trance effect
         Random random = new Random(7);
         int randomInt = random.nextInt(99);
-        Boolean applyEffect = randomInt < tranceChance;
-        return applyEffect;
+        if (randomInt < tranceChance) {
+            return AttackEffects.TRANCE_EFFECT;
+        } else {
+            return AttackEffects.NO_EFFECT;
+        }
+        
     }
 }
