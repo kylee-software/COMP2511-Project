@@ -25,13 +25,6 @@ public class VillageBuilding extends Building {
         this.pathPosition = pathPosition;
     }
 
-    public boolean checkForCharacter(Character character) {
-        return false;
-    }
-
-
-    // OBSERVER PATTERN
-
     /**
      * Refill the Character's health when the Character passes over the village
      * @param character Character
