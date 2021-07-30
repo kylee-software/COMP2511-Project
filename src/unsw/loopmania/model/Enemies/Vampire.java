@@ -12,14 +12,14 @@ public class Vampire extends BasicEnemy {
     private static int goldReward = 50;
     private static int battleRadius = 2;
     private static int supportRadius = 3;
-    private static double speed = 1; // Ticks per tile
+    private static int speed = 3; // Tiles per tick
     private static AttackStrategy strategy = new VampireAttack();
     private static int damage = 25;
     private static int health = 50;
     private static int critChance = 40;
     // for running away from campfire
     private boolean inCampfireRange;
-    private int runAwayTicks;
+    private int runAwayTicks = 0;
 
     /**
      * Constructor for Vampire
@@ -38,14 +38,17 @@ public class Vampire extends BasicEnemy {
     @Override
     public void move() {
         if (runAwayTicks > 0) {
-            moveUpPath();
+            for(int i = 0; i < speed; i++)
+                moveUpPath();
             runAwayTicks--;
         } else {
-            int directionChoice = (new Random()).nextInt(2);
+            int directionChoice = (new Random()).nextInt(4);
             if (directionChoice == 0){
-                moveUpPath();
+                for(int i = 0; i < speed; i++)
+                    moveUpPath();
             } else if (directionChoice == 1) {
-                moveDownPath();
+                for(int i = 0; i < speed; i++)
+                    moveDownPath();
             }
         }
     }

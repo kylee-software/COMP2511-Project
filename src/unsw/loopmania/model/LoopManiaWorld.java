@@ -90,7 +90,9 @@ public class LoopManiaWorld {
     private List<VampireCastleBuilding> vampireCastleBuildings = new ArrayList<>();
     private List<VillageBuilding> villageBuildings = new ArrayList<>();
     private List<ZombiePitBuilding> zombiePitBuildings = new ArrayList<>();
-
+    private List<GlacierBuilding> glacierBuildings = new ArrayList<>();
+    private List<CloakingTowerBuilding> cloakingTowerBuildings = new ArrayList<>();
+    
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                         Attributes Related to Items                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -155,7 +157,7 @@ public class LoopManiaWorld {
         this.isLost = false;
         this.random = random;
         this.randomChance = random.nextInt(99);
-        this.cycles = -1;
+        this.cycles = 0;
     }
 
     /**
@@ -163,7 +165,7 @@ public class LoopManiaWorld {
      */
     public void runTickMoves() {
         randomChance = random.nextInt(99);
-        character.moveDownPath();
+        moveCharacter();
         moveBasicEnemies();
         updateGold();
     }
@@ -409,20 +411,9 @@ public class LoopManiaWorld {
      * to check if the character completed all the goals or not to win
      * @return true if all goals are completed else false
      */
-     // DONE
      public boolean isGoalCompleted() {
          return goals.isGoalComplete(this);
      }
-
-    /**
-     * Check whether Character is alive
-     * @param void 
-     * @return true if Character is alive 
-     */
-    public boolean isAlive() {
-        if (getCharacter().getHealth() > 0) return true;
-        else return false;
-    }
 
     public void incrementCycles() {
         if (completedACycle())
@@ -442,8 +433,13 @@ public class LoopManiaWorld {
         else return false;
     }
 
+    private void moveCharacter() {
+        character.move();
+        freezeEntityOnGlacier(character);
+    }
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                          Methods Related  to Enemies                                       │ */
+    /* │                                          Methods Related to Enemies                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
@@ -470,11 +466,12 @@ public class LoopManiaWorld {
             if (e instanceof Vampire) {
                 scareVampireWithinCampfire((Vampire) e);
             }
+            freezeEntityOnGlacier(e);
         }
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
-    /* │                                               Spawn Entities                                               │ */
+    /* │                                               Methods Related to Spawn Entities                            │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
@@ -572,7 +569,6 @@ public class LoopManiaWorld {
             if (isOnSameTile(character, barracksBuilding)) {
                 AlliedSoldier alliedSoldier = barracksBuilding.spawnAlliedSoldier(new PathPosition(1, orderedPath));
                 alliedSoldiers.add(alliedSoldier);
-                updateNumAlliedSoldiers();
                 System.out.println("One allied soldier has joined you!");
             }
         }
@@ -956,7 +952,7 @@ public class LoopManiaWorld {
                     trapBuilding.damageEnemy(enemy);
                     trapBuilding.destroy();
                     trapBuildings.remove(trapBuilding);
-                    if(!enemy.isAlive()) {
+                    if(enemy.isDead()) {
                         System.out.println("Trap has killed one enemy");
                         return enemy;
                     } else {
@@ -1018,12 +1014,41 @@ public class LoopManiaWorld {
             for (VillageBuilding villageBuilding : villageBuildings) {
                 if (isOnSameTile(character, villageBuilding)) {
                     villageBuilding.gainHealth(character);
-                    updateHealth();
                     System.out.println("Character has rested in the Village: Health +50");
                     break;
                 }
             }
         }
+    }
+
+    public void freezeEntityOnGlacier(MovingEntity e) {
+        if (glacierBuildings.isEmpty())
+            e.setStuckOnGlacier(false);
+        else {
+            for (GlacierBuilding glacierBuilding : glacierBuildings) {
+                if (isOnSameTile(e, glacierBuilding) && e.getUnfreeze() == false) {
+                    e.setStuckOnGlacier(true);
+                    e.setUnfreeze(true);
+                    return;
+                }
+            }
+            e.setStuckOnGlacier(false);
+        }
+    }
+
+    public boolean cloakCharacter() {
+        if (cloakingTowerBuildings.isEmpty())
+            character.setInCloakingTowerRange(false);
+        else {
+            for (CloakingTowerBuilding b : cloakingTowerBuildings) {
+                if (Math.pow((character.getX()-b.getX()), 2) + Math.pow((character.getY()-b.getY()), 2) < Math.pow(b.getCloakingRadius(), 2)) {
+                    character.setInCloakingTowerRange(true);
+                    return character.getInCloakingTowerRange();
+                }
+            }
+            character.setInCloakingTowerRange(false);
+        }
+        return character.getInCloakingTowerRange();
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -1080,7 +1105,7 @@ public class LoopManiaWorld {
         addExperience(card.getExpReward());
         card.setItemReward();
         for (String item : card.getItemRewardList())
-        discardCardRewardItems.add(item); 
+        discardCardRewardItems.add(item);  
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -1192,6 +1217,10 @@ public class LoopManiaWorld {
             villageBuildings.add((VillageBuilding) building);
         else if (building instanceof ZombiePitBuilding)
             zombiePitBuildings.add((ZombiePitBuilding) building);
+        else if (building instanceof GlacierBuilding)
+            glacierBuildings.add((GlacierBuilding) building);
+        else if (building instanceof CloakingTowerBuilding)
+            cloakingTowerBuildings.add((CloakingTowerBuilding) building);
     }
 
     /**

@@ -10,7 +10,7 @@ public class Zombie extends BasicEnemy {
     private static int goldReward = 20;
     private static int battleRadius = 2;
     private static int supportRadius = 2;
-    private static double speed = 4; // Ticks per tile
+    private static int speed = 1; // Tiles per tick
     private static AttackStrategy strategy = new ZombieAttack();
     private static int critChance = 15;
     private static int damage = 14;
@@ -28,7 +28,8 @@ public class Zombie extends BasicEnemy {
 
     @Override
     public void move() {
-        super.move();
+        for(int i = 0; i < speed; i++)
+            super.move();
     }
 
     /**

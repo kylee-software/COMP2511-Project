@@ -10,7 +10,7 @@ public class Slug extends BasicEnemy {
     private static int goldReward = 10;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
-    private static double speed = 3; // Ticks per tile
+    private static int speed = 2; // Tiles per tick
     private static AttackStrategy strategy = new SlugAttack();
     private static int damage = 7;
     private static int health = 10;
@@ -25,7 +25,8 @@ public class Slug extends BasicEnemy {
 
     @Override
     public void move() {
-        super.move();
+        for(int i = 0; i < speed; i++)
+            super.move();
     }
 
     /**

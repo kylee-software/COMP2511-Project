@@ -7,7 +7,7 @@ import java.util.Random;
  * enum value here.
  */
 enum CARD {
-    BarracksCard, CampfireCard, TowerCard, TrapCard, VampireCastleCard, VillageCard, ZombiePitCard;
+    BarracksCard, CampfireCard, TowerCard, TrapCard, VampireCastleCard, VillageCard, ZombiePitCard, GlacierCard, CloakingTowerCard;
 
     /**
      * Pick a random value of the CARD enum.
