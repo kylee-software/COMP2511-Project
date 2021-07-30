@@ -95,7 +95,7 @@ public class LoopManiaWorld {
     /* │                                         Attributes Related to Items                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private List<Item> unequippedInventoryItems = new ArrayList<Item>();
+    private static List<Item> unequippedInventoryItems = new ArrayList<Item>();
 
     private Item equippedAttackItem = null;
 
@@ -304,7 +304,7 @@ public class LoopManiaWorld {
     /* │                                    Getters and Setters Related to Items                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    public List<Item> getUnequippedItems() {
+    public static List<Item> getUnequippedItems() {
         return unequippedInventoryItems;
     }
 
