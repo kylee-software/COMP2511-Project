@@ -27,6 +27,9 @@ public class MainMenuController {
     @FXML
     private MenuItem berserkerMode;
 
+    @FXML
+    private MenuItem confusingMode;
+
     public MainMenuController() {
     }
 
@@ -56,6 +59,11 @@ public class MainMenuController {
     @FXML
     private void setBerserkerMode() throws IOException {
         gameModeButton.setText("Berserker");
+    }
+    
+    @FXML
+    private void setConfusingMode() throws IOException {
+        gameModeButton.setText("Confusing");
     }
 
     public String getGameMode() {
