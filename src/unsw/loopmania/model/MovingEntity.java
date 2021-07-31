@@ -92,6 +92,7 @@ public abstract class MovingEntity extends Entity {
     
     public abstract int getDamage();
 
+    //todo: gainHealth should have a max cap depending on the maxhealth of each entity.
     public void gainHealth(int healthBonus) {
         this.health = Math.min(getHealth() + healthBonus, 100);
     }

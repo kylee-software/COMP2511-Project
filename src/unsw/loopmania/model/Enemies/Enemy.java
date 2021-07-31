@@ -12,9 +12,6 @@ public abstract class Enemy extends MovingEntity {
 
     private String type;
     private int damage;
-    private boolean stuckOnGlacier;
-    private int frozenTicks = 0;
-    private boolean unfreeze = false;
 
     /**
      * Constructor for Basic Enemy
@@ -22,7 +19,7 @@ public abstract class Enemy extends MovingEntity {
      * @param health
      * @param damage
      */
-    public Enemy(PathPosition position, int health, int damage, int speed) {
+    public Enemy(PathPosition position, int health, int damage, double speed) {
         super(position, health, speed);
         this.damage = damage;
     }
@@ -31,18 +28,13 @@ public abstract class Enemy extends MovingEntity {
      * move the enemy
      */
     public void move(){
-        if (frozenTicks > 0) {
-            frozenTicks--;
-        } else {
-            unfreeze = false;
-            // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
-            int directionChoice = (new Random()).nextInt(4);
-            if (directionChoice == 0){
-                moveUpPath();
-            }
-            else if (directionChoice == 1){
-                moveDownPath();
-            }
+        // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
+        int directionChoice = (new Random()).nextInt(4);
+        if (directionChoice == 0){
+            moveUpPath();
+        }
+        else if (directionChoice == 1){
+            moveDownPath();
         }
     }
 
@@ -62,27 +54,5 @@ public abstract class Enemy extends MovingEntity {
     public abstract int getGoldReward();
     public abstract int getSupportRadius();
     public abstract int getBattleRadius();
-
-    public boolean getStuckOnGlacier() {
-        return stuckOnGlacier;
-    }
-
-    public boolean getUnfreeze() {
-        return unfreeze;
-    }
-
-    @Override
-    public void setStuckOnGlacier(boolean stuckOnGlacier) {
-        if (frozenTicks > 0) {
-            this.stuckOnGlacier = stuckOnGlacier;
-        } else if (stuckOnGlacier && unfreeze == false) {
-            this.stuckOnGlacier = stuckOnGlacier;
-            frozenTicks = 3 * getSpeed();
-        }
-    }
-
-    public void setUnfreeze(boolean unfreeze) {
-        this.unfreeze = unfreeze;
-    }
 
 }

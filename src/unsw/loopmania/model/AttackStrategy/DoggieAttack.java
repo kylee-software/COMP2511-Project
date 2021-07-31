@@ -2,19 +2,19 @@ package unsw.loopmania.model.AttackStrategy;
 
 import java.util.Random;
 
-import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.AttackEffects;
+import unsw.loopmania.model.Character;
+import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.Entity;
 
 /**
-* Implements staff attack for a character on an target
-*/
-public class StaffAttack extends AttackObserver implements AttackStrategy  {
-    private int staffDamage = 3;
-    private int tranceChance = 40;
-    
+ * Implements slug attack on a target
+ */
+public class DoggieAttack implements AttackStrategy {
+    private int stunChance = 30; //percentage chance to stun the character
     /**
-     * Execute staff attack on an enemy target
+     * Execute slug attack on a target.
+     * Applies defences if target is a Character.
      * @param attacker - character
      * @param target - enemy target
      * @param scalarDef - target scalar defences
@@ -24,16 +24,19 @@ public class StaffAttack extends AttackObserver implements AttackStrategy  {
      */
     @Override
     public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
-        int damage = attacker.getDamage() + staffDamage;
-        if (campfire) {
-            damage *= super.campfireBuff();
+        double damage = attacker.getDamage();
+        if (target.getClass().equals(Character.class)) {
+            double scalarDecimal = 100 - scalarDef;
+            scalarDecimal /= 100;
+            damage *= scalarDecimal;
+            damage -= fixedDef;
         }
-        target.setHealth(target.getHealth() - damage);
-        // Trance effect
+        target.setHealth((int)(target.getHealth() - damage));
+
         Random random = new Random(7);
         int randomInt = random.nextInt(99);
-        if (randomInt < tranceChance) {
-            return AttackEffects.TRANCE_EFFECT;
+        if (randomInt < stunChance) {
+            return AttackEffects.STUN_EFFECT;
         } else {
             return AttackEffects.NO_EFFECT;
         }

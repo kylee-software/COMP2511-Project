@@ -30,7 +30,6 @@ public class LoopManiaWorld {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Initializers for the Loop Mania World                                     │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
     private int worldWidth;
@@ -76,9 +75,10 @@ public class LoopManiaWorld {
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     private List<Enemy> enemies = new ArrayList<Enemy>();
-    private List<Enemy> bosses = new ArrayList<Enemy>();
-    private boolean isElanMuskeSpawned = false;
-    private boolean isDoggieSpawned = false;
+    
+    private Enum<EnemyStatus> elanStatus = EnemyStatus.UNSPAWNED_STATUS;
+
+    private Enum<EnemyStatus> doggieStatus = EnemyStatus.UNSPAWNED_STATUS;
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
@@ -296,9 +296,30 @@ public class LoopManiaWorld {
         }
         return supportEnemies;
     }
+    /**
+     * Getter for Elan's status
+     * @return elan's mortality status, e.g Unspawned / Alive / Slain
+     * See EnemyStatus.java for enum details
+     */
+    public Enum<EnemyStatus> getElanStatus() {
+        return this.elanStatus;
+    }
 
-    public List<Enemy> getBosses() {
-        return bosses;
+    public void setElanStatus(Enum<EnemyStatus> newStatus) {
+        this.elanStatus = newStatus;
+    }
+    
+    /**
+     * Getter for Doggie's status
+     * @return - Doggie's mortality status, e.g Unspawned / Alive / Slain
+     * See EnemyStatus.java for enum details
+     */
+    public Enum<EnemyStatus> getDoggieStatus() {
+        return this.doggieStatus;
+    }
+
+    public void setDoggieStatus(Enum<EnemyStatus> newStatus) {
+        this.doggieStatus = newStatus;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -594,27 +615,58 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
-//    public List<Enemy> spawnBosses() {
-//        List<Enemy> bosses = new ArrayList<Enemy>();
-//        Pair<Integer, Integer> pos = possiblyGetSpawnPosition();
-//        int indexInPath = orderedPath.indexOf(pos);
-//        PathPosition pathPosition = new PathPosition(indexInPath, orderedPath);
-//
-//        if (cycles >= 20 && !isDoggieSpawned) {
-//            Doggie doggie = new Doggie(pathPosition);
-//            bosses.add(doggie);
-//            isDoggieSpawned = true;
-//        }
-//
-//        if (cycles >= 40 && experience >= 10000 && !isElanMuskeSpawned) {
-//            ElanMuske elanMuske = new ElanMuske(pathPosition);
-//            bosses.add(elanMuske);
-//            isElanMuskeSpawned = true;
-//        }
-//
-//        return bosses;
-//    }
+    /**
+     * Spawns Elan after 40 cycles AND player has reaches 10,000 exp.
+     * Note only spawns once
+     * @return list containing
+     */
+    public List<Enemy> spawnElan() {
+        Pair<Integer, Integer> pos = null;
 
+        if (getCycles() >= 40) {
+            if (getExperience() >= 10000 && getElanStatus() == EnemyStatus.UNSPAWNED_STATUS) {
+                pos = possiblyGetSpawnPosition();
+                setElanStatus(EnemyStatus.ALIVE_STATUS);
+            }
+        } 
+
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
+
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            Enemy enemy = new Elan(new PathPosition(indexInPath, orderedPath));
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+            System.out.println("Elan Muske joins the fight!");
+        }
+
+        return spawningEnemies;
+    }
+
+    /**
+     * Spawns Doggie after after 20 cycles
+     * Note only spawns once
+     * @return
+     */
+    public List<Enemy> spawnDoggie() {
+        Pair<Integer, Integer> pos = null;
+
+        if (getCycles() == 20 && getDoggieStatus() == EnemyStatus.UNSPAWNED_STATUS) {
+            pos = possiblyGetSpawnPosition();
+            setDoggieStatus(EnemyStatus.ALIVE_STATUS);
+        }
+
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
+
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            Enemy enemy = new Doggie(new PathPosition(indexInPath, orderedPath));
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+            System.out.println("A Doggie joins the fight - to the moon!");
+        }
+        return spawningEnemies;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                       Methods Related to the Battle                                        │ */
@@ -684,6 +736,12 @@ public class LoopManiaWorld {
         } else {
             gainBattleRewards(battle);
         }
+        // Set Elan / Doggie to 'SLAIN' status if they're in defeatedEnemies list. 
+        if (isDoggieDefeated(defeatedEnemies)) {
+            setDoggieStatus(EnemyStatus.SLAIN_STATUS);
+        } else if (isElanDefeated(defeatedEnemies)) {
+            setElanStatus(EnemyStatus.SLAIN_STATUS);
+        }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());
         System.out.println("Item rewards: "+ battleRewardItems.size());
@@ -707,6 +765,9 @@ public class LoopManiaWorld {
         if (equippedHelmet != null) {
             battle.setHelmet(equippedHelmet);
         }
+        if (equippedRareItem != null) {
+            battle.setRareItem(equippedRareItem);
+        }
     }
 
 
@@ -723,6 +784,20 @@ public class LoopManiaWorld {
         for (String item : battle.getBattleItems()) {
             battleRewardItems.add(item);
         }
+    }
+
+    public boolean isElanDefeated(List<Enemy> defeatedEnemies) {
+        for(Enemy e : defeatedEnemies)
+            if(e instanceof Elan)
+                return true;
+        return false;
+    }
+
+    public boolean isDoggieDefeated(List<Enemy> defeatedEnemies) {
+        for(Enemy e : defeatedEnemies)
+            if(e instanceof Doggie)
+                return true;
+        return false;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -1259,7 +1334,7 @@ public class LoopManiaWorld {
         Class<?>[] parameterType;
         Item item;       
         try {
-            if (type == "TheOneRing") 
+            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril") 
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };

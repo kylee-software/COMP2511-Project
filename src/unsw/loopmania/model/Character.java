@@ -20,6 +20,7 @@ public class Character extends MovingEntity {
 
     public Character(PathPosition position) {
         super(position, health, speed);
+        this.remainingStunnedCycles = 0;
     }
 
     public void move(){
@@ -99,4 +100,15 @@ public class Character extends MovingEntity {
         }
     }
     
+        /**
+     * Getter for remaining stunned cycles
+     * @return remaining stunned cycles
+     */
+    public int getStunnedCycle() {
+        return remainingStunnedCycles;
+    }
+
+    public void reduceStunnedCycle() {
+        this.remainingStunnedCycles -= 1;
+    }
 }

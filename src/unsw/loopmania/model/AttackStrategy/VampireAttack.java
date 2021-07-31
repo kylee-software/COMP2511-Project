@@ -4,6 +4,7 @@ import java.util.Random;
 
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.AttackEffects;
 import unsw.loopmania.model.Character;
 
 /**
@@ -22,7 +23,7 @@ public class VampireAttack implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
+    public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
         double damage = attacker.getDamage();
         double critChance = attacker.getCritChance();
         double critReductionDecimal = 100 - critReduction;
@@ -39,9 +40,7 @@ public class VampireAttack implements AttackStrategy {
             damage *= scalarDecimal;
             damage -= fixedDef;
         }
-        if (damage > 0) {
-            target.setHealth((int)(target.getHealth() - damage));
-        }
-        return false;
+        target.setHealth((int)(target.getHealth() - damage));
+        return AttackEffects.NO_EFFECT;
     }
 }

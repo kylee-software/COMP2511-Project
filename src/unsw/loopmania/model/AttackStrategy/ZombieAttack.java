@@ -3,6 +3,7 @@ package unsw.loopmania.model.AttackStrategy;
 import java.util.Random;
 
 import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.AttackEffects;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.MovingEntity;
 import unsw.loopmania.model.Character;
@@ -23,8 +24,7 @@ public class ZombieAttack implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire,
-                           int critReduction) {
+    public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
         double damage = attacker.getDamage();
         if (target.getClass().equals(Character.class)) {
             double scalarDecimal = 100 - scalarDef;
@@ -38,9 +38,9 @@ public class ZombieAttack implements AttackStrategy {
         Random random = new Random(4);
         Boolean crit = random.nextInt(99) < attacker.getCritChance();
         if (crit && target.getClass().equals(AlliedSoldier.class)) {
-            return true;
+            return AttackEffects.INFECT_EFFECT;
         } else {
-            return false;
+            return AttackEffects.NO_EFFECT;
         }
     }
 }

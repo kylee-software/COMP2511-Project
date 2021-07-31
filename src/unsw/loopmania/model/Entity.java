@@ -100,4 +100,12 @@ public abstract class Entity {
     public AttackStrategy getAttackStrategy() {
         return null;
     }
+
+    /**
+     * 
+     * @return - true if entity is of a Boss type. Default false, overriden in boss interface. 
+     */
+    public Boolean isBoss() {
+        return false;
+    }
 }

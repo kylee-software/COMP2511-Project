@@ -2,24 +2,24 @@ package unsw.loopmania.model.Enemies;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.AttackStrategy.DoggieAttack;
+import unsw.loopmania.model.AttackStrategy.ElanAttack;
 
-public class Doggie extends Enemy {
+public class Elan extends Enemy {
 
     private static int expReward = 500;
     private static int goldReward = 50;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
     private static double speed = 1; // Ticks per tile
-    private static AttackStrategy strategy = new DoggieAttack();
-    private static int damage = 10;
-    private static int health = 200;
+    private static AttackStrategy strategy = new ElanAttack();
+    private static int damage = 30;
+    private static int health = 100;
 
     /**
      * Constructor for slug
      * @param position - current position on map
      */
-    public Doggie(PathPosition position) {
+    public Elan(PathPosition position) {
         super(position, health, damage, speed);
     } 
 
@@ -38,7 +38,6 @@ public class Doggie extends Enemy {
     public Boolean isBoss() {
         return true;
     }
-
 
     /**
      * Getter for gold reward when killed

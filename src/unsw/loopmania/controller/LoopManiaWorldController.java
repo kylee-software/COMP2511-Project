@@ -35,7 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
