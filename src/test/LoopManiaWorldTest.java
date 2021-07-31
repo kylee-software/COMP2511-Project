@@ -82,12 +82,6 @@ public class LoopManiaWorldTest {
         world.setCharacter(character);
 
         // Initialise 3 towers: (In range: T1, T2)
-        // Card towerCard1 = world.loadCard("TowerBuilding");
-        // Card towerCard2 = world.loadCard("TowerBuilding");
-        // Card towerCard3 = world.loadCard("TowerBuilding");
-        // Building tower1 = world.convertCardToBuilding(towerCard1.getX(), towerCard1.getY(), 4, 1);
-        // Building tower2 = world.convertCardToBuilding(towerCard2.getX(), towerCard2.getY(), 7, 1);
-        // Building tower3 = world.convertCardToBuilding(towerCard3.getX(), towerCard3.getY(), 5, 4);
         TowerBuilding tower1 = new TowerBuilding(new SimpleIntegerProperty(4), new SimpleIntegerProperty(1));
         TowerBuilding tower2 = new TowerBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
         TowerBuilding tower3 = new TowerBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(4));
@@ -130,24 +124,21 @@ public class LoopManiaWorldTest {
         world.addEnemy(vampire2);
 
         // Initialise campfire (In range)
-        // Card campfireCard = world.loadCard("CampfireBuilding");
-        // Building campfire = world.convertCardToBuilding(campfireCard.getX(), campfireCard.getY(), 6, 1);
         CampfireBuilding campfire1 = new CampfireBuilding(new SimpleIntegerProperty(7), new SimpleIntegerProperty(1));
         CampfireBuilding campfire2 = new CampfireBuilding(new SimpleIntegerProperty(5), new SimpleIntegerProperty(1));
 
         world.addBuilding(campfire1);
         world.addBuilding(campfire2);
 
-
         world.runBattles();
-        assert(world.getIsLost());
+        assert(!world.getIsLost());
         assert(slug1.getHealth() <= 0);
         assert(slug2.getHealth() <= 0);
         assert(slug3.getHealth() == 10);
         assert(slug4.getHealth() == 10);
         assert(zombie1.getHealth() <= 0);
         assert(zombie2.getHealth() == 20);
-        assert(vampire1.getHealth() == 26);
+        assert(vampire1.getHealth() <= 0);
         assert(vampire2.getHealth() == 50);
     }
 
