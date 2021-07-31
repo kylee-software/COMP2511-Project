@@ -610,7 +610,7 @@ public class LoopManiaWorld {
 
     /**
      * Spawns Elan after 40 cycles AND player has reaches 10,000 exp.
-     * Note only spawns once
+     * Note only spawns once and causes value of doggiecoin to be 500
      * @return list containing
      */
     public List<Enemy> spawnElan() {
@@ -630,6 +630,7 @@ public class LoopManiaWorld {
             Enemy enemy = new Elan(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
+            DoggieCoin.updateSellValue(500);
             System.out.println("Elan Muske joins the fight!");
         }
 
@@ -734,6 +735,7 @@ public class LoopManiaWorld {
             setDoggieStatus(EnemyStatus.SLAIN_STATUS);
         } else if (isElanDefeated(defeatedEnemies)) {
             setElanStatus(EnemyStatus.SLAIN_STATUS);
+            DoggieCoin.updateSellValue(10);
         }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());

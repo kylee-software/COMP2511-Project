@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class DoggieCoin extends BasicItem {
     
-    private int sellValue = 100;
+    public static int sellValue = 0;
     private static int buyPrice = 0;
     private static String type = "DoggieCoin";
     
@@ -22,7 +22,7 @@ public class DoggieCoin extends BasicItem {
         return sellValue;
     }
 
-    public void updateSellValue(int newValue) {
+    public static void updateSellValue(int newValue) {
         sellValue = newValue;
     }
 }
