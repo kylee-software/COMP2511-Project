@@ -22,8 +22,8 @@ public class Battle {
     private List<Building> towers;
     private List<AlliedSoldier> allies;
     private List<Building> campfires;
-    private List<BasicEnemy> enemies;
-    private List<BasicEnemy> killedEnemies = new ArrayList<>();
+    private List<Enemy> enemies;
+    private List<Enemy> killedEnemies = new ArrayList<>();
     private Item weapon = null;
     private Item armour = null;
     private Item shield = null;
@@ -43,7 +43,7 @@ public class Battle {
         Character character,
         List<Building> towers,
         List<AlliedSoldier> allies,
-        List<BasicEnemy> enemies,
+        List<Enemy> enemies,
         List<Building> campfires
     ) {
         this.character = character;
@@ -57,7 +57,7 @@ public class Battle {
      * Given an enemy adds to the list of enemies for the battle
      * @param enemy - enemy to add
      */
-    private void addEnemyToBattle(BasicEnemy enemy) {
+    private void addEnemyToBattle(Enemy enemy) {
         if (enemy.getHealth() > 0) {
             this.enemies.add(enemy);
         }
@@ -100,14 +100,14 @@ public class Battle {
      * Adds enemy to list of killed enemies
      * @param enemy - enemy to kill
      */
-    private void killEnemy(BasicEnemy enemy) {
+    private void killEnemy(Enemy enemy) {
         this.killedEnemies.add(enemy);
     }
 
     /**
      * Getter for list of killed enemies
      */
-    public List<BasicEnemy> getKilledEnemies() {
+    public List<Enemy> getKilledEnemies() {
         return this.killedEnemies;
     }
 
@@ -129,7 +129,7 @@ public class Battle {
      * Sorts list of enemies by hp
      */
     private void sortEnemiesByCurrentHp() {
-        enemies.sort(Comparator.comparing(BasicEnemy::getHealth));
+        enemies.sort(Comparator.comparing(Enemy::getHealth));
     }
 
     /**
@@ -192,7 +192,7 @@ public class Battle {
             // Elan heals enemies on his turn
             if (enemies.get(enemyTurn) instanceof Elan) {
                 //heal all enemies that aren't dead
-                for (BasicEnemy e : enemies) {
+                for (Enemy e : enemies) {
                     if (!e.isDead()) {
                         // heal enemy incl himself by 5 hitpoints
                         e.gainHealth(5);
@@ -216,7 +216,7 @@ public class Battle {
             }
         }
         // Kill all dead enemies
-        for (BasicEnemy enemy : enemies) {
+        for (Enemy enemy : enemies) {
             if (enemy.isDead()) {
                 killEnemy(enemy);
             }
@@ -243,7 +243,7 @@ public class Battle {
      * @param enemy
      * @param index - index of original zombie in liveEnemies
      */
-    private void entranceEnemy(BasicEnemy enemy, int index) {
+    private void entranceEnemy(Enemy enemy, int index) {
         if (!enemy.isDead()) {
             List<Pair<Integer, Integer>> dummyPath = new ArrayList<>();
             dummyPath.add(new Pair<>(0,0));
@@ -265,7 +265,7 @@ public class Battle {
      * @param trancedEnemy
      */
     private void revertTrancedEnemy(AlliedSoldier trancedEnemy) {
-        BasicEnemy originalEnemy = enemies.get(trancedEnemy.getTrancedEnemyIndex());
+        Enemy originalEnemy = enemies.get(trancedEnemy.getTrancedEnemyIndex());
         originalEnemy.setHealth(trancedEnemy.getHealth());
         trancedEnemy.setHealth(0);
     }
@@ -324,7 +324,7 @@ public class Battle {
             attack = getItemAttackStrategy();
         }
         for (int i = 0; i < enemies.size(); i++) {
-            BasicEnemy enemy = enemies.get(i);
+            Enemy enemy = enemies.get(i);
             if (!enemy.isDead()) {
                 Enum<AttackEffects> attackEffect = attack.execute(character, enemy, 0, 0, campfires.size() > 0, 0);
                 if (attackEffect == AttackEffects.TRANCE_EFFECT) {
@@ -420,7 +420,7 @@ public class Battle {
         if (enemies.size() == 0) {
             return true;
         }
-        for (BasicEnemy enemy : enemies) {
+        for (Enemy enemy : enemies) {
             if (!enemy.isDead()) {
                 return false;
             }
@@ -442,7 +442,7 @@ public class Battle {
      */
     public int getBattleExp() {
         int xp = 0;
-        for (BasicEnemy enemy : killedEnemies) {
+        for (Enemy enemy : killedEnemies) {
             xp += enemy.getExpReward();
         }
         return xp;
@@ -454,7 +454,7 @@ public class Battle {
      */
     public int getBattleGold() {
         int gold = 0;
-        for (BasicEnemy enemy : killedEnemies) {
+        for (Enemy enemy : killedEnemies) {
             gold += enemy.getGoldReward();
         }
         return gold;
