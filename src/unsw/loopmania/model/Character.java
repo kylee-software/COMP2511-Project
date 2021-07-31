@@ -17,6 +17,7 @@ public class Character extends MovingEntity {
     private boolean inCloakingTowerRange;
     private int cloakTicks = 0;
     private int level = 1;
+    private int remainingStunnedCycles;
 
     public Character(PathPosition position) {
         super(position, health, speed);
