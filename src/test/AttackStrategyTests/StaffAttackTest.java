@@ -13,6 +13,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.StaffAttack;
 import unsw.loopmania.model.Enemies.*;
+import unsw.loopmania.model.AttackEffects;
 import unsw.loopmania.model.Character;
 
 
@@ -62,7 +63,7 @@ public class StaffAttackTest {
         AttackStrategy staffAttack = new StaffAttack();
         Random random = new Random(7);
         Boolean expectedTrance = random.nextInt(99) < 40;
-        Boolean trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
+        Enum<AttackEffects> trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);
         assertEquals(trance, expectedTrance);
         expectedTrance = random.nextInt(99) < 40;
         trance = staffAttack.execute(attacker, slug, 0, 0, false, 0);

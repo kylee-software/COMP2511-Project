@@ -52,7 +52,7 @@ public class AndurilAttackTest {
         PathPosition dummyPosition = new PathPosition(0, dummyPath);
         Character attacker = new Character(dummyPosition);
         Doggie doggie = new Doggie(dummyPosition);
-        ElanMuske elon = new ElanMuske(dummyPosition);
+        Elan elon = new Elan(dummyPosition);
         doggie.setHealth(100);
         elon.setHealth(100);
         AttackStrategy andurilAttack = new AndurilAttack();
