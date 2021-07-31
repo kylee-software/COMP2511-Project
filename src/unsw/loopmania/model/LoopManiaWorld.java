@@ -81,7 +81,7 @@ public class LoopManiaWorld {
    /* │                                    Attributes Related to Buildings                                          │ */
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private  List<Building> buildingEntities = new ArrayList<>();
+    private List<Building> buildingEntities = new ArrayList<>();
     private List<BarracksBuilding> barracksBuildings = new ArrayList<>();
     private List<CampfireBuilding> campfireBuildings = new ArrayList<>();
     private HerosCastleBuilding herosCastleBuilding;
@@ -780,54 +780,40 @@ public class LoopManiaWorld {
     /**
      * Given an unequippedItem equips it in equippedInventory into appropriate slot
      * @param item - item to equip
-     * @return success status
+     * @return slot did not have existing item
      */
     public Boolean equipItem(Item item) {
+        Boolean success = true;
         if (item.getType().equals("RareItem")) {
-            if (equippedRareItem == null) {
-                equippedRareItem = item;
-                item.setX(new SimpleIntegerProperty(2));
-                item.setY(new SimpleIntegerProperty(0));
-            } else {
-                return false;
-            }
+            success = equippedRareItem == null ? true : false;
+            equippedRareItem = item;
+            item.setX(new SimpleIntegerProperty(2));
+            item.setY(new SimpleIntegerProperty(0));
         } else if (item.getType().equals("Weapon")) {
-            if (equippedAttackItem == null) {
-                equippedAttackItem = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedAttackItem == null ? true : false;
+            equippedAttackItem = item;
+            item.setX(new SimpleIntegerProperty(0));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("Helmet")) {
-            if (equippedHelmet == null) {
-                equippedHelmet = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(0));
-            } else {
-                return false;
-            }
+            success = equippedHelmet == null ? true : false;
+            equippedHelmet = item;
+            item.setX(new SimpleIntegerProperty(1));
+            item.setY(new SimpleIntegerProperty(0));
         } else if (item.getType().equals("Shield")) {
-            if (equippedShield == null) {
-                equippedShield = item;
-                item.setX(new SimpleIntegerProperty(2));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedShield == null ? true : false;
+            equippedShield = item;
+            item.setX(new SimpleIntegerProperty(2));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("Armour")) {
-            if (equippedArmour == null) {
-                equippedArmour = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedArmour == null ? true : false;
+            equippedArmour = item;
+            item.setX(new SimpleIntegerProperty(1));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("HealthPotion")) {
             item.usePotion(this.character);
         }
         unequippedInventoryItems.remove(item);
-        return true;
+        return success;
     }
 
     /**

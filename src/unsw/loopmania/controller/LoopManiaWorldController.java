@@ -623,11 +623,7 @@ public class LoopManiaWorldController {
                                 node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
-                                Boolean success = world.equipItem(item);
-                                if (!success) {
-                                    // return card
-                                    return;
-                                }
+                                world.equipItem(item);
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 removeItemByCoordinates(nodeX, nodeY);
                                 if (item.getType().equals("Weapon")) {
