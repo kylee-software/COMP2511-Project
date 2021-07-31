@@ -9,13 +9,14 @@ public class Character extends MovingEntity {
 
     private static AttackStrategy strategy = new BasicAttack();
     private static int health = 100;
-    private static int baseDamage = 6;
+    private static int baseDamage = 5;
     private static int speed = 2; // Ticks per tile
     private boolean stuckOnGlacier;
     private int frozenTicks = 0;
     private boolean unfreeze = false;
     private boolean inCloakingTowerRange;
     private int cloakTicks = 0;
+    private int level = 1;
 
     public Character(PathPosition position) {
         super(position, health, speed);
@@ -30,11 +31,26 @@ public class Character extends MovingEntity {
         }
     }
     /**
-     * Getter for damage of character (base + weapons)
+     * Getter for damage of character (base + weapons).
+     * Gain 1 bonus damage per level (total 5 + 1 per level)
      * @return damage
      */
     public int getDamage() {
-        return baseDamage;
+        return baseDamage + level;
+    }
+
+    /**
+     * Getter for level
+     */
+    public int getLevel() {
+        return this.level;
+    }
+
+    /**
+     * Levels up character by 1
+     */
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     /**
