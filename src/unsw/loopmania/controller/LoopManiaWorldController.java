@@ -368,13 +368,13 @@ public class LoopManiaWorldController {
             for (String item: world.getDiscardCardRewardItems())
                 loadItem(item);
             world.getDiscardCardRewardItems().clear();
-            List<BasicEnemy> newEnemies = new ArrayList<>();
+            List<Enemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
             newEnemies.addAll(world.spawnZombiesFromZombiePits());
             // ADD OTHER SPAWNING THINGS HERE
 
-            for (BasicEnemy newEnemy: newEnemies){
+            for (Enemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
@@ -539,7 +539,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoadEnemy(BasicEnemy enemy) {
+    private void onLoadEnemy(Enemy enemy) {
         ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
         squares.getChildren().add(view);
@@ -1061,7 +1061,7 @@ public class LoopManiaWorldController {
         return view;
     }
 
-    private ImageView onLoadEnemyView(BasicEnemy enemy) {
+    private ImageView onLoadEnemyView(Enemy enemy) {
         ImageView view = null;
         if (enemy instanceof Slug) 
             view = new ImageView(slugImage);
