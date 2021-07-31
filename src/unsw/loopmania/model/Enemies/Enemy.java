@@ -19,7 +19,7 @@ public abstract class Enemy extends MovingEntity {
      * @param health
      * @param damage
      */
-    public Enemy(PathPosition position, int health, int damage, double speed) {
+    public Enemy(PathPosition position, int health, int damage, int speed) {
         super(position, health, speed);
         this.damage = damage;
     }

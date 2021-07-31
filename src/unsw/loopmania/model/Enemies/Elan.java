@@ -10,7 +10,7 @@ public class Elan extends Enemy {
     private static int goldReward = 50;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
-    private static double speed = 1; // Ticks per tile
+    private static int speed = 1; // Ticks per tile
     private static AttackStrategy strategy = new ElanAttack();
     private static int damage = 30;
     private static int health = 100;
