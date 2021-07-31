@@ -14,7 +14,8 @@
 <!-- TODO = modify and expand the range of menus available from the menu menu, and develop game modes you can select when starting a new game -->
 <!-- vertically stacked label and button -->
 
-<Pane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="mainMenu"
+      xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="560.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -40,7 +41,7 @@
         </items>
       </MenuButton>
       <!-- clicking button should start/resume the game -->
-      <Button fx:id="startGameButton" layoutX="202.0" layoutY="354.0" onAction="#switchToGame" text="Start Game" />
+      <Button fx:id="startGameButton" layoutX="202.0" layoutY="354.0" onAction="#startGame" text="Start Game" />
       <Label alignment="CENTER" layoutX="96.0" layoutY="244.0" prefHeight="23.0" prefWidth="106.0" text="World: " textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Times New Roman" size="15.0" />
