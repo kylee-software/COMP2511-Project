@@ -20,7 +20,14 @@ public class ElanAttack implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
+    public Enum<AttackEffects> execute(
+        Entity attacker,
+        MovingEntity target,
+        int scalarDef,
+        int fixedDef,
+        Boolean campfire, 
+        int critReduction
+    ) {
         double damage = attacker.getDamage();
         if (target.getClass().equals(Character.class)) {
             double scalarDecimal = 100 - scalarDef;

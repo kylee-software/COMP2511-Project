@@ -756,6 +756,9 @@ public class LoopManiaWorld {
         if (equippedHelmet != null) {
             battle.setHelmet(equippedHelmet);
         }
+        if (equippedRareItem != null) {
+            battle.setRareItem(equippedRareItem);
+        }
     }
 
 

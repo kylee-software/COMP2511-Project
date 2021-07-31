@@ -13,6 +13,7 @@ import unsw.loopmania.model.AttackStrategy.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.Items.RareItems.TreeStump;
 import unsw.loopmania.model.RewardStrategy.*;
 
 
@@ -28,6 +29,7 @@ public class Battle {
     private Item armour = null;
     private Item shield = null;
     private Item helmet = null;
+    private Item rareItem = null;
     private RewardStrategy itemRewardStrategy = new ItemRewardBehaviour();
     private RewardStrategy cardRewardStrategy = new CardRewardBehaviour();
 
@@ -96,6 +98,14 @@ public class Battle {
     }
 
     /**
+     * Setter for equipped Rare Item
+     * @param rareItem
+     */
+    public void setRareItem(Item rareItem) {
+        this.rareItem = rareItem;
+    }
+
+    /**
      * Removes given enemy from list of alive enemies.
      * Adds enemy to list of killed enemies
      * @param enemy - enemy to kill
@@ -144,7 +154,7 @@ public class Battle {
      * Check assumptions for battle order
      */
     public void fight() {
-        // Character -> Tower1 → Allied Soldier 1 -> Enemy 1 → character → Tower2 → Allied Soldier 2 → Enemy2
+        // Order: Character -> Tower1 → Allied Soldier 1 -> Enemy 1 → character → Tower2 → Allied Soldier 2 → Enemy2
         // Characters and enemies will attack the entity with the lowest current health every turn
         // Enemies will attack allied soldiers first
         int scalarDef = getScalarDef();
@@ -356,6 +366,15 @@ public class Battle {
             }
         }
         // Otherwise attack character
+
+        // Set damage reduction if treeStump equipped
+        if (rareItem.getClass().equals(TreeStump.class)) {
+            if (attacker.isBoss()) {
+                flatDef += rareItem.getBossFlatDamageReduction();
+            } else {
+                flatDef += rareItem.getFlatDamageReduction();
+            }
+        }
         Enum<AttackEffects> attackEffect = attack.execute(attacker, character, scalarDef, flatDef, campfires.size() > 0, getCritReduction());
         if (attackEffect == AttackEffects.STUN_EFFECT) {
             stunCharacter(character);
