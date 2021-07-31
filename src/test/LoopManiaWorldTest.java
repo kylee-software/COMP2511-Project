@@ -29,6 +29,32 @@ public class LoopManiaWorldTest {
     private static int height = 5;
     private static List<String> rareItems = new ArrayList<String>();
 
+    /**
+     * Testing levelling system of character
+     */
+    @Test
+    public void setExperienceTest() {
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(0,0));
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, new Random(1));
+        PathPosition characterPosition = new PathPosition(0, orderedPath);
+        Character character = new Character(characterPosition);
+        world.setCharacter(character);
+        assertEquals(character.getLevel(), 1);
+        assertEquals(character.getDamage(), 6);
+        world.setExperience(2301);
+        assertEquals(character.getLevel(), 1);
+        assertEquals(character.getDamage(), 6);
+        world.setExperience(4000);
+        assertEquals(character.getLevel(), 1);
+        assertEquals(character.getDamage(), 6);
+        world.setExperience(7023);
+        assertEquals(character.getLevel(), 2);
+        assertEquals(character.getDamage(), 7);
+        world.setExperience(12340);
+        assertEquals(character.getLevel(), 4);
+        assertEquals(character.getDamage(), 9);
+    }
 
     @Test
     public void runTickMovesTest() {

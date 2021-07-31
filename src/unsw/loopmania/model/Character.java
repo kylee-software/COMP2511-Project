@@ -49,8 +49,8 @@ public class Character extends MovingEntity {
     /**
      * Levels up character by 1
      */
-    public void levelUp() {
-        this.level += 1;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     /**

@@ -238,7 +238,7 @@ public class LoopManiaWorld {
     public void setExperience(int experience) {
         this.experience = experience;
         if (experience > character.getLevel() * 4000) {
-            character.levelUp();
+            character.setLevel((experience / 4000) + 1);
         }
     }
     
