@@ -31,7 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.*;
+import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -133,6 +133,8 @@ public class LoopManiaWorldController {
     private Image vampireCastleCardImage;
     private Image villageCardImage;
     private Image zombiePitCardImage;
+    private Image glacierCardImage;
+    private Image cloakingTowerCardImage;
 
     // Building Images
     private Image barracksBuildingImage;
@@ -142,6 +144,8 @@ public class LoopManiaWorldController {
     private Image vampireCastleBuildingImage;
     private Image villageBuildingImage;
     private Image zombiePitBuildingImage;
+    private Image glacierBuildingImage;
+    private Image cloakingTowerBuildingImage;
 
     // Enemy Images
     private Image slugImage;
@@ -233,6 +237,8 @@ public class LoopManiaWorldController {
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
         zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        glacierCardImage = new Image((new File("src/images/glacier_card.png")).toURI().toString());
+        cloakingTowerCardImage = new Image((new File("src/images/cloaking_tower_card.png")).toURI().toString());
         // Building Images
         barracksBuildingImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireBuildingImage = new Image((new File("src/images/campfire.png")).toURI().toString());
@@ -241,6 +247,8 @@ public class LoopManiaWorldController {
         vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         villageBuildingImage = new Image((new File("src/images/village.png")).toURI().toString());
         zombiePitBuildingImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        glacierBuildingImage = new Image((new File("src/images/glacier.png")).toURI().toString());
+        cloakingTowerBuildingImage = new Image((new File("src/images/cloaking_tower.png")).toURI().toString());
         // Enemy Images
         slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
@@ -329,36 +337,18 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-
-//            List<BasicEnemy> newEnemies = world.SpawnSlugs();
-//            // ADD OTHER SPAWNING THINGS HERE
-//
-//            for (BasicEnemy newEnemy: newEnemies){
-//                // onLoad(newEnemy);
-//                onLoadEnemy(newEnemy);
-//            }
-            // increment cycle
-            // world.checkWinCondition();
-            // if (world.canAccessHerosCastleMenu()) switchToEnterShopMenu();
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
-            else if (world.isGoalCompleted()) {
-                System.out.println("We WON");
-                pause();
-                switchToWinScreen();
-            } else if (world.completedACycle() && world.getCycles() > 0) {
-                pause();
-                switchToHerosCastleMenu();
-            }
-            // check goal completion
-            world.completedACycle();
+            world.incrementCycles();
+            System.out.println("Cycles: " + world.getCycles());
             world.healCharacterInVillage();
             world.spawnAllyFromBarracks();
             world.runTickMoves();
-            world.runBattles();
+            if (!world.cloakCharacter()) {
+                world.runBattles();
+            }
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            world.updateNumAlliedSoldiers();
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
             world.getBattleRewardCards().clear();
@@ -368,17 +358,15 @@ public class LoopManiaWorldController {
             for (String item: world.getDiscardCardRewardItems())
                 loadItem(item);
             world.getDiscardCardRewardItems().clear();
-            List<Enemy> newEnemies = new ArrayList<>();
+            List<BasicEnemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
             newEnemies.addAll(world.spawnZombiesFromZombiePits());
             // ADD OTHER SPAWNING THINGS HERE
-
-            for (Enemy newEnemy: newEnemies){
+            for (BasicEnemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
-
             // ALL ITEM SPAWNING MECHANICS
             List<Item> spawnedItems = world.possiblySpawnItem();
             for (Item item : spawnedItems) {
@@ -391,8 +379,19 @@ public class LoopManiaWorldController {
                 }
             }
 
-             pickUpItems();
-             despawnItems();
+            pickUpItems();
+            despawnItems();
+
+            if (world.getIsLost()) 
+                switchToGameOverScreen();
+            else if (world.isGoalCompleted()) {
+                System.out.println("We WON");
+                pause();
+                switchToWinScreen();
+            } else if (world.completedACycle() && world.getCycles() >= 0) {
+                pause();
+                switchToHerosCastleMenu();
+            }
 
             printThreadingNotes("HANDLED TIMER");
         }));
@@ -539,7 +538,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoadEnemy(Enemy enemy) {
+    private void onLoadEnemy(BasicEnemy enemy) {
         ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
         squares.getChildren().add(view);
@@ -1016,6 +1015,10 @@ public class LoopManiaWorldController {
             view = new ImageView(villageBuildingImage);
         else if (building instanceof ZombiePitBuilding) 
             view = new ImageView(zombiePitBuildingImage);
+        else if (building instanceof GlacierBuilding) 
+            view = new ImageView(glacierBuildingImage);
+        else if (building instanceof CloakingTowerBuilding) 
+            view = new ImageView(cloakingTowerBuildingImage);
         return view;
     }
 
@@ -1035,6 +1038,10 @@ public class LoopManiaWorldController {
             view = new ImageView(villageCardImage);
         else if (card instanceof ZombiePitCard) 
             view = new ImageView(zombiePitCardImage);
+        else if (card instanceof GlacierCard) 
+            view = new ImageView(glacierCardImage);
+        else if (card instanceof CloakingTowerCard) 
+            view = new ImageView(cloakingTowerCardImage);
         return view;
     }
 
@@ -1061,7 +1068,7 @@ public class LoopManiaWorldController {
         return view;
     }
 
-    private ImageView onLoadEnemyView(Enemy enemy) {
+    private ImageView onLoadEnemyView(BasicEnemy enemy) {
         ImageView view = null;
         if (enemy instanceof Slug) 
             view = new ImageView(slugImage);
@@ -1087,6 +1094,10 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(villageCardImage);
         else if (card instanceof ZombiePitCard) 
             draggedEntity.setImage(zombiePitCardImage);
+        else if (card instanceof GlacierCard) 
+            draggedEntity.setImage(glacierCardImage);
+        else if (card instanceof CloakingTowerCard) 
+            draggedEntity.setImage(cloakingTowerCardImage);
     }
 
     private void setDraggedEntityItemImage(Item item) {
@@ -1106,6 +1117,11 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(swordImage);
         else if (item instanceof TheOneRing) 
         draggedEntity.setImage(theOneRingImage);
+    }
+
+
+    public LoopManiaWorld getWorld(){
+        return world;
     }
 
 }

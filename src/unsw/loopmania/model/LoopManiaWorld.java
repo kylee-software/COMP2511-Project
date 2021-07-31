@@ -124,6 +124,8 @@ public class LoopManiaWorld {
 
     private List<String> discardCardRewardItems = new ArrayList<>();
 
+    private Boolean isDoggieCoinSpawned = false;
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -774,6 +776,10 @@ public class LoopManiaWorld {
         }
         for (String item : battle.getBattleItems()) {
             battleRewardItems.add(item);
+        }
+        if (isDoggieDefeated(battle.getKilledEnemies()) && !isDoggieCoinSpawned) {
+            battleRewardItems.add("DoggieCoin");
+            isDoggieCoinSpawned = true;
         }
     }
 
