@@ -2,6 +2,7 @@ package unsw.loopmania.controller;
 
 import java.io.File;
 import java.util.List;
+import org.javatuples.Pair;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
@@ -14,17 +15,23 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
+import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 
 public class HerosCastleMenuController  {
+
+    @FXML
+    private Label currentGold;
 
     @FXML
     private GridPane unequippedInventory;
@@ -34,6 +41,8 @@ public class HerosCastleMenuController  {
     private List<Item> trackedInventory;
 
     private LoopManiaWorld world;
+
+    private HerosCastleBuilding herosCastleBuilding;
 
     public HerosCastleMenuController(List<Item> inventory, LoopManiaWorld world) {
         this.inventory = inventory;
@@ -49,6 +58,7 @@ public class HerosCastleMenuController  {
                 unequippedInventory.add(emptySlotView, x, y);
             }
         }
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         unequippedInventory.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
@@ -195,37 +205,58 @@ public class HerosCastleMenuController  {
 
     @FXML
     void buyArmour(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Armour", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buyHealthPotion(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("HealthPotion", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buyHelmet(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Helmet", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buyShield(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Shield", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buyStaff(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Staff", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buyStake(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Stake", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
     void buySword(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        Item item = world.createItem("Sword", firstAvailableSlot);
+        inventory.add(item);
+        refreshInventory();
     }
 
     @FXML
