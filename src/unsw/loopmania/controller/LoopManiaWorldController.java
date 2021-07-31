@@ -3,6 +3,10 @@ package unsw.loopmania.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -198,14 +202,6 @@ public class LoopManiaWorldController {
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragExited;
 
-    /**
-     * object handling switching to the main menu
-     */
-    private MenuSwitcher mainMenuSwitcher;
-    private MenuSwitcher gameOverScreenSwitcher;
-    private MenuSwitcher winScreenSwitcher;
-    private MenuSwitcher herosCastleMenuSwitcher;
-
     @FXML
     private Label worldExperience;
 
@@ -275,6 +271,7 @@ public class LoopManiaWorldController {
         anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+
     }
 
     @FXML
@@ -332,7 +329,7 @@ public class LoopManiaWorldController {
     /**
      * create and run the timer
      */
-    public void startTimer(){
+    public void startTimer() {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
@@ -383,15 +380,27 @@ public class LoopManiaWorldController {
             pickUpItems();
             despawnItems();
 
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
+            if (world.getIsLost())
+                try {
+                    switchToGameOverScreen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             else if (world.isGoalCompleted()) {
                 System.out.println("We WON");
                 pause();
-                switchToWinScreen();
+                try {
+                    switchToWinScreen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (world.completedACycle() && world.getCycles() >= 0) {
                 pause();
-                switchToHerosCastleMenu();
+                try {
+                    switchToHerosCastleMenu();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             printThreadingNotes("HANDLED TIMER");
@@ -849,47 +858,6 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
-        this.mainMenuSwitcher = mainMenuSwitcher;
-    }
-
-    public void setGameOverScreenSwitcher(MenuSwitcher gameOverScreenSwitcher){
-        this.gameOverScreenSwitcher = gameOverScreenSwitcher;
-    }
-
-    public void setWinScreenSwitcher(MenuSwitcher winScreenSwitcher){
-        this.winScreenSwitcher = winScreenSwitcher;
-    }
-
-    public void setHerosCastleMenuSwitcher(MenuSwitcher herosCastleMenuSwitcher){
-        this.herosCastleMenuSwitcher = herosCastleMenuSwitcher;
-    }
-    
-    /**
-     * this method is triggered when click button to go to main menu in FXML
-     * @throws IOException
-     */
-    @FXML
-    private void switchToMainMenu() throws IOException {
-        pause();
-        mainMenuSwitcher.switchMenu();
-    }
-
-    private void switchToGameOverScreen() {
-        pause();
-        gameOverScreenSwitcher.switchMenu();
-    }
-
-    private void switchToWinScreen() {
-        pause();
-        winScreenSwitcher.switchMenu();
-    }
-
-    private void switchToHerosCastleMenu() {
-        pause();
-        herosCastleMenuSwitcher.switchMenu();
-    }
-
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the world.
@@ -897,10 +865,10 @@ public class LoopManiaWorldController {
      * By connecting the model with the view in this way, the model requires no
      * knowledge of the view and changes to the position of entities in the
      * model will automatically be reflected in the view.
-     * 
+     *
      * note that this is put in the controller rather than the loader because we need to track positions of spawned entities such as enemy
      * or items which might need to be removed should be tracked here
-     * 
+     *
      * NOTE teardown functions setup here also remove nodes from their GridPane. So it is vital this is handled in this Controller class
      * @param entity
      * @param node
@@ -912,22 +880,22 @@ public class LoopManiaWorldController {
         ChangeListener<Number> xListener = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 GridPane.setColumnIndex(node, newValue.intValue());
             }
         };
         ChangeListener<Number> yListener = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
             }
         };
 
         // if need to remove items from the equipped inventory, add code to remove from equipped inventory gridpane in the .onDetach part
         ListenerHandle handleX = ListenerHandles.createFor(entity.x(), node)
-                                               .onAttach((o, l) -> o.addListener(xListener))
-                                               .onDetach((o, l) -> {
+                                                .onAttach((o, l) -> o.addListener(xListener))
+                                                .onDetach((o, l) -> {
                                                     o.removeListener(xListener);
                                                     entityImages.remove(node);
                                                     squares.getChildren().remove(node);
@@ -935,18 +903,18 @@ public class LoopManiaWorldController {
                                                     equippedItems.getChildren().remove(node);
                                                     unequippedInventory.getChildren().remove(node);
                                                 })
-                                               .buildAttached();
+                                                .buildAttached();
         ListenerHandle handleY = ListenerHandles.createFor(entity.y(), node)
-                                               .onAttach((o, l) -> o.addListener(yListener))
-                                               .onDetach((o, l) -> {
-                                                   o.removeListener(yListener);
-                                                   entityImages.remove(node);
-                                                   squares.getChildren().remove(node);
-                                                   cards.getChildren().remove(node);
-                                                   equippedItems.getChildren().remove(node);
-                                                   unequippedInventory.getChildren().remove(node);
+                                                .onAttach((o, l) -> o.addListener(yListener))
+                                                .onDetach((o, l) -> {
+                                                    o.removeListener(yListener);
+                                                    entityImages.remove(node);
+                                                    squares.getChildren().remove(node);
+                                                    cards.getChildren().remove(node);
+                                                    equippedItems.getChildren().remove(node);
+                                                    unequippedInventory.getChildren().remove(node);
                                                 })
-                                               .buildAttached();
+                                                .buildAttached();
         handleX.attach();
         handleY.attach();
 
@@ -974,6 +942,82 @@ public class LoopManiaWorldController {
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                       setOnActions to switch screen                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    @FXML
+    public void switchToMainMenu() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        MainMenuController mainMenuController = new MainMenuController();
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/MainMenuView.fxml"));
+        menuLoader.setController(mainMenuController);
+        Parent mainMenuRoot = menuLoader.load();
+
+        Scene mainMenuScreen = new Scene(mainMenuRoot);
+        mainMenuRoot.requestFocus();
+        primaryStage.setScene(mainMenuScreen);
+        primaryStage.show();
+    }
+
+    @FXML
+    public void switchToGameOverScreen() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        GameOverScreenController gameOverScreenController = new GameOverScreenController();
+        FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/GameOverScreenView.fxml"));
+        gameOverScreenLoader.setController(gameOverScreenController);
+        Parent gameOverScreenRoot = gameOverScreenLoader.load();
+
+        Scene gameOverScreen = new Scene(gameOverScreenRoot);
+        gameOverScreenRoot.requestFocus();
+        primaryStage.setScene(gameOverScreen);
+        primaryStage.show();
+    }
+
+    private void switchToWinScreen() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/WinScreenView.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+
+        Scene winScreen = new Scene(winScreenRoot);
+        winScreenRoot.requestFocus();
+        primaryStage.setScene(winScreen);
+        primaryStage.show();
+    }
+
+    private void switchToHerosCastleMenu() throws IOException {
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+        Scene gameScreen = primaryStage.getScene();
+
+        HerosCastleMenuController herosCastleMenuController =
+                new HerosCastleMenuController(LoopManiaWorld.getUnequippedItems(), gameScreen, this);
+        FXMLLoader herosCastleMenuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/HerosCastleMenuView.fxml"));
+        herosCastleMenuLoader.setController(herosCastleMenuController);
+        Parent herosCastleMenuRoot = herosCastleMenuLoader.load();
+
+        Scene herosCastleMenueScreen = new Scene(herosCastleMenuRoot);
+        herosCastleMenuRoot.requestFocus();
+        primaryStage.setScene(herosCastleMenueScreen);
+        primaryStage.show();
+
+        pause();
+        herosCastleMenuController.refreshInventory();
+
+    }
+
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                Helper Methods                                              │ */
