@@ -4,7 +4,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.DoggieAttack;
 
-public class Doggie extends BasicEnemy {
+public class Doggie extends Enemy {
 
     private static int expReward = 500;
     private static int goldReward = 50;
@@ -33,6 +33,12 @@ public class Doggie extends BasicEnemy {
     public int getExpReward() {
         return expReward;
     }
+    
+    @Override
+    public Boolean isBoss() {
+        return true;
+    }
+
 
     /**
      * Getter for gold reward when killed

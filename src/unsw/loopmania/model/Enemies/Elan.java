@@ -4,7 +4,7 @@ import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.ElanAttack;
 
-public class Elan extends BasicEnemy {
+public class Elan extends Enemy {
 
     private static int expReward = 500;
     private static int goldReward = 50;
@@ -32,6 +32,11 @@ public class Elan extends BasicEnemy {
      */
     public int getExpReward() {
         return expReward;
+    }
+    
+    @Override
+    public Boolean isBoss() {
+        return true;
     }
 
     /**
