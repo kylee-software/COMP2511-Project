@@ -12,7 +12,7 @@ public class AndurilAttack extends AttackObserver implements AttackStrategy {
     public Boolean execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire,
             int critReduction) {
         int damage = attacker.getDamage();
-        if (target instanceof BossEnemy) {
+        if (target.isBoss()) {
             damage += critDamage;
         } else {
             damage += andurilDamage;
