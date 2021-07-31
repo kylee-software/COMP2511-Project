@@ -293,7 +293,7 @@ public class LoopManiaWorld {
      * @return elan's mortality status, e.g Unspawned / Alive / Slain
      * See EnemyStatus.java for enum details
      */
-    public Enum<EnemyStatus> getElanStatus()) {
+    public Enum<EnemyStatus> getElanStatus() {
         return this.elanStatus;
     }
 
@@ -306,7 +306,7 @@ public class LoopManiaWorld {
      * @return - Doggie's mortality status, e.g Unspawned / Alive / Slain
      * See EnemyStatus.java for enum details
      */
-    public Enum<EnemyStatus> getDoggieStatus()) {
+    public Enum<EnemyStatus> getDoggieStatus() {
         return this.doggieStatus;
     }
 
@@ -644,7 +644,7 @@ public class LoopManiaWorld {
 
         if (getCycles() == 20 && getDoggieStatus() == EnemyStatus.UNSPAWNED_STATUS) {
             pos = possiblyGetSpawnPosition();
-            setDoggieStatus(EnemyStatus.ALIVE_STATUS));
+            setDoggieStatus(EnemyStatus.ALIVE_STATUS);
         }
 
         List<Enemy> spawningEnemies = new ArrayList<Enemy>();
