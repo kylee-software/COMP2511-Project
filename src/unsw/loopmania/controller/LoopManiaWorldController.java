@@ -155,6 +155,8 @@ public class LoopManiaWorldController {
     private Image slugImage;
     private Image vampireImage;
     private Image zombieImage;
+    private Image doggieImage;
+    private Image elanMuskeImage;
 
     // Allied Solider Image
     private Image alliedSoldierImage;
@@ -169,6 +171,9 @@ public class LoopManiaWorldController {
     private Image stakeImage;
     private Image swordImage;
     private Image theOneRingImage;
+    private Image andurilFlameOfTheWestImage;
+    private Image treeStumpImage;
+    private Image doggieCoinImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -252,6 +257,9 @@ public class LoopManiaWorldController {
         slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
+        doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString()); 
+        elanMuskeImage = new Image((new File("src/images/elanMuske.png")).toURI().toString()); 
+        
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         // Item Images
@@ -264,6 +272,9 @@ public class LoopManiaWorldController {
         stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString()); 
+        andurilFlameOfTheWestImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString()); 
+        treeStumpImage = new Image((new File("src/images/treestump.png")).toURI().toString()); 
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString()); 
         
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
