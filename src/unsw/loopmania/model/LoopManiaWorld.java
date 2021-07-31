@@ -69,8 +69,8 @@ public class LoopManiaWorld {
     @FXML
     private Label worldHealth;
 
-    @FXML
-    private Label worldLevel;
+    // @FXML
+    // private Label worldLevel;
 
     private int cycles;
 
@@ -226,9 +226,9 @@ public class LoopManiaWorld {
         this.worldExperience = worldExperience;
     }
 
-    public void setLevelLabel(Label worldLevel) {
-        this.worldLevel = worldLevel;
-    }
+    // public void setLevelLabel(Label worldLevel) {
+    //     this.worldLevel = worldLevel;
+    // }
 
     /**
      * set the experience point(s) that the character currently has.
@@ -237,7 +237,7 @@ public class LoopManiaWorld {
      */
     public void setExperience(int experience) {
         this.experience = experience;
-        if (experience > character.getLevel() * 2000) {
+        if (experience > character.getLevel() * 4000) {
             character.levelUp();
         }
     }
@@ -381,9 +381,9 @@ public class LoopManiaWorld {
         worldExperience.setText("Experience: " + this.experience);
     }
 
-    public void updateLevel() {
-        worldLevel.setText("Level: " + character.getLevel());
-    }
+    // public void updateLevel() {
+    //     worldLevel.setText("Level: " + character.getLevel());
+    // }
 
     public void updateGold() {
         worldGold.setText("Gold: " + this.gold);
