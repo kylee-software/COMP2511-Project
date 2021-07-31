@@ -19,6 +19,7 @@ public class TowerBuilding extends Building {
         return this.damage;
     }
 
+    @Override
     public int getBattleRadius() {
         return this.battleRadius;
     }

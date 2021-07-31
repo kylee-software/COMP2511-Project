@@ -2,39 +2,43 @@ package unsw.loopmania.model.Enemies;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.AttackStrategy.SlugAttack;
+import unsw.loopmania.model.AttackStrategy.DoggieAttack;
 
-public class Slug extends Enemy {
+public class Doggie extends Enemy {
 
-    private static int expReward = 100;
-    private static int goldReward = 10;
+    private static int expReward = 500;
+    private static int goldReward = 50;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
-    private static double speed = 3; // Ticks per tile
-    private static AttackStrategy strategy = new SlugAttack();
-    private static int damage = 7;
-    private static int health = 10;
+    private static double speed = 1; // Ticks per tile
+    private static AttackStrategy strategy = new DoggieAttack();
+    private static int damage = 10;
+    private static int health = 200;
 
     /**
      * Constructor for slug
      * @param position - current position on map
      */
-    public Slug(PathPosition position) {
+    public Doggie(PathPosition position) {
         super(position, health, damage, speed);
-    }
+    } 
 
     @Override
     public void move() {
         super.move();
-    }
-
-    /**
+    }   /**
      * Getter for EXP reward when killed
      * @return EXP reward
      */
     public int getExpReward() {
         return expReward;
     }
+    
+    @Override
+    public Boolean isBoss() {
+        return true;
+    }
+
 
     /**
      * Getter for gold reward when killed

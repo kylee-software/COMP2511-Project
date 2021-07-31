@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * a basic form of enemy in the backend world
  */
-public abstract class BasicEnemy extends MovingEntity {
+public abstract class Enemy extends MovingEntity {
 
     private String type;
     private int damage;
@@ -19,7 +19,7 @@ public abstract class BasicEnemy extends MovingEntity {
      * @param health
      * @param damage
      */
-    public BasicEnemy(PathPosition position, int health, int damage, double speed) {
+    public Enemy(PathPosition position, int health, int damage, double speed) {
         super(position, health, speed);
         this.damage = damage;
     }

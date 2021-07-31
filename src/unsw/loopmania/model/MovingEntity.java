@@ -26,6 +26,15 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
+     * 
+     * @return - true if entity is of a Boss type. Default false, overriden in boss interface. 
+     */
+    public Boolean isBoss() {
+        //default false
+        return false;
+    }
+
+    /**
      * move clockwise through the path
      */
     public void moveDownPath() {
@@ -92,6 +101,7 @@ public abstract class MovingEntity extends Entity {
     
     public abstract int getDamage();
 
+    //todo: gainHealth should have a max cap depending on the maxhealth of each entity.
     public void gainHealth(int healthBonus) {
         this.health = Math.min(getHealth() + healthBonus, 100);
     }

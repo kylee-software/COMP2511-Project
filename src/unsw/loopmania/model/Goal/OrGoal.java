@@ -1,5 +1,7 @@
 package unsw.loopmania.model.Goal;
 
+import unsw.loopmania.model.LoopManiaWorld;
+
 public class OrGoal extends Goal {
 
     private Goal goalA;
@@ -15,7 +17,7 @@ public class OrGoal extends Goal {
      * @return true if the player completed one of the two goals else false
      */
     @Override
-    public boolean isGoalComplete() {
-        return goalA.isGoalComplete() || goalB.isGoalComplete();
+    public boolean isGoalComplete(LoopManiaWorld world) {
+        return goalA.isGoalComplete(world) || goalB.isGoalComplete(world);
     }
 }

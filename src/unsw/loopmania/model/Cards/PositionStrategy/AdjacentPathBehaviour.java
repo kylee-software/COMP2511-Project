@@ -23,7 +23,7 @@ public class AdjacentPathBehaviour implements PositionStrategy {
             }
         }
         return false;
-        
+
     }
 
 }

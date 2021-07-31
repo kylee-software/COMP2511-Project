@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import unsw.loopmania.model.Enemies.*;
 
 public class BuildingsTests {
 
+    // TODO = wait until implementation of attack strategy
     @Test
     void TowerTest() {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -96,10 +98,10 @@ public class BuildingsTests {
         PathPosition position = new PathPosition(1, orderedPath);
         TrapBuilding trapBuilding = new TrapBuilding(position);
         
-        BasicEnemy slug = new Slug(position);
+        Enemy slug = new Slug(position);
         assertEquals(trapBuilding.damageEnemy(slug), 0);
 
-        BasicEnemy vampire = new Vampire(position);
+        Enemy vampire = new Vampire(position);
         assertEquals(trapBuilding.damageEnemy(vampire), 40);
         assert(!trapBuilding.shouldExist().get());
     }
@@ -114,7 +116,7 @@ public class BuildingsTests {
         TrapBuilding trapBuilding = new TrapBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         trapBuilding.setPathPosition(position);
         assertEquals(trapBuilding.getPathPosition(), position);
-        BasicEnemy slug = new Slug(position);
+        Enemy slug = new Slug(position);
     }
 
     @Test

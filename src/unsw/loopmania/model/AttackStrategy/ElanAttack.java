@@ -1,17 +1,17 @@
 package unsw.loopmania.model.AttackStrategy;
 
 import unsw.loopmania.model.AttackEffects;
-import unsw.loopmania.model.Entity;
+import unsw.loopmania.model.Character;
 import unsw.loopmania.model.MovingEntity;
+import unsw.loopmania.model.Entity;
 
 /**
-* Implements sword attack for a character on an target
-*/
-public class SwordAttack extends AttackObserver implements AttackStrategy  {
-    private int swordDamage = 10;
-    
+ * Implements slug attack on a target
+ */
+public class ElanAttack implements AttackStrategy {
     /**
-     * Execute sword attack on an enemy target
+     * Execute slug attack on a target.
+     * Applies defences if target is a Character.
      * @param attacker - character
      * @param target - enemy target
      * @param scalarDef - target scalar defences
@@ -21,11 +21,14 @@ public class SwordAttack extends AttackObserver implements AttackStrategy  {
      */
     @Override
     public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
-        int damage = attacker.getDamage() + swordDamage;
-        if (campfire) {
-            damage *= super.campfireBuff();
+        double damage = attacker.getDamage();
+        if (target.getClass().equals(Character.class)) {
+            double scalarDecimal = 100 - scalarDef;
+            scalarDecimal /= 100;
+            damage *= scalarDecimal;
+            damage -= fixedDef;
         }
-        target.setHealth(target.getHealth() - damage);
+        target.setHealth((int)(target.getHealth() - damage));
         return AttackEffects.NO_EFFECT;
     }
 }

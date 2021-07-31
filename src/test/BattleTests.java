@@ -35,7 +35,7 @@ public class BattleTests {
         Character character = new Character(dummyPosition);
         List<Building> towers = new ArrayList<>();
         List<AlliedSoldier> allies = new ArrayList<>();
-        List<BasicEnemy> enemies = new ArrayList<>();
+        List<Enemy> enemies = new ArrayList<>();
         List<Building> campfires = new ArrayList<>();
         Battle battle = new Battle(character, towers, allies, enemies, campfires);
         assert(!battle.isLost());
@@ -97,7 +97,7 @@ public class BattleTests {
         allies.add(ally2);
 
         // Initalise 2 slugs, 1 zombie, 1 vampire
-        List<BasicEnemy> enemies = new ArrayList<>();
+        List<Enemy> enemies = new ArrayList<>();
         PathPosition slug1Position = new PathPosition(4, orderedPath);
         Slug slug1 = new Slug(slug1Position);
         PathPosition slug2Position = new PathPosition(6, orderedPath);

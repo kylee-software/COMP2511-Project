@@ -1,9 +1,6 @@
 package unsw.loopmania.model.Buildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.Enemies.BasicEnemy;
-import unsw.loopmania.model.Character;
 
 public class CampfireBuilding extends Building {
 
@@ -15,10 +12,12 @@ public class CampfireBuilding extends Building {
         super(x, y);
     }
 
+    @Override
     public int getBattleRadius() {
         return battleRadius;
     }
 
+    @Override
     public int getDamageMultiplier() {
         return damageMultiplier;
     }
@@ -27,17 +26,4 @@ public class CampfireBuilding extends Building {
         return scareRadius;
     }
 
-    // BUFFER INTERFACE
-    public void performDamage(Character character, BasicEnemy enemy) {
-    }
-
-    // OBSERVER PATTERN FOR ATTACKS
-    public void addAttackObserver(AttackStrategy attackStrategy) {
-    }
-
-    public void removeAttackObserver(AttackStrategy attackStrategy) {
-    }
-
-    public void notifyAttackObservers() {
-    }
 }
