@@ -37,7 +37,8 @@
         <items>
           <MenuItem fx:id="standardMode" text="Standard" />
           <MenuItem fx:id="survivalMode" text="Survival" />
-            <MenuItem fx:id="berserkerMode" text="Berserker" />
+          <MenuItem fx:id="berserkerMode" text="Berserker" />
+          <MenuItem fx:id="confusingMode" text="Confusing" />
         </items>
       </MenuButton>
       <!-- clicking button should start/resume the game -->
