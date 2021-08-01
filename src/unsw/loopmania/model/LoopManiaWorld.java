@@ -146,7 +146,6 @@ public class LoopManiaWorld {
      */
     public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath,
                           List<String> rareItems, Random random) {
-        // TODO: this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
         }
@@ -709,7 +708,7 @@ public class LoopManiaWorld {
         // Add all campfires
         battleCampfires.addAll(getSupportCampfireBuildings());
         // Battle
-        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
+        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires, gameMode);
         // Add items
         setBattleWeapons(battle);
 
@@ -727,7 +726,8 @@ public class LoopManiaWorld {
         if (battle.isLost()) {
             // Check has The One Ring
             if (equippedRareItem != null && 
-                equippedRareItem.getClass().equals(TheOneRing.class)
+                (equippedRareItem.getClass().equals(TheOneRing.class) ||
+                gameMode.equals("Confusing"))
             ) {
                 Item theOneRing = getEquippedRareItem();
                 theOneRing.usePotion(character);

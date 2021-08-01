@@ -33,6 +33,7 @@ public class Battle {
     private Item rareItem = null;
     private RewardStrategy itemRewardStrategy = new ItemRewardBehaviour();
     private RewardStrategy cardRewardStrategy = new CardRewardBehaviour();
+    private String gameMode;
 
     /**
      * Constructor for a battle
@@ -47,13 +48,15 @@ public class Battle {
         List<Building> towers,
         List<AlliedSoldier> allies,
         List<Enemy> enemies,
-        List<Building> campfires
+        List<Building> campfires,
+        String gameMode
     ) {
         this.character = character;
         this.towers = towers;
         this.allies = allies;
         this.enemies = enemies;
         this.campfires = campfires;
+        this.gameMode = gameMode;
     }
 
     /**
@@ -369,7 +372,7 @@ public class Battle {
         // Otherwise attack character
 
         // Set damage reduction if treeStump equipped
-        if (rareItem != null && rareItem.getClass().equals(TreeStump.class)) {
+        if (rareItem != null && (rareItem.getClass().equals(TreeStump.class) || gameMode.equals("Confusing"))) {
             if (attacker.isBoss()) {
                 flatDef += rareItem.getBossFlatDamageReduction();
             } else {
@@ -387,7 +390,7 @@ public class Battle {
      * @return attack strategy instance
      */
     private AttackStrategy getItemAttackStrategy() {
-        if (rareItem != null && rareItem.getClass().equals(Anduril.class)) {
+        if (rareItem != null && (rareItem.getClass().equals(Anduril.class) || gameMode.equals("Confusing"))) {
             return rareItem.getAttackStrategy();
         }
         if (weapon == null) {
