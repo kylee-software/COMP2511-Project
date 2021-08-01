@@ -124,6 +124,8 @@ public class LoopManiaWorld {
 
     private List<String> discardCardRewardItems = new ArrayList<>();
 
+    private Boolean isDoggieCoinSpawned = false;
+
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
@@ -637,6 +639,7 @@ public class LoopManiaWorld {
             Enemy enemy = new Elan(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
+            DoggieCoin.updateSellValue(500);
             System.out.println("Elan Muske joins the fight!");
         }
 
@@ -741,6 +744,7 @@ public class LoopManiaWorld {
             setDoggieStatus(EnemyStatus.SLAIN_STATUS);
         } else if (isElanDefeated(defeatedEnemies)) {
             setElanStatus(EnemyStatus.SLAIN_STATUS);
+            DoggieCoin.updateSellValue(10);
         }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());
@@ -783,6 +787,10 @@ public class LoopManiaWorld {
         }
         for (String item : battle.getBattleItems()) {
             battleRewardItems.add(item);
+        }
+        if (isDoggieDefeated(battle.getKilledEnemies()) && !isDoggieCoinSpawned) {
+            battleRewardItems.add("DoggieCoin");
+            isDoggieCoinSpawned = true;
         }
     }
 
