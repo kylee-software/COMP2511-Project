@@ -37,6 +37,7 @@ import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.view.MusicPlayer;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.*;
@@ -967,6 +968,9 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/ScapeMain.wav");
 
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/MainMenuView.fxml"));
@@ -985,6 +989,9 @@ public class LoopManiaWorldController {
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
 
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/DeathSound.wav");
         GameOverScreenController gameOverScreenController = new GameOverScreenController();
         FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/GameOverScreenView.fxml"));
         gameOverScreenLoader.setController(gameOverScreenController);
@@ -1000,12 +1007,14 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
-
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/WinSound.wav");
+        
         WinScreenController winScreenController = new WinScreenController();
         FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/WinScreenView.fxml"));
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = winScreenLoader.load();
-
         Scene winScreen = new Scene(winScreenRoot);
         winScreenRoot.requestFocus();
         primaryStage.setScene(winScreen);
