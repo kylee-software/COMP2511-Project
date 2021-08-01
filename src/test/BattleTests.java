@@ -106,10 +106,19 @@ public class BattleTests {
         Zombie zombie = new Zombie(zombiePosition);
         PathPosition vampirePostion = new PathPosition(3, orderedPath);
         Vampire vampire = new Vampire(vampirePostion);
+        //Intialise bosses
+        PathPosition elanPosition = new PathPosition(4, orderedPath);
+        Elan elan = new Elan(elanPosition);
+        PathPosition doggiePosition = new PathPosition(4, orderedPath);
+        Doggie doggie = new Doggie(doggiePosition);
+
         enemies.add(slug1);
         enemies.add(slug2);
         enemies.add(zombie);
         enemies.add(vampire);
+        enemies.add(elan);
+        enemies.add(doggie);
+        
 
         // Initalise campfire
         List<Building> campfires = new ArrayList<>();
