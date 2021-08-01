@@ -25,8 +25,11 @@ public class Elan extends Enemy {
 
     @Override
     public void move() {
-        super.move();
-    }   /**
+        for(int i = 0; i < speed; i++)
+            super.move();
+    }
+    
+    /**
      * Getter for EXP reward when killed
      * @return EXP reward
      */

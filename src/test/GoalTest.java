@@ -3,6 +3,7 @@ package test;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 import unsw.loopmania.model.Character;
+import unsw.loopmania.model.EnemyStatus;
 import unsw.loopmania.model.Goal.*;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.PathPosition;
@@ -70,19 +71,41 @@ public class GoalTest {
         assert(world.isGoalCompleted());
     }
 
-//    @Test
-//    public void bossGoalTest() {
-//        LoopManiaWorld world = getWorld();
-//
-//        BossGoal bossGoal = new BossGoal();
-//        world.setGoals(bossGoal);
-//
-//        // test when the goal is completed
-//        assert(world.isGoalCompleted());
-//
-//        world.spawnBosses();
-//        assert(!world.isGoalCompleted());
-//    }
+    @Test
+    public void bossGoalTest() {
+        LoopManiaWorld world = getWorld();
+
+        BossGoal bossGoal = new BossGoal();
+        world.setGoals(bossGoal);
+
+        // should be false since no bosses been spawned yet
+        assert(!world.isGoalCompleted());
+
+        for (int cycle = 0; cycle < 17; cycle++) {
+            world.incrementCycles();
+        }
+
+        world.spawnDoggie();
+        // test when Doggie is still alive
+        assert(!world.isGoalCompleted());
+
+        world.setDoggieStatus(EnemyStatus.SLAIN_STATUS);
+
+        for (int cycle = 0; cycle < 13; cycle++) {
+            world.incrementCycles();
+        }
+        world.setExperience(10000);
+        world.spawnElan();
+
+
+        // test when Elan is alive
+        assert(!world.isGoalCompleted());
+
+        world.setElanStatus(EnemyStatus.SLAIN_STATUS);
+
+        // test when the all bosses have been spawned and is killed
+        assert(world.isGoalCompleted());
+    }
 
 
     @Test
