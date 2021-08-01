@@ -15,27 +15,8 @@ public class HerosCastleBuilding extends Building {
     private int lastPurchasedHP = 0;
     private int lastPurchasedPG = 0;
 
-    private List<Item> availableItems;
-    public static final int HELMET = 0;
-    public static final int ARMOUR = 1;
-    public static final int SHIELD = 2;
-    public static final int SWORD = 3;
-    public static final int STAFF = 4;
-    public static final int STAKE = 5;
-    public static final int HEALTHPOTION = 6;
-
-    private LoopManiaWorld world;
-
     public HerosCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        availableItems = new ArrayList<>();
-        availableItems.add(new Helmet(x, y));
-        availableItems.add(new Armour(x, y));
-        availableItems.add(new Shield(x, y));
-        availableItems.add(new Sword(x, y));
-        availableItems.add(new Staff(x, y));
-        availableItems.add(new Stake(x, y));
-        availableItems.add(new HealthPotion(x, y));
     }
 
     public int buyItem(BasicItem item, List<Item> unequippedInventory) {

@@ -371,11 +371,6 @@ public class LoopManiaWorldController {
             for (String item: world.getDiscardCardRewardItems())
                 loadItem(item);
             world.getDiscardCardRewardItems().clear();
-            for (Item item: world.getBoughtItems()) {
-                System.out.println(String.valueOf(item));
-                loadItem(String.valueOf(item));
-            }
-            world.getBoughtItems().clear();
             List<Enemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());

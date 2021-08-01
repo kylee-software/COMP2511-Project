@@ -401,10 +401,6 @@ public class LoopManiaWorld {
         return discardCardRewardItems;
     }
 
-    public List<Item> getBoughtItems() {
-        return boughtItems;
-    }
-
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      Methods Related to the Character                                      │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
