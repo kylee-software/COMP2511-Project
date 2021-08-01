@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -876,13 +878,15 @@ public class LoopManiaWorld {
      * purchase an item from the Hero Castle Menu
      * @param item
      */
-    public void purchaseItem(BasicItem item) {
+    public Boolean purchaseItem(BasicItem item) {
         if (getFirstAvailableSlotForItem() != null) {
             if (herosCastleBuilding.isValidPurchase(gameMode, item, cycles)) {
                 int price = herosCastleBuilding.buyItem(item, unequippedInventoryItems);
                 gold -= price;
+                return true;
             }
         }
+        return false;
     }
 
     /**

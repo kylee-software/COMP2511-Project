@@ -236,11 +236,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Armour", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
         
@@ -250,11 +251,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("HealthPotion", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
 
@@ -263,11 +265,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Helmet", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
 
@@ -276,11 +279,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Shield", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
 
@@ -289,11 +293,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Staff", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
 
@@ -302,11 +307,12 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Stake", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
 
@@ -315,14 +321,14 @@ public class HerosCastleMenuController  {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Sword", firstAvailableSlot);
         if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
-            world.purchaseItem(item);
-            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-            inventory.add(item);
-            loadImage(item);
-            world.getBoughtItems().add(item);
+            if(world.purchaseItem(item)) {
+                currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+                inventory.add(item);
+                loadImage(item);
+                world.getBoughtItems().add(item);
+            }
         }
     }
-
     @FXML
     void sellItem(ActionEvent event) {
 
