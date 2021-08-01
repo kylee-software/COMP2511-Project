@@ -93,6 +93,8 @@
     
 
 -   Health potion used by moving from unequipped inventory to equipped inventory, consuming item
+
+-  Equipped weapon is ignored if Anduril Flame of the West is equipped as only one weapon can be used during battle.
     
 ### Battle and support radius:
     
