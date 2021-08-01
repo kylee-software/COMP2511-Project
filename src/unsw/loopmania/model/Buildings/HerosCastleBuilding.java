@@ -51,7 +51,7 @@ public class HerosCastleBuilding extends Building {
     }
 
     // Check if item isPurchaseable
-    public boolean isPurchaseable (int gold, Item item) {
+    public static boolean isPurchaseable (int gold, Item item) {
         if (item instanceof Helmet) {
             Helmet helmet = (Helmet) item;
             return (gold >= helmet.getBuyPrice());

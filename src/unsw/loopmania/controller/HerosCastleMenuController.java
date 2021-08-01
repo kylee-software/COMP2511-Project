@@ -223,70 +223,86 @@ public class HerosCastleMenuController  {
     void buyArmour(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Armour", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+            world.getBoughtItems().add((Item) item);
+        }
     }
+        
 
     @FXML
     void buyHealthPotion(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("HealthPotion", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyHelmet(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Helmet", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyShield(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Shield", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyStaff(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Staff", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyStake(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Stake", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buySword(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
         BasicItem item = world.createBasicItem("Sword", firstAvailableSlot);
-        world.purchaseItem(item);
-        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
-        inventory.add(item);
-        loadImage(item);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
