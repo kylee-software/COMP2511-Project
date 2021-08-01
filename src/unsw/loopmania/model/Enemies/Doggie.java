@@ -6,7 +6,7 @@ import unsw.loopmania.model.AttackStrategy.DoggieAttack;
 
 public class Doggie extends Enemy {
 
-    private static int expReward = 500;
+    private static int expReward = 1200;
     private static int goldReward = 50;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
