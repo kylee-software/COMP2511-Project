@@ -364,9 +364,6 @@ public class LoopManiaWorldController {
             world.updateGold();
             world.updateHealth();
             world.updateNumAlliedSoldiers();
-            loadItem("TheOneRing");
-            loadItem("Anduril");
-            loadItem("TreeStump");
             if (world.getUsedEquippedRareItem()) {
                 equippedRareItemImage.setImage(null);
                 world.setUsedEquippedRareItem(false);
