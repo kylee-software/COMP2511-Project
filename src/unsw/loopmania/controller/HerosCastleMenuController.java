@@ -240,7 +240,6 @@ public class HerosCastleMenuController  {
             currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
             inventory.add(item);
             loadImage(item);
-            world.getBoughtItems().add((Item) item);
         }
     }
         
