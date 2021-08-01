@@ -12,7 +12,7 @@ public class Slug extends Enemy {
     private static int supportRadius = 1;
     private static int speed = 2; // Tiles per tick
     private static AttackStrategy strategy = new SlugAttack();
-    private static int damage = 7;
+    private static int damage = 9;
     private static int health = 10;
 
     /**

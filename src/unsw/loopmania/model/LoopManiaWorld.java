@@ -538,7 +538,7 @@ public class LoopManiaWorld {
 
         Pair<Integer, Integer> pos = null;
 
-        if (randomChance < 50) {
+        if (randomChance < 30) {
             pos = possiblyGetSpawnPosition();
         }
 
