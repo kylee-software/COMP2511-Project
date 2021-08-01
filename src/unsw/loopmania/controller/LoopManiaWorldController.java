@@ -1108,6 +1108,8 @@ public class LoopManiaWorldController {
             view = new ImageView(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             view = new ImageView(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            view = new ImageView(doggieCoinImage);
         return view;
     }
 
@@ -1168,6 +1170,8 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             draggedEntity.setImage(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            draggedEntity.setImage(doggieCoinImage);
     }
 
 
