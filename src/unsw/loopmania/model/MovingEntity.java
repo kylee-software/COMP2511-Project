@@ -13,7 +13,7 @@ public abstract class MovingEntity extends Entity {
     private PathPosition position;
     private int health;
     private int speed;
-    private static int maxHealth;
+    private int maxHealth;
 
     /**
      * Create a moving entity which moves up and down the path in position
@@ -24,7 +24,7 @@ public abstract class MovingEntity extends Entity {
         this.position = position;
         this.health = health;
         this.speed = speed;
-        maxHealth = health;
+        this.maxHealth = health;
     }
 
     /**
