@@ -35,7 +35,7 @@ public class BattleTests {
         Character character = new Character(dummyPosition);
         List<Building> towers = new ArrayList<>();
         List<AlliedSoldier> allies = new ArrayList<>();
-        List<BasicEnemy> enemies = new ArrayList<>();
+        List<Enemy> enemies = new ArrayList<>();
         List<Building> campfires = new ArrayList<>();
         Battle battle = new Battle(character, towers, allies, enemies, campfires);
         assert(!battle.isLost());
@@ -97,7 +97,7 @@ public class BattleTests {
         allies.add(ally2);
 
         // Initalise 2 slugs, 1 zombie, 1 vampire
-        List<BasicEnemy> enemies = new ArrayList<>();
+        List<Enemy> enemies = new ArrayList<>();
         PathPosition slug1Position = new PathPosition(4, orderedPath);
         Slug slug1 = new Slug(slug1Position);
         PathPosition slug2Position = new PathPosition(6, orderedPath);
@@ -106,10 +106,19 @@ public class BattleTests {
         Zombie zombie = new Zombie(zombiePosition);
         PathPosition vampirePostion = new PathPosition(3, orderedPath);
         Vampire vampire = new Vampire(vampirePostion);
+        //Intialise bosses
+        PathPosition elanPosition = new PathPosition(4, orderedPath);
+        Elan elan = new Elan(elanPosition);
+        PathPosition doggiePosition = new PathPosition(4, orderedPath);
+        Doggie doggie = new Doggie(doggiePosition);
+
         enemies.add(slug1);
         enemies.add(slug2);
         enemies.add(zombie);
         enemies.add(vampire);
+        enemies.add(elan);
+        enemies.add(doggie);
+        
 
         // Initalise campfire
         List<Building> campfires = new ArrayList<>();

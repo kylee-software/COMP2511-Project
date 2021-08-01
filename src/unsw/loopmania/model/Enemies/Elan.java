@@ -2,40 +2,44 @@ package unsw.loopmania.model.Enemies;
 
 import unsw.loopmania.model.PathPosition;
 import unsw.loopmania.model.AttackStrategy.AttackStrategy;
-import unsw.loopmania.model.AttackStrategy.ZombieAttack;
+import unsw.loopmania.model.AttackStrategy.ElanAttack;
 
-public class Zombie extends Enemy {
+public class Elan extends Enemy {
 
-    private static int expReward = 300;
-    private static int goldReward = 20;
-    private static int battleRadius = 2;
-    private static int supportRadius = 2;
-    private static int speed = 1; // Tiles per tick
-    private static AttackStrategy strategy = new ZombieAttack();
-    private static int critChance = 15;
-    private static int damage = 14;
-    private static int health = 20;
+    private static int expReward = 500;
+    private static int goldReward = 50;
+    private static int battleRadius = 1;
+    private static int supportRadius = 1;
+    private static int speed = 1; // Ticks per tile
+    private static AttackStrategy strategy = new ElanAttack();
+    private static int damage = 30;
+    private static int health = 100;
 
     /**
-     * Constructor for Zombie
+     * Constructor for slug
      * @param position - current position on map
      */
-    public Zombie(PathPosition position) {
+    public Elan(PathPosition position) {
         super(position, health, damage, speed);
-    }
+    } 
 
     @Override
     public void move() {
         for(int i = 0; i < speed; i++)
             super.move();
     }
-
+    
     /**
      * Getter for EXP reward when killed
      * @return EXP reward
      */
     public int getExpReward() {
         return expReward;
+    }
+    
+    @Override
+    public Boolean isBoss() {
+        return true;
     }
 
     /**
@@ -69,10 +73,4 @@ public class Zombie extends Enemy {
     public AttackStrategy getAttackStrategy() {
         return strategy;
     }
-
-    @Override
-    public int getCritChance() {
-        return critChance;
-    }
-
 }

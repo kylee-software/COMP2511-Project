@@ -3,6 +3,10 @@ package unsw.loopmania.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -31,7 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.view.DragIcon;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -151,6 +155,8 @@ public class LoopManiaWorldController {
     private Image slugImage;
     private Image vampireImage;
     private Image zombieImage;
+    private Image doggieImage;
+    private Image elanImage;
 
     // Allied Solider Image
     private Image alliedSoldierImage;
@@ -165,6 +171,9 @@ public class LoopManiaWorldController {
     private Image stakeImage;
     private Image swordImage;
     private Image theOneRingImage;
+    private Image andurilFlameOfTheWestImage;
+    private Image treeStumpImage;
+    private Image doggieCoinImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -198,14 +207,6 @@ public class LoopManiaWorldController {
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragExited;
 
-    /**
-     * object handling switching to the main menu
-     */
-    private MenuSwitcher mainMenuSwitcher;
-    private MenuSwitcher gameOverScreenSwitcher;
-    private MenuSwitcher winScreenSwitcher;
-    private MenuSwitcher herosCastleMenuSwitcher;
-
     @FXML
     private Label worldExperience;
 
@@ -214,6 +215,9 @@ public class LoopManiaWorldController {
 
     @FXML 
     private Label worldHealth;
+
+    // @FXML
+    // private Label worldLevel;
 
     @FXML
     private Label numAlliedSoldiers;
@@ -253,6 +257,9 @@ public class LoopManiaWorldController {
         slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
+        doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString()); 
+        elanImage = new Image((new File("src/images/elanMuske.png")).toURI().toString()); 
+        
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         // Item Images
@@ -265,6 +272,9 @@ public class LoopManiaWorldController {
         stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString()); 
+        andurilFlameOfTheWestImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString()); 
+        treeStumpImage = new Image((new File("src/images/treestump.png")).toURI().toString()); 
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString()); 
         
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -275,6 +285,7 @@ public class LoopManiaWorldController {
         anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+
     }
 
     @FXML
@@ -292,6 +303,8 @@ public class LoopManiaWorldController {
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
         world.updateNumAlliedSoldiers();
+        // world.setLevelLabel(worldLevel);
+        // world.updateLevel();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -332,7 +345,7 @@ public class LoopManiaWorldController {
     /**
      * create and run the timer
      */
-    public void startTimer(){
+    public void startTimer() {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
@@ -358,12 +371,15 @@ public class LoopManiaWorldController {
             for (String item: world.getDiscardCardRewardItems())
                 loadItem(item);
             world.getDiscardCardRewardItems().clear();
-            List<BasicEnemy> newEnemies = new ArrayList<>();
+            List<Enemy> newEnemies = new ArrayList<>();
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
             newEnemies.addAll(world.spawnZombiesFromZombiePits());
+            newEnemies.addAll(world.spawnElan());
+            newEnemies.addAll(world.spawnDoggie());
             // ADD OTHER SPAWNING THINGS HERE
-            for (BasicEnemy newEnemy: newEnemies){
+
+            for (Enemy newEnemy: newEnemies){
                 // onLoad(newEnemy);
                 onLoadEnemy(newEnemy);
             }
@@ -382,15 +398,27 @@ public class LoopManiaWorldController {
             pickUpItems();
             despawnItems();
 
-            if (world.getIsLost()) 
-                switchToGameOverScreen();
+            if (world.getIsLost())
+                try {
+                    switchToGameOverScreen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             else if (world.isGoalCompleted()) {
                 System.out.println("We WON");
                 pause();
-                switchToWinScreen();
+                try {
+                    switchToWinScreen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (world.completedACycle() && world.getCycles() >= 0) {
                 pause();
-                switchToHerosCastleMenu();
+                try {
+                    switchToHerosCastleMenu();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             printThreadingNotes("HANDLED TIMER");
@@ -457,35 +485,14 @@ public class LoopManiaWorldController {
         onLoadItem(item);
     }
 
-    // /**
-    //  * load spawned gold from the world, and pair it with an image in the GUI
-    //  */
-    // private void loadGoldPile(){
-    //     Item gold = world.possiblySpawnGold();
-    //     if (gold != null) {
-    //         onLoadGold(gold);
-    //     }
-    // }
-
-    // /**
-    //  * load spawned health potion from the world, and pair it with an image in the GUI
-    //  */
-    // private void loadHealthPotion(){
-    //     Item healthPotion = world.possiblySpawnHealthPotions();
-    //     if (healthPotion != null) {
-    //         onLoadHealthPotion(healthPotion);
-    //     }
-    // }
-
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                      OnLoad Methods for Controller                                         │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
     /**
      * load goldPile into the GUI
-     * @param goldPile
+     * @param gold
      */
-
     private void onLoadGold(Item gold){
         ImageView view = new ImageView(goldImage);
         addEntity(gold, view);
@@ -538,7 +545,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoadEnemy(BasicEnemy enemy) {
+    private void onLoadEnemy(Enemy enemy) {
         ImageView view = onLoadEnemyView(enemy);
         addEntity(enemy, view);
         squares.getChildren().add(view);
@@ -634,11 +641,7 @@ public class LoopManiaWorldController {
                                 node.setOpacity(node.getOpacity() + 0.3);
                                 break;
                             case ITEM:
-                                Boolean success = world.equipItem(item);
-                                if (!success) {
-                                    // return card
-                                    return;
-                                }
+                                world.equipItem(item);
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 removeItemByCoordinates(nodeX, nodeY);
                                 if (item.getType().equals("Weapon")) {
@@ -869,47 +872,6 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
-        this.mainMenuSwitcher = mainMenuSwitcher;
-    }
-
-    public void setGameOverScreenSwitcher(MenuSwitcher gameOverScreenSwitcher){
-        this.gameOverScreenSwitcher = gameOverScreenSwitcher;
-    }
-
-    public void setWinScreenSwitcher(MenuSwitcher winScreenSwitcher){
-        this.winScreenSwitcher = winScreenSwitcher;
-    }
-
-    public void setHerosCastleMenuSwitcher(MenuSwitcher herosCastleMenuSwitcher){
-        this.herosCastleMenuSwitcher = herosCastleMenuSwitcher;
-    }
-    
-    /**
-     * this method is triggered when click button to go to main menu in FXML
-     * @throws IOException
-     */
-    @FXML
-    private void switchToMainMenu() throws IOException {
-        pause();
-        mainMenuSwitcher.switchMenu();
-    }
-
-    private void switchToGameOverScreen() {
-        pause();
-        gameOverScreenSwitcher.switchMenu();
-    }
-
-    private void switchToWinScreen() {
-        pause();
-        winScreenSwitcher.switchMenu();
-    }
-
-    private void switchToHerosCastleMenu() {
-        pause();
-        herosCastleMenuSwitcher.switchMenu();
-    }
-
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the world.
@@ -917,10 +879,10 @@ public class LoopManiaWorldController {
      * By connecting the model with the view in this way, the model requires no
      * knowledge of the view and changes to the position of entities in the
      * model will automatically be reflected in the view.
-     * 
+     *
      * note that this is put in the controller rather than the loader because we need to track positions of spawned entities such as enemy
      * or items which might need to be removed should be tracked here
-     * 
+     *
      * NOTE teardown functions setup here also remove nodes from their GridPane. So it is vital this is handled in this Controller class
      * @param entity
      * @param node
@@ -932,22 +894,22 @@ public class LoopManiaWorldController {
         ChangeListener<Number> xListener = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 GridPane.setColumnIndex(node, newValue.intValue());
             }
         };
         ChangeListener<Number> yListener = new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
             }
         };
 
         // if need to remove items from the equipped inventory, add code to remove from equipped inventory gridpane in the .onDetach part
         ListenerHandle handleX = ListenerHandles.createFor(entity.x(), node)
-                                               .onAttach((o, l) -> o.addListener(xListener))
-                                               .onDetach((o, l) -> {
+                                                .onAttach((o, l) -> o.addListener(xListener))
+                                                .onDetach((o, l) -> {
                                                     o.removeListener(xListener);
                                                     entityImages.remove(node);
                                                     squares.getChildren().remove(node);
@@ -955,18 +917,18 @@ public class LoopManiaWorldController {
                                                     equippedItems.getChildren().remove(node);
                                                     unequippedInventory.getChildren().remove(node);
                                                 })
-                                               .buildAttached();
+                                                .buildAttached();
         ListenerHandle handleY = ListenerHandles.createFor(entity.y(), node)
-                                               .onAttach((o, l) -> o.addListener(yListener))
-                                               .onDetach((o, l) -> {
-                                                   o.removeListener(yListener);
-                                                   entityImages.remove(node);
-                                                   squares.getChildren().remove(node);
-                                                   cards.getChildren().remove(node);
-                                                   equippedItems.getChildren().remove(node);
-                                                   unequippedInventory.getChildren().remove(node);
+                                                .onAttach((o, l) -> o.addListener(yListener))
+                                                .onDetach((o, l) -> {
+                                                    o.removeListener(yListener);
+                                                    entityImages.remove(node);
+                                                    squares.getChildren().remove(node);
+                                                    cards.getChildren().remove(node);
+                                                    equippedItems.getChildren().remove(node);
+                                                    unequippedInventory.getChildren().remove(node);
                                                 })
-                                               .buildAttached();
+                                                .buildAttached();
         handleX.attach();
         handleY.attach();
 
@@ -994,6 +956,82 @@ public class LoopManiaWorldController {
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
+
+    /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
+    /* │                                       setOnActions to switch screen                                        │ */
+    /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
+
+    @FXML
+    public void switchToMainMenu() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        MainMenuController mainMenuController = new MainMenuController();
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/MainMenuView.fxml"));
+        menuLoader.setController(mainMenuController);
+        Parent mainMenuRoot = menuLoader.load();
+
+        Scene mainMenuScreen = new Scene(mainMenuRoot);
+        mainMenuRoot.requestFocus();
+        primaryStage.setScene(mainMenuScreen);
+        primaryStage.show();
+    }
+
+    @FXML
+    public void switchToGameOverScreen() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        GameOverScreenController gameOverScreenController = new GameOverScreenController();
+        FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/GameOverScreenView.fxml"));
+        gameOverScreenLoader.setController(gameOverScreenController);
+        Parent gameOverScreenRoot = gameOverScreenLoader.load();
+
+        Scene gameOverScreen = new Scene(gameOverScreenRoot);
+        gameOverScreenRoot.requestFocus();
+        primaryStage.setScene(gameOverScreen);
+        primaryStage.show();
+    }
+
+    private void switchToWinScreen() throws IOException {
+        pause();
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+
+        WinScreenController winScreenController = new WinScreenController();
+        FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/WinScreenView.fxml"));
+        winScreenLoader.setController(winScreenController);
+        Parent winScreenRoot = winScreenLoader.load();
+
+        Scene winScreen = new Scene(winScreenRoot);
+        winScreenRoot.requestFocus();
+        primaryStage.setScene(winScreen);
+        primaryStage.show();
+    }
+
+    private void switchToHerosCastleMenu() throws IOException {
+
+        Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+        Scene gameScreen = primaryStage.getScene();
+
+        HerosCastleMenuController herosCastleMenuController =
+                new HerosCastleMenuController(LoopManiaWorld.getUnequippedItems(), gameScreen, this);
+        FXMLLoader herosCastleMenuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/HerosCastleMenuView.fxml"));
+        herosCastleMenuLoader.setController(herosCastleMenuController);
+        Parent herosCastleMenuRoot = herosCastleMenuLoader.load();
+
+        Scene herosCastleMenueScreen = new Scene(herosCastleMenuRoot);
+        herosCastleMenuRoot.requestFocus();
+        primaryStage.setScene(herosCastleMenueScreen);
+        primaryStage.show();
+
+        pause();
+        herosCastleMenuController.refreshInventory();
+
+    }
+
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                Helper Methods                                              │ */
@@ -1047,15 +1085,15 @@ public class LoopManiaWorldController {
 
     private ImageView onLoadItemView(Item item) {
         ImageView view = null;
-        if (item instanceof Armour) 
+        if (item instanceof Armour)
             view = new ImageView(armourImage);
         else if (item instanceof Gold) 
             view = new ImageView(goldImage);
         else if (item instanceof HealthPotion) 
             view = new ImageView(healthPotionImage);
-        else if (item instanceof Helmet) 
+        else if (item instanceof Helmet)
             view = new ImageView(helmetImage);
-        else if (item instanceof Shield) 
+        else if (item instanceof Shield)
             view = new ImageView(shieldImage);
         else if (item instanceof Staff) 
             view = new ImageView(staffImage);
@@ -1063,12 +1101,16 @@ public class LoopManiaWorldController {
             view = new ImageView(stakeImage);
         else if (item instanceof Sword) 
             view = new ImageView(swordImage);
-        else if (item instanceof TheOneRing) 
+        else if (item instanceof TheOneRing)
             view = new ImageView(theOneRingImage);
+        else if (item instanceof Anduril)
+            view = new ImageView(andurilFlameOfTheWestImage);
+        else if (item instanceof TreeStump)
+            view = new ImageView(treeStumpImage);
         return view;
     }
 
-    private ImageView onLoadEnemyView(BasicEnemy enemy) {
+    private ImageView onLoadEnemyView(Enemy enemy) {
         ImageView view = null;
         if (enemy instanceof Slug) 
             view = new ImageView(slugImage);
@@ -1076,6 +1118,10 @@ public class LoopManiaWorldController {
             view = new ImageView(vampireImage);
         else if (enemy instanceof Zombie) 
             view = new ImageView(zombieImage);
+        else if (enemy instanceof Elan)
+            view = new ImageView(elanImage);
+        else if (enemy instanceof Doggie)
+            view = new ImageView(doggieImage);
         return view;
     }
 
@@ -1116,7 +1162,11 @@ public class LoopManiaWorldController {
         else if (item instanceof Sword) 
             draggedEntity.setImage(swordImage);
         else if (item instanceof TheOneRing) 
-        draggedEntity.setImage(theOneRingImage);
+            draggedEntity.setImage(theOneRingImage);
+        else if (item instanceof Anduril)
+            draggedEntity.setImage(andurilFlameOfTheWestImage);
+        else if (item instanceof TreeStump)
+            draggedEntity.setImage(treeStumpImage);
     }
 
 

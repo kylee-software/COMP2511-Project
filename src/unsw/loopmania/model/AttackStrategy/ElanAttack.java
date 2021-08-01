@@ -8,7 +8,7 @@ import unsw.loopmania.model.Entity;
 /**
  * Implements slug attack on a target
  */
-public class SlugAttack implements AttackStrategy {
+public class ElanAttack implements AttackStrategy {
     /**
      * Execute slug attack on a target.
      * Applies defences if target is a Character.
@@ -20,7 +20,14 @@ public class SlugAttack implements AttackStrategy {
      * @return apply special effects
      */
     @Override
-    public Enum<AttackEffects> execute(Entity attacker, MovingEntity target, int scalarDef, int fixedDef, Boolean campfire, int critReduction) {
+    public Enum<AttackEffects> execute(
+        Entity attacker,
+        MovingEntity target,
+        int scalarDef,
+        int fixedDef,
+        Boolean campfire, 
+        int critReduction
+    ) {
         double damage = attacker.getDamage();
         if (target.getClass().equals(Character.class)) {
             double scalarDecimal = 100 - scalarDef;

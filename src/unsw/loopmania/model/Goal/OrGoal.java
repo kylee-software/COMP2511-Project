@@ -14,6 +14,7 @@ public class OrGoal extends Goal {
 
     /**
      * to check if any of the two goals is satisfied or not
+     * @param world the current Loop Mania World
      * @return true if the player completed one of the two goals else false
      */
     @Override

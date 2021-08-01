@@ -12,6 +12,7 @@ public class ExperienceGoal extends Goal {
 
     /**
      * check if the experience points goal is satisfied or not
+     * @param world the current Loop Mania World
      * @return true if the player reached the experience point goal else false
      */
     @Override

@@ -52,7 +52,7 @@ public class BuildingsTests {
         
         // Test killing enemy with trap
         TrapBuilding trapBuilding1 = new TrapBuilding(position);
-        BasicEnemy slug = new Slug(position);
+        Enemy slug = new Slug(position);
         assertEquals(slug.getHealth(), 10);
         assertEquals(trapBuilding1.damageEnemy(slug), 0);
         assert(slug.isDead());
@@ -61,7 +61,7 @@ public class BuildingsTests {
         TrapBuilding trapBuilding2 = new TrapBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         trapBuilding2.setPathPosition(position);
         assertEquals(trapBuilding2.getPathPosition(), position);
-        BasicEnemy vampire = new Vampire(position);
+        Enemy vampire = new Vampire(position);
         assertEquals(vampire.getHealth(), 50);
         assertEquals(trapBuilding2.damageEnemy(vampire), 40);
         assert(!vampire.isDead());
@@ -78,7 +78,7 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
         PathPosition position = new PathPosition(1, orderedPath);
-        
+
         Character character = new Character(position);
         character.reduceHealth(50);
         assertEquals(character.getHealth(), 50);
@@ -93,7 +93,6 @@ public class BuildingsTests {
         assertEquals(villageBuilding2.getPathPosition(), position);
         villageBuilding2.gainHealth(character);
         assertEquals(character.getHealth(), 100);
-
     }
 
     /**
@@ -108,6 +107,7 @@ public class BuildingsTests {
         orderedPath.add(new Pair<>(1,1));
         orderedPath.add(new Pair<>(1,2));
         orderedPath.add(new Pair<>(1,3));
+
         PathPosition position = new PathPosition(0, orderedPath);
 
         // Testing failed spawn on 1st cycle
@@ -127,7 +127,6 @@ public class BuildingsTests {
         assertNotNull(vampire);
         assertEquals(vampire.getX(), 1);
         assertEquals(vampire.getY(), 1);
-
     }
 
 /**

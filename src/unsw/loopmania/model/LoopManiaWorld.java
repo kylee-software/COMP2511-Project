@@ -14,10 +14,7 @@ import javafx.scene.control.Label;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Cards.*;
 
-import unsw.loopmania.model.Enemies.BasicEnemy;
-import unsw.loopmania.model.Enemies.Slug;
-import unsw.loopmania.model.Enemies.Vampire;
-import unsw.loopmania.model.Enemies.Zombie;
+import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Goal.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.Item;
@@ -33,7 +30,6 @@ public class LoopManiaWorld {
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                  Initializers for the Loop Mania World                                     │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
-
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
     private int worldWidth;
@@ -69,19 +65,26 @@ public class LoopManiaWorld {
     @FXML
     private Label worldHealth;
 
+    // @FXML
+    // private Label worldLevel;
+
     private int cycles;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                       Attributes Related to Enemies                                        │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+    private List<Enemy> enemies = new ArrayList<Enemy>();
+    
+    private Enum<EnemyStatus> elanStatus = EnemyStatus.UNSPAWNED_STATUS;
+
+    private Enum<EnemyStatus> doggieStatus = EnemyStatus.UNSPAWNED_STATUS;
 
    /* ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
    /* │                                    Attributes Related to Buildings                                          │ */
    /* └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    private  List<Building> buildingEntities = new ArrayList<>();
+    private List<Building> buildingEntities = new ArrayList<>();
     private List<BarracksBuilding> barracksBuildings = new ArrayList<>();
     private List<CampfireBuilding> campfireBuildings = new ArrayList<>();
     private HerosCastleBuilding herosCastleBuilding;
@@ -120,6 +123,8 @@ public class LoopManiaWorld {
     private List<String> battleRewardCards = new ArrayList<>();
 
     private List<String> discardCardRewardItems = new ArrayList<>();
+
+    private Boolean isDoggieCoinSpawned = false;
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                                  Unsure                                                    │ */
@@ -223,12 +228,20 @@ public class LoopManiaWorld {
         this.worldExperience = worldExperience;
     }
 
+    // public void setLevelLabel(Label worldLevel) {
+    //     this.worldLevel = worldLevel;
+    // }
+
     /**
-     * set the experience point(s) that the character currently has
+     * set the experience point(s) that the character currently has.
+     * Level up character if enough experience gained.
      * @param experience experience point(s)
      */
     public void setExperience(int experience) {
         this.experience = experience;
+        if (experience > character.getLevel() * 4000) {
+            character.setLevel((experience / 4000) + 1);
+        }
     }
     
     public void setGoldLabel(Label worldGold) {
@@ -267,7 +280,7 @@ public class LoopManiaWorld {
     /* │                                  Getters and Setters Related to Enemies                                    │ */
     /* └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ */
 
-    public List<BasicEnemy> getEnemies() {
+    public List<Enemy> getEnemies() {
         return enemies;
     }
 
@@ -275,9 +288,9 @@ public class LoopManiaWorld {
      * Returns list of all enemies in support range
      * @return support enemies list
      */
-    private List<BasicEnemy> getSupportEnemies() {
-        List<BasicEnemy> supportEnemies = new ArrayList<BasicEnemy>();
-        for (BasicEnemy e: enemies){
+    private List<Enemy> getSupportEnemies() {
+        List<Enemy> supportEnemies = new ArrayList<Enemy>();
+        for (Enemy e: enemies){
             double supportRadiusSquared = Math.pow(e.getSupportRadius(), 2);
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= supportRadiusSquared){
                 supportEnemies.add(e);
@@ -285,7 +298,31 @@ public class LoopManiaWorld {
         }
         return supportEnemies;
     }
+    /**
+     * Getter for Elan's status
+     * @return elan's mortality status, e.g Unspawned / Alive / Slain
+     * See EnemyStatus.java for enum details
+     */
+    public Enum<EnemyStatus> getElanStatus() {
+        return this.elanStatus;
+    }
 
+    public void setElanStatus(Enum<EnemyStatus> newStatus) {
+        this.elanStatus = newStatus;
+    }
+    
+    /**
+     * Getter for Doggie's status
+     * @return - Doggie's mortality status, e.g Unspawned / Alive / Slain
+     * See EnemyStatus.java for enum details
+     */
+    public Enum<EnemyStatus> getDoggieStatus() {
+        return this.doggieStatus;
+    }
+
+    public void setDoggieStatus(Enum<EnemyStatus> newStatus) {
+        this.doggieStatus = newStatus;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                   Getters and Setters Related to Buildings                                 │ */
@@ -370,6 +407,10 @@ public class LoopManiaWorld {
         worldExperience.setText("Experience: " + this.experience);
     }
 
+    // public void updateLevel() {
+    //     worldLevel.setText("Level: " + character.getLevel());
+    // }
+
     public void updateGold() {
         worldGold.setText("Gold: " + this.gold);
     }
@@ -446,7 +487,7 @@ public class LoopManiaWorld {
      * kill an enemy
      * @param enemy enemy to be killed
      */
-    private void killEnemy(BasicEnemy enemy){
+    private void killEnemy(Enemy enemy){
         enemy.destroy();
         enemies.remove(enemy);
     }
@@ -455,9 +496,9 @@ public class LoopManiaWorld {
      * move all enemies
      */
     private void moveBasicEnemies() {
-        Iterator<BasicEnemy> itr = enemies.iterator();
+        Iterator<Enemy> itr = enemies.iterator();
         while(itr.hasNext()) {
-            BasicEnemy e = itr.next();
+            Enemy e = itr.next();
             e.move();
             if (possiblyTrapEnemy(e) != null) {
                 e.destroy();
@@ -478,7 +519,7 @@ public class LoopManiaWorld {
      * spawns slugs if the conditions warrant it, adds to world
      * @return list of the slugs to be displayed on screen
      */
-    public List<BasicEnemy> SpawnSlugs() {
+    public List<Enemy> SpawnSlugs() {
 
         Pair<Integer, Integer> pos = null;
 
@@ -486,11 +527,11 @@ public class LoopManiaWorld {
             pos = possiblyGetSpawnPosition();
         }
 
-        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
 
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+            Enemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -501,9 +542,9 @@ public class LoopManiaWorld {
     /**
      * spawn new vampire(s) that vampire castles produced
      */
-    public List<BasicEnemy> spawnVampiresFromVampireCastles() {
+    public List<Enemy> spawnVampiresFromVampireCastles() {
 
-        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
 
         for (VampireCastleBuilding vampireCastleBuilding : vampireCastleBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(vampireCastleBuilding);
@@ -520,8 +561,8 @@ public class LoopManiaWorld {
     /**
      * spawn new zombies(s) that zombie pits produced
      */
-    public List<BasicEnemy> spawnZombiesFromZombiePits() {
-        List<BasicEnemy> spawningEnemies = new ArrayList<BasicEnemy>();
+    public List<Enemy> spawnZombiesFromZombiePits() {
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
 
         for (ZombiePitBuilding zombiePitBuilding : zombiePitBuildings) {
             PathPosition pathPosition = spawnPositionFromBuilding(zombiePitBuilding);
@@ -576,6 +617,59 @@ public class LoopManiaWorld {
         return alliedSoldiers;
     }
 
+    /**
+     * Spawns Elan after 40 cycles AND player has reaches 10,000 exp.
+     * Note only spawns once
+     * @return list containing
+     */
+    public List<Enemy> spawnElan() {
+        Pair<Integer, Integer> pos = null;
+
+        if (getCycles() >= 40) {
+            if (getExperience() >= 10000 && getElanStatus() == EnemyStatus.UNSPAWNED_STATUS) {
+                pos = possiblyGetSpawnPosition();
+                setElanStatus(EnemyStatus.ALIVE_STATUS);
+            }
+        } 
+
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
+
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            Enemy enemy = new Elan(new PathPosition(indexInPath, orderedPath));
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+            DoggieCoin.updateSellValue(500);
+            System.out.println("Elan Muske joins the fight!");
+        }
+
+        return spawningEnemies;
+    }
+
+    /**
+     * Spawns Doggie after after 20 cycles
+     * Note only spawns once
+     * @return
+     */
+    public List<Enemy> spawnDoggie() {
+        Pair<Integer, Integer> pos = null;
+
+        if (getCycles() == 20 && getDoggieStatus() == EnemyStatus.UNSPAWNED_STATUS) {
+            pos = possiblyGetSpawnPosition();
+            setDoggieStatus(EnemyStatus.ALIVE_STATUS);
+        }
+
+        List<Enemy> spawningEnemies = new ArrayList<Enemy>();
+
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            Enemy enemy = new Doggie(new PathPosition(indexInPath, orderedPath));
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+            System.out.println("A Doggie joins the fight - to the moon!");
+        }
+        return spawningEnemies;
+    }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
     /* │                                       Methods Related to the Battle                                        │ */
@@ -588,15 +682,15 @@ public class LoopManiaWorld {
      * Adds rewards, kills dead entities.
      * @return list of enemies which have been killed
      */
-    public List<BasicEnemy> runBattles() {
-        List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-        List<BasicEnemy> battleEnemies = new ArrayList<BasicEnemy>();
+    public List<Enemy> runBattles() {
+        List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
+        List<Enemy> battleEnemies = new ArrayList<Enemy>();
         List<Building> battleTowers = new ArrayList<Building>();
         List<Building> battleCampfires = new ArrayList<Building>();
         Boolean enemyInBattleRange = false;
 
         // Check if enemies within battle range
-        for (BasicEnemy e: enemies){
+        for (Enemy e: enemies){
             // Pythagoras: a^2+b^2 <= radius^2 to see if within radius
             double battleRadiusSquared = Math.pow(e.getBattleRadius(), 2);
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= battleRadiusSquared){
@@ -622,7 +716,7 @@ public class LoopManiaWorld {
         battle.fight();
 
         // Kill dead enemies
-        for (BasicEnemy enemy : battle.getKilledEnemies()) {
+        for (Enemy enemy : battle.getKilledEnemies()) {
             defeatedEnemies.add(enemy);
             killEnemy(enemy);
         }
@@ -644,6 +738,13 @@ public class LoopManiaWorld {
             }
         } else {
             gainBattleRewards(battle);
+        }
+        // Set Elan / Doggie to 'SLAIN' status if they're in defeatedEnemies list. 
+        if (isDoggieDefeated(defeatedEnemies)) {
+            setDoggieStatus(EnemyStatus.SLAIN_STATUS);
+        } else if (isElanDefeated(defeatedEnemies)) {
+            setElanStatus(EnemyStatus.SLAIN_STATUS);
+            DoggieCoin.updateSellValue(10);
         }
         System.out.println("Killed Enemies size: "+ defeatedEnemies.size());
         System.out.println("Card rewards: "+ battleRewardCards.size());
@@ -668,6 +769,9 @@ public class LoopManiaWorld {
         if (equippedHelmet != null) {
             battle.setHelmet(equippedHelmet);
         }
+        if (equippedRareItem != null) {
+            battle.setRareItem(equippedRareItem);
+        }
     }
 
 
@@ -684,6 +788,24 @@ public class LoopManiaWorld {
         for (String item : battle.getBattleItems()) {
             battleRewardItems.add(item);
         }
+        if (isDoggieDefeated(battle.getKilledEnemies()) && !isDoggieCoinSpawned) {
+            battleRewardItems.add("DoggieCoin");
+            isDoggieCoinSpawned = true;
+        }
+    }
+
+    public boolean isElanDefeated(List<Enemy> defeatedEnemies) {
+        for(Enemy e : defeatedEnemies)
+            if(e instanceof Elan)
+                return true;
+        return false;
+    }
+
+    public boolean isDoggieDefeated(List<Enemy> defeatedEnemies) {
+        for(Enemy e : defeatedEnemies)
+            if(e instanceof Doggie)
+                return true;
+        return false;
     }
 
     /* ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ */
@@ -756,54 +878,40 @@ public class LoopManiaWorld {
     /**
      * Given an unequippedItem equips it in equippedInventory into appropriate slot
      * @param item - item to equip
-     * @return success status
+     * @return slot did not have existing item
      */
     public Boolean equipItem(Item item) {
+        Boolean success = true;
         if (item.getType().equals("RareItem")) {
-            if (equippedRareItem == null) {
-                equippedRareItem = item;
-                item.setX(new SimpleIntegerProperty(2));
-                item.setY(new SimpleIntegerProperty(0));
-            } else {
-                return false;
-            }
+            success = equippedRareItem == null ? true : false;
+            equippedRareItem = item;
+            item.setX(new SimpleIntegerProperty(2));
+            item.setY(new SimpleIntegerProperty(0));
         } else if (item.getType().equals("Weapon")) {
-            if (equippedAttackItem == null) {
-                equippedAttackItem = item;
-                item.setX(new SimpleIntegerProperty(0));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedAttackItem == null ? true : false;
+            equippedAttackItem = item;
+            item.setX(new SimpleIntegerProperty(0));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("Helmet")) {
-            if (equippedHelmet == null) {
-                equippedHelmet = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(0));
-            } else {
-                return false;
-            }
+            success = equippedHelmet == null ? true : false;
+            equippedHelmet = item;
+            item.setX(new SimpleIntegerProperty(1));
+            item.setY(new SimpleIntegerProperty(0));
         } else if (item.getType().equals("Shield")) {
-            if (equippedShield == null) {
-                equippedShield = item;
-                item.setX(new SimpleIntegerProperty(2));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedShield == null ? true : false;
+            equippedShield = item;
+            item.setX(new SimpleIntegerProperty(2));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("Armour")) {
-            if (equippedArmour == null) {
-                equippedArmour = item;
-                item.setX(new SimpleIntegerProperty(1));
-                item.setY(new SimpleIntegerProperty(1));
-            } else {
-                return false;
-            }
+            success = equippedArmour == null ? true : false;
+            equippedArmour = item;
+            item.setX(new SimpleIntegerProperty(1));
+            item.setY(new SimpleIntegerProperty(1));
         } else if (item.getType().equals("HealthPotion")) {
             item.usePotion(this.character);
         }
         unequippedInventoryItems.remove(item);
-        return true;
+        return success;
     }
 
     /**
@@ -945,7 +1053,7 @@ public class LoopManiaWorld {
         return null;
     }
 
-    public BasicEnemy possiblyTrapEnemy(BasicEnemy enemy) {
+    public Enemy possiblyTrapEnemy(Enemy enemy) {
         if (!trapBuildings.isEmpty()) {
             for (TrapBuilding trapBuilding : trapBuildings) {
                 if (isOnSameTile(enemy, trapBuilding)) {
@@ -1234,7 +1342,7 @@ public class LoopManiaWorld {
         Class<?>[] parameterType;
         Item item;       
         try {
-            if (type == "TheOneRing") 
+            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril") 
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
@@ -1306,7 +1414,7 @@ public class LoopManiaWorld {
         nonSpecifiedEntities.add(entity);
     }
 
-    public void addEnemy(BasicEnemy enemy) {
+    public void addEnemy(Enemy enemy) {
         enemies.add(enemy);
     }
 

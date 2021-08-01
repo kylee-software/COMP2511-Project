@@ -14,6 +14,7 @@ import unsw.loopmania.model.AttackStrategy.AttackStrategy;
 import unsw.loopmania.model.AttackStrategy.ZombieAttack;
 import unsw.loopmania.model.Enemies.Zombie;
 import unsw.loopmania.model.AlliedSoldier;
+import unsw.loopmania.model.AttackEffects;
 import unsw.loopmania.model.Character;
 
 
@@ -75,7 +76,7 @@ public class ZombieAttackTest {
     }
 
     /**
-     * Test randomness of infect chance 4 times with random seed of 4
+     * Test randomness of infect chance 10 times with random seed of 4
      */
     @Test
     public void infectChanceExecuteTest() {
@@ -87,7 +88,7 @@ public class ZombieAttackTest {
         AttackStrategy zombieAttack = new ZombieAttack();
         Random random = new Random(4);
         Boolean expectedInfect = random.nextInt(99) < 15;
-        Boolean infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
+        Enum<AttackEffects> infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
         infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
@@ -115,10 +116,6 @@ public class ZombieAttackTest {
         assertEquals(infect, expectedInfect);
         expectedInfect = random.nextInt(99) < 15;
         infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
-        assertEquals(infect, expectedInfect);
-        expectedInfect = random.nextInt(99) < 15;
-        infect = zombieAttack.execute(attacker, ally, 0, 0, false, 0);
-        assertEquals(infect, expectedInfect);
     }
 }
 

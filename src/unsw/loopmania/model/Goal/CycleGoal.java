@@ -13,6 +13,7 @@ public class CycleGoal extends Goal {
 
     /**
      * check if the cycle goal is satisfied or not
+     * @param world the current Loop Mania World
      * @return true if the player reached the cycle goal else false
      */
     @Override

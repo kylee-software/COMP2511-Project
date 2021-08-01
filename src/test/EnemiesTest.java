@@ -62,4 +62,42 @@ public class EnemiesTest {
         assert(!positionBefore.equals(positionAfter));
 
     }
+
+    @Test
+    void ElanTest() {
+
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+
+        Elan elan = new Elan(pathPosition);
+        Pair<Integer, Integer> positionBefore = new Pair<>(elan.getX(), elan.getY());
+
+        elan.move();
+        Pair<Integer, Integer> positionAfter = new Pair<>(elan.getX(), elan.getY());
+
+        assert(!positionBefore.equals(positionAfter));
+
+    }
+
+    @Test
+    void DoggieTest() {
+
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        orderedPath.add(new Pair<>(1,1));
+        orderedPath.add(new Pair<>(1,2));
+        orderedPath.add(new Pair<>(1,3));
+        PathPosition pathPosition = new PathPosition(1, orderedPath);
+
+        Doggie doggie = new Doggie(pathPosition);
+        Pair<Integer, Integer> positionBefore = new Pair<>(doggie.getX(), doggie.getY());
+
+        doggie.move();
+        Pair<Integer, Integer> positionAfter = new Pair<>(doggie.getX(), doggie.getY());
+
+        assert(!positionBefore.equals(positionAfter));
+
+    }
 }

@@ -1,9 +1,13 @@
 package unsw.loopmania.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.javatuples.Pair;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -42,11 +46,16 @@ public class HerosCastleMenuController  {
 
     private LoopManiaWorld world;
 
-    private HerosCastleBuilding herosCastleBuilding;
+    private Scene gameScene;
 
-    public HerosCastleMenuController(List<Item> inventory, LoopManiaWorld world) {
+    private LoopManiaWorldController loopManiaWorldController;
+
+    public HerosCastleMenuController(List<Item> inventory, Scene gameScene,
+                                     LoopManiaWorldController loopManiaWorldController) {
         this.inventory = inventory;
-        this.world = world;
+        this.world = loopManiaWorldController.getWorld();
+        this.gameScene = gameScene;
+        this.loopManiaWorldController = loopManiaWorldController;
     }
 
     @FXML
@@ -172,12 +181,8 @@ public class HerosCastleMenuController  {
         }
     }
 
-    private MenuSwitcher gameSwitcher;
-
-    public void setGameSwitcher(MenuSwitcher gameSwitcher){
-        this.gameSwitcher = gameSwitcher;
-    }
-
+    @FXML
+    private Pane heroCastleMenu;
 
     @FXML
     private Button buyHelmetButton;
@@ -260,8 +265,13 @@ public class HerosCastleMenuController  {
     }
 
     @FXML
-    void switchToGame(ActionEvent event) {
-        gameSwitcher.switchMenu();
+    void switchToGame(ActionEvent event) throws IOException {
+
+        Stage primaryStage = (Stage) heroCastleMenu.getScene().getWindow();
+        primaryStage.setScene(gameScene);
+        
+        primaryStage.show();
+        loopManiaWorldController.startTimer();
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * a basic form of enemy in the backend world
  */
-public abstract class BasicEnemy extends MovingEntity {
+public abstract class Enemy extends MovingEntity {
 
     private String type;
     private int damage;
@@ -16,13 +16,14 @@ public abstract class BasicEnemy extends MovingEntity {
     private int frozenTicks = 0;
     private boolean unfreeze = false;
 
+
     /**
      * Constructor for Basic Enemy
      * @param position - position on map
      * @param health
      * @param damage
      */
-    public BasicEnemy(PathPosition position, int health, int damage, int speed) {
+    public Enemy(PathPosition position, int health, int damage, int speed) {
         super(position, health, speed);
         this.damage = damage;
     }
@@ -31,6 +32,7 @@ public abstract class BasicEnemy extends MovingEntity {
      * move the enemy
      */
     public void move(){
+        // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
         if (frozenTicks > 0) {
             frozenTicks--;
         } else {
@@ -84,5 +86,4 @@ public abstract class BasicEnemy extends MovingEntity {
     public void setUnfreeze(boolean unfreeze) {
         this.unfreeze = unfreeze;
     }
-
 }
