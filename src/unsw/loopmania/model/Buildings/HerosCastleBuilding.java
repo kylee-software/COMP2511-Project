@@ -1,14 +1,10 @@
 package unsw.loopmania.model.Buildings;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.javatuples.Pair;
-import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.model.Items.Item;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.LoopManiaWorld;
 
 public class HerosCastleBuilding extends Building {
 

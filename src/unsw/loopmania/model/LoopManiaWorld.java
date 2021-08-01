@@ -350,6 +350,10 @@ public class LoopManiaWorld {
         return unequippedInventoryItems;
     }
 
+    public List<Item> getBoughtItems() {
+        return boughtItems;
+    }
+
     public Item getEquippedAttackItem() {
         return equippedAttackItem;
     }
