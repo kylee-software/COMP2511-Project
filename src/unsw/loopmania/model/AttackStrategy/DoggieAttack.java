@@ -31,8 +31,9 @@ public class DoggieAttack implements AttackStrategy {
             damage *= scalarDecimal;
             damage -= fixedDef;
         }
-        target.setHealth((int)(target.getHealth() - damage));
-
+        if (damage > 0) {
+            target.setHealth((int)(target.getHealth() - damage));
+        }
         Random random = new Random(7);
         int randomInt = random.nextInt(99);
         if (randomInt < stunChance) {

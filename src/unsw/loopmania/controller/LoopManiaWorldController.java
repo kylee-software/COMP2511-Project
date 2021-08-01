@@ -216,8 +216,8 @@ public class LoopManiaWorldController {
     @FXML 
     private Label worldHealth;
 
-    // @FXML
-    // private Label worldLevel;
+    @FXML
+    private Label worldLevel;
 
     @FXML
     private Label numAlliedSoldiers;
@@ -303,8 +303,8 @@ public class LoopManiaWorldController {
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
         world.updateNumAlliedSoldiers();
-        // world.setLevelLabel(worldLevel);
-        // world.updateLevel();
+        world.setLevelLabel(worldLevel);
+        world.updateLevel();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -361,6 +361,7 @@ public class LoopManiaWorldController {
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            world.updateLevel();
             world.updateNumAlliedSoldiers();
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
@@ -1107,6 +1108,8 @@ public class LoopManiaWorldController {
             view = new ImageView(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             view = new ImageView(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            view = new ImageView(doggieCoinImage);
         return view;
     }
 
@@ -1167,6 +1170,8 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             draggedEntity.setImage(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            draggedEntity.setImage(doggieCoinImage);
     }
 
 
