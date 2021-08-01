@@ -361,6 +361,7 @@ public class LoopManiaWorldController {
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            world.updateLevel();
             world.updateNumAlliedSoldiers();
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
