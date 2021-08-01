@@ -470,11 +470,6 @@ public class LoopManiaWorldController {
         entityImages.add(view);
     }
 
-    private void removeEntity(Entity entity, ImageView view) {
-        trackPosition(entity, view);
-        entityImages.remove(view);
-    }
-
     /**
      * load a card from the world, and pair it with an image in the GUI
      */
