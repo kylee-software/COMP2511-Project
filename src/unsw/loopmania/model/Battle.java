@@ -368,7 +368,7 @@ public class Battle {
         // Otherwise attack character
 
         // Set damage reduction if treeStump equipped
-        if (rareItem.getClass().equals(TreeStump.class)) {
+        if (rareItem != null && rareItem.getClass().equals(TreeStump.class)) {
             if (attacker.isBoss()) {
                 flatDef += rareItem.getBossFlatDamageReduction();
             } else {
