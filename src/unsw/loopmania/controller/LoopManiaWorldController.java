@@ -1103,6 +1103,10 @@ public class LoopManiaWorldController {
             view = new ImageView(swordImage);
         else if (item instanceof TheOneRing)
             view = new ImageView(theOneRingImage);
+        else if (item instanceof Anduril)
+            view = new ImageView(andurilFlameOfTheWestImage);
+        else if (item instanceof TreeStump)
+            view = new ImageView(treeStumpImage);
         return view;
     }
 
@@ -1158,7 +1162,11 @@ public class LoopManiaWorldController {
         else if (item instanceof Sword) 
             draggedEntity.setImage(swordImage);
         else if (item instanceof TheOneRing) 
-        draggedEntity.setImage(theOneRingImage);
+            draggedEntity.setImage(theOneRingImage);
+        else if (item instanceof Anduril)
+            draggedEntity.setImage(andurilFlameOfTheWestImage);
+        else if (item instanceof TreeStump)
+            draggedEntity.setImage(treeStumpImage);
     }
 
 
