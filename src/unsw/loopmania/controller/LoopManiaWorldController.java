@@ -156,7 +156,7 @@ public class LoopManiaWorldController {
     private Image vampireImage;
     private Image zombieImage;
     private Image doggieImage;
-    private Image elanMuskeImage;
+    private Image elanImage;
 
     // Allied Solider Image
     private Image alliedSoldierImage;
@@ -258,7 +258,7 @@ public class LoopManiaWorldController {
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
         doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString()); 
-        elanMuskeImage = new Image((new File("src/images/elanMuske.png")).toURI().toString()); 
+        elanImage = new Image((new File("src/images/elanMuske.png")).toURI().toString()); 
         
         // Allied Soldier Images
         alliedSoldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
@@ -375,6 +375,8 @@ public class LoopManiaWorldController {
             newEnemies.addAll(world.SpawnSlugs());
             newEnemies.addAll(world.spawnVampiresFromVampireCastles());
             newEnemies.addAll(world.spawnZombiesFromZombiePits());
+            newEnemies.addAll(world.spawnElan());
+            newEnemies.addAll(world.spawnDoggie());
             // ADD OTHER SPAWNING THINGS HERE
 
             for (Enemy newEnemy: newEnemies){
@@ -1112,6 +1114,10 @@ public class LoopManiaWorldController {
             view = new ImageView(vampireImage);
         else if (enemy instanceof Zombie) 
             view = new ImageView(zombieImage);
+        else if (enemy instanceof Elan)
+            view = new ImageView(elanImage);
+        else if (enemy instanceof Doggie)
+            view = new ImageView(doggieImage);
         return view;
     }
 
