@@ -216,8 +216,8 @@ public class LoopManiaWorldController {
     @FXML 
     private Label worldHealth;
 
-    // @FXML
-    // private Label worldLevel;
+    @FXML
+    private Label worldLevel;
 
     @FXML
     private Label numAlliedSoldiers;
@@ -303,8 +303,8 @@ public class LoopManiaWorldController {
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
         world.updateNumAlliedSoldiers();
-        // world.setLevelLabel(worldLevel);
-        // world.updateLevel();
+        world.setLevelLabel(worldLevel);
+        world.updateLevel();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {

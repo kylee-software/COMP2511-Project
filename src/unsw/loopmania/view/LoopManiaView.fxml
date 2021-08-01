@@ -122,6 +122,14 @@
                      </image>
                   </ImageView>
                </graphic></Label>
+            <Label fx:id="worldLevel" prefHeight="60.0" prefWidth="140.0" text=" Level: ">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/heart.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Label>
             <Label fx:id="worldExperience" prefHeight="52.0" prefWidth="160.0" text=" Experience: ">
                <graphic>
                   <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
