@@ -42,7 +42,7 @@ public class HerosCastleMenuController  {
 
     private List<Item> inventory;
 
-    private List<Item> trackedInventory;
+    private Item trackedItem;
 
     private LoopManiaWorld world;
 
@@ -75,6 +75,14 @@ public class HerosCastleMenuController  {
                 int y = GridPane.getRowIndex(image);
                 int x = GridPane.getColumnIndex(image);
                 Item item = world.getUnequippedInventoryItemEntityByCoordinates(x, y);
+                if (item != null && image.getOpacity() == 1) {
+                    trackedItem = item;
+                    image.setOpacity(0.7);
+                }
+                else if (item != null) {
+                    trackedItem = null;
+                    image.setOpacity(1);
+                }
             }
         });
     }
@@ -209,59 +217,111 @@ public class HerosCastleMenuController  {
     private Button closeButton;
 
     @FXML
+    private Button sellItemButton;
+
+    @FXML
     void buyArmour(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Armour", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Armour", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buyHealthPotion(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("HealthPotion", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("HealthPotion", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buyHelmet(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Helmet", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Helmet", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buyShield(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Shield", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Shield", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buyStaff(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Staff", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Staff", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buyStake(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Stake", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Stake", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
     }
 
     @FXML
     void buySword(ActionEvent event) {
         Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
-        Item item = world.createItem("Sword", firstAvailableSlot);
+        BasicItem item = world.createBasicItem("Sword", firstAvailableSlot);
+        world.purchaseItem(item);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         inventory.add(item);
-        refreshInventory();
+        loadImage(item);
+    }
+
+    @FXML
+    void sellItem(ActionEvent event) {
+
+        if (trackedItem instanceof Armour) {
+            BasicItem armour = (BasicItem) trackedItem;
+            world.sellItem(armour);
+        } 
+        if (trackedItem instanceof Shield) {
+            BasicItem shield = (BasicItem) trackedItem;
+            world.sellItem(shield);
+        } 
+        if (trackedItem instanceof Helmet) {
+            BasicItem helmet = (BasicItem) trackedItem;
+            world.sellItem(helmet);
+        } 
+        if (trackedItem instanceof Sword) {
+            BasicItem sword = (BasicItem) trackedItem;
+            world.sellItem(sword);
+        } 
+        if (trackedItem instanceof Staff) {
+            BasicItem staff = (BasicItem) trackedItem;
+            world.sellItem(staff);
+        } 
+        if (trackedItem instanceof Stake) {
+            BasicItem stake = (BasicItem) trackedItem;
+            world.sellItem(stake);
+        } 
+        if (trackedItem instanceof HealthPotion) {
+            BasicItem healthPotion = (BasicItem) trackedItem;
+            world.sellItem(healthPotion);
+        } 
+        inventory.remove(trackedItem);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
     }
 
     @FXML

@@ -126,7 +126,7 @@
          </effect>
       </Label>
       <Button fx:id="closeButton" layoutX="383.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToGame" text="Close" />
-      <Button fx:id="sellItemsButton" layoutX="285.0" layoutY="450.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="83.0" text="Sell Items" />
+      <Button fx:id="sellItemsButton" layoutX="285.0" layoutY="450.0" mnemonicParsing="false" onAction="#sellItem" prefHeight="42.0" prefWidth="83.0" text="Sell Item" />
       <Label layoutX="224.0" layoutY="394.0" prefHeight="25.0" prefWidth="94.0" text="Sell Price:" textFill="WHITE">
          <font>
             <Font size="21.0" />

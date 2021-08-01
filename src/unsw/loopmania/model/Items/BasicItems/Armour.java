@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class Armour extends BasicItem {
     
-    private static int buyPrice = 150;
+    public static int buyPrice = 150;
     private int scalarDamageReduction = 50;
     private static String type = "Armour";
 
