@@ -6,8 +6,8 @@ import unsw.loopmania.model.AttackStrategy.ElanAttack;
 
 public class Elan extends Enemy {
 
-    private static int expReward = 500;
-    private static int goldReward = 50;
+    private static int expReward = 1500;
+    private static int goldReward = 80;
     private static int battleRadius = 1;
     private static int supportRadius = 1;
     private static int speed = 1; // Ticks per tile

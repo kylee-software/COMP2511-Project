@@ -37,6 +37,7 @@ import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.view.MusicPlayer;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.*;
@@ -218,8 +219,8 @@ public class LoopManiaWorldController {
     @FXML 
     private Label worldHealth;
 
-    // @FXML
-    // private Label worldLevel;
+    @FXML
+    private Label worldLevel;
 
     @FXML
     private Label numAlliedSoldiers;
@@ -305,8 +306,8 @@ public class LoopManiaWorldController {
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
         world.updateNumAlliedSoldiers();
-        // world.setLevelLabel(worldLevel);
-        // world.updateLevel();
+        world.setLevelLabel(worldLevel);
+        world.updateLevel();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -363,6 +364,7 @@ public class LoopManiaWorldController {
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            world.updateLevel();
             world.updateNumAlliedSoldiers();
             if (world.getUsedEquippedRareItem()) {
                 equippedRareItemImage.setImage(null);
@@ -975,6 +977,9 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/ScapeMain.wav");
 
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/MainMenuView.fxml"));
@@ -994,6 +999,9 @@ public class LoopManiaWorldController {
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
 
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/DeathSound.wav");
         GameOverScreenController gameOverScreenController = new GameOverScreenController();
         FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/GameOverScreenView.fxml"));
         gameOverScreenLoader.setController(gameOverScreenController);
@@ -1010,12 +1018,14 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
-
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/WinSound.wav");
+        
         WinScreenController winScreenController = new WinScreenController();
         FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/WinScreenView.fxml"));
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = winScreenLoader.load();
-
         Scene winScreen = new Scene(winScreenRoot);
         winScreenRoot.requestFocus();
         winScreen.getRoot().setStyle("-fx-font-family: 'serif'");
@@ -1120,6 +1130,8 @@ public class LoopManiaWorldController {
             view = new ImageView(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             view = new ImageView(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            view = new ImageView(doggieCoinImage);
         return view;
     }
 
@@ -1180,6 +1192,8 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             draggedEntity.setImage(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            draggedEntity.setImage(doggieCoinImage);
     }
 
 

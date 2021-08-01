@@ -55,13 +55,9 @@ public abstract class LoopManiaWorldLoader {
         
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
-        
-        // TODO: change this to the game mode the player picks
-        //String gameMode = "Standard";
 
         Random random = new Random(1);
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, rareItems, random);
-        //world.setGoal(getGoal(world));
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
@@ -212,5 +208,4 @@ public abstract class LoopManiaWorldLoader {
     public abstract void onLoad(HerosCastleBuilding herosCastleBuidling);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
 
-    // TODO Create additional abstract methods for the other entities
 }
