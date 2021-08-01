@@ -102,6 +102,8 @@ public class LoopManiaWorld {
 
     private static List<Item> unequippedInventoryItems = new ArrayList<Item>();
 
+    public List<Item> boughtItems = new ArrayList<Item>();
+
     private Item equippedAttackItem = null;
 
     private List<Item> spawnedItems = new ArrayList<Item>();;
@@ -1368,6 +1370,23 @@ public class LoopManiaWorld {
                 new SimpleIntegerProperty(firstAvailableSlot.getValue0()),
                 new SimpleIntegerProperty(firstAvailableSlot.getValue1())
             );
+            return item;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            // DONE Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public BasicItem createBasicItem(String type, Pair<Integer, Integer> firstAvailableSlot) {
+        Class<?> itemClass;
+        Class<?>[] parameterType;
+        BasicItem item;       
+        try {
+            itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
+            parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
+            item = (BasicItem) itemClass.getDeclaredConstructor(parameterType).newInstance(new SimpleIntegerProperty(firstAvailableSlot.getValue0()),new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
             return item;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | NoSuchMethodException | SecurityException e) {

@@ -3,6 +3,7 @@ package unsw.loopmania.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import org.javatuples.Pair;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -18,26 +19,32 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
-import unsw.loopmania.model.Items.RareItems.Anduril;
+import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Items.RareItems.TreeStump;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
+import unsw.loopmania.model.Buildings.HerosCastleBuilding;
 
 public class HerosCastleMenuController  {
+
+    @FXML
+    private Label currentGold;
 
     @FXML
     private GridPane unequippedInventory;
 
     private List<Item> inventory;
 
-    private List<Item> trackedInventory;
+    private Item trackedItem;
 
     private LoopManiaWorld world;
 
@@ -62,6 +69,7 @@ public class HerosCastleMenuController  {
                 unequippedInventory.add(emptySlotView, x, y);
             }
         }
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
         unequippedInventory.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
@@ -69,6 +77,14 @@ public class HerosCastleMenuController  {
                 int y = GridPane.getRowIndex(image);
                 int x = GridPane.getColumnIndex(image);
                 Item item = world.getUnequippedInventoryItemEntityByCoordinates(x, y);
+                if (item != null && image.getOpacity() == 1) {
+                    trackedItem = item;
+                    image.setOpacity(0.7);
+                }
+                else if (item != null) {
+                    trackedItem = null;
+                    image.setOpacity(1);
+                }
             }
         });
     }
@@ -213,38 +229,143 @@ public class HerosCastleMenuController  {
     private Button closeButton;
 
     @FXML
-    void buyArmour(ActionEvent event) {
+    private Button sellItemButton;
 
+    @FXML
+    void buyArmour(ActionEvent event) {
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Armour", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+            world.getBoughtItems().add((Item) item);
+        }
     }
+        
 
     @FXML
     void buyHealthPotion(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("HealthPotion", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyHelmet(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Helmet", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyShield(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Shield", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyStaff(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Staff", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buyStake(ActionEvent event) {
-
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Stake", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
     }
 
     @FXML
     void buySword(ActionEvent event) {
+        Pair<Integer, Integer> firstAvailableSlot = world.getFirstAvailableSlotForItem();
+        BasicItem item = world.createBasicItem("Sword", firstAvailableSlot);
+        if (HerosCastleBuilding.isPurchaseable(world.getGold(),(Item) item)) {
+            world.purchaseItem(item);
+            currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
+            inventory.add(item);
+            loadImage(item);
+        }
+    }
 
+    @FXML
+    void sellItem(ActionEvent event) {
+
+        if (trackedItem instanceof Armour) {
+            BasicItem armour = (BasicItem) trackedItem;
+            world.sellItem(armour);
+        } 
+        if (trackedItem instanceof Shield) {
+            BasicItem shield = (BasicItem) trackedItem;
+            world.sellItem(shield);
+        } 
+        if (trackedItem instanceof Helmet) {
+            BasicItem helmet = (BasicItem) trackedItem;
+            world.sellItem(helmet);
+        } 
+        if (trackedItem instanceof Sword) {
+            BasicItem sword = (BasicItem) trackedItem;
+            world.sellItem(sword);
+        } 
+        if (trackedItem instanceof Staff) {
+            BasicItem staff = (BasicItem) trackedItem;
+            world.sellItem(staff);
+        } 
+        if (trackedItem instanceof Stake) {
+            BasicItem stake = (BasicItem) trackedItem;
+            world.sellItem(stake);
+        } 
+        if (trackedItem instanceof HealthPotion) {
+            BasicItem healthPotion = (BasicItem) trackedItem;
+            world.sellItem(healthPotion);
+        } 
+        if (trackedItem instanceof DoggieCoin) {
+            BasicItem doggieCoin = (BasicItem) trackedItem;
+            world.sellItem(doggieCoin);
+        } 
+        if (trackedItem instanceof Anduril) {
+            BasicItem anduril = (BasicItem) trackedItem;
+            world.sellItem(anduril);
+        } 
+        if (trackedItem instanceof TheOneRing) {
+            BasicItem theOneRing = (BasicItem) trackedItem;
+            world.sellItem(theOneRing);
+        } 
+        if (trackedItem instanceof TreeStump) {
+            BasicItem treeStump = (BasicItem) trackedItem;
+            world.sellItem(treeStump);
+        } 
+        inventory.remove(trackedItem);
+        currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
     }
 
     @FXML
