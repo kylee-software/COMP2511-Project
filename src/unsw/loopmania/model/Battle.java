@@ -514,7 +514,14 @@ public class Battle {
         }
         Random random = new Random(12);
         if (random.nextInt(99) < 5) {
-            items.add("TheOneRing");
+            int itemInt = random.nextInt(2);
+            if (itemInt == 0) {
+                items.add("TheOneRing");
+            } else if (itemInt == 1) {
+                items.add("Anduril");
+            } else if (itemInt == 2) {
+                items.add("TreeStump");
+            }
         }
         return items;
     }

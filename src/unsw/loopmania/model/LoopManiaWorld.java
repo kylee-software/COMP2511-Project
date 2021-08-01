@@ -786,6 +786,13 @@ public class LoopManiaWorld {
             battleRewardCards.add(card);
         }
         for (String item : battle.getBattleItems()) {
+            // Check rare item is in supplied config file
+            if (
+                (item.equals("TheOneRing") || item.equals("Anduril") || item.equals("TreeStump")) &&
+                !availableRareItems.contains(item)
+            ) {
+                continue;
+            }
             battleRewardItems.add(item);
         }
         if (isDoggieDefeated(battle.getKilledEnemies()) && !isDoggieCoinSpawned) {
