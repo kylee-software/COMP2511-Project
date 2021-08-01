@@ -1,19 +1,13 @@
 package unsw.loopmania.view;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import unsw.loopmania.controller.*;
-import unsw.loopmania.view.MusicPlayer;
 
 /**
  * the main application
