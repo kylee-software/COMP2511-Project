@@ -13,6 +13,7 @@ public abstract class MovingEntity extends Entity {
     private PathPosition position;
     private int health;
     private int speed;
+    private static int maxHealth;
 
     /**
      * Create a moving entity which moves up and down the path in position
@@ -23,6 +24,7 @@ public abstract class MovingEntity extends Entity {
         this.position = position;
         this.health = health;
         this.speed = speed;
+        maxHealth = health;
     }
 
     /**
@@ -94,7 +96,7 @@ public abstract class MovingEntity extends Entity {
 
     //todo: gainHealth should have a max cap depending on the maxhealth of each entity.
     public void gainHealth(int healthBonus) {
-        this.health = Math.min(getHealth() + healthBonus, 100);
+        this.health = Math.min(getHealth() + healthBonus, maxHealth);
     }
 
     public abstract void setStuckOnGlacier(boolean stuckOnGlacier);

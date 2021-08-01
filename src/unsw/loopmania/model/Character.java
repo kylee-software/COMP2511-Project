@@ -18,6 +18,7 @@ public class Character extends MovingEntity {
     private int cloakTicks = 0;
     private int level = 1;
     private int remainingStunnedCycles;
+    private static int stunnedCycle = 1;
 
     public Character(PathPosition position) {
         super(position, health, speed);
@@ -108,6 +109,14 @@ public class Character extends MovingEntity {
     public int getStunnedCycle() {
         return remainingStunnedCycles;
     }
+
+    /**
+     * Setter for stunned cycles, default 1
+     */
+    public void setStunnedCycles() {
+        this.remainingStunnedCycles = stunnedCycle;
+    }
+
 
     public void reduceStunnedCycle() {
         this.remainingStunnedCycles -= 1;
