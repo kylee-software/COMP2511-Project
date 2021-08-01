@@ -424,7 +424,7 @@ public class LoopManiaWorldController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (world.completedACycle() && world.getCycles() >= 0) {
+            } else if (world.completedACycle() && world.getCycles() >= 0 && isTriangular()) {
                 pause();
                 try {
                     switchToHerosCastleMenu();
@@ -437,6 +437,18 @@ public class LoopManiaWorldController {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    public boolean isTriangular() {
+        int counter = 0;
+        int cycles = world.getCycles();
+        for (int i = 1; counter <= cycles; i++) {
+            counter = counter + i;
+            if (counter == cycles) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setGameMode(String gameMode) {
