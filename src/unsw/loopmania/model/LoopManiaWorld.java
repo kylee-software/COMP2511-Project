@@ -34,7 +34,7 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryHeight = 4;
     private int worldWidth;
     private int worldHeight;
-    private List<String> rareItems;
+    private List<String> availableRareItems;
     private Random random;
     private int randomChance;
     private Goal goals;
@@ -65,8 +65,8 @@ public class LoopManiaWorld {
     @FXML
     private Label worldHealth;
 
-    // @FXML
-    // private Label worldLevel;
+    @FXML
+    private Label worldLevel;
 
     private int cycles;
 
@@ -118,6 +118,8 @@ public class LoopManiaWorld {
 
     private Item equippedRareItem = null;
 
+    private boolean usedEquippedRareItem = false;
+
     private List<Card> cardEntities = new ArrayList<Card>();;
 
     private List<String> battleRewardItems = new ArrayList<>();
@@ -148,7 +150,6 @@ public class LoopManiaWorld {
      */
     public LoopManiaWorld(int worldWidth, int worldHeight, List<Pair<Integer, Integer>> orderedPath,
                           List<String> rareItems, Random random) {
-        // TODO: this.gameMode = gameMode;
         if (worldExperience != null) {
             updateExperience();
         }
@@ -160,7 +161,7 @@ public class LoopManiaWorld {
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
         this.experience = 0;
-        this.rareItems = rareItems;
+        this.availableRareItems = rareItems;
         this.isLost = false;
         this.random = random;
         this.randomChance = random.nextInt(99);
@@ -230,10 +231,6 @@ public class LoopManiaWorld {
         this.worldExperience = worldExperience;
     }
 
-    // public void setLevelLabel(Label worldLevel) {
-    //     this.worldLevel = worldLevel;
-    // }
-
     /**
      * set the experience point(s) that the character currently has.
      * Level up character if enough experience gained.
@@ -264,6 +261,10 @@ public class LoopManiaWorld {
 
     public void setHealthLabel(Label worldHealth) {
         this.worldHealth = worldHealth;
+    }
+
+    public void setLevelLabel(Label worldLevel) {
+        this.worldLevel = worldLevel;
     }
 
     public int getExperience() {
@@ -377,8 +378,16 @@ public class LoopManiaWorld {
         return unequippedInventoryItems;
     }
 
-    public List<String> getRareItem() {
-        return rareItems;
+    public List<String> getAvailableRareItems() {
+        return availableRareItems;
+    }
+
+    public boolean getUsedEquippedRareItem() {
+        return usedEquippedRareItem;
+    }
+
+    public void setUsedEquippedRareItem(Boolean used) {
+        this.usedEquippedRareItem = used;
     }
 
     public List<Item> getDespawnItems() {
@@ -409,9 +418,9 @@ public class LoopManiaWorld {
         worldExperience.setText("Experience: " + this.experience);
     }
 
-    // public void updateLevel() {
-    //     worldLevel.setText("Level: " + character.getLevel());
-    // }
+    public void updateLevel() {
+        worldLevel.setText("Level: " + this.getCharacter().getLevel());
+    }
 
     public void updateGold() {
         worldGold.setText("Gold: " + this.gold);
@@ -711,7 +720,7 @@ public class LoopManiaWorld {
         // Add all campfires
         battleCampfires.addAll(getSupportCampfireBuildings());
         // Battle
-        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires);
+        Battle battle = new Battle(character, battleTowers, alliedSoldiers, battleEnemies, battleCampfires, gameMode);
         // Add items
         setBattleWeapons(battle);
 
@@ -729,10 +738,12 @@ public class LoopManiaWorld {
         if (battle.isLost()) {
             // Check has The One Ring
             if (equippedRareItem != null && 
-                equippedRareItem.getClass().equals(TheOneRing.class)
+                (equippedRareItem.getClass().equals(TheOneRing.class) ||
+                gameMode.equals("Confusing"))
             ) {
                 Item theOneRing = getEquippedRareItem();
                 theOneRing.usePotion(character);
+                usedEquippedRareItem = true;
                 equippedRareItem = null;
             } else {
                 // Game Lost
@@ -788,6 +799,13 @@ public class LoopManiaWorld {
             battleRewardCards.add(card);
         }
         for (String item : battle.getBattleItems()) {
+            // Check rare item is in supplied config file
+            if (
+                (item.equals("TheOneRing") || item.equals("Anduril") || item.equals("TreeStump")) &&
+                !availableRareItems.contains(item)
+            ) {
+                continue;
+            }
             battleRewardItems.add(item);
         }
         if (isDoggieDefeated(battle.getKilledEnemies()) && !isDoggieCoinSpawned) {
@@ -1344,7 +1362,7 @@ public class LoopManiaWorld {
         Class<?>[] parameterType;
         Item item;       
         try {
-            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril") 
+            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril")
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };

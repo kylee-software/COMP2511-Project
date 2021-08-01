@@ -37,7 +37,8 @@ public class BattleTests {
         List<AlliedSoldier> allies = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
         List<Building> campfires = new ArrayList<>();
-        Battle battle = new Battle(character, towers, allies, enemies, campfires);
+        String gameMode = "Standard";
+        Battle battle = new Battle(character, towers, allies, enemies, campfires, gameMode);
         assert(!battle.isLost());
         character.setHealth(0);
         assert(battle.isLost());
@@ -47,6 +48,7 @@ public class BattleTests {
 
     @Test
     public void BattleIntegrationTest() {
+        String gameMode = "Standard";
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         // Create a square loop
         orderedPath.add(new Pair<>(0,0));
@@ -126,7 +128,7 @@ public class BattleTests {
         campfires.add(campfire);
 
         // Initalise battle
-        Battle battle = new Battle(character, towers, allies, enemies, campfires);
+        Battle battle = new Battle(character, towers, allies, enemies, campfires, gameMode);
 
         battle.fight();
 

@@ -17,17 +17,21 @@ public class LoopManiaApplication extends Application {
 
     private Stage primaryStage;
 
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
         // set title on top of window bar
         primaryStage.setTitle("Loop Mania");
 
+ 
+
         // prevent human player resizing game window (since otherwise would see white space)
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
         this.primaryStage = primaryStage;
+        MusicPlayer.playMusic("src/music/ScapeMain.wav");
 
         MainMenuController mainMenuController = new MainMenuController();
 
@@ -35,6 +39,7 @@ public class LoopManiaApplication extends Application {
         loader.setController(mainMenuController);
         Parent mainMenuRoot = loader.load();
         Scene scene = new Scene(mainMenuRoot);
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(scene);
         primaryStage.show();
 

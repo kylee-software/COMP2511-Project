@@ -37,6 +37,7 @@ import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
 import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.view.DragIcon;
+import unsw.loopmania.view.MusicPlayer;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 import unsw.loopmania.model.Buildings.*;
@@ -175,6 +176,8 @@ public class LoopManiaWorldController {
     private Image treeStumpImage;
     private Image doggieCoinImage;
 
+    private ImageView equippedRareItemImage;
+
     /**
      * the image currently being dragged, if there is one, otherwise null.
      * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
@@ -216,8 +219,8 @@ public class LoopManiaWorldController {
     @FXML 
     private Label worldHealth;
 
-    // @FXML
-    // private Label worldLevel;
+    @FXML
+    private Label worldLevel;
 
     @FXML
     private Label numAlliedSoldiers;
@@ -303,8 +306,8 @@ public class LoopManiaWorldController {
         world.updateHealth();
         world.setNumAlliedSoldiers(numAlliedSoldiers);
         world.updateNumAlliedSoldiers();
-        // world.setLevelLabel(worldLevel);
-        // world.updateLevel();
+        world.setLevelLabel(worldLevel);
+        world.updateLevel();
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
@@ -361,7 +364,12 @@ public class LoopManiaWorldController {
             world.updateExperience();
             world.updateGold();
             world.updateHealth();
+            world.updateLevel();
             world.updateNumAlliedSoldiers();
+            if (world.getUsedEquippedRareItem()) {
+                equippedRareItemImage.setImage(null);
+                world.setUsedEquippedRareItem(false);
+            }
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
             world.getBattleRewardCards().clear();
@@ -650,6 +658,9 @@ public class LoopManiaWorldController {
                                 } else if (item.getType().equals("RareItem")) {
                                     x = 2;
                                     y = 0;
+                                    if (equippedRareItemImage != null)
+                                        equippedRareItemImage.setImage(null);
+                                    equippedRareItemImage = image;
                                 } else if (item.getType().equals("Helmet")) {
                                     x = 1;
                                     y = 0;
@@ -966,6 +977,9 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/ScapeMain.wav");
 
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/MainMenuView.fxml"));
@@ -974,6 +988,7 @@ public class LoopManiaWorldController {
 
         Scene mainMenuScreen = new Scene(mainMenuRoot);
         mainMenuRoot.requestFocus();
+        mainMenuScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(mainMenuScreen);
         primaryStage.show();
     }
@@ -984,6 +999,9 @@ public class LoopManiaWorldController {
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
 
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/DeathSound.wav");
         GameOverScreenController gameOverScreenController = new GameOverScreenController();
         FXMLLoader gameOverScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/GameOverScreenView.fxml"));
         gameOverScreenLoader.setController(gameOverScreenController);
@@ -991,6 +1009,7 @@ public class LoopManiaWorldController {
 
         Scene gameOverScreen = new Scene(gameOverScreenRoot);
         gameOverScreenRoot.requestFocus();
+        gameOverScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(gameOverScreen);
         primaryStage.show();
     }
@@ -999,14 +1018,17 @@ public class LoopManiaWorldController {
         pause();
 
         Stage primaryStage = (Stage) anchorPaneRoot.getScene().getWindow();
-
+        //Music
+        MusicPlayer.stopMusic();
+        MusicPlayer.playMusic("src/music/WinSound.wav");
+        
         WinScreenController winScreenController = new WinScreenController();
         FXMLLoader winScreenLoader = new FXMLLoader(getClass().getResource("/unsw/loopmania/view/WinScreenView.fxml"));
         winScreenLoader.setController(winScreenController);
         Parent winScreenRoot = winScreenLoader.load();
-
         Scene winScreen = new Scene(winScreenRoot);
         winScreenRoot.requestFocus();
+        winScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(winScreen);
         primaryStage.show();
     }
@@ -1024,6 +1046,7 @@ public class LoopManiaWorldController {
 
         Scene herosCastleMenueScreen = new Scene(herosCastleMenuRoot);
         herosCastleMenuRoot.requestFocus();
+        herosCastleMenueScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(herosCastleMenueScreen);
         primaryStage.show();
 
@@ -1107,6 +1130,8 @@ public class LoopManiaWorldController {
             view = new ImageView(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             view = new ImageView(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            view = new ImageView(doggieCoinImage);
         return view;
     }
 
@@ -1167,6 +1192,8 @@ public class LoopManiaWorldController {
             draggedEntity.setImage(andurilFlameOfTheWestImage);
         else if (item instanceof TreeStump)
             draggedEntity.setImage(treeStumpImage);
+        else if (item instanceof DoggieCoin)
+            draggedEntity.setImage(doggieCoinImage);
     }
 
 
