@@ -34,7 +34,7 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryHeight = 4;
     private int worldWidth;
     private int worldHeight;
-    private List<String> rareItems;
+    private List<String> availableRareItems;
     private Random random;
     private int randomChance;
     private Goal goals;
@@ -158,7 +158,7 @@ public class LoopManiaWorld {
         this.worldHeight = worldHeight;
         this.orderedPath = orderedPath;
         this.experience = 0;
-        this.rareItems = rareItems;
+        this.availableRareItems = rareItems;
         this.isLost = false;
         this.random = random;
         this.randomChance = random.nextInt(99);
@@ -375,8 +375,8 @@ public class LoopManiaWorld {
         return unequippedInventoryItems;
     }
 
-    public List<String> getRareItem() {
-        return rareItems;
+    public List<String> getAvailableRareItems() {
+        return availableRareItems;
     }
 
     public List<Item> getDespawnItems() {
@@ -1342,7 +1342,7 @@ public class LoopManiaWorld {
         Class<?>[] parameterType;
         Item item;       
         try {
-            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril") 
+            if (type == "TheOneRing" || type == "TreeStump" || type == "Anduril")
                 itemClass = Class.forName("unsw.loopmania.model.Items.RareItems." + type);
             else itemClass = Class.forName("unsw.loopmania.model.Items.BasicItems." + type);
             parameterType = new Class[] { SimpleIntegerProperty.class, SimpleIntegerProperty.class };
