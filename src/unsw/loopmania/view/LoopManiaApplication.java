@@ -35,6 +35,7 @@ public class LoopManiaApplication extends Application {
         loader.setController(mainMenuController);
         Parent mainMenuRoot = loader.load();
         Scene scene = new Scene(mainMenuRoot);
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(scene);
         primaryStage.show();
 

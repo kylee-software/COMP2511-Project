@@ -175,6 +175,8 @@ public class LoopManiaWorldController {
     private Image treeStumpImage;
     private Image doggieCoinImage;
 
+    private ImageView equippedRareItemImage;
+
     /**
      * the image currently being dragged, if there is one, otherwise null.
      * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
@@ -362,6 +364,13 @@ public class LoopManiaWorldController {
             world.updateGold();
             world.updateHealth();
             world.updateNumAlliedSoldiers();
+            loadItem("TheOneRing");
+            loadItem("Anduril");
+            loadItem("TreeStump");
+            if (world.getUsedEquippedRareItem()) {
+                equippedRareItemImage.setImage(null);
+                world.setUsedEquippedRareItem(false);
+            }
             for (String card: world.getBattleRewardCards())
                 loadCard(card);
             world.getBattleRewardCards().clear();
@@ -650,6 +659,9 @@ public class LoopManiaWorldController {
                                 } else if (item.getType().equals("RareItem")) {
                                     x = 2;
                                     y = 0;
+                                    if (equippedRareItemImage != null)
+                                        equippedRareItemImage.setImage(null);
+                                    equippedRareItemImage = image;
                                 } else if (item.getType().equals("Helmet")) {
                                     x = 1;
                                     y = 0;
@@ -974,6 +986,7 @@ public class LoopManiaWorldController {
 
         Scene mainMenuScreen = new Scene(mainMenuRoot);
         mainMenuRoot.requestFocus();
+        mainMenuScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(mainMenuScreen);
         primaryStage.show();
     }
@@ -991,6 +1004,7 @@ public class LoopManiaWorldController {
 
         Scene gameOverScreen = new Scene(gameOverScreenRoot);
         gameOverScreenRoot.requestFocus();
+        gameOverScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(gameOverScreen);
         primaryStage.show();
     }
@@ -1007,6 +1021,7 @@ public class LoopManiaWorldController {
 
         Scene winScreen = new Scene(winScreenRoot);
         winScreenRoot.requestFocus();
+        winScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(winScreen);
         primaryStage.show();
     }
@@ -1024,6 +1039,7 @@ public class LoopManiaWorldController {
 
         Scene herosCastleMenueScreen = new Scene(herosCastleMenuRoot);
         herosCastleMenuRoot.requestFocus();
+        herosCastleMenueScreen.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(herosCastleMenueScreen);
         primaryStage.show();
 

@@ -31,6 +31,6 @@ public class Anduril extends RareItem {
      */
     @Override
     public String getType() {
-        return "Weapon";
+        return "RareItem";
     }
 }

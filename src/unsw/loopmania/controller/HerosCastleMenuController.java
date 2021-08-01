@@ -24,7 +24,9 @@ import javafx.scene.layout.GridPane;
 
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
+import unsw.loopmania.model.Items.RareItems.Anduril;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
+import unsw.loopmania.model.Items.RareItems.TreeStump;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
 
@@ -170,7 +172,17 @@ public class HerosCastleMenuController  {
             ImageView view = new ImageView(image);
             trackPosition(item, view);
             unequippedInventory.getChildren().add(view);
-        }
+        } else if (item instanceof Anduril) {
+            Image image = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
+            ImageView view = new ImageView(image);
+            trackPosition(item, view);
+            unequippedInventory.getChildren().add(view);
+        } else if (item instanceof TreeStump) {
+            Image image = new Image((new File("src/images/treestump.png")).toURI().toString());
+            ImageView view = new ImageView(image);
+            trackPosition(item, view);
+            unequippedInventory.getChildren().add(view);
+        } 
     }
 
     @FXML
@@ -239,6 +251,7 @@ public class HerosCastleMenuController  {
     void switchToGame(ActionEvent event) throws IOException {
 
         Stage primaryStage = (Stage) heroCastleMenu.getScene().getWindow();
+        gameScene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setScene(gameScene);
         
         primaryStage.show();

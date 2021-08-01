@@ -116,6 +116,8 @@ public class LoopManiaWorld {
 
     private Item equippedRareItem = null;
 
+    private boolean usedEquippedRareItem = false;
+
     private List<Card> cardEntities = new ArrayList<Card>();;
 
     private List<String> battleRewardItems = new ArrayList<>();
@@ -377,6 +379,14 @@ public class LoopManiaWorld {
 
     public List<String> getRareItem() {
         return rareItems;
+    }
+
+    public boolean getUsedEquippedRareItem() {
+        return usedEquippedRareItem;
+    }
+
+    public void setUsedEquippedRareItem(Boolean used) {
+        this.usedEquippedRareItem = used;
     }
 
     public List<Item> getDespawnItems() {
@@ -731,6 +741,7 @@ public class LoopManiaWorld {
             ) {
                 Item theOneRing = getEquippedRareItem();
                 theOneRing.usePotion(character);
+                usedEquippedRareItem = true;
                 equippedRareItem = null;
             } else {
                 // Game Lost

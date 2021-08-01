@@ -85,6 +85,7 @@ public class MainMenuController {
         Parent gameRoot = gameLoader.load();
         Scene gameScene = new Scene(gameRoot);
         gameRoot.requestFocus();
+        gameScene.getRoot().setStyle("-fx-font-family: 'serif'");
         main.setScene(gameScene);
         main.show();
 
