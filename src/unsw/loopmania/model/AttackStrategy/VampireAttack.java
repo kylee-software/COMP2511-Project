@@ -40,7 +40,9 @@ public class VampireAttack implements AttackStrategy {
             damage *= scalarDecimal;
             damage -= fixedDef;
         }
-        target.setHealth((int)(target.getHealth() - damage));
+        if (damage > 0) {
+            target.setHealth((int)(target.getHealth() - damage));
+        }
         return AttackEffects.NO_EFFECT;
     }
 }

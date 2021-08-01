@@ -25,12 +25,4 @@ public class Anduril extends RareItem {
     public AttackStrategy getAttackStrategy() {
         return strategy;
     }
-
-    /**
-     * Getter for type
-     */
-    @Override
-    public String getType() {
-        return "Weapon";
-    }
 }

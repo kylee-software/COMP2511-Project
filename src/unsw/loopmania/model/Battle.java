@@ -13,6 +13,7 @@ import unsw.loopmania.model.AttackStrategy.*;
 import unsw.loopmania.model.Buildings.*;
 import unsw.loopmania.model.Enemies.*;
 import unsw.loopmania.model.Items.Item;
+import unsw.loopmania.model.Items.RareItems.Anduril;
 import unsw.loopmania.model.Items.RareItems.TreeStump;
 import unsw.loopmania.model.RewardStrategy.*;
 
@@ -386,6 +387,9 @@ public class Battle {
      * @return attack strategy instance
      */
     private AttackStrategy getItemAttackStrategy() {
+        if (rareItem != null && rareItem.getClass().equals(Anduril.class)) {
+            return rareItem.getAttackStrategy();
+        }
         if (weapon == null) {
             return new BasicAttack();
         } else {
@@ -510,7 +514,14 @@ public class Battle {
         }
         Random random = new Random(12);
         if (random.nextInt(99) < 5) {
-            items.add("TheOneRing");
+            int itemInt = random.nextInt(2);
+            if (itemInt == 0) {
+                items.add("TheOneRing");
+            } else if (itemInt == 1) {
+                items.add("Anduril");
+            } else if (itemInt == 2) {
+                items.add("TreeStump");
+            }
         }
         return items;
     }
