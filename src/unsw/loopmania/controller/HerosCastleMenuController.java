@@ -27,6 +27,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import unsw.loopmania.model.Items.*;
 import unsw.loopmania.model.Items.BasicItems.*;
+import unsw.loopmania.model.Items.RareItems.*;
 import unsw.loopmania.model.Items.RareItems.TheOneRing;
 import unsw.loopmania.model.Entity;
 import unsw.loopmania.model.LoopManiaWorld;
@@ -335,6 +336,22 @@ public class HerosCastleMenuController  {
         if (trackedItem instanceof HealthPotion) {
             BasicItem healthPotion = (BasicItem) trackedItem;
             world.sellItem(healthPotion);
+        } 
+        if (trackedItem instanceof DoggieCoin) {
+            BasicItem doggieCoin = (BasicItem) trackedItem;
+            world.sellItem(doggieCoin);
+        } 
+        if (trackedItem instanceof Anduril) {
+            BasicItem anduril = (BasicItem) trackedItem;
+            world.sellItem(anduril);
+        } 
+        if (trackedItem instanceof TheOneRing) {
+            BasicItem theOneRing = (BasicItem) trackedItem;
+            world.sellItem(theOneRing);
+        } 
+        if (trackedItem instanceof TreeStump) {
+            BasicItem treeStump = (BasicItem) trackedItem;
+            world.sellItem(treeStump);
         } 
         inventory.remove(trackedItem);
         currentGold.textProperty().bind(new SimpleIntegerProperty(world.getGold()).asString());
