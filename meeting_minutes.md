@@ -413,3 +413,108 @@ Leslie, Kylee, Sam, Jannet
 
 ### Next meeting: Sunday 10pm
 
+## Meeting #13 20th July
+
+### Attendees: Sam, Leslie, Kylee, Jannet, Dan
+
+### Completed from last meeting:
+- Submitted Milestone 2
+
+### Discussion Points
+- Overall spec for milestone 3
+- Timeline for milestone 3
+
+### Action Items by Saturday 10am
+- Things to complete from milestone 2:
+	- Complete testing
+	- Fix existing tests - everyone
+		- Add new ones - Dan
+	- Reupload UML to master
+	- Backend
+		- battleRewards - perhaps separate Item and Card rewards so that we can onload them in the frontend - Sam
+	- Frontend
+		- Spawn enemies (non-slugs) - Jannet
+		- Despawn items after picked up - Kylee
+		- Place buildings properly - Jannet
+		- Equipped -> Unequipped Items - Sam
+		- Equip items in correct slot (possibly fixed/related with battle rewards)
+		- Change castle menu screen to popup window with inventory in view - Leslie
+		- Buy items, sell items
+### Next meeting: Saturday 10am
+
+
+
+
+## Meeting 14: 24th July
+
+### Attendees: Sam, Leslie, Kylee, Jannet, Dan
+
+### Completed from last meeting:
+- Fixed up bugs from milestone 2
+
+### Discussion Points:
+- Split up work for the given milestone 3 parts
+- Any remaining queries/bugs about milestone 2
+
+### Action Items by Tuesday 2pm:
+- User Stories, Tests and UML
+- New bosses - dan
+	- Doggie
+	- Elan muske
+- Doggiecoin - Lez
+- New rare items - Sam
+	- Anduril
+	- Tree stump
+- New ‘confusing mode’ - jan
+- New Killing all bosses goal - Kylee
+
+### Next Meeting: 27th July 10am
+
+
+## Meeting 15: 27th July
+
+### Attendees: Sam, Leslie, Kylee, Jannet, Dan
+
+### Completed from last meeting:
+- UML, tests, user stories for milestone 3
+
+### Discussion Points:
+- Extension ideas to be approved
+
+### Action Items by Friday 10am:
+- Implementing given milestone 3
+	- New bosses - dan
+		- Doggie
+		- Elan muske
+		- Doggiecoin - Lez
+	- New rare items - Sam
+		- Anduril
+		- Tree stump
+- New ‘confusing mode’ - jan
+- New Killing all bosses goal - Kylee
+
+### Next meeting: 30 July 10am
+
+
+## Meeting 16: 30 July
+
+### Attendees: Sam, Kylee, Dan, Leslie
+
+### Completed from last meeting:
+- Most Milestone 3
+
+### Discussion Points:
+- Split work for approved extensions
+- Work done from last meeting
+
+### Action Items:
+- Fixing up given milestone 3 with bosses
+	- New bosses - dan
+		- Doggie
+		- Elan muske
+		- Doggiecoin - Lez
+	- New rare items - Sam
+		- Anduril
+		- Tree stump
+- New ‘confusing mode’ - jan
+- New Killing all bosses goal - Kylee
